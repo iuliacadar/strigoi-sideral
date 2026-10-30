@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — Molt Sweater, Vârcolac Atelier</title>
+<meta name="description" content="Knitted whole, then let go: below the collar the stitches were dropped and never caught, and the body loosens into long strands." />
+<!-- Favicon, fonts and sheets as on the demo shop (shops/demo/index.html,
+     which says why each is there). Four folders deep here, hence
+     ../../../../ (docs/ARCHITECTURE.md, "Relative-path rules").
+     The sheets: the shop's (shop.css draws the stage and its three
+     skins), then this page's own, product.css; responsive.css and
+     motion.css stay last. -->
+<link rel="icon" href="../../../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<link rel="stylesheet" href="../../../../css/tokens.css" />
+<link rel="stylesheet" href="../../../../css/background.css" />
+<link rel="stylesheet" href="../../../../css/chrome.css" />
+<link rel="stylesheet" href="../../../../css/shop.css" />
+<link rel="stylesheet" href="../../../../css/product.css" />
+<link rel="stylesheet" href="../../../../css/responsive.css" />
+<link rel="stylesheet" href="../../../../css/motion.css" />
+</head>
+<body class="shop-page piece-page">
+<!-- THIS PAGE: one piece of the demo shop, its product page (product/01;
+     her ruling 2026-10-15, P1 = direction 1 of
+     sketches/product-page/product-page-spec.md: "P1. your recommended
+     option."). The shop lists its pieces as links; the Séance, hold to
+     summon, lives here. `pieces` in the address is a placeholder word,
+     hers to choose before launch.
+     THE WORDS: the writer's draft (docs/worksheets/2026-10-15_demo-shop-copy.md §1); the
+     material, edition and price are invented for the demo, like every
+     piece here (the footer: "not for sale").
+     THE PHOTOS: AI-generated stand-ins in assets/placeholder-photography/,
+     replaced before launch (her folder ruling, 2026-10-15).
+     `shop-page` gives the shop's flat ground (shop/02); `piece-page`
+     this page's padding (product/01). -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THE NAV, as on the shop (shops/demo/index.html says why): the logo,
+     the two places, "Atlas" and "Bestiary" (A, since 2026-10-27), and
+     the site's two words, "Lure me in" (the log-in placeholder)
+     and "Bag" (no page yet: a link with nowhere to go, said so)
+     (chrome/07). It scrolls away with the top (direction A).
+     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
+     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
+     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2). The places replace the page's
+     line to the Bestiary under the Details ("Every piece, from every
+     shop: the Bestiary", 2026-10-15 to 2026-10-27). -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+<!-- THE PIECE, named by its <h1>. `data-skin` is the one attribute the
+     three skins read (shop/04–06, motion.css, product/02); `seance` in
+     the markup, so with the script off the page is in Séance. -->
+<article class="piece" data-skin="seance" aria-labelledby="piece-name">
+  <!-- THE COLUMN (product/03), read first, drawn on the left: plain in
+       every skin. The price is plain, never summoned (her P6); the
+       facts are in the Details, after the stage (product/06). -->
+  <div class="piece-text">
+    <a class="piece-shop" href="../../index.html">Vârcolac Atelier</a>
+    <h1 class="piece-name" id="piece-name">Molt Sweater</h1>
+    <p class="piece-maker">Knitwear</p>
+    <p class="piece-price">€340</p>
+    <!-- THE BUYING CONTROL (product/04): "Add to bag", shown as a real
+         piece's page shows it, and inert: the demo is invented. HER
+         WORDS, 2026-10-26, to the PM's question (the dashed placeholder
+         boxes -> the real buttons, shown but inert): "2. Yes" (docs/
+         DECISIONS.md 6f3bd59, (14)). The word is the nav's (DECISIONS
+         85200a4, (7)). `disabled`: no
+         Tab stop, no click, read as "Add to bag, button, unavailable";
+         no script touches it. WITH THE BACKEND: enabled, it submits to
+         the bag. -->
+    <div class="piece-buy">
+      <button type="button" class="piece-buy-btn" disabled>Add to bag</button>
+      <!-- "SAVE" (product/04, chrome/08): the saved mark, the drained bite
+           from the one symbol in assets/marks/mark-save.svg, and the word.
+           HER WORDS, 2026-10-27: "OK to build it that way: the bite, no
+           nav word, the list under "My crypt"." Named "Save <piece>"
+           (the hidden name after the word), the state `aria-pressed`;
+           `disabled` as the button before it: no Tab stop, read as
+           "unavailable". WITH THE BACKEND: it saves the piece to the
+           visitor's list (/account/saved/). -->
+      <button type="button" class="save save--text" aria-pressed="false" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../../../assets/marks/mark-save.svg#mark-save"/></svg></span><span class="save-word">Save</span><span class="sr-only"> Molt Sweater</span></button>
+    </div>
+  </div>
+
+  <!-- THE STAGE (product/02): the first photo, whole, at its own shape
+       (`--ratio`), under the shop's Séance stage. The <img> carries the
+       alt, outside the button, so it is read once, before it. The button
+       is the shop's (shop/01; script.js §4): shipped `disabled`, named by
+       the description alone (the price and facts are in the column),
+       described by the hint once the script enables it. The two
+       colour-split copies read `--photo`, which resolves against
+       css/shop.css, hence ../assets/ (docs/ARCHITECTURE.md). -->
+  <div class="piece-stage" style="--ratio: 900 / 1600;">
+    <div class="piece-frame">
+      <img class="piece-photo" src="../../../../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-3x4.webp" alt="A grey-brown knitted turtleneck laid flat on a dark stone slab, its body and sleeves dissolving into long loose strands of yarn." width="900" height="1600" />
+      <button type="button" class="stage" id="stage" aria-labelledby="desc" disabled
+              style="--photo: url('../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-3x4.webp');">
+        <div class="stage-visual stage-photo ch ch-r" aria-hidden="true"></div>
+        <div class="stage-visual stage-photo ch ch-b" aria-hidden="true"></div>
+        <div class="ripple" aria-hidden="true"></div>
+        <p class="hint"><span id="hint">hold to summon</span></p>
+        <div class="desc-wrap">
+          <p class="desc" id="desc">
+            Knitted whole, then let go: below the collar the stitches were dropped and never caught, and the body loosens into long strands. It sheds a little, as anything does that is growing out of itself. Laid flat, it looks like a skin left behind.
+          </p>
+        </div>
+        <div class="dossier-hud" aria-hidden="true">
+          <p class="dossier-frame-tag">EVIDENCE 01/02</p>
+          <p class="dossier-hud-tl">MATERIAL:<br/>WOOL/MOHAIR</p>
+          <p class="dossier-hud-tr">ED. №003/012</p>
+          <p class="dossier-hud-br">€340</p>
+          <p class="dossier-hud-bl"><span class="frag">"a skin left behind"</span></p>
+        </div>
+        <div class="transmission-chrome" aria-hidden="true">
+          <div class="transmission-scanlines"></div>
+          <div class="transmission-grain"></div>
+          <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+          <p class="transmission-frame-count">FRAME 001</p>
+          <div class="transmission-ticker-track">
+            <p class="transmission-ticker-text">MATERIAL: WOOL/MOHAIR — the stitches dropped and never caught — ED. №003/012 — €340 —&nbsp;&nbsp;&nbsp;&nbsp;MATERIAL: WOOL/MOHAIR — the stitches dropped and never caught — ED. №003/012 — €340 —</p>
+          </div>
+        </div>
+      </button>
+    </div>
+    <!-- THE STRIP (product/05, script.js §4b): one thumbnail per photo
+         (a video's would follow: its poster, with "Video" on it), each a
+         link to its photo's file, named by its place ("Photo 1 of 2"),
+         the first `aria-current`, the one the stage shows. A native row
+         that scrolls sideways (swipe, trackpad, Shift+wheel). With the
+         script off it stays: a link opens its photo whole. §4b turns the
+         links into toggle buttons with one Tab stop: Left/Right, Home
+         and End move and show; a vertical wheel over it turns it. -->
+    <div class="piece-strip" tabindex="-1" role="group" aria-label="Photos of the Molt Sweater">
+      <a class="piece-thumb" href="../../../../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-3x4.webp" aria-current="true" aria-label="Photo 1 of 2" data-alt="A grey-brown knitted turtleneck laid flat on a dark stone slab, its body and sleeves dissolving into long loose strands of yarn." data-w="900" data-h="1600"><img src="../../../../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-3x4.webp" alt="" width="900" height="1600" loading="lazy" draggable="false" /></a>
+      <a class="piece-thumb" href="../../../../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-16x9.webp" aria-label="Photo 2 of 2" data-alt="A grey-brown knit laid flat across a slab of stone, holed and open-stitched, long tangled strands trailing from it to one side." data-w="1600" data-h="900"><img src="../../../../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-16x9.webp" alt="" width="1600" height="900" loading="lazy" draggable="false" /></a>
+    </div>
+  </div>
+
+  <!-- THE DETAILS (product/06): a heading and a plain list, label and
+       value, no link, no Tab stop. Her answer to the PM's question 4
+       (2026-10-20, the Details list after the buying slot): "4. Yes".
+       After the stage in the reading order and drawn in the column under
+       the buying slot (as the way out is), so a phone can read words,
+       buy, photo, details. The platform's fixed rows first, each only
+       when filled (Material, Edition, Size and its note, Lead time),
+       then the maker's own, in her order. A <div>, not a <section>: no
+       landmark. The rows are invented for the demo (worksheet
+       demo-shop-copy, ADDENDUM 2026-10-21). -->
+  <div class="piece-details">
+    <h2 class="piece-details-h">Details</h2>
+    <dl class="piece-details-list">
+      <div><dt>Material</dt><dd>Wool and mohair</dd></div>
+      <div><dt>Edition</dt><dd>3 of 12</dd></div>
+      <div><dt>Size</dt><dd>One size<span class="piece-details-note">Cut loose. The strands hang about 30 cm below the body and are never trimmed.</span></dd></div>
+      <div><dt>Neck</dt><dd>High turtleneck, worn up or folded</dd></div>
+      <div><dt>Knitted</dt><dd>By hand, in one piece; stitches dropped below the collar</dd></div>
+      <div><dt>Care</dt><dd>Wash cold by hand and dry flat; it sheds a little</dd></div>
+    </dl>
+  </div>
+
+  <!-- THE WAY OUT that stood here, "Every piece, from every shop: the
+       Bestiary" (2026-10-15 to 2026-10-27), is the nav's "Bestiary" now
+       (A; THE NAV, above), so the piece ends with its Details. -->
+</article>
+
+<!-- THE DEMO LINE (shop/09's, product/01): the demo's own two things,
+     its note and the skin switcher, as one quiet line under a dashed
+     hairline after the piece and its Details, before the
+     footer: the shop's line, in the same place on this page. A real
+     piece's page has neither, so a visitor's page is everything above
+     it. HER WORDS, 2026-10-24: "1. Please, move the skin switcher below
+     the main sections of the page. I want to see how the product page
+     looks for the visitors." Was: the switcher alone at the top of
+     <main>, level with the logo; its room there stays, empty
+     (product/01), so the piece doesn't move. An <aside> named "Demo
+     controls", inside <main>, as on the shop.
+     THE NOTE: the shop's DEMO note, its whole sentence and its markup
+     (the writer's words, worksheet ADDENDUM 2026-10-23 §F.1), so a
+     visitor who presses the buying control above and gets nothing can
+     find out why here. HER WORDS, 2026-10-26, on uiux t_6f66bda1's
+     item 4 (b489a63, sketches/page2-final-stills/round7/README.md):
+     "Yes to both questions." Was: its first clause only ("Demo — the
+     switcher tries the three skins."). A <p>, no Tab stop.
+     THE SKIN SWITCHER, the demo's (shop/03, script.js §5): it dresses
+     this page's stage, and the choice is carried to the shop and the
+     other pieces for this tab (§5b). `role="radiogroup"` with its
+     label, each button `role="radio"` with `aria-checked`; the script
+     gives the group one Tab stop and the arrow keys.
+     TAB: the way out, the checked skin (one stop), then the footer.
+     With the script off the switcher is hidden (shop/06) and so is
+     its clause (`.demo-note-sw`, shop/09), as on the shop: the note
+     reads "Demo — you can't buy or write to the maker yet.", still
+     true. -->
+<aside class="demo-bar" aria-label="Demo controls">
+  <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+  <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+    <span class="skin-switcher-label">skin —</span>
+    <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+    <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+    <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+  </div>
+</aside>
+</main>
+
+<!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
+     there): the seep, the policy row, the notice. -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../../../returns/index.html">Returns</a></li>
+      <li><a href="../../../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../../../contact/index.html">Contact</a></li>
+      <li><a href="../../../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../../../script.js"></script>
+</body>
+</html>

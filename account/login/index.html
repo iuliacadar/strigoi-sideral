@@ -1,0 +1,117 @@
+<!doctype html>
+<!-- THE LOG-IN PAGE, A PLACEHOLDER: where the homepage's fifth star,
+     "Lure me in", leads until there is a backend (her 2026-10-16 ruling,
+     "Q1: recommended version A."; docs/DECISIONS.md, the homepage nav).
+     The address, `/account/login/`, is the architect's advice and a PM
+     assumption, not her ruling: the log-in is a step into the account
+     area, so later pages (logout, reset) sit beside it, and the real
+     page replaces this one here without the star's link changing.
+     Two folders deep, hence ../../ on every path to the site's files.
+     Words: docs/worksheets/2026-10-15_demo-shop-copy.md §3.4, addendum
+     2026-10-16 (writer t_f04d3ed0). Shape: uiux's sketch
+     sketches/homepage-nav/lure-me-in.html on the text-page template. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log in — Strigoi Sideral</title>
+<meta name="description" content="Where you will log in to Strigoi. A placeholder: logging in comes with the backend." />
+<!-- noindex: a page that does nothing yet stays out of search results;
+     the real log-in page decides for itself. -->
+<meta name="robots" content="noindex" />
+<!-- Favicon: the wingmark's square cut, as on every page. -->
+<link rel="icon" href="../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: the text pages' one URL (cached across them; see
+     contact/index.html for which face does what). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The five shared sheets and no page sheet: a text page has no design
+     of its own (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"); its
+     rules are chrome/07. responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="../../css/tokens.css" />
+<link rel="stylesheet" href="../../css/background.css" />
+<link rel="stylesheet" href="../../css/chrome.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+<link rel="stylesheet" href="../../css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short-page background (background/04). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: the first Tab stop, invisible until focused (tokens.css).
+     Enter moves focus onto <main>; the next Tab is the first link in
+     the text, Echolocation. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, as on every text page: pure background, no
+     content. `.stars--yields-to-prose` switches the starfield off at
+     780px and below (responsive/05). -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars stars--yields-to-prose"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV: the logo only, home; `.nav--scrolls` lets it scroll away
+     with the top of the page (chrome/07). The footer carries the way
+     home from the bottom. -->
+<nav class="nav--scrolls">
+  <a class="logo" href="../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+</nav>
+
+<!-- MAIN LANDMARK: the skip link's target (`tabindex="-1"` lets focus
+     land on it).
+     CHOICE, no form, no input, no button: a form that takes a password
+     and does nothing is a trap; a page that says so is honest (uiux,
+     homepage-nav spec §2.2). The notice says it in the template's own
+     notice style; the lines are in the future tense while nothing
+     works. Two ways on: Echolocation for a maker, the Atlas for
+     everyone.
+     AT BACKEND TIME the real log-in page replaces this file at the same
+     address: the notice and the Atlas line go, the form and its "Log
+     in" button come (worksheet §3.4). -->
+<main class="text-page" id="main" tabindex="-1">
+  <p class="section-eyebrow">Log in</p>
+  <h1>Lure me in</h1>
+  <p class="text-page__notice">Placeholder · logging in comes with the backend. Nothing on this page works yet.</p>
+  <p>Here you will log in to your account, or create one to keep a bag and buy from the makers.</p>
+  <p>Makers: once you have accepted your invitation, you will log in here too.</p>
+  <p>There is no application. Makers come to Strigoi by invitation; to be found, read <a href="../../echolocation/index.html">Echolocation</a>.</p>
+  <p>Meanwhile, every shop is on <a href="../../atlas.html">the Atlas</a>.</p>
+</main>
+
+<!-- THE FOOTER: every page's footer (chrome/06), the policy row on
+     every footer (ruling D5). No `aria-current`: this page is not in
+     the row. CHOICE, <div role="navigation"> and not <nav>: chrome/02
+     styles every bare `nav` as the fixed site header. `role="list"`
+     keeps Safari's list count once the bullets are gone. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../returns/index.html">Returns</a></li>
+      <li><a href="../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../contact/index.html">Contact</a></li>
+      <li><a href="../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<!-- THE DOCUMENT. The doctype selects standards mode (without it,
+     browsers imitate old bugs). `lang` sets a screen reader's voice and
+     the hyphenation rules; the Latin inscriptions carry `lang="la"`.
+     READ MORE: https://developer.mozilla.org/docs/Web/HTML/Global_attributes/lang
+     WHAT WOULD BREAK: the charset declaration must sit within the first
+     1024 bytes of the file, so keep comments above it short. -->
+<head>
+<meta charset="UTF-8" />
+<!-- <head>: settings read before anything is drawn. `charset` first, so
+     every later byte decodes as the right letter (â, —, №). `viewport`:
+     a phone lays the page out at its own width; zoom stays allowed.
+     KNOWN GAP: no `<meta name="description">` (recorded in
+     docs/ARCHITECTURE.md); search engines write their own summary. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Strigoi Sideral</title>
+<!-- ICONS: each browser picks the best one it supports, by `type` and
+     `sizes`: SVG; .ico for the oldest (`sizes="any"` keeps it from
+     beating the SVG); 32/16px PNG; 180px for iPhone home screens.
+     CHOICE: a square redrawing of the wingmark, not the hero's shrunk,
+     whose thin strokes blur to grey at 16px (docs/LEARNING.md). -->
+<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+<!-- FONTS (roles: the font tokens, css/tokens.css). `preconnect` opens
+     both font servers while the HTML arrives; the second needs
+     `crossorigin`, since font files are fetched in CORS mode.
+     `display=swap` shows text at once in a fallback face. Space Mono at
+     400 only: nothing here sets it bold.
+     CHOICE: hosted by Google, not by this site. Reason not recorded.
+     Spectral 500 is upright only; the roster names are set at 400
+     italic (docs/DECISIONS.md). -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- STYLESHEETS. Of two equally specific rules the later wins; across
+     files, the later <link>. This order is the cascade: vocabulary,
+     world, chrome, this page, then two fixed positions.
+     WHAT WOULD BREAK: responsive.css second-to-last (`@media` adds no
+     specificity, so a phone rule wins only by coming after the desktop
+     rule); motion.css last, after all it switches off. Move either and
+     the page breaks silently. Same order on every page.
+     CHOICE: eleven sheets site-wide, not one style.css: one file, one
+     owner per part (docs/CSS-JS-SPLIT.md). -->
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/background.css" />
+<link rel="stylesheet" href="css/chrome.css" />
+<link rel="stylesheet" href="css/home.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/motion.css" />
+</head>
+<body>
+<!-- SKIP LINK: the first Tab stop, clipped until focused (tokens/03;
+     `display: none` would drop it from Tab order). Enter moves focus past
+     the nav onto <main>; the next Tab is the beacon, the hero's first stop. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- THE BACKGROUND LAYERS (css/background.css). Empty boxes that
+     paint the page's world; they carry no content, so `aria-hidden`
+     keeps them out of the accessibility tree (`.stars` is empty and has
+     nothing to hide). All catch no clicks.
+     .distressed-plate: the printed-paper surface over everything (03).
+     .stars: the starfield, fading as you scroll down (02).
+     .leak-seepage / .leak-seepage--below: document-sized boxes for the
+     red, the ink strands (the first box's ::after) and the pool (02). -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <!-- the red field inside the strands (background/02, `.red`) -->
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <!-- the pooled base at the foot of the page (background/02, `.pool`) -->
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- ============================================================
+     NAV DISSOLVED INTO THE SKY
+     WHAT: <nav> is the HTML element for a page's main links. It is a
+     landmark: a screen reader lists it as "navigation" and jumps to
+     it, no ARIA role needed. It is not focusable itself; its links are.
+     `id="siteNav"` is read only by the tests
+     (tests/e2e/sepulchre-frame.spec.js and others).
+
+     ROLE HERE: the way to the site's main pages, fixed
+     to the screen (chrome/02) so it stays in reach at any depth;
+     on touch, once scrolled, the stars can be tapped only near the top.
+
+     CHOICE: the founder refused the conventional navbar: keep "just the
+     logo as a clickable in the left corner", spread the other links "in
+     the nightsky as stars." The logo is an <a>, not a <div> or a
+     <button>: it goes somewhere, and a link is what browser, keyboard
+     and screen reader all know how to follow.
+     Every star leads to a page, her 2c1: "link the star-labels in the
+     navbar to their respective pages. The homepage is not a very long
+     one, so a little bit of up and down scrolling shouldn't be too
+     overwhelming." Three stars show their name at the top of the page,
+     the essential routes for both audiences: Bestiary (what is sold),
+     Atlas (who sells) and the account star. Summoning and Sepulchre
+     show it only on hover or focus, "like a gem you can discover if you are
+     interested", not needed to shop or to open a shop. On touch, which
+     cannot hover, all five names show.
+     THE ACCOUNT STAR (star 5), her 2c2: "the Demo Shop star can be
+     replaced by the Lure me in (login) star for the general visitor."
+     One star in three states: "Lure me in" for a visitor (the log-in
+     page), "My crypt" for a logged-in client and for an invited maker
+     whose shop isn't open yet (her account: orders, addresses), "My
+     sanctum" for a maker with an active shop (her studio, `/studio/`,
+     with her own orders inside). Same dot, place and Tab stop; the
+     backend swaps only the words. Until then it is "Lure me in", to a
+     marked placeholder page with no form (`account/login/`; the address
+     is the architect's advice, a PM assumption). Rulings:
+     docs/DECISIONS.md, the homepage nav, 2026-10-16.
+     THE WORDS: ONE NAME PER PLACE, NO ARTICLES IN THE NAV. HER WORDS,
+     2026-10-27: "on the homepage the star label for Bestiary is
+     "Specimens" and the star label for Atlas is "The Right Stars". On
+     the rest of the pages we will add Bestiary and Atlas as links to
+     these pages. How should we ork this out? Should we replace the star
+     labels in the homepage nav as well, and only keep the "When the
+     Stars are Right" and "Specimens entering the vault" as their
+     respective section title on the homepage body?" (the PM: yes), then
+     "Can you replace "The Summoning" with "Summoning", instead?
+     Considering that the other star label is "Sepulchre" not "The
+     Sepulchre" and the fact that too many repeated words/articles on
+     the navbar ends up a little bothering. Let's clean the navbar even
+     more, if we have this chance!" (docs/DECISIONS.md 19e5318, (2)).
+     So the stars read Summoning, Sepulchre, Bestiary, Atlas, Lure me in:
+     the Bestiary and the Atlas by the same word as in the internal
+     pages' nav. Were (2026-10-16 to 2026-10-27): "The Summoning",
+     "Specimens", "The Right Stars". The section titles keep theirs.
+
+     ACCESSIBILITY: each star is a real link, in Tab order after the
+     logo, named by visible text (`.nav-star-label`), not by an
+     aria-label only a screen reader hears: the label is the link's
+     whole name in each of the account star's three states (WCAG 2.5.3,
+     a voice user says what she sees).
+
+     VISION: the dots are sky, the names are language (docs/GRIMOIRE.md
+     §X, "The words leave; the stars remain"). -->
+<nav id="siteNav">
+  <a class="logo" href="#" aria-label="Strigoi — return to the top of the page">S T R I G O I</a>
+
+  <!-- The five stars are a list because they are one: five sibling
+       destinations. A screen reader announces "navigation, list, 5 items".
+       CHOICE: a bare <div> of links, used here before, lost that count.
+       role="list": older Safari drops list semantics when list styles are
+       removed; current Safari keeps them inside <nav>; the role guarantees
+       them either way. Each <li> stays position: static, so every
+       .nav-star is still placed against .nav-stars and floats freely. -->
+  <ul class="nav-stars" role="list">
+    <li>
+      <a class="nav-star nav-star--reveal nav-star--1" href="summoning/index.html">
+        <span class="nav-star-dot" aria-hidden="true"></span>
+        <span class="nav-star-label">Summoning</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-star nav-star--reveal nav-star--2" href="room-zero.html">
+        <span class="nav-star-dot" aria-hidden="true"></span>
+        <span class="nav-star-label">Sepulchre</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-star nav-star--shown nav-star--3" href="bestiary.html">
+        <span class="nav-star-dot" aria-hidden="true"></span>
+        <span class="nav-star-label">Bestiary</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-star nav-star--shown nav-star--4" href="atlas.html">
+        <span class="nav-star-dot" aria-hidden="true"></span>
+        <span class="nav-star-label">Atlas</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-star nav-star--shown nav-star--5" href="account/login/index.html">
+        <span class="nav-star-dot" aria-hidden="true"></span>
+        <span class="nav-star-label">Lure me in</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ============================================================
+     SKY-REGION: the sky the designers' constellations are spread
+     across (home/04). It draws nothing itself (chrome/01); it gives
+     `.skymap-field` below one box as tall as the hero, roster and
+     specimens together.
+     VISION, her words: "i wished the constellations spreaded on the
+     entire nightsky of the strigoi's homepage, and not crowded there
+     in a limited space of a section" (docs/DECISIONS.md, "NAV
+     DISSOLVED INTO THE SKY + FULL-BLEED DESIGNER CONSTELLATIONS").
+     CHOICE, it stops before the sepulchre: the stars belong to the
+     dark zones, and the sepulchre is lit crimson, a different room
+     (the zones: docs/BRAND.md).
+
+     MAIN LANDMARK: this element is also the page's <main>, the target
+     of the "Skip to content" link (`id="main"`, `tabindex="-1"` so
+     focus can land on it). It holds the reading, hero through
+     specimens. `.sepulchre-frame` stays outside it: the Room Zero door
+     is the page's closing threshold, and a footer inside <main> stops
+     being the contentinfo landmark (docs/DECISIONS.md, "ROSTER TYPE AND
+     SKIP LINKS"). Styled by its class, never by the tag. -->
+<main class="sky-region" id="main" tabindex="-1">
+
+<!-- The hero, the portal's first screen. The frame and the type are
+     chrome/03 (the demo shop wears them too); the column and the marks
+     placed in it are home/01–03. -->
+<header class="hero">
+  <!-- .hero-inner (home/01): the centred column. The sky-seal star and
+       the beacon are placed as percentages of it, so they keep their
+       distance from the title however wide the screen. -->
+  <div class="hero-inner">
+    <!-- .sky-seal-star (home/02): a 4px star drawn in the column's own
+         coordinates, so it stays beside the (now hidden) sky-seal at
+         every width. Decoration, hidden from screen readers. -->
+    <span class="sky-seal-star" aria-hidden="true"></span>
+    <!-- "Abyssus Superior" and, below, "Via Lactea Inferior": the two
+         Latin designations, retired by the founder as "pure cosmetic
+         load" (docs/DECISIONS.md, "DENSITY CORRECTION"). Hidden in CSS
+         (home/02, home/01), not deleted, so one line brings either
+         back. -->
+    <p class="sky-seal" lang="la">Abyssus Superior</p>
+    <div class="hero-tag" lang="la">Via Lactea Inferior</div>
+    <!-- The beacon (home/03): the way in for makers, where the nav's
+         "Propose a Designer" link used to be. A link to the Echolocation
+         page, "how Strigoi finds its makers" (docs/DECISIONS.md, "THE
+         BEACON IS FOR MAKERS ONLY"): Enter or a click follows it. It
+         still submits nothing; there is no form at the other end either.
+         The label is real text, always shown; the `aria-label` starts
+         with the same words, so voice control's "click For makers"
+         works, and adds one sentence only a screen reader hears, saying
+         where the link goes. It comes before the h1 in reading and Tab
+         order, although at 900px and below it shows under the wing. -->
+    <a class="beacon" href="echolocation/index.html" aria-label="For makers. A signal in the dark. Answer it. Echolocation: how Strigoi finds its makers.">
+      <span class="beacon-mark" aria-hidden="true">
+        <span class="beacon-ring"></span>
+        <span class="beacon-dot"></span>
+      </span>
+      <span class="beacon-label">For makers. A signal in the dark.<br>Answer it.</span>
+    </a>
+    <!-- The title, and the founder's own paragraph, set exactly as she
+         wrote it: "Do not 'fix'" its capitals or wording (docs/BRAND.md,
+         "Voice and copy register"). Type: chrome/03. -->
+    <h1 class="title">Strigoi Sideral</h1>
+    <p class="hero-sub">
+      Sepulchered in Carpathian soil, clad in smoky wings that bloom toward the
+      inverted abyss, unfolding like a veil of unbelonging. Strigoi summons
+      creators from the realms of freezing Alienation and eclipsed Easternness:
+      those bound to the soil, yet straining for the void, caught in the whir
+      of the vanishing patagia.
+    </p>
+    <!-- The wing (home/01): the door to the Atlas. The whole mark is one
+         link; its red tail dot is the cue that it can be entered, and no
+         label is added (docs/DECISIONS.md, "THE HOMEPAGE DOORS").
+         ACCESSIBILITY: the link's name is "The Atlas", the page's own
+         title, from `aria-label`. The SVG inside stays hidden from screen
+         readers: it is the picture; the link says where it goes.
+         `focusable="false"` keeps old Edge and IE from making the SVG a
+         second Tab stop. Drawn inline; its greys and the beacon-red
+         junction dot are written as hex in the SVG. -->
+    <a class="wingmark-door" href="atlas.html" aria-label="The Atlas">
+    <svg class="wingmark" aria-hidden="true" focusable="false" viewBox="0 0 260 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M130 78 C 90 70, 55 55, 20 12" stroke="#5a5652" stroke-width="1" opacity="0.55"/>
+      <path d="M130 78 C 100 65, 75 45, 55 8"  stroke="#847f7b" stroke-width="0.6" opacity="0.4"/>
+      <path d="M130 78 C 105 60, 90 35, 78 4"  stroke="#8c8885" stroke-width="0.5" opacity="0.3"/>
+      <path d="M130 78 C 170 70, 205 55, 240 12" stroke="#5a5652" stroke-width="1" opacity="0.55"/>
+      <path d="M130 78 C 160 65, 185 45, 205 8" stroke="#847f7b" stroke-width="0.6" opacity="0.4"/>
+      <path d="M130 78 C 155 60, 170 35, 182 4"  stroke="#8c8885" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="130" cy="78" r="2.4" fill="#e0455f"/>
+    </svg>
+    </a>
+  </div>
+  <!-- .header-constellation (home/02): six stars and five lines, pinned
+       in the sky left of the texts. Her ask: "take a constellation like
+       the one in the print and 'pin it' somewhere around the header
+       texts". A child of `header.hero`, not of `.hero-inner`, so it can
+       sit near the screen's edge, where she asked for it. Hidden from
+       screen readers: unlike the skymap's constellations, it names no
+       one. -->
+  <svg class="header-constellation" aria-hidden="true" viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="18" r="1.6" fill="#c1bfbd" opacity="0.75"/>
+    <circle cx="55" cy="10" r="1.2" fill="#8c8885" opacity="0.6"/>
+    <circle cx="78" cy="34" r="1.8" fill="#c1bfbd" opacity="0.8"/>
+    <circle cx="48" cy="52" r="1.3" fill="#c1bfbd" opacity="0.65"/>
+    <circle cx="14" cy="70" r="1.1" fill="#8c8885" opacity="0.55"/>
+    <circle cx="66" cy="88" r="1.4" fill="#c1bfbd" opacity="0.6"/>
+    <path d="M20,18 L55,10" stroke="#5e93a1" stroke-width="0.6" opacity="0.4"/>
+    <path d="M55,10 L78,34" stroke="#5e93a1" stroke-width="0.6" opacity="0.4"/>
+    <path d="M78,34 L48,52" stroke="#5e93a1" stroke-width="0.6" opacity="0.35"/>
+    <path d="M48,52 L14,70" stroke="#5e93a1" stroke-width="0.6" opacity="0.3"/>
+    <path d="M48,52 L66,88" stroke="#5e93a1" stroke-width="0.6" opacity="0.3"/>
+  </svg>
+  <!-- Textrina Siderum (home/04): the Latin name of the designers'
+       constellations, and the accessible name of `.skymap-field`
+       below, through `aria-labelledby`, which does not need the two
+       to be nested. CHOICE, here in `header.hero` and not in
+       `.hero-inner`: its position is a share of the full-width hero,
+       so it can sit at the right edge, where she asked for it. -->
+  <h2 id="skymap-heading" class="skymap-heading skymap-heading--float skymap-heading--seal" lang="la">Textrina Siderum</h2>
+</header>
+
+<!-- ============================================================
+     SKYMAP (home/04): the designers' constellations. One layer as big
+     as `.sky-region`, behind the sections; three clusters, each an SVG
+     drawing (hidden from screen readers) and one star, a <button>
+     whose text is the designer's name and craft.
+     VISION, her words: "I want a celestial map, partially erased by
+     time, but still looking like a map of stars, galaxies and
+     constelations. Some of them must be hoverable over as the
+     constelation of the designers." And later she adopted a
+     critique's words in full: "Three, large, widely
+     separated, most of the page empty between them. Better still: make
+     constellations a designer-page device, not a homepage device —
+     each designer's own page opens with their constellation, so it
+     becomes a signature rather than wallpaper." (docs/DECISIONS.md,
+     "SKYMAP" and "DENSITY CORRECTION", 2)
+     THE ROSTER: one cluster per named designer in #roster below;
+     Studio Moroi's invitation is still out. The roster's unnamed
+     "+ one more voice" has no constellation. Names from WATCHLIST.md
+     never appear on this page (docs/DECISIONS.md, "SKYMAP", 3).
+     ACCESSIBILITY: the name is real text inside the button, so a
+     screen reader reads it whether or not it is shown, and Tab
+     reaches all three stars (after the beacon and the wing, before the
+     roster).
+     Pressing one does nothing.
+     REUSE: a designer page, when one is built, copies one cluster
+     block (the SVG and the button) as its opening signature, sized
+     for that page (the density card's own instruction). -->
+<div class="skymap-field" aria-labelledby="skymap-heading">
+  <!-- Cluster 1, Vârcolac Atelier: right of the hero's paragraph. The
+       only drawing with the erosion mask. It lies over the hero's text:
+       the paragraph on phones, the title at tablet widths (audit #7). -->
+  <div class="skymap-cluster skymap-cluster--1">
+    <svg class="skymap-chart" viewBox="0 0 200 160" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <mask id="skymapErosionMask1" mask-type="alpha">
+          <rect x="0" y="0" width="200" height="160" fill="#fff" filter="url(#skymapErosionNoise)"/>
+        </mask>
+      </defs>
+      <g mask="url(#skymapErosionMask1)">
+        <circle cx="14" cy="20" r="1" fill="#8c8885" opacity="0.4"/>
+        <circle cx="170" cy="30" r="0.8" fill="#c1bfbd" opacity="0.4"/>
+        <circle cx="40" cy="20" r="1.6" fill="#c1bfbd" opacity="0.75"/>
+        <circle cx="90" cy="15" r="1.4" fill="#c1bfbd" opacity="0.7"/>
+        <circle cx="72" cy="72" r="1.3" fill="#c1bfbd" opacity="0.6"/>
+        <path d="M60,50 L40,20" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+        <path d="M60,50 L90,15" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+        <path d="M60,50 L68,72" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+        <path d="M76,84 L72,72" stroke="#5e93a1" stroke-width="0.7" opacity="0.3"/>
+      </g>
+    </svg>
+    <button type="button" class="skymap-star">
+      <span class="skymap-star-dot" aria-hidden="true"></span>
+      <span class="skymap-star-label">Vârcolac Atelier <small>— ritual outerwear</small></span>
+    </button>
+  </div>
+
+  <!-- Cluster 2, Ileana C.: left, at the top of the roster's screen;
+       at some widths its lines cross the roster heading (audit #13). -->
+  <div class="skymap-cluster skymap-cluster--2">
+    <svg class="skymap-chart" viewBox="0 0 200 160" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="skymapGalaxy2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#8c8885" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#8c8885" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="150" cy="60" rx="60" ry="45" fill="url(#skymapGalaxy2)"/>
+      <circle cx="30" cy="40" r="1.4" fill="#c1bfbd" opacity="0.7"/>
+      <circle cx="110" cy="50" r="1.5" fill="#c1bfbd" opacity="0.72"/>
+      <circle cx="95" cy="125" r="1.3" fill="#c1bfbd" opacity="0.6"/>
+      <path d="M70,80 L30,40" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+      <path d="M70,80 L95,70" stroke="#5e93a1" stroke-width="0.7" opacity="0.4"/>
+      <path d="M102,62 L110,50" stroke="#5e93a1" stroke-width="0.7" opacity="0.3"/>
+      <path d="M70,80 L95,125" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+    </svg>
+    <button type="button" class="skymap-star">
+      <span class="skymap-star-dot" aria-hidden="true"></span>
+      <span class="skymap-star-label">Ileana C. <small>— bone &amp; wire jewelry</small></span>
+    </button>
+  </div>
+
+  <!-- Cluster 3, Studio Moroi: right of centre, under the specimens,
+       drawn smaller from 901px up. On phones and tablets its star
+       covers the end of the bestiary link (audit #10). -->
+  <div class="skymap-cluster skymap-cluster--3">
+    <svg class="skymap-chart" viewBox="0 0 200 160" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="30" r="1.5" fill="#c1bfbd" opacity="0.72"/>
+      <circle cx="105" cy="40" r="1.3" fill="#c1bfbd" opacity="0.6"/>
+      <circle cx="40" cy="120" r="1.4" fill="#c1bfbd" opacity="0.68"/>
+      <circle cx="150" cy="20" r="0.8" fill="#8c8885" opacity="0.4"/>
+      <path d="M60,70 L20,30" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+      <path d="M60,70 L105,40" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+      <path d="M60,70 L45,100" stroke="#5e93a1" stroke-width="0.7" opacity="0.4"/>
+      <path d="M43,108 L40,120" stroke="#5e93a1" stroke-width="0.7" opacity="0.25"/>
+    </svg>
+    <button type="button" class="skymap-star">
+      <span class="skymap-star-dot" aria-hidden="true"></span>
+      <span class="skymap-star-label">Studio Moroi <small>— deconstructed knitwear</small></span>
+    </button>
+  </div>
+
+  <!-- The erosion noise (home/04): used only by cluster 1's mask,
+       which turns it into patches of missing sky. Kept in its own
+       0×0 SVG so any cluster can point to it. -->
+  <svg width="0" height="0" class="skymap-filter-defs" aria-hidden="true">
+    <filter id="skymapErosionNoise" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.016" numOctaves="2" seed="11" result="noise"/>
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.4 1.4 1.4 0 -0.35" result="erosionAlpha"/>
+    </filter>
+  </svg>
+</div>
+
+
+<!-- No doctrine section here, by her ruling: "It already has it's own
+     page that can be reached through summoning star" (docs/DECISIONS.md,
+     "HERO DECROWDING"). History: docs/HISTORY.md, home/05. -->
+
+<!-- THE ROSTER (css/home.css, home/05): the invited designers, one line
+     each, under the heading "When the Stars are Right" (founder
+     2026-10-15, after Lovecraft's "The Call of Cthulhu"; set in capitals
+     by CSS). `id="roster"` is a stable address (`/#roster`); the fourth
+     nav star, "Atlas" (was "The Right Stars" to 2026-10-27), opens the
+     Atlas, not this section (2026-10-16). Four lines:
+     Vârcolac Atelier and Ileana C. confirmed, Studio Moroi's invitation
+     sent, and one more voice being scouted. Each named line holds a
+     mark (`<img>`), a status, the name as an `<h3>` and the craft.
+     VISION, her words: "roster and specimens
+     are on the plane of immanence, the sublunar, not on the sky"
+     (docs/DECISIONS.md, "ROSTER/SPECIMENS DIRECTION 001 REJECTED").
+     ACCESSIBILITY: only Vârcolac's line is a link, so it is the one Tab
+     stop here; the other three are `<div>`s with no tabindex, because a
+     focusable line that does nothing is a dead stop (WCAG 4.1.2). The
+     heading is a `<div>`, so the section has no heading of its own
+     above the names' `<h3>`s, and the list is not a list (`<ul>`) to a
+     screen reader; neither is recorded as a choice.
+     THE DOOR: "See the full atlas", her link to the Atlas at the
+     roster's foot (docs/DECISIONS.md, "THE HOMEPAGE DOORS"), in its own
+     `<p>` after `.roster`, not inside it: inside, the "+ one more voice"
+     line would stop being the last and take a hairline. No arrow: the
+     words say where it goes (founder 2026-10-09, option A of uiux's
+     sketch fc246aa, "clean of unnecessary symbols"). Its Tab stop comes
+     after Vârcolac's line.
+     OPEN: audit #12, #13 and #14 (tests/e2e/uiux_4a_audit/4a-audit.md). -->
+<section class="roster-wrap" id="roster">
+  <div class="section-eyebrow">When the Stars are Right</div>
+  <div class="roster">
+    <!-- The marks: small square images, not the specimens' full-width
+         photographs; uiux argued that "photographs reward held attention
+         and text rewards a glance" (docs/DECISIONS.md, "BUILD: option 003
+         (one specimen at a time)"). `loading="lazy"`: the roster is below
+         the first screen. The `alt` names the designer's mark. The fourth
+         line has no photo, so it shows a "?" (home/05). Each `<img>` sits
+         in a `<span>` that paints an inset shadow over it: the mark's
+         near-black rim comes out slightly lighter and its centre darker
+         (css/home.css, `.roster-avatar-frame`).
+         Vârcolac Atelier is the demo shop's designer, so theirs is the
+         one line that links out, to shops/demo/index.html. The others
+         stay plain text until they have shops. -->
+    <a class="roster-card" href="shops/demo/index.html">
+      <span class="roster-card-left">
+        <span class="roster-avatar-frame"><img class="roster-avatar" src="assets/placeholder-photography/2026-09-14_placeholder_roster-varcolac-wingmark-1x1.webp" alt="Vârcolac Atelier's mark: a stitched wing-bone motif" loading="lazy" width="44" height="44" /></span>
+        <span class="status">Confirmed</span>
+        <span class="roster-card-namewrap">
+          <h3>Vârcolac Atelier</h3>
+          <span class="discipline">Ritual outerwear</span>
+        </span>
+      </span>
+      <span class="roster-link-hint">View shop</span>
+    </a>
+    <div class="roster-card">
+      <span class="roster-card-left">
+        <span class="roster-avatar-frame"><img class="roster-avatar" src="assets/placeholder-photography/2026-09-14_placeholder_roster-ileana-bonemark-1x1.webp" alt="Ileana C.'s mark: a bone-and-wire knot motif" loading="lazy" width="44" height="44" /></span>
+        <span class="status">Confirmed</span>
+        <span class="roster-card-namewrap">
+          <h3>Ileana C.</h3>
+          <span class="discipline">Bone &amp; wire jewelry</span>
+        </span>
+      </span>
+    </div>
+    <div class="roster-card">
+      <span class="roster-card-left">
+        <span class="roster-avatar-frame"><img class="roster-avatar" src="assets/placeholder-photography/2026-09-14_placeholder_roster-moroi-knotmark-1x1.webp" alt="Studio Moroi's mark: an unravelled knit-knot motif" loading="lazy" width="44" height="44" /></span>
+        <span class="status pending">Invitation sent</span>
+        <span class="roster-card-namewrap">
+          <h3>Studio Moroi</h3>
+          <span class="discipline">Deconstructed knitwear</span>
+        </span>
+      </span>
+    </div>
+    <div class="roster-card empty">
+      <span class="roster-card-left">
+        <span class="roster-avatar roster-avatar--fallback" aria-hidden="true">?</span>
+        <span>+ one more voice<br/>being scouted</span>
+      </span>
+    </div>
+  </div><!-- /.roster -->
+  <p class="roster-foot"><a class="door-link roster-door" href="atlas.html">See the full atlas</a></p>
+</section>
+
+<!-- THE SPECIMENS (css/home.css, home/06): four pieces under "Specimens
+     entering the vault", each a photograph with a caption row (figure
+     label, name as an `<h4>`, maker, availability). `id="specimens"` is
+     a stable address (`/#specimens`); the third nav star, "Bestiary"
+     (was "Specimens" to 2026-10-27), opens the Bestiary, not this
+     section (2026-10-16). Her choice, one
+     at a time: "I Think 003
+     — One at a time." (docs/worksheets/qa-verdict-003-card.md; the
+     build: docs/DECISIONS.md, "BUILD: option 003 (one specimen at a
+     time)"). VISION, her words: "roster and specimens are on the plane
+     of immanence, the sublunar, not on the sky"
+     (docs/DECISIONS.md, "ROSTER/SPECIMENS DIRECTION 001 REJECTED").
+     WITHOUT JS every piece shows, stacked, each with its live tear, no
+     button and no sliver: the same markup reads in full to a crawler or
+     a reader with scripts off. script.js §1b wraps each photo in its
+     button, lays the next piece's photo under it as the sliver, adds
+     `.js-stepper`, and one piece shows at a time.
+     IMAGES: `<img>` with a real `alt` naming the piece, not a filename,
+     and `loading="lazy"`. As measured, all of them are fetched at load,
+     after the stylesheets and script, at low priority: the section is
+     near enough to the first screen to count as close, the stepper's
+     hiding comes later, and with scripts off no image is lazy. Kept so
+     each step shows a loaded photo (css/home.css, the `:not(.is-active)`
+     rule; docs/HISTORY.md, home/06).
+     THE TORN WALL: each photo is shown as an older wallpaper under the
+     page's red wall, seen through a torn hole: the wall stays on top,
+     the photo is masked to the hole and its wrapper paints the torn
+     edge over it (css/home.css, "THE TORN WALL"). Her ruling,
+     2026-10-08: "I like the version before hover more, but without
+     agesd tone. So, remove the hover for the homepage specimen photos".
+     So it is always at rest, for mouse, keyboard and touch alike, and
+     the photo keeps its own colours. The opened torn edge is for the
+     Bestiary, as she confirmed: wider (about four fifths of the photo
+     shown), at all times, in the photo's own colours; not this page.
+     The mask hides only pixels: the `alt` still names the whole piece.
+     The wrapper's class name,
+     `specimen-photo-vignette`, is older than the wall (it once held an
+     inset shadow); it is a `<span>` so that it may sit inside the
+     button. The photos are dark-ground by her ruling
+     (docs/SUBMISSION-SPEC.md §2).
+     NO ARROWS: THE PHOTO IS THE BUTTON, her ruling, 2026-10-12: "I like
+     (c). I am aware that arrows are the convention everyone knows, but
+     I'm also willing to reinforce the idea that strigoi is not exactly
+     a conventional marketplace." (docs/DECISIONS.md, THE SPECIMENS: NO
+     ARROWS; uiux sketches sketches/specimens-photo-control/ and
+     sketches/specimens-sliver/, variant B.) With JS the shown photo is
+     one `<button>` named "Next specimen"; the next piece's paper shows
+     as a wedge in the tear's lower-right corner. The dots went the same
+     day ("1. Remove the dots"); there is no counter.
+     `data-sliver-pos="x% y%"`: the point of THIS piece's photo that
+     hangs under the wedge when it shows as the sliver behind the piece
+     before it (50% 50% = its middle; script.js §1b). Set by hand for
+     the four placeholders. THE BACKEND MUST CARRY IT PER PHOTO, like
+     the light-ground flag: the curator sets it at upload (PM's
+     assumption, open with her, docs/DECISIONS.md OPEN QUESTIONS).
+     ACCESSIBILITY: the section's heading is a `<div>`, so the names'
+     `<h4>`s sit under the roster's `<h3>`s in the outline; not recorded
+     as a choice. The Tab stops: the shown photo's button, the bestiary
+     link. The sliver is `aria-hidden` with an empty `alt`.
+     OPEN: audit #16, #17 (tests/e2e/uiux_4a_audit/4a-audit.md); #18
+     went with the dots and the arrows. -->
+<section class="specimens-wrap" id="specimens">
+  <div class="section-eyebrow">Specimens entering the vault</div>
+  <div class="specimens-stage" id="specimens-stage">
+    <div class="specimens">
+      <div class="specimen" data-sliver-pos="50% 50%">
+        <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_outerwear-winged-cloak-16x9.webp" alt="The Nyx Mantle: a dark, deep-hooded cloak on a faceless mannequin, its cloth falling in long, pointed wing panels on both sides, shown against a shadowed studio ground" loading="lazy" /></span>
+        <span class="specimen-row">
+          <span class="specimen-fig">FIG. 01 — WINGED CLOAK</span>
+          <span class="specimen-namewrap"><h4>Nyx Mantle</h4><span class="specimen-maker">Vârcolac Atelier</span></span>
+          <!-- "Edition of 3", was "1 of 3" (her question, 2026-10-17: "Does
+               it mean that 1 of 3 pieces like that are available? Or, 1 in
+               3 photos?"; beside the one-at-a-time stepper it read as a
+               counter). Her ruling: "Let's go with (a), for now.", reword
+               it as an edition (the shop's ED. №001/003); reversible.
+               Wording: writer + uiux, no fraction and no "1". frontend
+               t_7fdf1fb2. The other three tags are unchanged. -->
+          <span class="specimen-avail">Edition of 3</span>
+        </span>
+      </div>
+      <!-- THE VERTEBRA COLLAR, the necklace, back in slot 2 under its
+           shop name (her words, 2026-10-15: "I noticed you replaced the
+           bone and wire neckpiece (necklace) with a bone and wire cuff.
+           You shouldn't replace it, just add it."; the PM's reading:
+           the necklace back as the Vertebra Collar, the cuff added as
+           a fourth piece; DECISIONS, top entry; frontend t_8766b990).
+           From 02d03d6 to then, this slot showed the bone cuff under the
+           name Vertebra Cuff; before 02d03d6, this same photo under that
+           name. "FIG. 02 — VERTEBRA WIRE" and "Unique" as before. The alt
+           is the writer's (docs/worksheets/2026-10-15_demo-shop-copy.md
+           §A.1), in the specimens' pattern. -->
+      <div class="specimen" data-sliver-pos="50% 50%">
+        <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-vertebra-collar-16x9.webp" alt="The Vertebra Collar: a necklace of vertebrae bound in copper wire, leading down to a pendant of a copper spiral and a long, pointed bone, shown against a shadowed studio ground" loading="lazy" /></span>
+        <span class="specimen-row">
+          <span class="specimen-fig">FIG. 02 — VERTEBRA WIRE</span>
+          <span class="specimen-namewrap"><h4>Vertebra Collar</h4><span class="specimen-maker">Ileana C.</span></span>
+          <span class="specimen-avail">Unique</span>
+        </span>
+      </div>
+      <div class="specimen" data-sliver-pos="50% 50%">
+        <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-16x9.webp" alt="The Molt Sweater: a deconstructed knit with an unravelling, molted texture, shown against a shadowed studio ground" loading="lazy" /></span>
+        <span class="specimen-row">
+          <span class="specimen-fig">FIG. 03 — MOLTED KNIT</span>
+          <span class="specimen-namewrap"><h4>Molt Sweater</h4><span class="specimen-maker">Studio Moroi</span></span>
+          <span class="specimen-avail">Pre-order</span>
+        </span>
+      </div>
+      <!-- THE VERTEBRA CUFF, the bone cuff, added as the fourth piece
+           (same ruling and reading as the Collar's, above). Last in the
+           markup so the two jewelry pieces by one maker sit apart (2 and
+           4: stepping through, a visitor never meets them back to back;
+           the writer's order, worksheet §A.1). Its own tear, slot 4
+           (css/home.css, home/06). "FIG. 04 — BOUND BONE" (what the photo
+           shows; the writer's) and "Unique"; the alt is the one this
+           photo carried in slot 2, verbatim (worksheet §2.1). -->
+      <div class="specimen" data-sliver-pos="50% 50%">
+        <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-bone-cuff-16x9.webp" alt="The Vertebra Cuff: an open cuff of pale, porous bone segments bound in coils of dark wire, shown against a shadowed studio ground" loading="lazy" /></span>
+        <span class="specimen-row">
+          <span class="specimen-fig">FIG. 04 — BOUND BONE</span>
+          <span class="specimen-namewrap"><h4>Vertebra Cuff</h4><span class="specimen-maker">Ileana C.</span></span>
+          <span class="specimen-avail">Unique</span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- The announcer: visually hidden (`.sr-only`), `aria-live="polite"`,
+       so a screen reader says each step, "Specimen 2 of 4: Vertebra
+       Collar", when it is free (WCAG 4.1.3). The count is the script's
+       (the number of `.specimen`s), not written here. Empty at load:
+       script.js writes to it only on a step. The visible caption still
+       names the piece; this only says that it changed. -->
+  <div id="specimens-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <!-- "See the full bestiary": her door at the specimens' foot, to
+       the Bestiary, where every piece is (docs/DECISIONS.md, "THE
+       HOMEPAGE DOORS"). The roster's door wears the same look (home/06,
+       `.door-link`). No arrow, as on the roster's door (founder
+       2026-10-09, option A of uiux's sketch fc246aa). -->
+  <a class="door-link specimens-door" href="bestiary.html">See the full bestiary</a>
+</section>
+
+</main>
+
+<!-- .sepulchre-frame: the page's last screen, the sepulchre and the
+     footer together (css/home.css, home/07). Her words: "the sepulchre
+     section (+ the footer), it definitely needs its own screen space". -->
+<div class="sepulchre-frame">
+<!-- THE SEPULCHRE: the door to Room Zero, the archive gallery, "the
+     sepulchre of strigoi, its axis" in her words (docs/SHOP-TEMPLATE.md).
+     No eyebrow, unlike the sections above: it is the ground they stand
+     on, not a chapter. Its look is shared with the gallery's header
+     (css/chrome.css, chrome/05). The inscription is the section's one
+     link and its heading; the nav's "Sepulchre" star goes to the
+     same page. When sign-in to Room Zero is built (docs/ARCHITECTURE.md,
+     B.6), the inscription is what changes; nothing is built for it yet. -->
+<section class="sepulchre" id="sepulchre">
+  <div class="sepulchre-chrome" aria-hidden="true">
+    <!-- The scanlines, off: a steady crawl reads as a machine running
+         (her words: "In the soil the movment is almost like deaf").
+         Remove the comment marks to bring them back (chrome/05).
+    <div class="sepulchre-scanlines"></div>
+    -->
+    <!-- The grain that sat here is gone, on this page and the
+         gallery's threshold together (2026-10-12): she saw Room Zero
+         "coverd in fog, it's faded", with "a line" below the
+         specimens' door, and both were the grain (QA t_2fe64579;
+         docs/DECISIONS.md, NO GRAIN IN ROOM ZERO). This box is kept,
+         empty, for the scanlines (chrome/05). -->
+  </div>
+  <div class="sepulchre-inner">
+    <p class="sepulchre-kicker">
+      <span class="sepulchre-rec-dot" aria-hidden="true"></span>
+      Strigoi — Room Zero
+    </p>
+    <h2 class="sepulchre-h2">
+      <!-- ACCESSIBILITY: the visible words don't say where the link
+           goes, so `aria-label` repeats them and adds "Enter Room
+           Zero." A screen reader's links list names the destination;
+           the name still starts with the visible words, so voice
+           control can say them. -->
+      <a class="sepulchre-inscription" href="room-zero.html" aria-label="The floor of this page is not the floor. Something was sealed beneath it first. Enter Room Zero.">
+        The floor of this page is not the floor. Something was sealed beneath it first.
+      </a>
+    </h2>
+    <p class="sepulchre-seal" lang="la">QVOD EST INFERIVS</p>
+  </div>
+</section>
+
+<!-- THE FOOTER, under the stains (css/chrome.css, chrome/06): the links
+     and the "© Strigoi — …" line are all covered by the soil, by her
+     choice; the link a keyboard user is on comes above while it has
+     focus, and with a mouse pointer over the footer the links and the
+     line come up together. They still take clicks, Tab and a screen
+     reader.
+     The policy row is every footer's (same markup, seven links, same
+     label; her ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the site nav at the top.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     "Back to the top" is the homepage's form of every other footer's
+     "Back to Strigoi", by her choice; it is covered with the others.
+     CHOICE, `#main` and not `#`: `<main>` has `tabindex="-1"` (the skip
+     link's target), so focus moves up with the scroll and the next Tab
+     lands on the beacon. With `#` focus would stay down here and the
+     next Tab would leave the page.
+     A visitor recommending a designer goes through Contact in the policy
+     row (its "Designers" section, /contact/#designers). -->
+<footer>
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="shipping/index.html">Shipping</a></li>
+      <li><a href="returns/index.html">Returns</a></li>
+      <li><a href="sizing/index.html">Size guide</a></li>
+      <li><a href="contact/index.html">Contact</a></li>
+      <li><a href="terms/index.html">Terms of sale</a></li>
+      <li><a href="privacy/index.html">Privacy</a></li>
+      <li><a href="legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="#main">Back to the top</a>
+</footer>
+</div><!-- /.sepulchre-frame -->
+
+
+<!-- script.js last in <body>, so the elements exist before it runs.
+     CHOICE: `defer` in <head> would do the same and start the download
+     sooner; no reason is recorded for this spot. Both are safe:
+     script.js waits for DOMContentLoaded. -->
+<script src="script.js"></script>
+</body>
+</html>

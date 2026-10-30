@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Returns — Strigoi Sideral</title>
+<meta name="description" content="How to return a piece bought on Strigoi. Draft, to be polished by the founder. Not legal advice." />
+<!-- Favicon: the wingmark's square cut, as on every page. One folder
+     deep here, hence ../. -->
+<link rel="icon" href="../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../favicon.ico" sizes="any" />
+<link rel="icon" href="../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English italic for the h1; Spectral 400 for the
+     text and 500 for the h2s; Space Mono for the logo, the labels and
+     the footer. The URL also asks for Spectral 400 italic, which this
+     page doesn't set (the size guide's table caption does).
+     CHOICE: the same URL on all ten text pages, so the font
+     stylesheet is fetched once and then cached for the others. The
+     browser downloads a font file only for a face the page renders:
+     the unused face costs about 60 bytes of gzipped CSS and no file. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The five shared sheets, and no page sheet of its own: a page gets a
+     sheet only when it has a design of its own, and a text page doesn't
+     (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"). Its rules are
+     chrome/07, in chrome.css. responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="../css/tokens.css" />
+<link rel="stylesheet" href="../css/background.css" />
+<link rel="stylesheet" href="../css/chrome.css" />
+<link rel="stylesheet" href="../css/responsive.css" />
+<link rel="stylesheet" href="../css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short-page background (css/background.css,
+     background/04), sky at the top of the document, soil at the bottom,
+     the plain reading field between (docs/DECISIONS.md, "SHORT PAGES USE
+     THE HORIZON BACKGROUND"). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: the first Tab stop, invisible until focused
+     (css/tokens.css). Enter moves focus past the logo onto <main>; the
+     next Tab goes to the first stop in the text, or to the footer's
+     first link where the text has none. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, the same markup as the summoning page: the
+     distressed surface, the stars and the homepage's two leak layers,
+     which the horizon background paints through. Empty: pure
+     background, no content.
+     `.stars--yields-to-prose`: at 780px and below the starfield switches
+     off (responsive/05), because the page is nothing but running text
+     and the fixed dots would paint through it. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars stars--yields-to-prose"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV: a <nav> landmark with one link, the logo, home.
+     `.nav--scrolls` lets it scroll away with the top of the page
+     instead of staying fixed over the text (why, and the other pages
+     that use it: chrome/07). Its logo's focus ring is the site's 2px of
+     solid teal (tokens/03). The footer carries the way home from the
+     bottom. -->
+<nav class="nav--scrolls">
+  <a class="logo" href="../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+</nav>
+
+<!-- MAIN LANDMARK: the returns page, the skip link's target (`id="main"`;
+     `tabindex="-1"` lets focus land on it). The footer stays outside it.
+     ROLE HERE: how to send a piece back, and what happens next.
+     The second notice line says these rules may differ from designer to
+     designer: whether each designer sets their own is not decided yet.
+     CHOICE, the voice: plain, second person, sentence case, no imagery,
+     where the content copy is literary (docs/BRAND.md, "Voice and copy
+     register"). A policy page is read to learn what applies to you,
+     sometimes in a dispute, sometimes machine-translated (the static
+     pages' spec; DECISIONS, "STATIC PAGES BUILT WITH PLACEHOLDER TEXT").
+     One <h1>, then only <h2>s: the page is one level of sections, and
+     every section heading is a place a screen-reader user can jump to. -->
+<main class="text-page" id="main" tabindex="-1">
+  <h1>Returns</h1>
+  <!-- DRAFT NOTICE: the writer's draft, not yet the founder's, and not
+       legal advice; the notice says so on the page. Every fact nobody has
+       decided is a [bracketed slot] naming what goes there, and the plain
+       sentences around the slots state no company name, number,
+       jurisdiction, period, price, delivery time or return window. She
+       polishes the text at go-live, her words: "The polish of the texts
+       will come after the most of the work on frontend and backend is
+       done. It's when we will go live, I guess" (DECISIONS, "STATIC PAGES
+       BUILT WITH PLACEHOLDER TEXT"). Whether a lawyer reads it is hers to
+       decide. Remove the notice when the text is final, not before. -->
+  <p class="text-page__notice">Draft · to be polished by the founder · not legal advice<br>May differ from designer to designer: not decided yet<br>Last updated [date]</p>
+  <p>How to send a piece back, and what happens next.</p>
+  <h2>How long you have</h2>
+  <p>This section says how long you have to return a piece. [Number of days you have to return a piece, and from when they count.]</p>
+  <h2>What can be returned</h2>
+  <p>This section says what condition a returned piece must be in. [The condition a piece must be in.]</p>
+  <p>Some pieces may not be returnable. [Exceptions, such as pieces made to order or to your measurements.]</p>
+  <h2>How to start a return</h2>
+  <!-- <ol>, not <ul>: these are steps, and their order matters. A screen
+       reader announces the count and each step's number. -->
+  <ol>
+    <li>Write to us: [who to write to, and what to include].</li>
+    <li>Pack the piece: [how to pack it so it is not damaged on the way].</li>
+    <li>Send it: [where to send it].</li>
+  </ol>
+  <h2>Refunds</h2>
+  <p>[When and how you are refunded, and whether shipping costs are refunded too.]</p>
+  <h2>Return costs</h2>
+  <p>[Who pays for return shipping.] Keep proof of postage until your return is settled.</p>
+  <h2>Faulty or wrong pieces</h2>
+  <p>A faulty piece, or one that is not what its page described, is not an ordinary return. [What to do if a piece arrives faulty or is not what its page described.] Write to us through the <a href="../contact/index.html">contact page</a>.</p>
+</main>
+
+<!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), under
+     the stains: the links and the "© Strigoi — …" line are all covered
+     by the soil, by her choice; the link a keyboard user is on comes
+     above while it has focus, and with a mouse pointer over the footer
+     the links and the line come up together. The policy row is on
+     every footer (ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The link to the page you are on (if it's in the row) carries
+     `aria-current="page"`, no underline (her ruling of 2026-10-29,
+     chrome/07: the h1 names the page). It stays a link,
+     so the row has the same stops on every page. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../shipping/index.html">Shipping</a></li>
+      <li><a href="../returns/index.html" aria-current="page">Returns</a></li>
+      <li><a href="../sizing/index.html">Size guide</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+      <li><a href="../terms/index.html">Terms of sale</a></li>
+      <li><a href="../privacy/index.html">Privacy</a></li>
+      <li><a href="../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

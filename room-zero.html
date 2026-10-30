@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Room Zero — Strigoi Sideral</title>
+<meta name="description" content="Room Zero, the sealed archive gallery, is private in this public version." />
+<!-- ROOM ZERO PLACEHOLDER: the public stand-in for the private archive gallery. -->
+<!-- Favicon: the wingmark's square cut, as on every page, from the
+     site root. -->
+<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English italic for the h1; Spectral 400 for the
+     text; Space Mono for the logo, the labels, the way home and the
+     footer. The URL also asks for Spectral 500 and 400 italic, which
+     this page doesn't set: it has no h2 and no table caption.
+     CHOICE: the same URL on all ten text pages, so the font
+     stylesheet is fetched once and then cached for the others. The
+     browser downloads a font file only for a face the page renders:
+     the two unused faces cost about 120 bytes of gzipped CSS and no
+     file. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The five shared sheets, and no page sheet of its own: a page gets a
+     sheet only when it has a design of its own, and a text page doesn't
+     (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"). Its rules are
+     chrome/07, in chrome.css. responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/background.css" />
+<link rel="stylesheet" href="css/chrome.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short-page background (css/background.css,
+     background/04), sky at the top of the document, soil at the bottom,
+     the plain reading field between (docs/DECISIONS.md, "SHORT PAGES USE
+     THE HORIZON BACKGROUND"). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: the first Tab stop, invisible until focused
+     (css/tokens.css). Enter moves focus past the logo onto <main>; the
+     next Tab goes to the first stop in the text, or to the footer's
+     first link where the text has none. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, the same markup as the summoning page: the
+     distressed surface, the stars and the homepage's two leak layers,
+     which the horizon background paints through. Empty: pure
+     background, no content.
+     `.stars--yields-to-prose`: at 780px and below the starfield switches
+     off (responsive/05), because the page is nothing but running text
+     and the fixed dots would paint through it. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars stars--yields-to-prose"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV: a <nav> landmark with one link, the logo, home.
+     `.nav--scrolls` lets it scroll away with the top of the page
+     instead of staying fixed over the text (why, and the other pages
+     that use it: chrome/07). Its logo's focus ring is the site's 2px of
+     solid teal (tokens/03). The footer carries the way home from the
+     bottom. -->
+<nav class="nav--scrolls">
+  <a class="logo" href="index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+</nav>
+
+<!-- MAIN LANDMARK: the public placeholder for Room Zero. -->
+<main class="text-page" id="main" tabindex="-1">
+  <p class="section-eyebrow">Room Zero · Sealed</p>
+  <h1>Something was sealed beneath it first</h1>
+  <p>Room Zero is the project's archive gallery: a photo grid with a full-screen lightbox viewer. Its photographs are restricted-audience content, so the gallery page and its images are kept out of this public repository.</p>
+  <p>The gallery's code (the grid and the lightbox) is still here, in <code>script.js</code> and <code>css/gallery.css</code>. The gallery itself is available on request.</p>
+  <p class="text-page__action-row"><a class="text-page__action" href="index.html">Return to the homepage</a></p>
+</main>
+
+<!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), under
+     the stains: the links and the "© Strigoi — …" line are all covered
+     by the soil, by her choice; the link a keyboard user is on comes
+     above while it has focus, and with a mouse pointer over the footer
+     the links and the line come up together. The policy row is on
+     every footer (ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The link to the page you are on (if it's in the row) carries
+     `aria-current="page"`, no underline (her ruling of 2026-10-29,
+     chrome/07: the h1 names the page). It stays a link,
+     so the row has the same stops on every page. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="shipping/index.html">Shipping</a></li>
+      <li><a href="returns/index.html">Returns</a></li>
+      <li><a href="sizing/index.html">Size guide</a></li>
+      <li><a href="contact/index.html">Contact</a></li>
+      <li><a href="terms/index.html">Terms of sale</a></li>
+      <li><a href="privacy/index.html">Privacy</a></li>
+      <li><a href="legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="index.html">Back to Strigoi</a>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<!-- THE ATLAS: every shop on Strigoi, each drawn as its own
+     constellation, and an index of their names. `/atlas`, at the site
+     root beside index.html. Keep comments above <meta charset> short:
+     the charset must sit within the first 1024 bytes. -->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Atlas — Strigoi Sideral</title>
+<meta name="description" content="Every shop on Strigoi, each drawn as its own constellation. Draft." />
+<!-- Favicon: the wingmark's square cut, as on every page. At the site
+     root, so no ../. -->
+<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English italic for the h1, IM Fell English SC for
+     Sodalicium Textorum; Spectral 400 for the lede and 400 italic for
+     the index's names; Space Mono for the small labels and the names in
+     the sky. CHOICE: the homepage's URL, which also asks for Fell roman
+     and Spectral 500, set on nothing here. The same URL means the font
+     stylesheet is fetched once and cached for both pages; the browser
+     downloads a font file only for a face the page renders. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The shared sheets, then the page's own: the Atlas has a design of
+     its own (a sky of constellations), so it gets a sheet
+     (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"). responsive.css
+     and motion.css stay last, so their overrides win. -->
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/background.css" />
+<link rel="stylesheet" href="css/chrome.css" />
+<link rel="stylesheet" href="css/atlas.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short pages' background (css/background.css,
+     background/04): sky from the top, soil at the foot. The Atlas is sky
+     from top to bottom, then the soil under the footer, like every short
+     page (docs/DECISIONS.md, "SHORT PAGES USE THE HORIZON BACKGROUND"). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: first in Tab order, invisible until focused
+     (css/tokens.css). Enter moves focus into <main>; the next Tab lands
+     on the Bestiary link. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, the text pages' markup: the distressed
+     surface, the stars and the two leak layers the horizon paints
+     through. Empty and aria-hidden: pure background, no content.
+     CHOICE, plain `.stars` and not the text pages'
+     `.stars--yields-to-prose`: that variant switches the starfield off
+     on narrow screens so it doesn't paint through running text; this
+     page is a sky, not running text. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV, the shop's (shops/demo/index.html and chrome/07 say why):
+     a <nav> landmark named "Strigoi", the logo, home, the two places,
+     "Atlas" and "Bestiary", then "Lure me in" and "Bag": the same nav on
+     the shop, its pieces, the Atlas and the Bestiary. `.nav--scrolls`
+     lets it scroll away with the top of the page (chrome/07).
+     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
+     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
+     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2); the
+     full nav here, not the two places only (uiux's recommendation,
+     README §2.5, decided in DECISIONS (1)).
+     THE PAGE YOU ARE ON: "Atlas" carries `aria-current="page"`. It
+     stays a link and a Tab stop (to this page's top); a screen reader
+     says "Atlas, current page, link". No underline (her ruling of
+     2026-10-29, chrome/07): the h1 names the page.
+     Plain words, still not the homepage's stars ("would promise a sky of
+     navigation on a page that is already a sky of links"
+     (sketches/atlas/atlas-spec.md §4)): the reason for
+     the bare logo-only nav this page had until 2026-10-27. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" aria-current="page" href="atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN LANDMARK: the Atlas. The skip link's target (`id="main"`,
+     `tabindex="-1"` so focus can land on it); the footer stays outside
+     it and keeps the contentinfo landmark.
+     ROLE HERE: see every shop at once and get into one of them, two
+     ways: by looking (the sky) and by name (the index below it).
+     VISION: the page of all shops is "a nightsky populated with all our
+     constellation-shops", her words; where the homepage withholds, the
+     Atlas discloses: every shop, and none of them first
+     (docs/GRIMOIRE.md §XV; docs/DECISIONS.md, "THE ATLAS AND THE
+     BESTIARY", "CONSTELLATIONS/GALAXY PAGE"). -->
+<main class="atlas" id="main" tabindex="-1">
+  <!-- THE PAGE'S HEADER: its name, the draft notice, one sentence on
+       what the page is and why its order changes, and the way to the
+       Bestiary. A <header> inside <main> is not a banner landmark, only
+       the head of this content.
+       All wording is a draft the founder polishes at go-live. -->
+  <header class="atlas-head">
+    <!-- Sodalicium Textorum: the Latin designation DECISIONS reserved for
+         this page ("CONSTELLATIONS/GALAXY PAGE"), over the title as the
+         homepage sets Textrina Siderum; her D6 ("THE ATLAS TAKES B"). A <p>, not a
+         heading: it names the page's company, the h1 names the page.
+         `lang="la"` gives it a Latin voice in a screen reader. -->
+    <p class="atlas-seal" lang="la">Sodalicium Textorum</p>
+    <h1>The Atlas</h1>
+    <!-- DRAFT NOTICE, in the text pages' notice style (atlas/01): what
+         the page is not yet. It goes when the real shops and the
+         founder's wording arrive. -->
+    <p class="atlas-notice">Draft · placeholder sky · to be polished by the founder</p>
+    <p class="atlas-lede">Every shop on Strigoi, each drawn as its own constellation. None is placed first: the sky turns once a day.</p>
+    <!-- The way to the Bestiary, the other page of the complete side.
+         CHOICE, here and not in the footer: each index page links to the
+         other so a visitor who lands on one knows the other exists; at
+         the foot of a long sky it would be thousands of pixels down. -->
+    <p class="atlas-ways"><a href="bestiary.html">Every piece, from every shop: the Bestiary</a></p>
+  </header>
+
+  <!-- THE SKY: every shop, drawn. One <li> per shop: a link to the shop
+       holding its drawing and its name.
+       WHAT: a list (`role="list"` gives back the "list, N items" that
+       Safari drops once the bullets are removed in CSS). script.js
+       (initAtlas) turns the order for the day and scatters the
+       constellations over the field; without JS they stand in a
+       centred row, in the order written here, A to Z.
+       CHOICE, the shops as markup and not written by script: the page is
+       complete without JS, and a search engine or a screen reader reads
+       every shop. With the backend the server writes the same markup.
+       ACCESSIBILITY: each constellation is a focusable link, the first
+       path in the reading order; the index below is the second, so every
+       shop is two Tab stops and its name is read twice (the cost of this
+       direction, docs/DECISIONS.md, "THE ATLAS TAKES B"). The name shows
+       on hover or keyboard focus; it is the link's text, so a screen
+       reader reads it whether shown or not.
+       KNOWN GAP, touch: nothing limits the reveal to devices that hover;
+       a tap most likely leaves the name shown and follows the link at
+       once (the homepage's 4a audit #8). Phone and tablet layout is not
+       designed yet: the scatter keeps its desktop box sizes. -->
+  <section class="atlas-sky" aria-label="The sky">
+    <ul class="atlas-sky-list" role="list">
+      <!-- VÂRCOLAC ATELIER, the demo shop. Its drawing is the homepage's
+           cluster 1 (index.html, home/04), copied: one drawing per shop,
+           the same wherever it appears, so it reads as the shop's
+           signature (docs/DECISIONS.md, D5). Added here: the hub, the
+           shop's own star where the lines meet, drawn after the eroded
+           group so the erosion never takes it.
+           The viewBox is cropped to the drawing plus 16 units, so the drawing
+           fills its box as far as its shape allows. The box is 190 × 150px
+           once there are two shops or more, and 300 × 150px for a shop
+           alone (atlas/02). The drawing is scaled to fit and centred in it,
+           so the room between the drawing's lowest pixel and its lit name
+           depends on the drawing's shape and the box: a wide one sits higher
+           and leaves more below. This one's 188 × 101 viewBox leaves 44px in
+           the 190px box and 28px in the 300px box, where it is drawn larger.
+           The mask's id is this shop's, so another shop's mask can't collide
+           with it. -->
+      <li class="atlas-star">
+        <a class="atlas-star-link" href="shops/demo/index.html">
+          <svg class="atlas-drawing" viewBox="-2 -1 188 101" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <mask id="atlasErosionVarcolac" mask-type="alpha">
+                <rect x="0" y="0" width="200" height="160" fill="#fff" filter="url(#skymapErosionNoise)"/>
+              </mask>
+            </defs>
+            <g mask="url(#atlasErosionVarcolac)">
+              <circle cx="14" cy="20" r="1" fill="#8c8885" opacity="0.4"/>
+              <circle cx="170" cy="30" r="0.8" fill="#c1bfbd" opacity="0.4"/>
+              <circle cx="40" cy="20" r="1.6" fill="#c1bfbd" opacity="0.75"/>
+              <circle cx="90" cy="15" r="1.4" fill="#c1bfbd" opacity="0.7"/>
+              <circle cx="72" cy="72" r="1.3" fill="#c1bfbd" opacity="0.6"/>
+              <path class="atlas-line" d="M60,50 L40,20" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+              <path class="atlas-line" d="M60,50 L90,15" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+              <path class="atlas-line" d="M60,50 L68,72" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+              <path class="atlas-line" d="M76,84 L72,72" stroke="#5e93a1" stroke-width="0.7" opacity="0.3"/>
+            </g>
+            <circle class="atlas-hub" cx="60" cy="50" r="2.6"/>
+          </svg>
+          <span class="atlas-star-label">
+            <span class="atlas-star-name">Vârcolac Atelier</span>
+            <span class="atlas-star-craft">Ritual outerwear</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+    <!-- Said only while the sky holds one shop, so one constellation
+         reads as the start of a sky and not as an empty page. From the
+         second shop on, the CSS hides it (atlas/02). -->
+    <p class="atlas-sky-note">One shop so far. The sky fills as makers are let in.</p>
+  </section>
+
+  <!-- THE INDEX: every shop by name, A to Z, as read (accents ignored:
+       Vârcolac files under V). Written in that order here; script.js
+       does not re-sort it.
+       ROLE HERE: the way in by name ("where is Vârcolac's shop?"), and
+       for a screen-reader user the one list that reads like a list.
+       CHOICE, A to Z here while the sky has no first: alphabetical is the
+       order that serves finding a name, and every reader already knows
+       it; the sky stays the one place with no ranking.
+       Hover or focus a name and its constellation lights in the sky, its
+       name shown; hover a constellation and its name here is underlined
+       (script.js, initAtlas).
+       THE HEADING, "nocount" (uiux t_5e609701's recommendation and the
+       PM's idea; her "OK", 2026-10-30, after "Let's see how the page
+       looks with the 'Every shop, by name' line."): the words stay on
+       screen, the only thing that says "every shop, A to Z, the quick
+       way in without the sky"; the count is for screen readers only
+       (`.sr-only`, tokens/03), since the list shows it at a glance and
+       the sentence above says it. The label is centred on the header's
+       axis, her decision ("OK, go on with centred label", 2026-10-30);
+       while there are 1 to 4 shops the list is one centred row under
+       it, from the 5th the left-aligned columns (uiux t_d014c70a;
+       css/atlas.css, atlas/04). -->
+  <section class="atlas-index" aria-labelledby="atlas-index-heading">
+    <h2 id="atlas-index-heading">Every shop, by name <span class="atlas-index-count sr-only">· 1 shop</span></h2>
+    <ul class="atlas-index-list" role="list">
+      <li><a href="shops/demo/index.html"><span class="atlas-index-name">Vârcolac Atelier</span><span class="atlas-index-craft">Ritual outerwear</span></a></li>
+    </ul>
+  </section>
+</main>
+
+<!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), the
+     text pages' markup unchanged: under the stains, the links and the
+     "© Strigoi — …" line all covered by the soil, by her choice; the
+     link a keyboard user is on comes above while it has focus, and
+     with a mouse pointer over the footer the links and the line come up
+     together. The policy row is on every footer.
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The Atlas is not in the row, so no link carries
+     `aria-current="page"`. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="shipping/index.html">Shipping</a></li>
+      <li><a href="returns/index.html">Returns</a></li>
+      <li><a href="sizing/index.html">Size guide</a></li>
+      <li><a href="contact/index.html">Contact</a></li>
+      <li><a href="terms/index.html">Terms of sale</a></li>
+      <li><a href="privacy/index.html">Privacy</a></li>
+      <li><a href="legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="index.html">Back to Strigoi</a>
+</footer>
+
+<!-- The erosion noise, the homepage's (home/04), for the one drawing
+     that uses it, Vârcolac Atelier's: it turns the drawing's mask into
+     patches of missing sky. In its own 0×0 SVG so any drawing's mask can
+     point to it; `.atlas-filter-defs` takes it out of the layout. -->
+<svg width="0" height="0" class="atlas-filter-defs" aria-hidden="true">
+  <filter id="skymapErosionNoise" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011 0.016" numOctaves="2" seed="11" result="noise"/>
+    <feColorMatrix in="noise" type="matrix"
+      values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.4 1.4 1.4 0 -0.35" result="erosionAlpha"/>
+  </filter>
+</svg>
+
+<script src="script.js"></script>
+</body>
+</html>

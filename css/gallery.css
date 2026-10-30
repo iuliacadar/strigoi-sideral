@@ -1,0 +1,596 @@
+/* ==== gallery.css: the archive, Room Zero ====
+   OWNS:      the page's own field, a rule the grey ground out-ranks, so it draws nothing (gallery/01); the photo grid (02); the lightbox (03); the colours of Room Zero's footer seep (04).
+   LOADED BY: the Room Zero gallery page only (private; not in this public repository).
+   POSITION:  fourth of six, the page's own sheet: after chrome.css, before responsive.css and motion.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   gallery/01 — THE PAGE'S OWN FIELD, NOT DRAWN (was GROUP 11: its
+   body rule; the lightbox → gallery/03)
+   WHAT: today this rule paints nothing. The field on screen is the
+   grey ground's #232323: background/05's `:root body[data-ground]`
+   (0,2,1) out-ranks `body.gallery-page` (0,1,1). Without
+   `data-ground="grey"` on <body>, this field is drawn instead:
+   `--sepulchre-field`, #171719, kept as the way back (docs/HISTORY.md,
+   tokens). Her words for it: "sepulchre page background must be in
+   one color, dark and dirty deep (not brown)".
+   `overflow-x: visible` undoes background/01's `hidden`; the page is
+   never wider than the screen (390 to 1920), so it changes nothing
+   measured. Reason not recorded.
+   ---------------------------------------------------------- */
+
+body.gallery-page {
+  background: var(--sepulchre-field);
+  overflow-x: visible;
+}
+
+/* ----------------------------------------------------------
+   gallery/02 — THE PHOTO GRID (was GROUP 10)
+   WHAT: the archive, one cell per photograph, in three equal columns
+   4px apart (2px on phones, responsive/07), centred, the grid at most
+   927px wide: at 1440 each cell is a 306px square, and the grid
+   starts 28px under the threshold header. script.js §2 writes the
+   cells from the manifest.
+   Nothing here paints a ground: the gaps show the grey ground's
+   flat field and ink strands (background/05).
+   ---------------------------------------------------------- */
+
+/* The side padding is the plate's edge band plus the focus ring:
+   5vw is the dark band down each side of the screen (background/03,
+   fixed above every cell), 2px the ring (`.cell:focus-visible`
+   below). So no cell, and no ring, is ever under the band. At 1035px
+   and wider the 927px cap binds and the grid sits where it always
+   did; narrower, the cells shrink instead (296px at 1000, 226px at
+   768, 114px at 390). `max-width` is the grid plus both paddings.
+   WHAT WOULD BREAK: a padding under 5vw + 2px, or a wider band in
+   background/03, puts the outer columns' ring back under the band,
+   where it read 1.9 to 2.5:1 (docs/HISTORY.md, gallery/02).
+   `position: relative` is the hint's box (below); it moves nothing. */
+.grid-wrap {
+  --grid-side: max(4px, calc(5vw + 2px));
+  position: relative;
+  max-width: calc(927px + 2 * var(--grid-side));
+  margin: 0 auto;
+  padding: 28px var(--grid-side) 80px;
+}
+
+/* The hint: "Arrow keys move between photos. Enter opens one." The
+   photographs are one Tab stop (script.js §2), so a sighted keyboard
+   visitor needs to be told the arrow keys go through them. It shows
+   only while a photograph has keyboard focus (`:focus-visible`), at
+   once, with no transition; a mouse or a tap never shows it. A screen
+   reader hears it as the group's description, whatever its opacity.
+   Space Mono in `--bone-quiet`, the small-print tone that clears 4.5:1
+   on every ground (tokens/02).
+   It sits in the wrap's 28px top padding and takes no room: its foot
+   is 4px above the grid (`top: 28px`, then up by its own height and
+   4px), so where it wraps to two lines, on a screen under ~340px, it
+   grows up into the header's empty foot, never over the photographs.
+   `hidden` in the markup until script.js has drawn the grid. */
+.grid-hint {
+  position: absolute;
+  top: 28px;
+  left: 4px;
+  right: 4px;
+  transform: translateY(calc(-100% - 4px));
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  letter-spacing: var(--track-line);
+  line-height: 18px;
+  text-align: center;
+  color: var(--bone-quiet);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.grid-wrap:has(.cell:focus-visible) .grid-hint {
+  opacity: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+/* A cell: a <button> (script.js §2), square whatever the photo's shape
+   (`aspect-ratio`), and the photo cropped to fill it, never stretched
+   (`object-fit: cover`). `position: relative` is the veil's and the
+   badge's box; `overflow: hidden` keeps the zoom inside the square.
+   The first eight declarations take away the button's own display,
+   padding, font and alignment, so it draws exactly as the <div> it
+   replaced did.
+   Before a photo loads (they load lazily) the cell shows
+   `--above-black`, the lightbox's letterbox black: the grey ground has
+   no colour of its own, so the unloaded square and the viewer's frame
+   are one neutral black (it was `--ground-dark`, a faintly red black;
+   docs/DECISIONS.md, "THE GALLERY'S PHOTOGRAPHS BECOME ONE TAB STOP",
+   D). `scroll-margin` keeps the focus ring whole when an arrow key
+   scrolls a cell to the screen's edge. */
+.cell {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--above-black);
+  scroll-margin: 8px;
+}
+
+/* Keyboard focus: the site's ring (tokens/03), 2px of `--teal`, at 0
+   here: just outside the square, in the
+   4px gap (2px on phones), on the grey ground; `z-index: 1` so the
+   next cell never paints over it. The wrap's side padding keeps it
+   clear of the plate's edge band (above). Measured on the rendered
+   page: docs/HISTORY.md, gallery/02. A mouse click focuses the button
+   too; it gets no ring. */
+.cell:focus-visible {
+  outline-offset: 0;
+  z-index: 1;
+}
+
+.cell:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* On hover, or keyboard focus, the photo grows 4% over 0.35s, inside
+   its square. Under reduced motion the zoom and the veil's and badge's
+   fades below are instant (motion.css). */
+.cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.cell:hover img,
+.cell:focus-visible img {
+  transform: scale(1.04);
+}
+
+/* The veil: on hover or keyboard focus, the photo's caption (its first
+   60 characters, or "View") over a teal wash, `--teal` at .18 written
+   out as rgba. Reason for teal not recorded. Spectral italic at
+   12.5px, not Fell: Fell is not set below ~18px (docs/BRAND.md). Not
+   on a touch screen: a tap opens the lightbox straight away. A <span>
+   (a <div> can't sit in a button), `aria-hidden`: the button's name
+   already carries the caption, from the photo's `alt`. */
+.cell .hover-veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(94, 147, 161, 0.18);
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bone);
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-small); /* small print (tokens/02) */
+  letter-spacing: 0;
+  text-align: center;
+  padding: 10px;
+}
+
+.cell:hover .hover-veil,
+.cell:focus-visible .hover-veil {
+  opacity: 1;
+}
+
+/* The badge: the photo's place in the manifest's order (`order_index`,
+   from #0), top left, on `--above-black` at .6; on hover or keyboard
+   focus. `aria-hidden`: the button's name says "Photograph {n}", the
+   same number. */
+.cell .idx-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  color: var(--bone);
+  background: rgba(16, 16, 17, 0.6);
+  padding: 2px 6px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  letter-spacing: var(--track-line);
+}
+
+.cell:hover .idx-badge,
+.cell:focus-visible .idx-badge {
+  opacity: 1;
+}
+
+/* ----------------------------------------------------------
+   gallery/03 — THE LIGHTBOX: ONE PHOTOGRAPH, FULL SCREEN (was GROUP
+   11, its lightbox half, and GROUP 11a)
+   WHAT: a full-screen viewer, `position: fixed` over the whole screen
+   (`inset: 0`), `display: none` until script.js §3 adds `.open`; then a
+   flex box that centres a column: the photo in its wrap, with the HUD
+   (a time stamp) burned into its bottom-right corner, and the photo's
+   caption line beneath. ×, ‹ and › are <button>s placed against the
+   screen, not the photo. Closed, it takes no room and no clicks.
+   ROLE HERE: the only place a photograph is seen whole and large: at
+   1440 a square one is 770px, a 4:5 one 616 × 770.
+   VISION: one of the two references she flagged for the site is a
+   found VHS tape, a camcorder stamp burned into the frame's corner, a
+   couple of its characters lost to damage (docs/SHOP-TEMPLATE.md §7).
+   The spec took it for this viewer (§7.0): the photo is the only
+   artefact, the stamp damage on it, not a label beside it. Since her
+   ruling "ok to do the text visible" (which the PM reads as covering
+   the lightbox; she was told and didn't object: docs/DECISIONS.md)
+   the stamp, ×, ‹ and › sit on dark scrims (below); on a pale photo
+   the stamp's is a visible dark pill, the cost she accepted.
+   History: docs/HISTORY.md, gallery/03.
+   ---------------------------------------------------------- */
+
+/* The backdrop: `--above-black` at .94 (written out as rgba), the grid
+   6% through it. `z-index: 100` puts it above the distressed plate
+   (40, background/03), so an open photo has no grain over it. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 16, 17, 0.94);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+/* While the viewer is open the page behind it doesn't scroll: `inert`
+   (script.js §3) stops focus and clicks, not the wheel, Page Down or
+   Space, which moved a page nobody could see. `overflow: hidden` on
+   the root stops all three and keeps the scroll position; closing
+   lifts it, and focusCell brings the photo's cell into view.
+   `scrollbar-gutter: stable` keeps a classic scrollbar's 15px, so
+   nothing moves sideways: beside that strip the open viewer is 0 px
+   changed at 1440, 1920 and 1366 (1/255 at most at 768 and 390), and
+   the strip shows the page's ground where the bar was. An overlay
+   scrollbar takes no room and nothing changes. Without `:has()` the
+   page scrolls behind, as before. */
+:root:has(.lightbox.open) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* The column: the photo's wrap, then the caption line (a column since
+   SHOP-TEMPLATE §7 took away the side panel that shared the row), at
+   most 1100px wide and 90vh tall (95vh at 800px and below,
+   responsive/04). WHAT WOULD BREAK: without `align-items: center`
+   the photo leaves the centre for the column's left edge (165px at
+   1440 for a square photo, 242 for a 4:5); the wrap's `fit-content`
+   keeps the HUD on it. When the wrap was `width: 100%` it also kept
+   the HUD off the empty bar (her screenshot, docs/SHOP-TEMPLATE.md §9).
+   Its ground is `--above-black`, solid: the letterbox bars beside a
+   photo narrower than the column. The same black as the backdrop, so
+   bars and backdrop read as one: beside a 4:5 photo at 1440 the bar
+   measures 16/255 and the backdrop 15–18. It was a warm brown, which
+   she saw as a frame round the photo (§8).
+   `--lb-column-h` is the column's height cap, a property so the
+   captioned photo's cap (below) can subtract from the same figure
+   responsive/04 raises. `overflow: hidden` clips whatever would pass
+   it; with that cap no caption line reaches it (measured, every
+   captioned photo at five sizes). */
+.lightbox-inner {
+  --lb-column-h: 90vh;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1100px;
+  width: 100%;
+  max-height: var(--lb-column-h);
+  display: flex;
+  gap: 0;
+  background: var(--above-black);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* The photo's frame, sized to the photo (`fit-content`), so its
+   corner is the photo's corner and the HUD, placed against it
+   (`position: relative`), sits on the photo: 16px from its right edge
+   and 14px from its foot, measured at five sizes and three shapes. Its
+   `--above-black` would show only if the fit failed; it paints
+   nothing today (the wrap and the photo measure the same box).
+   `min-width: 0`: reason not recorded. */
+.lightbox-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  max-width: 100%;
+  background: var(--above-black);
+  min-width: 0;
+  position: relative;
+}
+
+/* The photo, whole (`object-fit: contain`), never wider than the
+   column nor taller than 90vh − 40px (less with a caption, next
+   rule). `display: block` (§9.3) is idle while the wrap is flex: a
+   flex item is block already. Without flex on the wrap, the baseline
+   gap adds 8px under the photo: the HUD 6px from its foot, not 14. */
+.lightbox-img-wrap img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(90vh - 40px);
+  object-fit: contain;
+}
+
+/* A photo with a caption leaves the line its three lines: the column's
+   cap less the line's 14px top margin and 3 × its line height (1.55 ×
+   0.82rem, .lb-caption-line below; in rem, so it follows the reader's
+   text size). `min()` with the rule above means this only ever takes
+   height away: at 1440 × 900 a photo that fills the height goes from
+   770 to 735px. At 800px and below, on a screen about 700px tall or more
+   (default text size), responsive/04's 95vh leaves the room already
+   and nothing changes (768 × 1024 and 390 × 844 measured).
+   Uncaptioned photos keep the rule above. Without `:has()` the rule
+   drops out and the line is cut to 26px as before. */
+.lightbox-inner:has(.lb-caption-line:not(:empty)) .lightbox-img-wrap img {
+  max-height: min(
+    calc(90vh - 40px),
+    calc(var(--lb-column-h) - 14px - 3 * 1.55 * 0.82rem)
+  );
+}
+
+/* The HUD: the stamp script.js §3 writes, "12:29 AM · JUL 09 2023 ·
+   #0000/1615", in Space Mono 11.5px and `--bone-label`, the labels'
+   tone (tokens/02), one line at every size measured. Placed against
+   the photo's corner, not the screen's: it has to read as burned into
+   the frame (SHOP-TEMPLATE §7.2). `aria-hidden` in the markup: the
+   dialog's name already says which photograph. The dark text-shadow
+   stays for the look; the plateau below does the reading.
+   `isolation: isolate` makes it a stacking context, so the plateau's
+   `z-index: -1` paints behind the text and inside this box. */
+.lb-hud {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  margin: 0;
+  pointer-events: none;
+  max-width: calc(100% - 32px);
+  text-align: right;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  letter-spacing: var(--track-line);
+  line-height: 1.4;
+  color: var(--bone-label);
+  isolation: isolate;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Her ruling "ok to do the text visible" (docs/DECISIONS.md, THE SHOP'S
+   SUMMONED WORDS AND THE LIGHTBOX GLYPHS GET A DARK SCRIM).
+   Text-shadow alone (above) assumes a photo dark enough for a light
+   label; on a light/high-key photo no shadow blur fixes light-on-light.
+   So a solid-core plateau under the whole stamp, feathered by its
+   `box-shadow`: it hugs the label's own shrink-to-fit box (it tracks
+   the text's length, not a fixed panel) and fades out within ~28px,
+   so on the archive's mostly dark photos it disappears into the
+   corner. Colour --above-black, the lightbox's own scrim colour.
+   WHY ANY PHOTOGRAPH: the worst ground a photo can have is pure white,
+   and over white this plateau gives the stamp (`--bone-label`, opacity
+   1) 5.36:1 at the worst pixel, at 1440 and 390, halo off.
+   DO NOT LOWER THE ALPHA below 0.82 without re-measuring on a white
+   photo: it is what makes that 5.36. z-index: -1 relies on .lb-hud
+   being a stacking context (its `isolation: isolate`, above), so the
+   plateau paints behind the label's text and stays inside its box's
+   stacking context. */
+.lb-hud::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px -10px;
+  border-radius: 12px;
+  background: rgba(16, 16, 17, 0.82); /* --above-black at 0.82 */
+  box-shadow: 0 0 18px 10px rgba(16, 16, 17, 0.82);
+  pointer-events: none;
+}
+
+/* The glitch glyphs in the HUD's time stamp: script.js buildHud() swaps
+   two of its characters for a block glyph (▓ or ▒) in this span. Bone
+   ink, split into magenta and teal ghosts by a 1px text-shadow either
+   side (`--magenta` at .55, `--teal` at .45), the chromatic aberration
+   of a worn tape. Static: a flickering glitch would be a UI effect
+   calling attention to itself (SHOP-TEMPLATE §7.6).
+   CHOICE: the ink is `--bone-label`, the HUD's own tone, not the
+   `--magenta-label` it was: every text on the site is bone, by her
+   rule. The glitch now reads through the shadow's colour fringe, not
+   through the ink. The fringe stays: coloured glows are light, not ink
+   (her ruling D9). */
+.lb-hud-glitch {
+  display: inline-block;
+  color: var(--bone-label);
+  transform: translateY(-0.5px);
+  text-shadow:
+    1px 0 rgba(214, 81, 137, 0.55),
+    -1px 0 rgba(94, 147, 161, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* The caption line: the photo's own caption, the archive owner's
+   words, under the photo, on the 358 photos that have one. Spectral
+   italic 13px, not Fell: Fell is not set below ~18px (docs/BRAND.md);
+   italic keeps it apart from the HUD's mono. `--bone-quiet`, the
+   small print's tone (tokens/02), on the column's solid black. At most
+   640px wide and 3 lines (`-webkit-line-clamp`), so a long caption
+   can't push the photo around; the photo's own cap keeps those 3
+   lines' room (above).
+   CHOICE, demoted to a line and not deleted with the old side panel:
+   the spec's reason, "she asked for the panel gone, not the captions
+   gone" (SHOP-TEMPLATE §7.1). */
+.lb-caption-line {
+  margin: 14px 4px 0;
+  font-family: var(--interface);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--type-small); /* small print (tokens/02), a caption */
+  line-height: 1.55;
+  color: var(--bone-quiet);
+  text-align: center;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  letter-spacing: 0;
+}
+
+/* No caption, no line: script.js sets the text to empty, and the
+   line takes no room. No "No caption." placeholder (§7.1). */
+.lb-caption-line:empty {
+  display: none;
+}
+
+/* ×, ‹ and ›: `--bone-label` at rest, `--bone` on hover, a lift in
+   value, never a new hue (docs/BRAND.md, "Hover states on already-bone
+   text must raise VALUE, not HUE"). They are <button>s; this first
+   rule takes away what a button brings of its own (ground, border,
+   padding, font, spacing) so each draws as a bare glyph; the rules
+   after it set the size, padding and ink, and win by coming later. */
+.lightbox-close,
+.lightbox-nav {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* Keyboard focus: the site's ring (tokens/03), 2px of `--teal`, 2px
+   out here, on the backdrop (the ring's measure: docs/HISTORY.md,
+   gallery/03). A click shows none. */
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible {
+  outline-offset: 2px;
+}
+
+/* The dialog itself takes focus when it opens (script.js §3), so a
+   screen reader reads its name and caption. No ring: it is the whole
+   screen, as `main:focus` (tokens.css). This rule (0,2,0) beats the
+   site's ring (0,1,0). The next Tab reaches ×. */
+.lightbox:focus {
+  outline: none;
+}
+
+/* × in the top-right corner of the screen, 28.8px, a hit box of 15 ×
+   29px on the desktop; at 500px and below it gets 20px of padding,
+   a 55 × 69 target (responsive.css, the 500px block). `z-index: 101`,
+   as the arrows': measured, × never meets the photo, so here it
+   changes nothing. */
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 30px;
+  color: var(--bone-label);
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 101;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+/* Hover: bone-label -> bone, the rule above. */
+.lightbox-close:hover {
+  color: var(--bone);
+}
+
+/* ‹ and ›, 35px glyphs, halfway down the screen, 10px in from its
+   edges, each with 20px of padding: a 49 × 98 target. `user-select:
+   none` stops a double click selecting the glyph; reason not
+   recorded. On the desktop they sit on the backdrop, beside the photo;
+   at 768 and 390 they can sit over its edge, and there `z-index: 101`
+   is what keeps them clickable (at `auto` the photo takes the click,
+   measured). The 0.2s colour ease has no reduced-motion guard (a
+   colour change; nothing moves). */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--bone-label);
+  font-size: 2.2rem;
+  cursor: pointer;
+  z-index: 101;
+  padding: 20px;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.lightbox-nav:hover {
+  color: var(--bone);
+}
+
+.lightbox-prev {
+  left: 10px;
+}
+
+.lightbox-next {
+  right: 10px;
+}
+
+/* Each glyph's own scrim (with the HUD's plateau above). On
+   a phone the arrows sit over the photograph's edge, not the dark
+   backdrop: the next arrow read 1.07:1 on a bright edge at 390. The ×
+   gets the same disc; in every layout measured it sits on the backdrop,
+   where the disc does not show. A disc of
+   --above-black at 0.82, 1.1em across, centred on the glyph and
+   feathered by its `box-shadow`, gives each a known ground: the arrows
+   5.36-5.69:1 over a white photo at 390 (the worst ground any photo can
+   be), 9.17 on the desktop. DO NOT LOWER THE ALPHA below 0.82 without
+   re-measuring on a white photo. Where a glyph sits on the lightbox's
+   own backdrop (rgba(16,16,17,.94), the desktop) the disc is that same
+   colour and does not show. `isolation: isolate` keeps the `z-index:
+   -1` disc behind the glyph and inside the control. The hit areas are
+   unchanged (the disc is `pointer-events: none`; the arrows' 20px
+   padding, the ×'s 44px at 500px and below, responsive.css); hover
+   still lifts the ink, bone-label -> bone. */
+.lightbox-close,
+.lightbox-nav {
+  isolation: isolate;
+}
+.lightbox-close::before,
+.lightbox-nav::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 1.1em;
+  height: 1.1em;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(16, 16, 17, 0.82); /* --above-black at 0.82 */
+  box-shadow: 0 0 14px 8px rgba(16, 16, 17, 0.82);
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------
+   gallery/04 — ROOM ZERO'S FOOTER (was GROUP 11b)
+   chrome/06's footer ("[the footer] must have one!!", her words,
+   docs/worksheets/ROOM-ZERO.md). Here only the seep's colours: the grey ground's
+   field and ink (background/05); no red in Room Zero (her ruling D4).
+   History: docs/HISTORY.md, chrome/06.
+   ---------------------------------------------------------- */
+.room-zero-footer {
+  --seep-field: var(--g-field, #232323);
+  --seep-ink: var(--g-ink, #0c0c0c);
+}

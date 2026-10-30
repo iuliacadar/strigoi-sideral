@@ -1,0 +1,1897 @@
+/* ==== chrome.css: what more than one page wears ====
+   OWNS:      content lifted above the painted layers (chrome/01); the nav, on twenty-two pages (02); the hero's type, the homepage's and the demo shop's (03); the section eyebrow, seven on six pages (04); the sepulchre and the gallery's threshold (05); the footer, every page (06); the text page: its column, the scrolling nav, the site's account-and-bag slot in it, the footer's row of links (07); the saved mark, its one drawing and its two states, on the wall, the Bestiary and the piece pages (08).
+   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   POSITION:  third on every page: after tokens.css and background.css, before the page's own sheet (if it has one), responsive.css and motion.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   chrome/01 — CONTENT ABOVE THE PAINTED LAYERS (was GROUP 2's stacking)
+   ---------------------------------------------------------- */
+
+/* section, header: lifted over the background's positioned layers
+   (stars 0, leaks 1, the sepulchre's veil 0). Fourteen on six pages:
+   the homepage, the demo shop, the Summoning, the gallery, the Atlas,
+   the Bestiary; the text pages lift their <main> (background/04).
+   WHAT WOULD BREAK: `z-index: auto` sinks the sepulchre's text under
+   the leaks and its veil (1440). By tag: reason not recorded. */
+section,
+header {
+  position: relative;
+  z-index: 2;
+  padding: 0 5%;
+}
+
+/* .sky-region: the homepage's <main>; draws nothing. The box
+   `.skymap-field` (home/04) fills, hero through specimens (index.html). */
+.sky-region {
+  position: relative;
+}
+
+/* ----------------------------------------------------------
+   chrome/02 — THE NAV
+   (was GROUP 2, "HOMEPAGE: NAV DISSOLVED INTO THE SKY"; its
+   section/header stacking → chrome/01)
+   WHAT: the site navigation. `nav` is a flex container fixed to the
+   viewport (`position: fixed`): it stays at the same place on the
+   screen however far the page scrolls. It paints nothing itself (no
+   background, border or blur); it only places two children, the logo
+   top left and `.nav-stars`, five links drawn as stars.
+   Twenty-two pages have a <nav>; only the homepage's has the stars. The
+   other twenty-one hold the logo (the demo shop and its pieces also the
+   account-and-bag slot, chrome/07), and chrome/07's
+   `.nav--scrolls` takes them out of `fixed` (it scrolls away). The
+   gallery has no <nav>.
+
+   ROLE HERE: every destination is reachable from anywhere on the
+   page (on touch, with one limit: see the `hover: none` rule below),
+   as with a conventional fixed navbar, but there is no bar: the
+   sky painted underneath shows through.
+
+   CHOICE: a conventional navbar (a strip with a background, links in
+   a row) is the default, and the founder refused it: the links "will
+   not sit bored and flat on the navbar, yet they will float and pulse
+   in the nightsky." Of the three ways to position a nav:
+     static  scrolls away with the page; reachable only at the top.
+     sticky  would also stay on screen here (its parent is <body>),
+             but it keeps its place in the flow: the hero would start
+             below the nav, and the hero's full-screen frame (100svh)
+             would run off the bottom of the first screen.
+     fixed   out of the flow: the hero fills the first screen and the
+             stars float over its sky. Chosen.
+   The cost of `fixed` with no background: content scrolls under it
+   and text collides with text. That is why the words fade on the way
+   down (`nav--words-hidden` below, script.js initNavFade).
+
+   Three stars (`.nav-star--shown`) show their name at the top of the
+   page, two (`.nav-star--reveal`) only on hover or focus: the
+   essential routes vs the discoveries. The reason, and the VISION
+   line: see the nav comment in index.html. Every dot is visible
+   either way.
+   ---------------------------------------------------------- */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20; /* above the page sections (2), below the skip link (100) */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px 5%;
+  pointer-events: none; /* the empty sky between the stars stays
+                            click-through; every link opts back in
+                            (`nav a`, next rule). */
+}
+
+/* The property is inherited, so without this every link in a nav
+   would be unclickable too. `nav a`, not `.nav-star`: on the other
+   twenty-one pages the nav's one link is the logo, and a link added to
+   any nav later is clickable without a new rule. The words-hidden
+   rules below still switch the logo and, on touch, the stars off:
+   they are more specific. */
+nav a {
+  pointer-events: auto;
+}
+
+/* nav--words-hidden: the state script.js's initNavFade sets once the
+   reader leaves the very top of the page. The words fade (the logo and
+   every star label); the five dots stay. Why the words and not the
+   whole nav: the CHOICE in script.js initNavFade.
+   Only opacity and transform are animated, never top or height: those
+   are layout properties, and changing them makes the browser lay out
+   the page again on every frame; opacity and transform are handled by
+   the compositor alone (docs/LEARNING.md Ch.1).
+   On the logo, `visibility: hidden` waits for the fade to end (the
+   0.3s delay), so the fade is not cut short. It is what takes the logo
+   out of the tab order; `pointer-events: none` alone does not.
+   The labels reuse the reveal stars' fade-and-slide, not a new idiom.
+   The fixes rejected before this one: docs/HISTORY.md, chrome/02. */
+nav.nav--words-hidden .logo {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  visibility: hidden;
+}
+
+nav.nav--words-hidden .nav-star-label {
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Pointer devices (`hover: hover`): hovering or focusing a scrolled
+   star brings back its own label, one name at a time. */
+@media (hover: hover) {
+  nav.nav--words-hidden .nav-star:hover .nav-star-label,
+  nav.nav--words-hidden .nav-star:focus-visible .nav-star-label {
+    opacity: 1; /* shown: full strength, its tone is --bone-label (below) */
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
+
+/* Touch (`hover: none`), scrolled state: the dots are decoration and
+   cannot be tapped.
+   ACCESSIBILITY: with no hover to bring a label back, a tap would
+   navigate before the name could be read. The cost: on touch, the nav
+   works again only near the top of the page. */
+@media (hover: none) {
+  nav.nav--words-hidden .nav-star {
+    pointer-events: none;
+  }
+}
+
+/* Focus inside the nav while the words are hidden brings them all
+   back. The main route is script.js's Tab listener; this rule covers
+   focus that reaches the nav without a Tab press (moved by script, or
+   a click). */
+nav.nav--words-hidden:focus-within .logo {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.15s ease, visibility 0s linear 0s;
+}
+
+nav.nav--words-hidden:focus-within .nav-star-label {
+  opacity: 1; /* shown: full strength, its tone is --bone-label (below) */
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.logo {
+  pointer-events: auto;
+  font-family: var(--mono);
+  letter-spacing: 0.3em; /* the logo's own: a mark, spaced as one */
+  font-size: var(--type-small); /* 13px, small print's size (tokens/02,
+                                   THE TYPE SCALE) */
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 2px;
+  min-height: 44px;
+  /* --bone, not --bone-dim: the dimmer ink failed WCAG AA
+     contrast, measured on the rendered page (numbers in
+     docs/HISTORY.md). */
+  color: var(--bone);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Logo hover: a soft glow (text-shadow), not an underline or border,
+   which the founder refused on links and logos. The same halo as
+   `footer a:hover`. The colour repeats the logo's own `--bone`: hover
+   changes the glow only.
+   Keyboard focus: no rule here. The logo takes the site's ring as
+   tokens/03 draws it, 2px of solid teal, 4px out.
+   ACCESSIBILITY: on the homepage it reads 4.28 to 4.31:1 median, 3.70
+   lowest (1440 and 390). The 1px ring at half strength it once had
+   read 2.10 median, 1.96 lowest, under the 3:1 a focus indicator
+   needs (docs/HISTORY.md, chrome/02). */
+.logo:hover {
+  color: var(--bone);
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+
+/* .nav-stars: the list of five stars and the box they are placed in.
+   `position: relative` makes it the reference for each star's
+   percentage `left`/`top`. It fills the width beside the logo, so no
+   star lands on the logo. 84px tall, with the five hand-placed
+   positions below: checked so no two 44x44 hit areas overlap.
+   SMALL SCREEN: responsive/03 (900px) and responsive/08 (500px) make
+   it taller and move the stars. */
+.nav-stars {
+  position: relative;
+  flex: 1 1 auto;
+  height: 84px;
+  margin-left: 24px;
+  /* List reset: .nav-stars is a <ul> for its semantics only; no bullets, no indent, no block margins. */
+  list-style: none;
+  padding: 0;
+  margin-block: 0;
+}
+
+/* .nav-star: one link. A 44x44px invisible hit area centred on its
+   5px dot (`translate(-50%, -50%)`), so it is easy to hit although
+   almost nothing is drawn (WCAG 2.5.5, target size). Same pattern as
+   `.beacon` and `.skymap-star`.
+   CHOICE: positions are set by hand (.nav-star--1 to --5), not
+   computed from `nth-child`: each was placed so no two hit areas
+   overlap at any tested width, which a formula cannot promise. */
+.nav-star {
+  pointer-events: auto;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  padding: 0;
+}
+
+.nav-star--1 { left: 8%;  top: 20%; }
+.nav-star--2 { left: 28%; top: 62%; }
+.nav-star--3 { left: 50%; top: 15%; }
+.nav-star--4 { left: 72%; top: 55%; }
+.nav-star--5 { left: 92%; top: 25%; }
+
+/* .nav-star-dot: the always-visible mark. Same size and glow as
+   `.skymap-star-dot`, so a nav star and a designer star read as the
+   same kind of star. The pulse reuses the beacon's
+   `beaconBlink` keyframes rather than a new rhythm, though at 2.6s
+   against the beacon's 2.2s, so the two do not pulse in step. */
+.nav-star-dot {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bone);
+  box-shadow: 0 0 5px 1px rgba(193, 191, 189, 0.5);
+  animation: beaconBlink 2.6s ease-in-out infinite;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.nav-star:hover .nav-star-dot,
+.nav-star:focus-visible .nav-star-dot {
+  background: var(--teal);
+  box-shadow: 0 0 10px 3px rgba(94, 147, 161, 0.65);
+  transform: scale(1.4);
+}
+
+/* .nav-star-label: the destination's name, as real text.
+   Type: Spectral (`--interface`), the site's face for interface text,
+   in small tracked capitals, and horizontal, never tilted, as the
+   founder asked. Not IM Fell English SC, which is kept for
+   inscriptions such as the hero's Latin designations: a nav label is
+   a signpost, not an inscription.
+   CHOICE: the usual way to keep a label legible over a busy
+   background is a box behind it, and that is the "button aspect" the
+   founder refused. Instead: a quieter bone and a dark text-shadow halo.
+   INK: `--bone-label` at opacity 1, the labels' tone of the bone ramp
+   (tokens/02; her ruling D10). It replaced bone at opacity 0.8 (5.59 /
+   5.22:1, median / worst pixel); the tone measures 6.9 / 6.3 at 1440
+   on the homepage's first screen without the halo, 7.3 / 6.6 with it.
+   Opacity only hides and shows a label (0 or 1), never dims it.
+   TYPE: the scale's label size and tracking (tokens/02: 12px, 0.12em);
+   the face and weight stay the nav's own, Spectral 500, approved with
+   the nav (2026-10-27), so only the size and the tracking follow the
+   scale.
+   Numbers: docs/HISTORY.md, chrome/02. */
+.nav-star-label {
+  font-family: var(--interface);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--bone-label);
+  text-shadow: 0 1px 4px rgba(16, 16, 17, 0.85), 0 0 10px rgba(16, 16, 17, 0.55);
+}
+
+/* .nav-star--shown (the three essential routes, see the nav comment
+   in index.html) has no rule: the base label rule already shows
+   them. The class stays in the HTML as a label, the counterpart of
+   `.nav-star--reveal`. */
+
+/* .nav-star--reveal: the two discoveries, Summoning and Sepulchre (no
+   articles in the nav since 2026-10-27: "The Summoning" became
+   "Summoning"; docs/DECISIONS.md 19e5318, (2)).
+   The name is hidden at rest and appears on hover or keyboard focus.
+   ACCESSIBILITY: hidden with opacity, never `display: none`, so the
+   name stays in the accessibility tree: a screen reader reads it, and
+   Tab reaches the link, at all times. */
+.nav-star--reveal .nav-star-label {
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-star--reveal:hover .nav-star-label,
+.nav-star--reveal:focus-visible .nav-star-label {
+  /* 1, the same tone as the other labels, no brighter. */
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Stars 4 and 5 sit right of centre; a label growing rightwards from
+   them runs off the screen on narrow widths. `row-reverse` puts the
+   label left of the dot, so it grows back towards the centre.
+   (`order` would not help: it swaps the items, but the row still
+   overflows to the right.) Same as the skymap's clusters 1 and 3
+   (`.skymap-cluster--1/--3 .skymap-star`). */
+.nav-star--4,
+.nav-star--5 {
+  flex-direction: row-reverse;
+}
+
+/* The site's ring (tokens/03), round and 6px out, clear of the dot's
+   glow. ACCESSIBILITY: 4.12 to 4.26:1
+   median, 3.43 or more at p10 (the five stars, 1440 and 390). Under
+   3:1 only where it crosses a label's letters, up to 5% of its
+   pixels. The 1px ring at 0.6 it replaced read 2.37 to 2.42 median,
+   none of it at 3:1 (docs/HISTORY.md, chrome/02). */
+.nav-star:focus-visible {
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
+/* Touch (`hover: none`): the two reveal names are always shown.
+   `hover: none` asks whether the input can hover at all (a touch
+   screen cannot), not how wide the screen is; a narrow desktop window
+   still hovers.
+   CHOICE: "tap once to show the name, tap again to go" is the other
+   common pattern. Rejected: the first tap on a target this small can
+   navigate before the name was read, and Sepulchre opens another
+   page. */
+@media (hover: none) {
+  .nav-star--reveal .nav-star-label {
+    /* 1, as the other labels. */
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
+
+/* ----------------------------------------------------------
+   chrome/03 — THE HERO'S SHARED TYPE
+   (was GROUP 3: its shared hero type; the homepage's own hero rules → home/01)
+   `header.hero`, `.hero-tag`, the title and the paragraph: worn by two
+   pages, the homepage and the demo shop (the shop's hero has the
+   maker's bio in the paragraph's place, shop/09).
+   ---------------------------------------------------------- */
+
+/* header.hero: the first screen. A `<header>` inside `<main>` heads
+   that section only; it is not the page's banner landmark.
+   HOW: a flex column centred both ways, at least one screen tall, so
+   the texts sit in the middle of the first screen whatever their length.
+   `svh`, not `vh`, for the reason in tokens/03.
+   CHOICE, the whole screen, not the screen minus the nav: the hero is
+   the top of the page, and nothing jumps to it.
+   WHAT WOULD BREAK: subtracting it anyway. It was tried, and the next
+   frame showed under the hero's foot (docs/HISTORY.md, chrome/03).
+   `scroll-snap-align: start`: this frame's top is a snap point, like
+   every frame below (the snap itself: tokens/03).
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/scroll-snap-align */
+header.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
+/* .hero-tag: a short line above the title, uppercase and tracked. The
+   homepage hides its own (home/01); the demo shop shows one, its
+   placeholder tag, an English phrase (shop/09). Spectral 500, the nav
+   labels' register (chrome/02), because
+   a sentence at 13px is under IM Fell's ~19px floor (tokens/02).
+   TYPE: 13px, small print's size (tokens/02), tracked 0.24em, the
+   seals' spacing; the homepage's, a Latin designation, is set in IM
+   Fell SC (home/01).
+   ACCESSIBILITY: `--bone-label` at opacity 1, the labels' tone (tokens/
+   02; her ruling D10): 7.74 / 6.84:1 (median / worst pixel) on the shop
+   at 1440, 7.74 / 6.90 at 390 (docs/HISTORY.md, chrome/03). */
+.hero-tag {
+  font-family: var(--interface);
+  font-weight: 500;
+  font-size: var(--type-small);
+  letter-spacing: var(--track-seal);
+  text-transform: uppercase;
+  color: var(--bone-label);
+}
+
+/* h1.title: the page's one h1. IM Fell English italic, the voice face,
+   which the founder kept for "Wordmark, h1, and pull-quotes only"
+   (tokens/02). `clamp()` sizes it with no media query: 3rem at least,
+   8% of the screen's width between, 6.4rem from 1280px up: the
+   wordmark, one of the type scale's two exceptions (tokens/02), the
+   house's name set as the first screen's image. The shop sets its own
+   size, the scale's title (shop/02).
+   `font-weight: 400`: IM Fell English comes in one weight, 400, so that
+   is what draws. A lighter value asks for a face that does not exist
+   and the browser draws the 400 anyway (docs/HISTORY.md, chrome/03).
+   INK: `--bone-bright`, the ramp's brightest tone (tokens/02; her
+   ruling D10).
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/clamp */
+h1.title {
+  font-family: var(--serif-i);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--type-wordmark);
+  max-width: 20ch;
+  color: var(--bone-bright);
+}
+
+/* .macro: one upright word inside the italic title. No page uses it
+   now. The title's own tone, not teal: teal is never text (tokens/02). */
+h1.title .macro {
+  color: var(--bone-bright);
+  font-style: normal;
+}
+
+/* .hero-sub: the paragraph under the title, in Spectral (from `body`).
+   On the homepage it is the founder's own text, set exactly as written;
+   the demo shop's hero has none since M2 (shop/09: the maker's bio, in
+   its own rule). Full --bone: body text under 24px, so the bar is
+   4.5:1, cleared (numbers: docs/HISTORY.md, chrome/03).
+   VISION: she asked for "purely literary, poetical texts", and BRAND's
+   standing rule follows: the copy "is part of the artwork, not a
+   description of it" (docs/BRAND.md, "Voice and copy register").
+   TYPE: the scale's body, 16px (tokens/02): it is reading text, and
+   one reading size is the scale's point (her yes to 19.2 → 16,
+   2026-10-28: "3. Yes."). */
+.hero-sub {
+  max-width: 52ch;
+  font-size: var(--type-body);
+  color: var(--bone);
+}
+
+/* ----------------------------------------------------------
+   chrome/04 — THE SECTION EYEBROW (was GROUP 4's; the wheel → summoning/02)
+   A small capitals label over a section or a page's title: seven on six
+   pages. The homepage's roster and specimens, the Summoning's header;
+   on contact, echolocation, the 404 and the log-in placeholder
+   chrome/07 sets its margin to 0.
+   Capitals, not "§ I" numerals, which read as a numbered document (BRAND).
+   TYPE: the scale's label (tokens/02): Space Mono 12px in capitals,
+   tracked 0.12em, an 18px line. Over a page's title it is the small
+   name of THE BLOCK ABOVE THE TITLE (tokens/02), 24px of ink above the
+   title's letters (chrome/07, summoning/01). The homepage's two have no
+   title under them: they name a whole room (the roster, the
+   specimens), so they keep their 24px margin to the room.
+   INK: `--bone-label` (tokens/02; D10): worst glyph pixel 5.43–6.38:1 at
+   1440; at 390 a skymap star sits on the roster's (3.41; task 4a's #13).
+   History: docs/HISTORY.md, chrome/04.
+   ---------------------------------------------------------- */
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  color: var(--bone-label);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* ----------------------------------------------------------
+   chrome/05 — THE SEPULCHRE AND THE THRESHOLD, SHARED (was GROUP 6a)
+   WHAT: one door seen from two sides: the homepage's last section
+   (`.sepulchre`, home/07 holds its frame) and the gallery's header
+   (`.threshold`, a <header>). Every rule here styles both: a mono
+   kicker with a REC dot, the italic inscription (the link through the
+   door), a Latin seal. No grain: both pages lost it together on
+   2026-10-12 (below, at the overlay). The two columns render alike;
+   the italic words, the seal line's alpha and the ground differ.
+   VISION, her words: "the threshold inner must look the same as
+   sepulchre-inner of homepage (only the text in italics to be
+   different)" (docs/DECISIONS.md, rulings D1–D11). The register is
+   hers too: "sepulchre section must look different, more like the
+   glitching tape" (docs/BRAND.md, "The Sepulchre section").
+   No rule here paints a ground: the homepage's crimson is the page
+   gradient (background/01), the gallery's grey its `data-ground`
+   (background/05). History: docs/HISTORY.md, chrome/05.
+   ---------------------------------------------------------- */
+
+/* The section / header box. `z-index: 2` comes from chrome/01.
+   `overflow: hidden` was there to clip the grain, 40% larger than the
+   box, which widened the document by 20% of the screen unclipped
+   (1728px at 1440). The grain is gone (2026-10-12, below), so the
+   clip guards nothing measured today; it stays because the ruling
+   changed only the grain, and it costs nothing.
+   WHAT WOULD BREAK: an opaque `--below` instead of `transparent`
+   paints over the leak stains on the homepage and turns the gallery's
+   grey header crimson (about 70 to 90 of 255). */
+.sepulchre,
+.threshold {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* The text column: at most 620px, centred, centred text. On the
+   homepage it is a flex item of `.sepulchre`, so it shrinks to its
+   content, 528px on wide screens (the heading's 480 plus padding); on
+   the gallery it takes the full 620 where the screen allows.
+   `position: relative` on the
+   column, kicker, heading and seal puts the text in the same paint
+   step as the positioned overlay, and after it: with all four static
+   it changed the section by up to 6 of 255 (1440, both pages) while
+   the overlay held the grain. The overlay is empty now; the four stay
+   relative so the text still paints over it if the scanlines return.
+   The homepage column's padding is home/07's; the threshold, with no
+   frame to centre in, is padded here: 130px above, 96px below
+   (narrower screens: responsive/03, responsive/07). */
+.sepulchre-inner,
+.threshold-inner {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.threshold-inner {
+  padding: 130px 24px 96px;
+}
+
+/* The damage overlay: `aria-hidden`, takes no clicks, at half opacity,
+   faded out toward the edges by an elliptical mask so it reads as a
+   signal bleeding into the section, not a video panel with a hard
+   edge. The same technique as the shop's Transmission skin (shop.css).
+   NOTHING RENDERS IN IT NOW, on either page. Its one live layer was
+   the grain, and the grain is gone from both (2026-10-12): the
+   founder saw Room Zero "coverd in fog, it's faded", with "a line
+   somewhere below the "See the full bestiary" link". Both were the
+   grain (QA t_2fe64579): its top edge, cut by the box where this mask
+   is still about 44% open, was the line (2.04 of 255 at 1920x1080,
+   0.17 without it); below it the grain lifted the ground by up to 5
+   of 255 and flattened its texture by 12-17%, the fog. Gone from both
+   pages together so the threshold still looks like the sepulchre
+   (D1). docs/DECISIONS.md, NO GRAIN IN ROOM ZERO OR ON THE GALLERY
+   THRESHOLD; numbers: docs/HISTORY.md, chrome/05.
+   CHOICE, the empty box kept, not deleted with its rule: the
+   scanlines below are commented out inside it and need its mask and
+   opacity to come back as they were; empty, it paints nothing
+   (measured: every pixel of both pages the same with it hidden).
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/mask-image */
+.sepulchre-chrome,
+.threshold-chrome {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 40%, transparent 92%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 40%, transparent 92%);
+}
+
+/* The scanlines: NO PAGE RENDERS THIS RULE. Both divs are commented
+   out in the markup: a steady downward crawl (20px a second) reads as
+   an apparatus running, for her "In the soil the movment is almost
+   like deaf" (docs/worksheets/, the deaf-soil verdict).
+   Kept so either page can switch it back on; the keyframes are also
+   the shop's Transmission scanlines'. */
+.sepulchre-scanlines,
+.threshold-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0px, rgba(0, 0, 0, 0.22) 1px, transparent 1px, transparent 3px);
+  animation: transmissionScanShift 6s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes transmissionScanShift {
+  from { background-position-y: 0; }
+  to   { background-position-y: 120px; }
+}
+
+/* The grain's rule (`.sepulchre-grain, .threshold-grain`, 0.14 of
+   `--grain-noise` in `screen`, 40% larger than the box, jittering)
+   is deleted with its two divs, 2026-10-12: the overlay's comment
+   above says why; its last declarations are in docs/HISTORY.md,
+   chrome/05.
+   The keyframes stay here, where they were: only the shop's
+   Transmission grain (shop/05) runs them now, as `transmissionRecBlink`
+   below is kept in chrome/05 for the shop's dot alone. */
+@keyframes transmissionGrainShift {
+  0%   { transform: translate(0,0); }
+  50%  { transform: translate(-1.5%, 1%); }
+  100% { transform: translate(1%, -1.5%); }
+}
+
+/* The kicker, "Strigoi — Room Zero": the scale's label (tokens/02),
+   Space Mono 12px in capitals, tracked 0.12em, an 18px line, the REC
+   dot 9px before it. `--bone-label`, the labels' tone (tokens/02), so
+   it reads as a system tag above the inscription, not level with it.
+   It is a small name over a title (the sentence), so it keeps THE
+   BLOCK ABOVE THE TITLE's distance (tokens/02): 24px from its letters
+   to the sentence's, here a 12px margin over the inscription's 24px
+   box (`--name-gap-kicker`).
+   ACCESSIBILITY: 12px is not large text, so it needs 4.5:1; its
+   brightest glyph pixels read over 7:1 on the homepage and over 6:1 on
+   the gallery's grey (numbers: docs/HISTORY.md, chrome/05). */
+.sepulchre-kicker,
+.threshold-kicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  margin-bottom: var(--name-gap-kicker);
+}
+
+/* The REC dot: THE DYING SIGNAL, the dot's half. A 6px pink dot with
+   a magenta/teal channel split and a 4px glow at rest (`--dot-rest`).
+   It does not blink: on a 4.3s cycle it tears twice and drops out
+   once (`sepulchreDotDecay`), on the same frames as the inscription.
+   A blink says "a machine is on"; a decay with a dropout says "a
+   signal is failing", the tense of the inscription it sits above.
+   CHOICE, the 4px glow at 0.5, not the old 7px at 0.75: a glow wider
+   than the split's 1.5px offset swallows it, and the old dot was the
+   loudest thing in the section.
+   THE LOZENGE, her decision: in tears A and B the dot is a short
+   streak, about 108ms of each 4.3s (2.5%), round the rest. Do not
+   make it round again without a new ruling from her.
+   `--dot-rest` is one source for this rule and the keyframes' rest
+   frames. Reduced motion: the still, full-alpha split in motion/01. */
+.sepulchre-rec-dot,
+.threshold-rec-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f04c90;
+  --dot-rest:
+     1.5px 0 0 rgba(214, 81, 137, 0.75),
+    -1.5px 0 0 rgba(94, 147, 161, 0.65),
+     0 0 4px rgba(240, 76, 144, 0.5);
+  box-shadow: var(--dot-rest);
+  animation: sepulchreDotDecay 4.3s steps(1, end) infinite;
+  flex-shrink: 0;
+}
+
+/* The dot speeds up with the inscription on hover and keyboard focus
+   (1.9s, the inscription's hover rate): one signal dying faster, not
+   two broken things. `:has()` on the column, because the dot (in the
+   kicker) and the link (in the heading) share no nearer ancestor, and
+   a descendant selector cannot reach sideways. */
+.sepulchre-inner:has(.sepulchre-inscription:hover) .sepulchre-rec-dot,
+.sepulchre-inner:has(.sepulchre-inscription:focus-visible) .sepulchre-rec-dot,
+.threshold-inner:has(.threshold-inscription:hover) .threshold-rec-dot,
+.threshold-inner:has(.threshold-inscription:focus-visible) .threshold-rec-dot {
+  animation-duration: 1.9s;
+}
+
+/* The old REC blink: neither door uses it; the shop's Transmission
+   skin (`.transmission-rec-dot`, shop.css) still blinks with it, and
+   the shop loads this sheet. */
+@keyframes transmissionRecBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+/* The dot's timeline: the same duration, step function and offsets as
+   `sepulchreSignalDecay` below, so every tear lands on the same frame
+   in both; change them together or not at all. The 74–75% frame is a
+   DROPOUT (opacity 0.3 for ~43ms): signal loss, not a dim phase. */
+@keyframes sepulchreDotDecay {
+  0%     { box-shadow: var(--dot-rest); opacity: 1; }
+  34%    { box-shadow:
+              3px 0 0 rgba(214, 81, 137, 0.9),
+              5.5px 0 0 rgba(214, 81, 137, 0.45),
+             -1.5px 0 0 rgba(94, 147, 161, 0.65),
+              0 0 3px rgba(240, 76, 144, 0.5);
+           opacity: 0.6; }
+  35.5%  { box-shadow: var(--dot-rest); opacity: 1; }
+  72%    { box-shadow:
+              1.5px 0 0 rgba(214, 81, 137, 0.75),
+             -3px 0 0 rgba(94, 147, 161, 0.85),
+             -5.5px 0 0 rgba(94, 147, 161, 0.4),
+              0 0 4px rgba(240, 76, 144, 0.5);
+           opacity: 0.75; }
+  73%    { box-shadow: var(--dot-rest); opacity: 1; }
+  74%    { box-shadow:
+              1.5px 0 0 rgba(214, 81, 137, 0.35),
+             -1.5px 0 0 rgba(94, 147, 161, 0.35),
+              0 0 2px rgba(240, 76, 144, 0.35);
+           opacity: 0.3; }
+  75%    { box-shadow: var(--dot-rest); opacity: 1; }
+  100%   { box-shadow: var(--dot-rest); opacity: 1; }
+}
+
+/* The inscription: the link through the door (in the homepage's `<h2>`
+   to the gallery, in the gallery's `<h1>` back home). IM Fell English
+   italic 400 (the only weight the page loads; a lighter one would be
+   drawn at 400 anyway), `--bone-bright`, the titles' tone. 1.5–2.1rem
+   with the width (33.6px from ~930px wide, 24px on phones).
+   THE DYING SIGNAL, the text's half: a red/cyan split that is always
+   there (the damage at rest), torn wider three times a cycle. The
+   split is light, not ink, and stays (ruling D9).
+   WHY MAGENTA LEADS TEAL AT EVERY STOP: on the crimson, magenta is
+   near the ground's own hue and barely separates, teal separates
+   easily; balanced alphas measured a one-sided teal fringe. Do not
+   "balance" them. WHY FOUR FADING STOPS PER SIDE, not one offset: one
+   offset reads as a second copy of the text; four read as an edge
+   bleeding, like her reference photographs
+   (docs/references/images/inspiration/2026-09-17_founder-ref_glitch-mood-{1,2,3}.png).
+   WHAT WOULD BREAK: the split in a plain `text-shadow` on `:hover`. A
+   running animation outranks it, so hover would never show; the hover
+   rule retunes `--ins-rest` / `--ins-tear-*` and the keyframes read
+   them. Only the filter transitions: the colour does not change on
+   hover, and a transition on the shadow would lose to the animation. */
+.sepulchre-inscription,
+.threshold-inscription {
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--type-inscription); /* one of the scale's two
+                         exceptions (tokens/02): a sentence, not a title */
+  line-height: 1.4;
+  color: var(--bone-bright);
+  display: inline-block;
+  --ins-rest:
+     1px   0 rgba(214, 81, 137, 0.52),
+     2px   0 rgba(214, 81, 137, 0.34),
+     3.5px 0 rgba(214, 81, 137, 0.18),
+     5px   0 rgba(214, 81, 137, 0.08),
+    -1px   0 rgba(94, 147, 161, 0.44),
+    -2px   0 rgba(94, 147, 161, 0.28),
+    -3.5px 0 rgba(94, 147, 161, 0.14),
+    -5px   0 rgba(94, 147, 161, 0.06);
+  /* tear A — magenta runs out, teal holds its rest position */
+  --ins-tear-a:
+     2px   0 rgba(214, 81, 137, 0.62),
+     4px   0 rgba(214, 81, 137, 0.40),
+     7px   0 rgba(214, 81, 137, 0.22),
+     10px  0 rgba(214, 81, 137, 0.10),
+    -1px   0 rgba(94, 147, 161, 0.44),
+    -2px   0 rgba(94, 147, 161, 0.28),
+    -3.5px 0 rgba(94, 147, 161, 0.14),
+    -5px   0 rgba(94, 147, 161, 0.06);
+  /* tear B — teal runs out, magenta holds */
+  --ins-tear-b:
+     1px   0 rgba(214, 81, 137, 0.52),
+     2px   0 rgba(214, 81, 137, 0.34),
+     3.5px 0 rgba(214, 81, 137, 0.18),
+     5px   0 rgba(214, 81, 137, 0.08),
+    -2.5px 0 rgba(94, 147, 161, 0.56),
+    -5px   0 rgba(94, 147, 161, 0.36),
+    -8px   0 rgba(94, 147, 161, 0.20),
+    -11px  0 rgba(94, 147, 161, 0.08);
+  /* tear C — both run, one frame after B: the stutter-then-recover */
+  --ins-tear-c:
+     3px   0 rgba(214, 81, 137, 0.66),
+     6px   0 rgba(214, 81, 137, 0.42),
+     9px   0 rgba(214, 81, 137, 0.22),
+     12px  0 rgba(214, 81, 137, 0.10),
+    -2.5px 0 rgba(94, 147, 161, 0.56),
+    -5px   0 rgba(94, 147, 161, 0.36),
+    -8px   0 rgba(94, 147, 161, 0.20),
+    -11px  0 rgba(94, 147, 161, 0.08);
+  text-shadow: var(--ins-rest);
+  animation: sepulchreSignalDecay 4.3s steps(1, end) infinite;
+  transition: filter 0.3s ease;
+}
+
+/* The inscription's timeline. `steps(1, end)` IS THE DESIGN: a stepped
+   shadow snaps, like a dropped frame; an eased one slides and reads
+   as breathing, not breaking.
+   CHOICE, 4.3s, not a round 4s: 4s would have lined up with the
+   grain's 0.4s cycle every tenth cycle (the grain is gone since
+   2026-10-12; 4.3s stays, the dot's timeline is built on it), and a
+   rhythm the eye can learn stops reading as a malfunction. Two
+   events, not one: a tear at 34%, then
+   at 72–75% a tear, one rest frame, a second tear (the stutter). Torn
+   about 0.15s of each 4.3s; the text never moves, only the shadow
+   behind it does.
+   WHAT WOULD BREAK: dropping the 73% rest frame doubles tear B and
+   parts it from the dot's timeline. */
+@keyframes sepulchreSignalDecay {
+  0%     { text-shadow: var(--ins-rest); }
+  34%    { text-shadow: var(--ins-tear-a); }
+  35.5%  { text-shadow: var(--ins-rest); }
+  72%    { text-shadow: var(--ins-tear-b); }
+  73%    { text-shadow: var(--ins-rest); }
+  74%    { text-shadow: var(--ins-tear-c); }
+  75%    { text-shadow: var(--ins-rest); }
+  100%   { text-shadow: var(--ins-rest); }
+}
+
+/* The heading: at most 480px, centred, 32px above the seal. The
+   gallery's is an `<h1>` (the page's heading), the homepage's an
+   `<h2>`, so two selectors for one box. */
+.sepulchre-h2,
+.threshold-h1 {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto 32px;
+}
+
+/* The `<h1>` takes the `<h2>`'s size, 1.5em (24px): the inscription
+   sets its own size, but the heading's size sets the line box it sits
+   in, and at the browser's 2em the gallery header was taller than the
+   homepage's. Both headings now measure 94px at 1440. */
+.threshold-h1 {
+  font-size: 1.5em;
+}
+
+/* Hover and keyboard focus: the colour stays `--bone-bright` (no new
+   colour on hover; teal was dropped, 2.92:1), a brightness lift of
+   1.14 eases in over 0.3s, and the damage intensifies: every stop
+   moves out (5px → 8px at the outer edge) and up in alpha, and the
+   cycle drops to 1.9s. The rate is the part that reads: tears come
+   more than twice as often. Hovering a dying signal makes it die
+   faster. The new split lands at once; only the filter eases.
+   Custom properties, not `text-shadow`: see the base rule. */
+.sepulchre-inscription:hover,
+.sepulchre-inscription:focus-visible,
+.threshold-inscription:hover,
+.threshold-inscription:focus-visible {
+  color: var(--bone-bright);
+  filter: brightness(1.14);
+  --ins-rest:
+     1.5px 0 rgba(214, 81, 137, 0.68),
+     3px   0 rgba(214, 81, 137, 0.46),
+     5.5px 0 rgba(214, 81, 137, 0.26),
+     8px   0 rgba(214, 81, 137, 0.12),
+    -1.5px 0 rgba(94, 147, 161, 0.60),
+    -3px   0 rgba(94, 147, 161, 0.40),
+    -5.5px 0 rgba(94, 147, 161, 0.22),
+    -8px   0 rgba(94, 147, 161, 0.10);
+  --ins-tear-a:
+     3px   0 rgba(214, 81, 137, 0.78),
+     6px   0 rgba(214, 81, 137, 0.52),
+     10px  0 rgba(214, 81, 137, 0.30),
+     14px  0 rgba(214, 81, 137, 0.14),
+    -1.5px 0 rgba(94, 147, 161, 0.60),
+    -3px   0 rgba(94, 147, 161, 0.40),
+    -5.5px 0 rgba(94, 147, 161, 0.22),
+    -8px   0 rgba(94, 147, 161, 0.10);
+  --ins-tear-b:
+     1.5px 0 rgba(214, 81, 137, 0.68),
+     3px   0 rgba(214, 81, 137, 0.46),
+     5.5px 0 rgba(214, 81, 137, 0.26),
+     8px   0 rgba(214, 81, 137, 0.12),
+    -3.5px 0 rgba(94, 147, 161, 0.70),
+    -7px   0 rgba(94, 147, 161, 0.46),
+    -11px  0 rgba(94, 147, 161, 0.26),
+    -15px  0 rgba(94, 147, 161, 0.10);
+  --ins-tear-c:
+     4px   0 rgba(214, 81, 137, 0.80),
+     8px   0 rgba(214, 81, 137, 0.54),
+     12px  0 rgba(214, 81, 137, 0.30),
+     16px  0 rgba(214, 81, 137, 0.14),
+    -3.5px 0 rgba(94, 147, 161, 0.70),
+    -7px   0 rgba(94, 147, 161, 0.46),
+    -11px  0 rgba(94, 147, 161, 0.26),
+    -15px  0 rgba(94, 147, 161, 0.10);
+  animation-duration: 1.9s;
+}
+
+/* Keyboard focus: the site's ring (tokens/03), 2px of solid --teal,
+   6px out here, clear of the tear. It measures 4.8:1 or more (p10)
+   against the ground on both pages at 1440 and 390, with reduced
+   motion on and off, over WCAG 1.4.11's 3:1. Keyboard focus also
+   brightens the text and speeds up the tearing (above). History:
+   docs/HISTORY.md, chrome/05. */
+.sepulchre-inscription:focus-visible,
+.threshold-inscription:focus-visible {
+  outline-offset: 6px;
+}
+
+/* The seal, "QVOD EST INFERIVS" (`lang="la"`): IM Fell English SC,
+   the face of the house's Latin (tokens/02, TYPE), 12px in capitals,
+   tracked 0.24em: the seal of THE BLOCK ABOVE THE TITLE (tokens/02),
+   the Atlas's and the Bestiary's, though it sits UNDER the sentence:
+   a sign-off, not a name over a title, so it keeps its own line and
+   its own distance. `--bone-label`; its brightest glyph pixels read
+   over 6:1 on both grounds (it needs 4.5). A 1px magenta
+   hairline over it, 18px above the words: BRAND.md gives "crimson for
+   rooted-register hairlines and seals"; its alpha is a token,
+   `--seal-hairline-a`, .25 here (.12 on the gallery, below).
+   CHOICE, Fell SC and not Space Mono (its face until 2026-10-28): it
+   is Latin, and every other Latin name on the site is engraved; her
+   pick of the small-name rule moved it.
+   NO BOTTOM MARGIN: on the homepage the old 40px made the centred
+   column bottom-heavy; on the gallery it would push the photographs
+   about 38px down. The threshold's bottom padding is the gap now. */
+.sepulchre-seal,
+.threshold-seal {
+  position: relative;
+  font-family: var(--serif-sc);
+  font-weight: 400;
+  font-size: var(--type-label);
+  letter-spacing: var(--track-seal);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  padding-top: 18px;
+  border-top: 1px solid rgba(214, 81, 137, var(--seal-hairline-a, 0.25));
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+/* The gallery's seal line at .12, half the homepage's alpha, ON
+   PURPOSE. A see-through magenta adds little on the crimson, which is
+   already red, and a lot on the gallery's neutral grey; at .25 there
+   it shouted. What the two lines keep equal is how far each stands out
+   from its own ground (delta E 2000, measured on a ladder of alphas at
+   seven sizes), not the number in the declaration.
+   CHOICE, equal loudness, over equal lightness lift (.25) or equal
+   colour added (~.16): the fault fixed was a pink line shouting on a
+   quiet field. WHAT WOULD BREAK: splitting the shared rule to change
+   one number duplicates the colour, which can then drift. Re-measure
+   (do not nudge) whenever either ground changes colour.
+   Numbers and scripts: docs/HISTORY.md, background/05. */
+.threshold-seal {
+  --seal-hairline-a: 0.12;
+}
+
+/* ----------------------------------------------------------
+   chrome/06 — THE FOOTER, EVERY PAGE (was GROUP 7)
+   WHAT: one footer on every page (the homepage, summoning, the shop
+   and its seven piece pages, the gallery, the Atlas, the Bestiary,
+   the ten text pages, the 404 among them), a row that wraps: the
+   policy row on its own line (chrome/07's `.footer-links`), then the
+   stylistic line left and the link home right ("Back to the top" on
+   the homepage, "Back to Strigoi" elsewhere), the shop's notice
+   between. At 390 they take a line each, except on the gallery,
+   whose line is short.
+   VISION, her words: "I want all the links in all the footers
+   covered (at least for the time being, it's closer to my vision)"
+   (docs/DECISIONS.md, 2026-09-30). So the whole footer lies under the
+   stains, the links with the stylistic line; on the gallery and the
+   shop, which have no stains, a seep covers. Only the shop's notice
+   and the link a keyboard user is on come above, and, for a mouse,
+   every link and the stylistic line while the pointer is over the
+   footer (THE FOOTER UNDER THE STAINS, below). Her earlier rule,
+   "important links in the footer to be visible and not covered by
+   stains" (rulings D1–D11),
+   the two layers, is kept there as a switch, off.
+   SMALL SCREEN: the same rules at every width; nothing below 1440 was
+   designed or measured for the covered footer.
+   History: docs/HISTORY.md, chrome/06.
+   ---------------------------------------------------------- */
+
+/* `position: relative` with `z-index: auto`: positioned, not a
+   stacking context, so each child can take its own side of the leak
+   layers: the shop's notice and a focused link the upper side (and
+   every link and the stylistic line while a mouse pointer is over the
+   footer), the rest the lower (below); also the seep's box. No offsets,
+   so nothing moves. background.css's content plane leaves `footer`
+   out by name.
+   WHAT WOULD BREAK: an opaque `--below` instead of `transparent`
+   hides the page's ground in the footer's box (up to 28 of 255 on
+   the homepage and the text pages at 1440; 74 on the shop, 67 on the
+   gallery).
+   No top border: the one it had drew a line across the soil, what
+   she refuses: "I don't want to suddenly hit a visual wall/line
+   where the colors look completely different" (docs/worksheets/SPEC-round23-
+   the-veil-changes-sign.md). Type: Space Mono 12px, the scale's line
+   (tokens/02, THE TYPE SCALE: its size and its tracking), `--bone`. */
+footer {
+  position: relative;
+  z-index: auto;
+  background: transparent;
+  padding: 60px 5% 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  color: var(--bone);
+  letter-spacing: var(--track-line);
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+/* Every footer link: a 44px target in `--bone`, covered (below). As
+   drawn (the brightest quarter of glyph pixels) against the ground
+   under them, the links read 1.29 to 1.52:1 (median of a page's
+   links), 1.02 at the worst pixel, on the eight page types at 1440
+   and 1920: under WCAG AA's 4.5:1, by her choice. With the switch
+   back on (the two layers), 6.5 to 7.5:1.
+   Hover is a pink glow, never a line: "I dont want borders and
+   underlines when hover over links or logos" (her words, docs/
+   BRAND.md). CHOICE, a glow and not a brighter ink: `--bone` was the
+   brightest text tone when it was chosen (`--bone-bright` came
+   later). The logo has the same glow.
+   Covered, the glow is drawn under the stain with the words. With
+   the pointer in the footer the link is lifted, so the glow is drawn
+   above the stain (691 to 811 px change around one link, against 2 to
+   13 covered; the homepage, terms, the shop, 1440).
+   Under reduced motion the glow comes on at once (motion.css).
+   No bottom padding: the words sit centred in the 44px box. */
+footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--bone);
+  transition: text-shadow 0.3s ease;
+}
+
+footer a:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+
+/* THE FOOTER UNDER THE STAINS: every link covered (LIVE, by her
+   choice, 2026-09-30), or in two layers (A SWITCH, OFF, below).
+   VISION, her words: "I want all the links in all the footers
+   covered (at least for the time being, it's closer to my vision)"
+   (docs/DECISIONS.md). So the policy row, "Back to Strigoi" and
+   "Back to the top" stay in the flow with the stylistic line: under
+   the leak layers where there are stains, under the seep on the
+   gallery and the shop. They still take clicks, Tab and a screen
+   reader; only the eye loses them.
+   Covered, the links read 1.3 to 1.5:1 (as drawn, median of the
+   links; 1.0 to 1.2 at the worst pixel), under WCAG AA's 4.5:1.
+   The shop's notice ("Demo shop · placeholder products · not for
+   sale") is information, not a link, and stays above (her ruling D3):
+   it stops a visitor trying to buy a piece that doesn't exist.
+   ACCESSIBILITY: the one link that has keyboard focus comes above the
+   stain while it has it, words and ring, and goes back under when
+   focus leaves. At rest nothing shows.
+   A MOUSE: with the pointer anywhere in the footer's box, every link
+   (the policy row and the link home) and the stylistic line ("©
+   Strigoi — …"; the gallery's "the root holds.") come above the
+   stain, together, in the same fade. They fade in over 0.2s (at once
+   under reduced motion, motion.css) and go back under at once when
+   the pointer leaves. Revealed, the links read 6.4 to 7.1:1 (as
+   drawn, median of a page's links), 5.9 the lowest link, and the line
+   6.1 to 6.8:1 (as drawn), 5.3 the worst pixel, on the fifteen pages
+   the site had then (2026-10-01), at 1440 and 1920. The glow comes up
+   with the link. Her words for
+   it are in docs/DECISIONS.md ("THE COVERED FOOTER LINKS COME UP
+   WHILE THE MOUSE IS OVER THE FOOTER", and for the line "THE FOOTER'S
+   STYLISTIC LINE COMES UP WITH THE LINKS").
+   The line has two forms: `footer > span:not(.footer-info)` on
+   twenty-two pages, `footer > .room-zero-footer-mark` (a <p>) on the
+   gallery, named by its class and not as `footer > p`, so a paragraph
+   added to a footer later is not lifted by accident.
+   `:not(.footer-info)`: the shop's notice is a span too and is up at
+   all times; the fade would make it blink from 0 each time the
+   pointer arrives.
+   No `footer:focus-within` for the line: a keyboard focus lifts one
+   link, not the row, and the line beside links still covered would
+   be the same half-up row, the other way round.
+   CHOICE, the whole footer and not each link alone: one at a time, a
+   mouse user would scrub across an invisible row to find "Privacy".
+   The leaks, the plate and the seep take no pointer events, so the
+   footer's own box is the trigger; the seep's 40px fade-in above the
+   box is not.
+   Pointer devices only, `(hover: hover) and (pointer: fine)`, a
+   capability query, so it stays beside its rule: a touch screen keeps
+   the covered footer exactly (a tap changes nothing).
+   `:not(:focus-visible)`: a link already up for the keyboard does not
+   blink when the pointer arrives. The fade runs from 0 to each link's
+   own opacity; the lift is a stacking change and can't fade, so the
+   links come above at once, invisible, and fade up over the stain. */
+footer .footer-info {
+  position: relative;
+  z-index: 2; /* above the leaks (z-index 1) and the seep (z-index 1) */
+}
+
+/* Keyboard focus: the link comes above the stain, words and ring. The
+   ring is the site's (tokens/03), 2px of solid teal, 4px out; no rule
+   here sets it.
+   ACCESSIBILITY: against the unfocused pixels it reads 4.39 to 5.16:1
+   (median), 3.97:1 or more at p5, on the eight page types at 1440 and
+   1920. Those figures hold only because of this lift; left under the
+   stain, the ring reads 1.2 to 1.3:1. */
+footer a:focus-visible {
+  position: relative;
+  z-index: 2; /* only while focused, so the ring and the words read */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  footer:hover a,
+  footer:hover > span:not(.footer-info),
+  footer:hover > .room-zero-footer-mark {
+    position: relative;
+    z-index: 2; /* the links and the stylistic line, above the stain */
+  }
+
+  footer:hover a:not(:focus-visible),
+  footer:hover > span:not(.footer-info),
+  footer:hover > .room-zero-footer-mark {
+    animation: footerLinksSurface 0.2s ease-out;
+  }
+}
+
+/* The fade of the links and the stylistic line, from 0 to each one's
+   own opacity, so they arrive as one row. The name says "Links" and
+   also covers the line: renaming it would touch tokens.css's KEYFRAMES
+   list and the history for nothing visible. */
+@keyframes footerLinksSurface {
+  from { opacity: 0; }
+}
+
+/* THE TWO LAYERS (A SWITCH, OFF): every link, the policy row and the
+   notice above the leaks and the seep, the links at 6.5 to 7.5:1. To
+   switch back, delete the two lines below that hold only a comment
+   marker, and nothing else. The second rule stops the hover fade
+   replaying on links that are then always up. It names the links
+   only: the switch does not lift the stylistic line, which stays
+   under the stain and still comes up, fading, on hover. */
+/*
+footer a,
+footer .footer-links,
+footer .footer-info {
+  position: relative;
+  z-index: 2;
+}
+
+footer:hover a:not(:focus-visible) {
+  animation: none;
+}
+*/
+
+/* THE SEEP: "covered" where there are no leak layers (opt-in:
+   `<footer class="footer--seep">`, the gallery and the shop).
+   WHAT: a damp patch over the footer's box: `::before` the page's
+   field colour at .8, `::after` the ink of the leaks' stain file at
+   .55, so it carries the page's texture, not a flat fill. It fades in
+   from 40px above the box to full strength about 89px into it
+   (1440), so it never reads as a box; the field also fades over 3% at
+   each side. At z-index 1: over the stylistic line and the links,
+   under the notice, a focused link and, with a mouse pointer over the
+   footer, every link and the stylistic line. No pointer events. The
+   page sets `--seep-field` and `--seep-ink` (gallery.css, shop.css).
+   The covered line reads about 1.3:1 (median) on both pages at 1440
+   and 390; without the seep, 6.5 to 6.9:1.
+   CHOICE, a seep and not the leak layers: her ruling D4 (her reasons
+   are not recorded). The spec's (§2.3): the leaks are the red soil.
+   Room Zero's ground is "neutral, b&w" by her choice (docs/HISTORY.md,
+   background/05), and on the shop the leaks would change its ground. */
+.footer--seep::before,
+.footer--seep::after {
+  content: '';
+  position: absolute;
+  inset: -40px 0 0;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%),
+                      linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%),
+              linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.footer--seep::before {
+  background: var(--seep-field);
+  opacity: 0.8;
+}
+
+/* The ink: stain-a.webp's strands, scaled and anchored as the
+   gallery's ground draws them (background/05), so the patch looks cut
+   from the same painting. This mask replaces the shared one: no side
+   fade on the ink. */
+.footer--seep::after {
+  background: var(--seep-ink);
+  opacity: 0.55;
+  -webkit-mask-image: url('../assets/leak-wall/stain-a.webp'),
+                      linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+  mask-image: url('../assets/leak-wall/stain-a.webp'),
+              linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-size: max(141vw, 316vh) auto, 100% 100%;
+  mask-size: max(141vw, 316vh) auto, 100% 100%;
+  -webkit-mask-position: 50% 85%, 0 0;
+  mask-position: 50% 85%, 0 0;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+}
+
+/* ----------------------------------------------------------
+   chrome/07 — THE TEXT PAGE
+   Opt-in by class: <nav class="nav--scrolls">, <main class="text-page">,
+   <footer class="text-footer">. The ten text pages carry all three:
+   contact, echolocation, terms, privacy, legal, shipping, returns,
+   sizing, the 404 and the log-in placeholder (account/login/). The
+   summoning page, the demo shop and its seven
+   piece pages carry `.nav--scrolls`; the Atlas and the Bestiary
+   `.nav--scrolls` and
+   `.text-footer`. `.text-footer` has no rule: every footer is
+   chrome/06's, and the class only names it in the markup. The row of
+   links (`.footer-links`, below) is on every page's footer (her
+   ruling D5), twenty-three pages.
+
+   WHAT: a reading column for long plain text. One left-aligned box, as
+   wide as a comfortable line, with the site's own type: Spectral for
+   the text, IM Fell italic for the one <h1>. It adds a scrolling
+   variant of the nav, the type for headings, lists, a definition list,
+   a table and in-text links, and a row of links for the footer.
+   Every rule starts with one of this group's own classes, so a page
+   that carries none of them is untouched.
+
+   ROLE HERE: these pages are read to find out what applies to you:
+   the terms, the privacy policy, shipping, returns, the size guide,
+   how to write to Strigoi. They are scanned for a heading, then read
+   closely. The column keeps the lines short, the headings easy to
+   find, and the ground (background/04, horizon) under all of it.
+
+   CHOICE, where the group lives: here, in chrome.css, and not in a
+   sheet of its own or in tokens.css. The founder's rule is that a
+   page gets its own sheet only when it "has a design of its own";
+   these pages have none: text in the site's type, on the shared
+   ground, with the shared footer. A separate sheet would be one more
+   request on the ten text pages, and it would save no page anything:
+   every page uses part of this group (`.footer-links` all twenty-three,
+   `.nav--scrolls` twenty-one). Its rules are 848 bytes, minified and
+   gzipped. tokens.css holds the reset and the base document, and a
+   reading column is a component, not the base. chrome.css already
+   holds what several page types share (the nav, 02; the eyebrow, 04;
+   the footer, 06), and this group builds on all three.
+   CHOICE, at the end of the file: reason not recorded. Order doesn't
+   matter against chrome/06 (`.footer-links` and the footer's rules set
+   different properties); responsive.css and motion.css load after this
+   sheet, so they still win.
+   CHOICE, left-aligned and not centred like the summoning page's hero:
+   a centred column gives every line a ragged left edge, and the eye
+   has to find where each line starts. Chanted text can afford that;
+   text that is scanned can't.
+
+   SMALL SCREEN: no viewport query. `min(90%, 32rem)` gives way on its
+   own: at 390 the 90% governs (351px), 44 characters to a full line
+   (median). The size chart scrolls inside its own box if it ever gets
+   too wide; at 390 it fits.
+   ---------------------------------------------------------- */
+
+/* The logo scrolls away with the top of the page.
+   CHOICE, of the three ways to position it: `fixed` (chrome/02's, the
+   homepage's) keeps it over the reading column, where it covers a line
+   of text most of the way down a phone (42 of 48 scroll positions on
+   privacy at 390, in the sketch); `static` puts it in the flow above
+   <main>, moving the column down by the nav's height on every page;
+   `absolute` leaves it where the fixed logo sits on first load and lets
+   it leave with the top of the page. The footer carries the way home
+   from the bottom.
+   ACCESSIBILITY: the logo stays in the Tab order at every scroll
+   position; focusing it scrolls it back into view. */
+.nav--scrolls {
+  position: absolute; /* overrides chrome/02's `fixed`; top, left,
+                         right, z-index and padding stay as chrome/02
+                         sets them. */
+}
+
+/* THE SITE'S TWO CONTROLS: the way in to an account and the bag, at
+   the right of the logo's nav (`.site-nav`), on the demo shop and its
+   seven piece pages, and since 2026-10-27 on the Atlas and the
+   Bestiary too (THE TWO PLACES, below). chrome/02's `nav` is already flex, space-between,
+   top-aligned, 22px 5% in: the logo sits left, this lands right.
+   They are the site's, not a shop's: one account in every shop, one
+   bag for pieces from several makers (docs/ARCHITECTURE.md B.5, its
+   cart).
+   Plain words, not stars (her ruling, docs/DECISIONS.md PAGE 2: "no
+   stars on shop, plain menu"; GRIMOIRE §XIV: the sky's devices don't
+   come down to where things are sold).
+   THE TWO WORDS, as visitors will see them: "Lure me in" and "Bag".
+   HER WORDS, 2026-10-26: "1. Nav word: Bag , for no. Can the word be
+   replaced later (after the backend is started), in case something
+   else crosses my mind?" ("for now"; docs/DECISIONS.md 85200a4, (7)
+   and (9); the word was "Cart", 491b6d7 to here.)
+   THE WORD IS FOR NOW, SO IT IS ONE TEXT PER PAGE: the last
+   `.site-control`'s text in the nav of the 10 pages (8 until the Atlas
+   and the Bestiary took the nav, 2026-10-27), and nowhere else.
+   No rule, script or width depends on it (the <a> is matched by class
+   and `[aria-disabled]`; its box is the word plus 12px a side), so a
+   new word is that one text on the 10 pages. With the backend it moves
+   into the one shared string DECISIONS (9) asks for.
+   HER WORDS, 2026-10-24: "2. Yes to the real "Lure me in" / "Cart""
+   (docs/DECISIONS.md f08f48b; the form: sketches/shop-nav/nav.css, as
+   drawn in sketches/shop-real/shop-real.css §3 and
+   sketches/piece-scroll/ps.css §0, verbatim values). A <ul> of two in
+   the logo's <nav>, `role="list"` (Safari drops a bare list's count).
+   Spectral 16px (the body size, tokens/02), `--bone`, each a 44px target, 8px apart, the
+   logo's pink glow on hover: one quiet line, level with the logo (22 to
+   66px), where the placeholder box hung to 92px.
+   - "Lure me in" is a link to the placeholder log-in page that exists
+     (account/login/, the homepage's fifth star goes there too).
+   - "Bag" has no page yet, so it is a link with nowhere to go, said
+     so: `<a role="link" aria-disabled="true">` with no `href`. A
+     screen reader says "Bag, link, unavailable"; it is no Tab stop
+     (nothing to press, as product/04's slot); a pointer gets no glow
+     and the arrow, not the hand. CHOICE, not a link to the log-in page:
+     a word that says Bag and opens a log-in page would be untrue; not
+     `href="#"`: a dead link that jumps to the top. With the backend it
+     takes its `href` and loses `role` and `aria-disabled`, nothing
+     else.
+   INK: `--bone` on the shop's ground, as the rest of the nav. */
+.site-nav ul.site-controls {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: auto;
+}
+.site-control {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  font-family: var(--interface);
+  font-size: var(--type-body); /* the nav is read like text: body size */
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  text-decoration: none;
+  border-radius: 2px;
+  transition: text-shadow 0.3s ease;
+}
+.site-control[href]:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+.site-control:focus-visible {
+  outline-offset: 2px;
+}
+.site-control[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* THE TWO PLACES: "Atlas" and "Bestiary", right after the logo, on the
+   demo shop, its seven piece pages, the Atlas and the Bestiary (A).
+   HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
+   "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
+   the spec: uiux t_55fba969, b859b52, sketches/way-lines/README.md §2
+   and wl.css, verbatim values). They replace the long way lines at the
+   foot of the shop and the piece pages: a first-time visitor sees both
+   places on the first screen of every page, in the same spot.
+   A second `<ul role="list">` in the same <nav> (no new landmark),
+   between the logo and `.site-controls`. Each word is a `.site-control`
+   (above: Spectral 0.95rem, `--bone`, a 44px box, 12px a side, 8px
+   apart, the pink glow, the teal ring), so the nav keeps one style.
+   The places on the left with the logo, the visitor's own things
+   (account, bag) on the right: the marketplace convention. Atlas
+   before Bestiary: shops, then pieces, the homepage's order.
+   32px from the logo's box (about 44px of air from its "I" to the
+   "A", with the logo's trailing tracking and the 12px padding), so
+   "Atlas" is not read as part of the spaced-out logo; `margin-right:
+   auto` keeps "Lure me in" and "Bag" at the far right. */
+.site-nav ul.site-places {
+  display: flex;
+  gap: 8px;
+  margin: 0 auto 0 32px;
+  padding: 0;
+  list-style: none;
+  pointer-events: auto;
+}
+
+/* The place you are on (the Atlas's word on the Atlas, the Bestiary's
+   on the Bestiary): `aria-current="page"`. It stays a link and a Tab
+   stop (to the page's top); a screen reader says "Atlas, current page,
+   link". NO UNDERLINE, by her ruling of 2026-10-29 (page 5, mark A):
+   "While the header displays a huge h1 title of the page the users are
+   on, I don't think they need an underlined link name in the nav or in
+   the footer to tell them which page they are visiting, even if they
+   are color blind." The page's h1 names the page in words, so the nav
+   is not the only carrier and WCAG 1.4.1 (no information by colour
+   alone) is met. The word keeps `--bone-bright` (1.24:1 against the
+   other words' bone: not a visible mark, and not meant as one;
+   sketches/page5/README.md §1); no glow on hover and the default
+   cursor, as there is nowhere new to go. The teal focus ring is the
+   one every `.site-control` wears, unchanged. */
+.site-nav .site-control[aria-current="page"] {
+  color: var(--bone-bright);
+  cursor: default;
+}
+.site-nav .site-control[aria-current="page"]:hover {
+  text-shadow: none;
+}
+
+/* THE PLACEHOLDER SLOT the two words replaced (her N4, 2026-10-15): a
+   dashed box, a "PLACEHOLDER" tag (`.ph-tag`, below) and one sentence,
+   230px wide. No live page carries it since the real words came
+   (2026-10-24); the rule stays for the sketches that show the pages as
+   they were (sketches/piece-scroll `built-*`, `top-*-ph104`, and older
+   ones that load this sheet). Delete it with them. */
+.site-controls--ph {
+  margin: 0;
+  max-width: 230px;
+  padding: 8px 12px;
+  border: 1px dashed rgba(193, 191, 189, 0.35);
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--bone-quiet);
+  pointer-events: auto;
+}
+
+/* The tag on a placeholder slot, "PLACEHOLDER": its own line above the
+   slot's sentence, smaller, tracked, upper case, `--bone-label`. Shared
+   by the nav's slot (above) and a piece's size and buying slots
+   (product/04), hence here and not in product.css: the shop loads no
+   product.css. No live page carries it since the piece pages' buying
+   slot became the real, inert button (2026-10-26, product/04); it stays
+   for the sketches that show the pages as they were. Delete it with
+   them. */
+.ph-tag {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-label);
+}
+
+/* N2: DIRECTION A (LIVE, provisional) or B (A SWITCH, OFF, below). Her
+   words, 2026-10-15: "A, but I want to see it myself before taking the
+   final decison" (docs/DECISIONS.md, PAGE 2, CONTINUED).
+   A, as built: the controls scroll away with the logo (`.nav--scrolls`,
+   above), so nothing ever sits over a photo, a stage or summoned words
+   (this group's reason for the scrolling nav). The cost: low on a long
+   page the bag isn't on screen; the top is about 880px up on the shop
+   at 1440, about 300px on a piece's page.
+   B: the logo still scrolls away, the two controls stay fixed at the
+   top right on a dark plate (`--above-black` at 0.9), so the words
+   never sit bare on a photo. `fixed` inside the absolute nav works
+   because nothing between them sets a transform. The cost: on a long
+   page (the Bestiary, and now the demo shop) or a narrow screen, photos,
+   captions and summoned words scroll under the plate. uiux measured 0
+   overlaps at 1440 and 1920 when the shop held 3 pieces
+   (sketches/shop-nav/shop-nav-spec.md §3); that no longer holds. With
+   its 7 pieces, at 1440 scrolled 1400px, the plate covers the end of
+   the Grave Soil caption ("Grave Soi", "· PERFUME"; uiux sign-off
+   t_7fde06c3, sketches/product-page/built-stills/2_shop_B_1440.png).
+   To switch to B, delete the two lines below that hold only a comment
+   marker, and nothing else. */
+/*
+.site-nav .site-controls {
+  position: fixed;
+  top: 22px;
+  right: 5%;
+  z-index: 21;
+  background: rgba(16, 16, 17, 0.9);
+}
+*/
+
+/* The reading column.
+   CHOICE, 32rem (512px): 67 characters to a full line at this size
+   (median at 1440; 56 to 71 for four lines in five), inside the 45 to
+   75 that reads comfortably. Wider and the eye loses its place on the
+   way back to the next line. 90% leaves the same 5% at each side as
+   the nav and the footer. */
+.text-page {
+  width: min(90%, 32rem);
+  margin: 0 auto;
+  min-height: 100svh; /* WHAT WOULD BREAK: remove it and the 404's body
+                         is 726 to 823px tall, so it ends above the
+                         bottom of any taller window (756px of 900 at
+                         1440; short at 1024x768 and 390x844, not at
+                         1280x720 or 390x740). The horizon's soil is the
+                         last 75svh of the body, so it ends with it, and
+                         a bare grey band shows underneath. */
+  padding: clamp(112px, 18svh, 160px) 0 96px; /* 160px is the summoning
+                         hero's top padding; 112px still clears the
+                         logo on a short phone. */
+  font-family: var(--interface);
+  font-size: var(--type-body); /* every line of the reading: the scale's
+                         body (tokens/02); each label, heading and
+                         title below sets its own role's size. */
+  line-height: 1.75;
+  color: var(--bone);
+}
+
+/* One rhythm between blocks. The reset zeroed every margin, so the
+   column sets its own spacing, once, for every child. */
+.text-page > * + * {
+  margin-top: 1em;
+}
+
+/* THE PAGE'S HEADER: the template the Summoning's header shares
+   (summoning/01), the same on all ten text pages. The title's letters
+   stand on ONE line, 165px from the top of the page (the column's
+   160px padding, then the h1's own leading), whether or not a small
+   name hangs over it, and the first line under the title is 20px under
+   its box (`--title-under`, below).
+   VISION, her question (2026-10-28): "The summoning page is going to be
+   a template for the 7 pages linked to the footer's links, isn't it?";
+   her answer to the template: yes.
+   The small name (`.section-eyebrow`, chrome/04) is on four of the ten,
+   Contact, Echolocation, the 404 and Log in: only where the title does
+   not say plainly what the page is ("Write to the gathering" needs
+   "Contact"; "Shipping" does not need "Shipping").
+   CHOICE, the name hangs in the room above the title (a negative top
+   margin: its own 18px line plus the 13px gap) instead of pushing the
+   title down: walking the footer's links, Contact's title (with a name)
+   and Shipping's (without) then sit on the same line; pushed down, the
+   title jumped 36px from one page to the next. The room is there: the
+   nav ends 66px from the top, the name starts at 129px.
+   SMALL SCREEN: in a window under about 890px tall the column's top
+   padding is 18% of the height, never under 112px (the clamp above), and the name
+   hangs 31px above the title inside it; not measured on phones (narrow
+   widths are responsive.css's). */
+.text-page > .section-eyebrow {
+  margin-bottom: 0;
+}
+
+.text-page > .section-eyebrow:first-child {
+  margin-top: calc(-1 * (var(--type-label) * var(--leading-label) + var(--name-gap-mono)));
+}
+
+/* 24px of ink from the name's letters to the title's (THE BLOCK ABOVE
+   THE TITLE, tokens/02). */
+.text-page > .section-eyebrow + h1 {
+  margin-top: var(--name-gap-mono);
+}
+
+.text-page > h1 + * {
+  margin-top: var(--title-under);
+}
+
+.text-page h1 {
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-weight: 400; /* the only IM Fell italic weight there is; declare
+                       what renders, not a weight the browser fakes. */
+  font-size: var(--type-title); /* every page's title (tokens/02). */
+  line-height: var(--leading-title);
+  color: var(--bone-bright); /* the titles' tone of the bone ramp
+                                (tokens/02; ruling D10). */
+}
+
+/* The draft notice under the h1: what the page is not yet. Mono, like
+   the site's other small labels, so it reads as a note about the page
+   and not as part of its text. On nine pages; the 404 has none.
+   VISION, her words: "@writer should write it and, when I'll have the
+   time, I'll polish it" (docs/DECISIONS.md, STATIC PAGES BUILT WITH
+   PLACEHOLDER TEXT). The notice says so until she has.
+   INK: `--bone-quiet`, the small-print tone of the bone ramp (tokens/02;
+   ruling D10): a note about the page sits under its text. It measures
+   6.15:1 median, 5.58 at the worst pixel, on terms at 1440 (spec
+   threshold-footers-bone §3b).
+   TYPE: the scale's line (tokens/02): Space Mono 12px as typed,
+   tracked 0.08em. */
+.text-page__notice {
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-line);
+  line-height: 1.7;
+  color: var(--bone-quiet);
+}
+
+.text-page > .text-page__notice {
+  margin-top: 20px;
+  margin-bottom: 48px; /* closes the header block; the reading starts
+                          below it. */
+}
+
+/* Section headings: signposts to scan for.
+   CHOICE, Spectral and not IM Fell: IM Fell starts to blur below about
+   19px (tokens.css, the TYPE rule), and a heading here is 20px, a label
+   to find, not a voice.
+   INK: `--bone-head`, the headings' tone of the bone ramp (tokens/02;
+   ruling D10): a step above the body text it heads. */
+.text-page > h2 {
+  font-family: var(--interface);
+  font-weight: 500;
+  font-size: var(--type-heading); /* the scale's heading (tokens/02) */
+  line-height: 1.4;
+  color: var(--bone-head);
+  margin-top: 56px;
+  scroll-margin-top: 24px; /* a link to #cookies or #designers lands
+                              with air above the heading; the nav is not
+                              fixed here, so there's nothing to clear. */
+}
+
+/* A heading binds to its own text (12px) more closely than to the
+   section above it (56px), so the eye groups them without a rule. */
+.text-page > h2 + * {
+  margin-top: 12px;
+}
+
+/* The reset removed list indents; the markers need room to hang. */
+.text-page ul,
+.text-page ol {
+  padding-left: 1.4em;
+}
+
+.text-page li + li {
+  margin-top: 0.4em;
+}
+
+/* Browsers italicise <address>. A postal address is data, not a
+   voice. */
+.text-page address {
+  font-style: normal;
+}
+
+/* The legal notice's list of facts: the name of each fact as a small
+   mono label, its value below it. The scale's label (tokens/02): 12px
+   capitals tracked 0.12em, in the labels' tone, `--bone-label` (ruling
+   D10: a label takes the label's tone, whatever its tag). */
+.text-page dt {
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+}
+
+.text-page dd {
+  margin: 2px 0 20px;
+}
+
+/* Links in running text: underlined.
+   ACCESSIBILITY: a link inside a sentence needs a marker other than
+   colour (WCAG 1.4.1). tokens/03 removes underlines site-wide and
+   names this group as its exception. The founder's rule is about hover
+   ("I dont want borders and underlines when hover over links or
+   logos", docs/BRAND.md), and hover here is the site's glow, not an
+   underline. Links in the footer row stay bare, the current page's
+   too since her ruling of 2026-10-29 (below), and so does the 404's
+   action, alone on its line
+   (`.text-page__action`, below). */
+.text-page a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.text-page a:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55); /* the footer's and the
+                                                    logo's hover glow. */
+}
+
+/* Keyboard focus: the site's ring (tokens/03), 3px out here so it
+   clears descenders without reaching the line above or below, with
+   2px corners. */
+.text-page a:focus-visible {
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* The 404's one action: the way home, as a label and not a sentence.
+   No underline: it stands alone on its own line, in mono capitals, so
+   it is bare like the homepage doors and the Atlas's and Bestiary's
+   ways links (founder 2026-10-09, option A "Clean" of uiux's sketch
+   fc246aa). It is the one link here out of `.text-page a`'s underline
+   above, which every link inside a sentence keeps (WCAG 1.4.1); the
+   glow on hover and the ring on focus are that rule's, unchanged.
+   CHOICE, `.text-page a.text-page__action`: one class more than
+   `.text-page a`, so it wins wherever it sits in the sheet.
+   ACCESSIBILITY: 44px tall, a full touch target.
+   TYPE: the scale's label (tokens/02), 12px capitals tracked 0.12em. */
+.text-page__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+}
+
+.text-page a.text-page__action {
+  text-decoration: none;
+}
+
+.text-page > .text-page__action-row {
+  margin-top: 40px;
+}
+
+/* The size chart. A wide chart scrolls inside its own box; the page
+   never scrolls sideways.
+   ACCESSIBILITY: the box is focusable (tabindex="0" in the markup) so
+   a keyboard can scroll it, and it shows the same ring as a link: the
+   site's (tokens/03), 3px out. */
+.text-page__table {
+  overflow-x: auto;
+}
+
+.text-page__table:focus-visible {
+  outline-offset: 3px;
+}
+
+.text-page table {
+  width: 100%;
+  border-collapse: collapse;
+  /* no size of its own: the chart is read like the text, at the body
+     size it inherits from the column (tokens/02, THE TYPE SCALE) */
+  font-variant-numeric: tabular-nums; /* every digit the same width,
+                                         so a column of numbers lines
+                                         up. */
+}
+
+/* The chart's caption: small print, Spectral italic 13px, as every
+   caption on the site (tokens/02). */
+.text-page caption {
+  text-align: left;
+  font-style: italic;
+  font-size: var(--type-small);
+  padding-bottom: 8px;
+}
+
+.text-page th,
+.text-page td {
+  text-align: left;
+  padding: 10px 16px 10px 0;
+  border-bottom: 1px solid rgba(193, 191, 189, 0.28); /* --bone at 0.28:
+                         a row rule, not text; the rows are also told
+                         apart by the table's structure. */
+}
+
+.text-page th {
+  font-weight: 500;
+}
+
+/* The footer's row of policy links, on every page's footer (her ruling
+   D5): the same markup, the same seven links and the same label
+   everywhere. chrome/06 does the rest: the wrapping row, the 44px
+   targets, the ring, and the covering (her choice, THE FOOTER UNDER
+   THE STAINS).
+   The markup is a <div role="navigation">, not a <nav>.
+   WHAT WOULD BREAK: chrome/02 styles the bare `nav` element as the
+   fixed site header (`position: fixed; top: 0`), so a <nav> here would
+   be pulled to the top of the screen. The role gives screen readers
+   the same landmark without matching that selector. */
+.footer-links {
+  flex: 1 0 100%; /* its own line in the footer's row, above the
+                     stylistic line and the link home. */
+}
+
+/* 24px between links, none between lines; each line is a 44px box
+   (two lines at 390). */
+.footer-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+  list-style: none;
+}
+
+/* Where you are: `aria-current="page"` says it to a screen reader. No
+   underline and no colour of its own, so no rule here: by her ruling
+   of 2026-10-29 (page 5, mark A; the nav's rule above quotes it), the
+   page's h1 names the page in words, so the footer need not, and WCAG
+   1.4.1 (no information by colour alone) is met. The link keeps the
+   footer's bone, its 44px target, its Tab stop and the ring. */
+
+/* ----------------------------------------------------------
+   chrome/08 — THE SAVED MARK (the drained bite), SHOWN AND INERT
+   WHAT: the control that saves a piece to the visitor's list, on every
+   photo of a piece and on its page: the shop's wall (shop/11), the
+   Bestiary's pieces (bestiary/06), and "Save" beside the buying button
+   on the 7 piece pages (product/04). This group is what they share:
+   the button, the plate, the mark, its two states, hover and focus.
+   HER WORDS, 2026-10-27 (uiux t_27a381eb, 9013ea1): "1. I like the
+   drained bite mark. We keep it for now. Can it be changed later into
+   a heart icon if I change my mind?", then, on the PM's recommendation
+   (no nav word, the list under "My crypt", `/account/saved/`,
+   docs/ARCHITECTURE.md B.2.2): "OK to build it that way: the bite, no
+   nav word, the list under "My crypt"." Earlier the same day: "that
+   pink heart for a saved product kind of breaks Strigoi's doom and
+   gloom mood": magenta dropped, the saved state in bone. The spec:
+   sketches/favourites/ (uiux t_24c957ad b5dcbad + t_27a381eb 9013ea1),
+   README §1-§2 and fav.css, `?mark=bite&fill=bone&nav=none`; its values
+   verbatim here.
+   THE DRAWING, ONE: assets/marks/mark-save.svg, `<symbol
+   id="mark-save">`. Every mark is `<svg class="save-ico"><use
+   href=".../assets/marks/mark-save.svg#mark-save"/></svg>`, so the
+   heart (or any mark) replaces the bite in that one file. Its paths
+   carry no fill or stroke: the states below set them on the <svg>, and
+   the <use> inherits them.
+   THE STATES, by shape and not colour (WCAG 1.4.1): not saved = the
+   outline, a 1.5px line; saved (`aria-pressed="true"`) = the same shape
+   filled. Both in the button's colour, `--bone` ("drained"), never
+   magenta. uiux measured the filled bite 7.05-9.49:1 against the plate,
+   8.52-8.60 against the page, 6.30-9.09 against its own empty state
+   (sketches/favourites/measure2.txt).
+   THE ELEMENT: `<button type="button" aria-pressed="false" disabled>`,
+   named "Save <piece>" (the name stays; the state is `aria-pressed`, so
+   a screen reader says "Save Grave Soil, toggle button, not pressed",
+   README §1 "Name"). INERT IN THE DEMO, the same native inert as
+   "Add to bag" (product/04, 75c34c4): `disabled`, so no Tab stop, no
+   focus on a click, no activation, nothing stored, and assistive tech
+   hears "unavailable" ("dimmed" in VoiceOver): no one meets a control
+   that silently does nothing. Not `aria-disabled`: it would leave a
+   Tab stop that does nothing on every photo (+7 on the shop's wall, +15
+   on the Bestiary), and ARIA in HTML says not to put it beside
+   `disabled`. The cost of a real-looking control that does nothing is
+   the buying button's, carried the same way (the demo line, the footer).
+   WITH THE BACKEND: drop `disabled`; the button toggles `aria-pressed`
+   and the list (`saved_pieces`, ARCHITECTURE B.2.2); it becomes its own
+   Tab stop after its piece's link (README §1, "Tab stop"), and takes the
+   pink glow on hover and the teal ring (below, already written for
+   `:not(:disabled)`). A word after saving ("Kept in your crypt",
+   draft) comes with it, undesigned.
+   FORCED COLOURS: a disabled button's colour becomes GrayText, so the
+   mark (`currentColor`) is drawn in it, as "Add to bag" is; the plate
+   takes the Canvas colour at its own .84. The state is still the shape
+   (measured, tests/e2e/frontend_t_1edafaee/out/forced.txt).
+   NO NAV WORD: the saved list has no word in the nav (her answer
+   above); it lives under "My crypt" with the accounts.
+   ---------------------------------------------------------- */
+.save {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--bone);
+  cursor: default; /* inert: the buying button's default cursor */
+  -webkit-tap-highlight-color: transparent;
+}
+.save:not(:disabled) { cursor: pointer; }
+
+/* ON A PHOTO (the wall, the Bestiary): a 44px target (WCAG 2.5.8 asks
+   24; the site's floor is 44, as the nav and the pill), top right, 5px
+   in: the pill's row (its target 5-49, centre 27px down), so the top of
+   a photo has one line of controls, the pill in the middle, the mark at
+   the corner. Above the summon (z 3). */
+.save--photo {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+/* The drawn part on a photo: a 32px round plate, the pill's plate
+   (`--above-black` at .84, as `.summon-pill`), under an 18px mark. On a
+   white photo the plate keeps the line at >= 3:1 (WCAG 1.4.11). It
+   fades with the pill (0.4s, the pill's own; none with reduced motion,
+   motion.css). */
+.save-plate {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(16, 16, 17, 0.84);
+  transition: opacity 0.4s;
+}
+
+/* The mark: 18px, a 1.5px line in the button's colour, no fill. */
+.save-ico {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  overflow: visible;
+}
+
+/* SAVED: the same shape, filled. With the backend it stays up at rest
+   (shop/11, bestiary/06). */
+.save[aria-pressed="true"] .save-ico { fill: currentColor; }
+
+/* WITH THE BACKEND (matches nothing while the buttons are disabled):
+   the site's pink glow on hover, the teal ring 4px out on the drawn
+   part on keyboard focus, as the pill. */
+.save:not(:disabled):hover .save-ico { filter: drop-shadow(0 0 5px rgba(214, 81, 137, 0.75)); }
+.save:focus-visible { outline: none; }
+.save--photo:focus-visible .save-plate { outline: 2px solid var(--teal); outline-offset: 4px; }
+
+/* ON TOUCH, WHILE INERT: a tap on the mark's corner opens the piece.
+   Where the mark is always up (the exact negation of shop/11's and
+   bestiary/06's `(hover: hover) and (pointer: fine)`: touch, pens, no
+   pointer), the disabled 44px target sat over the photo's link and
+   swallowed the tap: on the Bestiary at 390, 28-55% of each photo (44-
+   110px wide), 1-2% on the shop (uiux t_5d7ae5e9 REVISE item 2,
+   sketches/page2-final-stills/round9, e924a99). So the tap passes
+   through to the piece's own link. The mark is still drawn; a mouse
+   still meets the inert button (a click changes nothing, as "Add to
+   bag"). Her words stand (2026-10-27): "OK to build it that way: the
+   bite, no nav word, the list under "My crypt"."
+   GOES WITH `disabled`: once the backend drops it this matches nothing
+   and the mark takes its taps (saving), as the README §1 asks. */
+@media not ((hover: hover) and (pointer: fine)) {
+  .save--photo:disabled { pointer-events: none; }
+}

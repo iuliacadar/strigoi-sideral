@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+__pycache__/
+*.log
+# Never publish the Room Zero archive or the private scouting list.
+archive/
+WATCHLIST.md

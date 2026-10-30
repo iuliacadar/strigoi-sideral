@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Summoning — Strigoi Sideral</title>
+<!-- Favicon: the wingmark's square cut, as on every page. One folder
+     deep here, hence ../. -->
+<link rel="icon" href="../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../favicon.ico" sizes="any" />
+<link rel="icon" href="../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English roman for the doctrine's words, its italic
+     for the <h1> and the isolated last line; IM Fell English SC for the
+     movements' three names; Spectral 400 for the skip link; Space Mono
+     400 for the eyebrow, the logo and the footer. The URL asks for these
+     five and no other (five files fetched, measured); it is the page's
+     own, not the text pages' shared one. Space Mono 700 is not asked
+     for: the movements' names were its only reader, and they are in IM
+     Fell SC now. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral&family=Space+Mono&display=swap" />
+<!-- The shared sheets and the page's own, summoning.css (its header
+     and the wheel); responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="../css/tokens.css" />
+<link rel="stylesheet" href="../css/background.css" />
+<link rel="stylesheet" href="../css/chrome.css" />
+<link rel="stylesheet" href="../css/summoning.css" />
+<link rel="stylesheet" href="../css/responsive.css" />
+<link rel="stylesheet" href="../css/motion.css" />
+</head>
+<body data-bg="horizon">
+<!-- SKIP LINK: first in Tab order, invisible until focused (css/tokens.css).
+     Enter moves focus past the nav into <main> (`tabindex="-1"` lets it
+     take focus), so the next Tab skips the logo and lands on the footer's
+     first link, "Shipping" (the reading itself has no links). -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- THE SUMMONING: the doctrine wheel's own page, reached from the
+  homepage by the first nav star ("Summoning"). It was the
+  homepage's doctrine section until she ruled it off the homepage and
+  onto a page of its own: "I'm fully agreeing with... cutting the
+  concentric doctrine from the homepage. But we can move it on a
+  doctrine page of itself, linked to the homepage through the summoning
+  star in the navbar, so we will not sacrifice an implementation we
+  already spent time and money to make it work." And why a page rather
+  than nothing: "The summoning is still a part of the strigoi's
+  doctrine, the glue that brings specific creators together. Comme des
+  Garcons and Rick Owens are individual designers." (docs/DECISIONS.md,
+  "DENSITY CORRECTION"). The wheel's rules: summoning/02. History:
+  docs/HISTORY.md, summoning/02.
+  First of the background layers: the distressed surface
+  (background/03). -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<!-- `.stars--yields-to-prose`: the same starfield as every page; at
+     780px and below the class switches it off (responsive/05), because
+     there the page is nothing but the doctrine's running text and the
+     fixed dots would paint through it. CHOICE, a class, not `:has()`:
+     an engine without `:has()` would drop the scoping without a word
+     (the recorded reason); named for what it does, so any page of
+     running text can opt in, as the text pages do. -->
+<div class="stars stars--yields-to-prose"></div>
+<!-- The homepage's two leak layers, the same markup as index.html. They
+     are what the horizon background (css/background.css, background/04,
+     switched on by `data-bg="horizon"` on <body>) paints through: the ink
+     strands and the red fill in the first, the pooled base of the soil in
+     the second. Empty and aria-hidden: pure background, no content. -->
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+<!-- THE NAV: a <nav> landmark with one link, the logo, home, as on the
+     text pages. `.nav--scrolls` lets it scroll away with the top of the
+     page instead of staying fixed over the doctrine (why: chrome/07).
+     Its logo's focus ring is the site's 2px of solid teal (tokens/03).
+     The footer carries the way home from the bottom. The descent's fade
+     (script.js §6b) doesn't run here: the page has no `.hero`. -->
+<nav class="nav--scrolls">
+  <a class="logo" href="../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+</nav>
+
+<!-- MAIN LANDMARK: the page's reading, hero and doctrine, and the target of
+     the "Skip to content" link (`id="main"`, `tabindex="-1"` so focus can
+     land on it). The footer stays outside it, so it keeps the contentinfo
+     landmark (docs/DECISIONS.md, "ROSTER TYPE AND SKIP LINKS"). As a direct
+     <body> child it is lifted to z-index 2 by the horizon content-plane
+     rule (css/background.css, background/04), the plane its children
+     were on before. -->
+<main id="main" tabindex="-1">
+<!-- THE HEADER (summoning/01): the small name and the <h1>, the header
+     every text page shares (chrome/07), centred here round the wheel.
+     The small name reads "Summoning", the nav star's word, with no
+     article, so the star and the page it opens agree; the tab's <title>
+     says the same. Her words (2026-10-28): "Yes, replace "The Summoning"
+     with "Summoning", please." Nothing stands between the title and the
+     wheel: the introduction an agent had written here was cut at her
+     request, its text kept in the docs:
+     "Yes, we can  cut the agent-written intro, but save the text somewhere" -->
+<header class="summoning-hero">
+  <p class="section-eyebrow summoning-eyebrow">Summoning</p>
+  <h1 class="summoning-h1">What binds the circle</h1>
+</header>
+
+<!-- THE DOCTRINE WHEEL (summoning/02; at 780px and below a column,
+     responsive/05): the SVG, `aria-hidden`, and over it the three
+     movements, an <h2> and a <div> each, in reading order whatever
+     their painted place. `#orbitStage` is what script.js §7 watches to
+     draw the rings.
+     The doctrine is hers, verbatim, with the two changes she asked for
+     (2026-10-28): her straight quotation marks round each movement
+     removed ("Remove the quoting marks on the paragraphs, we are not
+     qouting anyone here.") and her two tight em dashes spaced, as every
+     other dash on the site ("the doctrine's two dashes should become
+     spaced"). The second movement's name is hers too: "The name: The
+     Haunting" (it was "The Manifest"); "The articles: keep them."
+     CHOICE, <h2> for each name: the three movements are the page's only
+     sections under its <h1>, and a screen reader's list of headings
+     that jumps from h1 to h3 reads as if a level were missing. The
+     names are styled by their class, so the tag moved nothing on screen.
+     CHOICE, a <div class="movement-text"> for the words, not
+     <blockquote>: a blockquote says "a quotation from another source",
+     and the doctrine is the page's own voice, quoting no one. Not <q>
+     (a quotation again), not <figure> (nothing is illustrated), not a
+     <section> per movement (each would be a landmark round one
+     paragraph: noise in a screen reader's landmark list).
+     The class names `movement-manifest` and `ring-manifest` keep the old
+     name on purpose: they are styling hooks (summoning/02), not words
+     anyone reads; renaming them would change nothing on screen.
+     Her words above are quoted from the PM's ledger of her answers. -->
+<section class="vision">
+  <div class="orbit-stage" id="orbitStage">
+    <svg class="orbit-svg" viewBox="0 0 600 400" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+      <!-- THE DOCTRINE KNOCKOUT: a luminance mask over the rings, the
+        leaders and the core point. White paints, black hides: the canvas
+        is white, and black rects over the three movements' words, blurred
+        6 units (`#doctrineFeather`), make each ring fade out behind the
+        words and come back past them.
+        WHY: the movements are placed over the stage the rings fill, so
+        the rings cross the words. With the mask removed, at 1280: 576
+        glyph pixels of the three movements sit on a stroke, 295 of them
+        under 4.5:1 (worst 2.70; 1850: 279, worst 2.52); with it, none at
+        any width from 781 to 2560, the lowest glyph pixel 4.90:1
+        (summoning/02).
+        CHOICE, mask the rings, not move the words: the build found no
+        place for the words inside the diagram that the rings don't cross;
+        nor hide the wheel, which is the page's reason to exist (the page
+        comment above). The recorded reasons.
+        CHOICE, two sets of rects, not one union: the words are placed in
+        % of the stage and the rects are in viewBox units, so the mapping
+        moves with the width until the stage reaches its cap (1080px, at
+        1149px). The wide set is drawn round the words as they stand from
+        1150 up; the narrow set round them at 781px, where they stand
+        tallest, and holds every width up to 1149. One union would also
+        mask the outer ring's left arc at the wide layout, where no word
+        is (the build's reason). responsive/01–02 pick the set. With no
+        CSS both paint: more mask than needed, never a stroke on a glyph.
+        IF THE LAYOUT CHANGES, RE-MEASURE: the movements' places, their
+        `min()` widths and the face's metrics all feed these numbers
+        (tests/e2e/frontend_t_98eb5a65_maskfit.js, the geometry;
+        tests/e2e/uiux_t_0c0b3861_verify.py, the contrast). Last
+        re-measured for the words at 20px, the names in IM Fell SC and
+        the two spaced dashes (2026-10-28): three rects grew to keep each
+        movement's words inside its own (the Gathering's top at 781px,
+        the Haunting's foot), none moved
+        (tests/e2e/frontend_t_d56c54e2/maskfit.js, the geometry;
+        strokecheck.js there, the strokes and the contrast). History:
+        docs/HISTORY.md, summoning/02. -->
+      <defs>
+        <filter id="doctrineFeather" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+        <mask id="doctrineKnockout" maskUnits="userSpaceOnUse" x="0" y="0" width="600" height="400">
+          <rect x="0" y="0" width="600" height="400" fill="#fff" />
+          <!-- From 1150px: each rect is a movement's words (name and
+               text) and 5–10 units round them, so the blur starts
+               outside the glyphs. -->
+          <g class="doctrine-knockout-wide" fill="#000" filter="url(#doctrineFeather)">
+            <rect x="-10" y="-8" width="231" height="112" />
+            <rect x="357" y="124" width="248" height="300" />
+            <rect x="2" y="225" width="229" height="188" />
+          </g>
+          <!-- Up to 1149px: drawn round the words at 781px, where they
+               stand tallest; at every wider width measured (820 to 1149)
+               they fall inside it. The Haunting's runs past the
+               viewBox's foot (400), where no ring is drawn. -->
+          <g class="doctrine-knockout-narrow" fill="#000" filter="url(#doctrineFeather)">
+            <rect x="-10" y="-8" width="236" height="183" />
+            <rect x="357" y="124" width="253" height="604" />
+            <rect x="2" y="56" width="236" height="357" />
+          </g>
+        </mask>
+      </defs>
+      <g mask="url(#doctrineKnockout)">
+        <circle class="core-dot" cx="300" cy="200" r="2.5" />
+        <line class="leader" x1="300" y1="200" x2="150" y2="60" />
+        <line class="leader" x1="300" y1="200" x2="470" y2="180" />
+        <line class="leader" x1="300" y1="200" x2="150" y2="360" />
+        <circle class="ring ring-binding" cx="300" cy="200" r="70" />
+        <circle class="ring ring-manifest" cx="300" cy="200" r="130" />
+        <circle class="ring ring-gathering" cx="300" cy="200" r="190" />
+      </g>
+    </svg>
+
+    <div class="doctrine-movement movement-binding">
+      <h2 class="movement-name">The Binding</h2>
+      <div class="movement-text">
+        <p>No category holds this circle. We are a singular frequency — the heavy grit of loam caught in the seam, and the cold static of an abyss much further out.</p>
+      </div>
+    </div>
+
+    <div class="doctrine-movement movement-manifest">
+      <h2 class="movement-name">The Haunting</h2>
+      <div class="movement-text">
+        <p>Strigoi preserves a sacred, predatory tension — the same primordial current that once birthed Texxturalia. Here, the artifact and the cloth remain fiercely chained to the physical lexicon of the dark East: the coarse weight of wool, the sharp precision of wire, bone, archaic embroidery, and the blood-lore of strigoi and moroi. Yet, even as they root into the earth, a phantom nerve within the work strains for the unearthly. A razor-thin wing. A fractured angle. Smoke that has unlearned the laws of gravity.</p>
+        <p class="movement-isolate">We do not offer commerce; we offer an infection of the senses.</p>
+      </div>
+    </div>
+
+    <div class="doctrine-movement movement-gathering">
+      <h2 class="movement-name">The Gathering</h2>
+      <div class="movement-text">
+        <p>There are no forms to fill, no digital thresholds to cross. Access cannot be requested; it is inflicted. Each creator within this shadow-realm is chosen only when that identical, terrifying geometry is witnessed flowing through their hands: the soil heavy beneath their palms, the void opening wide above them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- THE FOOTER, under the stains (css/chrome.css, chrome/06): the links
+     and the "© Strigoi — …" line are all covered by the soil, by her
+     choice, as on the homepage; the link a keyboard user is on comes
+     above while it has focus, and with a mouse pointer over the footer
+     the links and the line come up together. The policy row is every
+     footer's (same markup, seven links, same label; her ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items". -->
+<footer>
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../shipping/index.html">Shipping</a></li>
+      <li><a href="../returns/index.html">Returns</a></li>
+      <li><a href="../sizing/index.html">Size guide</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+      <li><a href="../terms/index.html">Terms of sale</a></li>
+      <li><a href="../privacy/index.html">Privacy</a></li>
+      <li><a href="../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

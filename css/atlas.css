@@ -1,0 +1,550 @@
+/* ==== atlas.css: the Atlas, the page of every shop ====
+   OWNS:      atlas.html: the page frame, the header, the sky of constellations, the index of names.
+   LOADED BY: atlas.html only.
+   POSITION:  fourth of six on atlas.html, the page's own sheet: after chrome.css, before responsive.css and motion.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   atlas/01 — THE PAGE FRAME AND ITS HEADER
+   WHAT: `<main class="atlas">`, one centred column as wide as the sky
+   needs (up to 84rem), with room above for the logo and a long empty
+   stretch below, so the page is sky from the top down and the soil
+   only begins under the last constellation. Inside it, the header:
+   the Latin name, the h1, the draft notice, one sentence, the link to
+   the Bestiary.
+
+   ROLE HERE: the Atlas is the page of every shop at once. The header
+   says what the page is and why its order changes; the rest of the
+   page is the sky, then the index.
+
+   CHOICE, a sheet of its own and not groups in chrome.css (the text
+   pages' way): the constellations are this page's own design, not
+   chrome every page wears (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE
+   TYPE": a page gets a sheet when it "has a design of its own").
+   CHOICE, the text pages' ground and nav: the horizon background and
+   `.nav--scrolls` (chrome/07), so the Atlas sits with the short pages,
+   not the homepage's descent.
+
+   VISION: "a nightsky populated with all our constellation-shops"
+   (her words, docs/DECISIONS.md, "THE ATLAS AND THE BESTIARY").
+   ---------------------------------------------------------- */
+
+/* chrome/01 gives every `section` and `header` `padding: 0 5%` (the
+   homepage's gutters) along with the stacking they need over the
+   background layers. The Atlas sets its own width on <main>, so only
+   the padding is taken back; `position` and `z-index` stay. */
+.atlas header,
+.atlas section {
+  padding: 0;
+}
+
+/* The column. 90% leaves the same 5% each side as the nav and the
+   footer; 84rem caps it on a wide screen so the scatter doesn't
+   spread thin.
+   WHAT WOULD BREAK: the horizon's soil (background/04) is the last
+   75svh of the document. The bottom padding, 75svh less 180px (never
+   under 120px), keeps that band empty: the footer below it is 246px
+   tall on a desktop, so the soil begins 66px under the index's last
+   line, whatever the shop count, in any window over 400px tall. Remove
+   it and the index is drawn in the red, and the lowest constellations
+   can be too: a sky device does not migrate downward
+   (docs/GRIMOIRE.md §XIV).
+   The top padding is the sketch's, `clamp(112px, 16svh, 150px)`: 144px
+   in a 900px window, 150px from 938px up. The text pages' is taller,
+   `clamp(112px, 18svh, 160px)` (chrome/07); the two share the 112px
+   floor, which still clears the logo. */
+.atlas {
+  width: min(90%, 84rem);
+  margin: 0 auto;
+  padding: clamp(112px, 16svh, 150px) 0 max(120px, calc(75svh - 180px));
+  font-family: var(--interface);
+  color: var(--bone);
+}
+
+/* The header: centred, then 8px down to the sky. HER WORDS, 2026-10-29
+   (page 5): "Yes, the header must be centered on all the pages,
+   including the Atlas one." (the piece pages excepted, her OK the same
+   day; the text pages' header is page 6). The spec: uiux sketches/page5
+   (abd79fd), `page5.css` §3, `head=centre`, verbatim: the seal, the
+   h1, the notice, the sentence and the way, centred on the column's
+   middle, the homepage's, the shop's and the Summoning's axis. The
+   header takes the column's whole width; the lines below keep their
+   own measure. */
+.atlas-head {
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Sodalicium Textorum: the inscription look of the homepage's Textrina
+   Siderum (home/04's `--seal`), IM Fell English SC tracked wide.
+   INK: `--bone-label`, the ramp's tone for small tracked labels
+   (tokens/02); Textrina Siderum is set one step lower, `--bone-quiet`. */
+.atlas-seal {
+  font-family: var(--serif-sc);
+  font-size: var(--type-label); /* the seal of THE BLOCK ABOVE THE TITLE (tokens/02): Fell SC 12 */
+  letter-spacing: var(--track-seal);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  margin: 0;
+  line-height: var(--leading-label);
+}
+
+/* The page's one h1, the text pages' face: IM Fell English italic.
+   INK: `--bone-bright`, the titles' tone (tokens/02). */
+.atlas-head h1 {
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-weight: 400; /* the only IM Fell italic weight there is. */
+  font-size: var(--type-title); /* every page's title (tokens/02): 48 */
+  line-height: var(--leading-title);
+  color: var(--bone-bright);
+  margin-bottom: 0;
+}
+/* THE BLOCK ABOVE THE TITLE (tokens/02): the seal 24px of ink over the
+   title's letters (14px here, with each face's own line box), the
+   first line 20px under the title's box, as on every page with a
+   title. */
+.atlas-seal + h1 {
+  margin-top: var(--name-gap-seal);
+}
+
+.atlas-head h1 + * {
+  margin-top: var(--title-under);
+}
+
+
+/* The draft notice: the text pages' `.text-page__notice` (chrome/07),
+   same face, size and tone; its own class because chrome/07's rules
+   start with `.text-page` and this page is not one. Centred (above):
+   at most 40rem, the header's old reading width, its lines balanced
+   (`text-wrap: balance`) if it ever wraps.
+   INK: `--bone-quiet`, the small-print tone (tokens/02): a note about
+   the page, not part of it. */
+.atlas-notice {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  line-height: 1.7;
+  color: var(--bone-quiet);
+  margin-top: 16px;
+  max-width: 40rem;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+/* The one sentence under the title. Centred (above): at most 28rem
+   (448px, about 55 to 62 characters a line in Spectral 16) and
+   balanced, so its two lines come out near the same length: a centred
+   paragraph with one long line and one short reads ragged on both
+   sides (uiux, sketches/page5 README §3: 59 + 47 characters at 1280 and
+   1850). */
+.atlas-lede {
+  font-size: var(--type-body); /* reading text: the body (tokens/02) */
+  line-height: var(--leading-body);
+  margin-top: 22px;
+  max-width: 28rem;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+.atlas-ways {
+  margin-top: 10px;
+}
+
+/* The link to the Bestiary: mono, like the site's other small
+   directions, with no arrow and no line (founder 2026-10-09, option A
+   "Clean" of uiux's sketch fc246aa: "clean of unnecessary symbols").
+   ACCESSIBILITY, why no underline: WCAG 1.4.1 asks for a mark other
+   than colour where a link sits among other text, so the eye can find
+   it in the sentence. This one sits in no sentence: it is alone on its
+   own line, in mono under the serif lede, and its words name where it
+   goes. The links inside sentences on the text pages keep theirs
+   (chrome/07). Hover is the glow (below), focus the ring.
+   A 44px box (`min-height`), a full touch target. */
+.atlas-ways a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  text-decoration: none;
+}
+
+/* Hover on the page's text links, the Bestiary link and the index's
+   names: the site's pink glow (the footer's, the logo's, chrome/07's),
+   and nothing else: no border, no underline (her rule, docs/BRAND.md).
+   The one underline that comes and goes is an index name's while its
+   constellation in the sky is hovered (atlas/04): it says which name
+   the drawing is, on an element the pointer is not on.
+   CHOICE, not on a constellation: its lit state (atlas/03) is its hover
+   mark, as the homepage's skymap names don't glow either (home/04). */
+.atlas-ways a:hover,
+.atlas-index-list a:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+
+/* Keyboard focus: the site's ring (tokens/03), 2px of solid teal, 4px
+   out, with 2px corners here (the corners are why this rule exists).
+   ACCESSIBILITY: teal measures over the 3:1 a focus indicator needs
+   on this dark ground. A constellation's ring is drawn round its whole
+   box, atlas/03. */
+.atlas a:focus-visible {
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ----------------------------------------------------------
+   atlas/02 — THE SKY: A SCATTER OF CONSTELLATIONS
+   WHAT: the list of shops as a field. With script.js running
+   (initAtlas), the list gets `.is-scattered`: it becomes a
+   `position: relative` box as tall as the shops need, and each shop is
+   placed in it with `position: absolute` at the `left`/`top` the
+   script computes, every drawing's box at least 48px from every other
+   wherever the field has room for it.
+   Without the script, the shops stand in a centred, wrapping row
+   (flexbox), in the markup's order: the page is still complete.
+
+   ROLE HERE: the way in by looking ("show me who's here"). The order
+   turns once a day, so no shop has the first place for good.
+
+   CHOICE, a scatter and not a grid of cells (Direction A, the chart,
+   kept in sketches/atlas/): her ruling B, "the open sky"
+   (docs/DECISIONS.md, "THE ATLAS TAKES B"):
+   the homepage's grammar at full size.
+   CHOICE, the field grows with the count (`--rows`, set by the script:
+   one row of 250px per three shops, never under 62svh) instead of
+   packing more shops into one screen: the dark between constellations
+   stays the same at 12 or 50; without it, "at 100 it reads as static
+   wallpaper, not a map" (docs/DECISIONS.md, "CONSTELLATIONS/GALAXY
+   PAGE").
+   SMALL SCREEN: not designed yet. The boxes keep their 190px on a
+   phone, where the field is narrower than two boxes side by side: the
+   script then keeps the farthest place it finds, and boxes overlap.
+   VISION: "Nobody is elder, everybody is sometimes visible"
+   (docs/DECISIONS.md, "CONSTELLATIONS/GALAXY PAGE").
+   ---------------------------------------------------------- */
+
+.atlas-sky-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start; /* WHAT WOULD BREAK: the default, `stretch`,
+     makes each shop's box as tall as the field, and the name, hung at
+     the box's foot, lands on the sentence under the sky. */
+  gap: 48px; /* the scatter's minimum distance, kept in the fallback. */
+  padding-top: 7svh;
+}
+
+/* The scatter, once the script has placed the shops. `--rows` comes
+   from the script. */
+.atlas-sky-list.is-scattered {
+  display: block;
+  position: relative;
+  height: max(62svh, calc(var(--rows, 1) * 250px));
+  padding-top: 0;
+}
+
+/* One constellation's box: 190px wide, the drawing 150px tall in it
+   (atlas/03), the name hung below it. */
+.atlas-star {
+  position: relative;
+  width: 190px;
+}
+
+/* Each shop's place, once the script has scattered them: `--x` and
+   `--y` (script.js, initAtlas) are fractions, 0 to 1, of the room the
+   field leaves around a box, so the left edge runs from 0 to the width
+   less 190px and the scatter keeps its shape on a resize. */
+.atlas-sky-list.is-scattered .atlas-star {
+  position: absolute;
+  left: calc((100% - 190px) * var(--x, 0));
+  top: calc((100% - 150px) * var(--y, 0));
+}
+
+/* One shop alone: centred in a field 62svh tall, drawn larger (300px),
+   so one constellation reads as the start of a sky and not as a lost
+   star. `:only-child` switches it off by itself when a second shop
+   arrives; the script leaves a single shop unplaced. */
+.atlas-sky-list:has(> .atlas-star:only-child) {
+  height: 62svh;
+  padding-top: calc(0.12 * 62svh); /* 12% of the field down: the sketch's
+     place for it (sketches/atlas/, Direction B). */
+}
+
+.atlas-star:only-child {
+  width: 300px;
+}
+
+/* A lit or focused constellation's name must lie over its neighbours,
+   not under them: later list items paint over earlier ones. */
+.atlas-star:hover,
+.atlas-star:focus-within,
+.atlas-star.is-lit {
+  z-index: 1;
+}
+
+/* Said under the sky while it holds one shop. From the second shop on it
+   is hidden (`display: none`, from screen readers too), so the markup
+   can keep it until someone removes it. */
+.atlas-sky-note {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone-quiet); /* the small-print tone, like the notice. */
+  text-align: center;
+  margin-top: 24px;
+}
+
+.atlas-sky:has(.atlas-star + .atlas-star) .atlas-sky-note {
+  display: none;
+}
+
+/* ----------------------------------------------------------
+   atlas/03 — A CONSTELLATION
+   WHAT: one shop, drawn: an inline SVG (bone stars, teal lines, the
+   shop's own star at the hub) and the shop's name and craft under it
+   on a dark plate. The whole of it is one link to the shop. The name
+   is hidden (opacity 0) until the link is hovered or has keyboard
+   focus, or its name in the index is (`.is-lit`, script.js).
+
+   ROLE HERE: each constellation is the shop's signature, drawn once
+   and stored with the shop, the same on the Atlas, the homepage and
+   the shop's own page (her D5, docs/DECISIONS.md, "THE ATLAS TAKES B").
+
+   CHOICE, the name on hover or focus, not always written (Direction
+   A): her ruling B, the homepage's pattern (home/04's skymap labels).
+   The cost is recorded with the ruling: a name you must point at to
+   read, and on touch the homepage's sticky-hover problem.
+   CHOICE, hidden by opacity, not `display: none`: the name stays the
+   link's text, so a screen reader reads it at rest too.
+
+   ACCESSIBILITY: a lit constellation changes shape, not only colour:
+   the lines thicken and the name appears. The focus ring goes round the
+   whole drawing (an ellipse, `border-radius: 50%`), 2px of solid teal.
+   KNOWN GAP, touch: see the sky's comment in atlas.html (4a audit #8).
+   VISION: the homepage's skymap, "a celestial map, partially erased by
+   time" (her words, home/04): Vârcolac's drawing keeps its erosion.
+   ---------------------------------------------------------- */
+
+/* The link: the drawing's box is the hit area, 190 × 150px, far over
+   44px. The name hangs below it and takes no clicks at rest. */
+.atlas-star-link {
+  display: block;
+}
+
+/* `.atlas` in front: more specific than atlas/01's `.atlas a:focus-visible`,
+   so this shape wins; the ring's colour and width are the site's
+   (tokens/03). */
+.atlas .atlas-star-link:focus-visible {
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* The drawing fills a fixed-height box, so the scatter's spacing holds
+   whatever the drawing's shape: the SVG scales to fit and centres
+   itself (the default `preserveAspectRatio`). `overflow: visible`
+   keeps the hub's glow from being clipped at the viewBox's edge. */
+.atlas-drawing {
+  display: block;
+  width: 100%;
+  height: 150px;
+  overflow: visible;
+}
+
+/* The lines: the homepage's 0.7 teal at their own opacities (the SVG's
+   attributes). A CSS declaration beats an SVG attribute, so the lit
+   state below can thicken them. */
+.atlas-line {
+  transition: opacity 0.3s ease, stroke-width 0.3s ease;
+}
+
+/* The hub, the shop's own star: 2.6 units, bone, a small glow. Drawn
+   outside the eroded group in the markup, so it is never erased. */
+.atlas-hub {
+  fill: var(--bone);
+  filter: drop-shadow(0 0 2px rgba(193, 191, 189, 0.7)); /* --bone at 0.7 */
+  transition: fill 0.3s ease;
+}
+
+/* The name and craft, the homepage skymap's plate (home/04): Space Mono
+   on a dark plate with a hairline border, centred under the drawing,
+   on one line each. At rest it is invisible and 4px higher; it drops
+   into place as it appears. */
+.atlas-star-label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -4px);
+  white-space: nowrap;
+  font-family: var(--mono);
+  text-align: center;
+  background: rgba(16, 16, 17, 0.8); /* --above-black at 0.8 */
+  border: 1px solid rgba(193, 191, 189, 0.18); /* --bone at 0.18 */
+  padding: 4px 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* INK: the name in `--bone`, the craft in `--bone-label`, one step
+   down: the smaller, second line. */
+.atlas-star-name {
+  display: block;
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone);
+}
+
+.atlas-star-craft {
+  display: block;
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone-label);
+  margin-top: 2px;
+}
+
+/* Lit: hovered, focused by keyboard, or its name hovered or focused in
+   the index. The hub turns teal, the lines come up to 0.95 and 1.1
+   units, the name appears. */
+.atlas-star.is-lit .atlas-hub,
+.atlas-star-link:hover .atlas-hub,
+.atlas-star-link:focus-visible .atlas-hub {
+  fill: var(--teal);
+}
+
+.atlas-star.is-lit .atlas-line,
+.atlas-star-link:hover .atlas-line,
+.atlas-star-link:focus-visible .atlas-line {
+  opacity: 0.95;
+  stroke-width: 1.1;
+}
+
+.atlas-star.is-lit .atlas-star-label,
+.atlas-star-link:hover .atlas-star-label,
+.atlas-star-link:focus-visible .atlas-star-label {
+  opacity: 1;
+  transform: translate(-50%, 4px);
+}
+
+/* ----------------------------------------------------------
+   atlas/04 — THE INDEX: EVERY SHOP, BY NAME
+   WHAT: a list of links, A to Z, set in up to four newspaper columns
+   (`columns: 4 14rem`: as many 14rem columns as fit, at most four;
+   while there are 1 to 4 shops, one centred row instead, below).
+   Each entry is the shop's name in Spectral italic and its craft in
+   small mono under it.
+
+   ROLE HERE: the way in by name, and the page's plain list for a
+   screen reader. Under the sky: at 50 shops it starts thousands of
+   pixels down, and the skip link or a screen reader's list jump is the
+   quick way to it (the cost of B, recorded with her ruling).
+
+   CHOICE, columns and not a grid: the names run down each column in
+   A–Z order, as a reader expects of an index; a grid would run them
+   across.
+   ACCESSIBILITY: every entry is a 44px box; the link's text is the
+   name and the craft, read as one.
+   ---------------------------------------------------------- */
+
+.atlas-index {
+  margin-top: 64px;
+}
+
+/* The index's heading: a small tracked label, centred on the header's
+   axis over the list. "nocount" (her "OK", 2026-10-30, to uiux
+   t_5e609701's recommendation; atlas.html says why): the count after
+   it is for screen readers only (`.atlas-index-count.sr-only`), and the
+   hairline under it went with its 12px padding, as the Bestiary's
+   heading's did; the 12px to the list stays. CENTRED: her decision,
+   2026-10-30, "OK, go on with centred label" (uiux t_d014c70a, 3f0e343,
+   recommended the same: page5.css §7, `alabel=centre`).
+   INK: `--bone-label`, the small tracked labels' tone (tokens/02). */
+.atlas-index h2 {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: var(--type-label); /* the scale's label (tokens/02) */
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  margin-bottom: 12px;
+  line-height: var(--leading-label);
+  text-align: center;
+}
+
+.atlas-index-list {
+  list-style: none;
+  columns: 4 14rem;
+  column-gap: 48px;
+}
+
+/* An entry never splits across two columns. */
+.atlas-index-list li {
+  break-inside: avoid;
+}
+
+/* UNDER THE CENTRED LABEL, WHILE THE LIST FITS ONE ROW (1 to 4 shops):
+   the entries side by side in one centred row, each name centred over
+   its craft, 48px apart (the columns' gap). From the 5th shop on this
+   matches nothing and the list is the four columns above again,
+   left-aligned in each, A to Z down each column, the label still
+   centred over it. uiux t_d014c70a (3f0e343, page5.css §7), verbatim,
+   built on her "OK, go on with centred label" (2026-10-30). No script:
+   `:has(> li:nth-child(5))` decides. At 1280 today's one shop sits at
+   576 to 704px, centred on 640 with the label and the header. */
+.atlas-index-list:not(:has(> li:nth-child(5))) {
+  columns: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 48px;
+}
+.atlas-index-list:not(:has(> li:nth-child(5))) a {
+  align-items: center;
+  text-align: center;
+}
+
+.atlas-index-list a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 44px;
+  padding: 6px 0;
+}
+
+/* INK: the name in `--bone-head`, the headings' tone (tokens/02): the
+   list's entries are what a reader scans for. */
+.atlas-index-name {
+  font-style: italic;
+  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+  color: var(--bone-head);
+}
+
+/* INK: `--bone-label`. `--bone-quiet`, the small-print tone, measured
+   under 4.5:1 at its worst pixel here (docs/HISTORY.md, atlas/). */
+.atlas-index-craft {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone-label);
+}
+
+/* Its constellation hovered in the sky (`.is-lit`, script.js): the
+   name is underlined, a mark of shape, not only colour (the index and
+   the sky, sketches/atlas/atlas-spec.md §2). The entry's own hover is
+   the glow alone (atlas/01): an underline there would be the hover
+   underline her rule forbids (docs/BRAND.md). */
+.atlas-index-list li.is-lit .atlas-index-name {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+/* The erosion filter's 0×0 SVG (atlas.html, the end of <body>): out of
+   the layout, so it adds no line under the footer. */
+.atlas-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}

@@ -1,0 +1,935 @@
+/* ==== background.css ====
+   OWNS:      the world every page stands on: the descent (01), the leaks and stars (02), the distressed surface (03); variants horizon (04) and grey (05).
+   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   POSITION:  second on every page: after tokens.css, whose palette it reads.
+   The founder's law: "the background must not depend on the elements,
+   THE ELEMENTS ARE ARRANGED ON THE BACKGROUND" (docs/CSS-JS-SPLIT.md),
+   and setting it on the homepage "we will prepare the template for all
+   the pages" (docs/DECISIONS.md, "THE BACKGROUND IS THE BACKGROUND STORY").
+   Nothing here reads the size or position of any content.
+   WHAT WOULD BREAK: an asset url() without `../`. It resolves from this
+   sheet's folder, css/, so the painting vanishes, with no error.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   background/01 — THE BODY GRADIENT: THE DESCENT
+   WHAT: `linear-gradient()` paints a smooth run between colour stops;
+   `to top` counts them from the foot of the page. `html` has no
+   background, so body's gradient covers the whole document (tokens/03).
+   ROLE HERE: scrolling down is the descent: cold black, a long neutral
+   plane (two equal --plane stops hold it flat), then red that climbs
+   through the specimens and reaches --below about where the sepulchre
+   begins, darkening to the floor.
+   CHOICE, many small steps, not five tokens: where the pace of change
+   jumped, the founder saw a line, even with no jump in colour. The hex
+   stops are waypoints between tokens, each placed by measuring that
+   pace; don't move one by eye (docs/HISTORY.md, background/01).
+   VISION: "as above so below, but with an essential difference: the
+   essence itself": the sky above, the blood-soil below, and between
+   them "the alchemical blend" of the two (docs/DECISIONS.md, "THE
+   BACKGROUND IS THE BACKGROUND STORY").
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/gradient/linear-gradient
+   ---------------------------------------------------------- */
+
+body {
+  background: linear-gradient(
+    to top,
+    var(--below-deep) 0%,
+    #410c12 12.3%,
+    #510e15 22.4%,
+    var(--below) 26.6%,
+    #4d1419 32.3%,
+    #41161b 37.2%,
+    #38181c 41.3%,
+    #301a1d 44.7%,
+    #291b1e 47.5%,
+    #241c1f 49.9%,
+    var(--plane) 52%,
+    var(--plane) 68%,
+    var(--above-mid) 90%,
+    var(--above-black) 100%
+  );
+  color: var(--bone);
+  /* Spectral by default: the founder confined IM Fell to "Wordmark, h1,
+     and pull-quotes only"; the few voice roles that keep it set it
+     themselves. */
+  font-family: var(--interface);
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden; /* written for a roots texture since deleted; the
+     homepage does not scroll sideways without it (docs/HISTORY.md). */
+  position: relative; /* what `inset: 0` on the layers below measures:
+     the whole document. Without it, the first screen only. */
+}
+
+/* THE LIFT: a second gradient in `mix-blend-mode: screen`, which only
+   lightens, and least where the page is already light.
+   ROLE HERE: on a high-contrast display the darkest band clamped to
+   black at once, drawing an edge two thirds down; this lifts it off
+   black and warms the upper page (without it: cold, violet, tokens/03).
+   CHOICE, not lighter gradient stops: tried first; the leak layers
+   paint dark over them, so the rendered floor barely moved. Never a
+   media query per display: she wants the bug gone from "every monitor
+   on the planet" (docs/worksheets/HANDOFF-space3-space4-transition.md).
+   WHAT WOULD BREAK: the flat part must end before 65% down, the old
+   edge. It fades out as the red arrives, so the blood is not lightened;
+   its 74% end was set against an opaque fill that is now transparent,
+   so whether it can move is not measured. `absolute`, not `fixed`: the
+   edge is in the document. */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* `to bottom`: depth from the top. #1a0f12: between --ground-dark and
+     --ground, no new hue. */
+  background: linear-gradient(
+    to bottom,
+    #1a0f12 0%,
+    #1a0f12 62%,
+    #000 74%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+/* ----------------------------------------------------------
+   background/02 — THE LEAKS AND THE STARS
+   WHAT: three layers masked by her painted stains (`mask-image`: the
+   painting's light parts let the layer through, its dark parts hide
+   it). Each box is the whole document; a second mask, a gradient in
+   document percent, sets how strongly the layer paints at each depth.
+   Above them, a fixed starfield that fades as you scroll down.
+   ROLE HERE: one set of strands from the sky to the soil. The red
+   fills them from 44% down, the ink darkens them all the way, the
+   pool deepens the bottom.
+   CHOICE, one document-sized box per layer, fading inside, not boxes
+   that start and stop: a layer ending at 78% while another began at
+   73.4% was the line she saw, "two backgrounds pasted one after
+   another". An edge is a jump however small; a fade is not. No
+   envelope reaches 0 at a box edge (docs/HISTORY.md, background/02).
+   CHOICE, the painting itself as the mask, not a pre-composited
+   image: reason not recorded. It lets each layer take its own colour
+   and depth over the same strands.
+   VISION: between "the infinite void of the sky" and "the tickness
+   of the blood saturated soil" (her words, docs/DECISIONS.md, "THE
+   BACKGROUND IS THE BACKGROUND STORY"). What makes it blood, not
+   brown, is the next comment.
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/mask-image
+   ---------------------------------------------------------- */
+
+/* The layers' knobs: opacities, the envelope stops that are named, and
+   the mask height. Named so the sketch's sweep could set them from the
+   address bar; the values are its winners. Local to this mechanism,
+   not palette. */
+:root {
+  /* `.red` and `.pool` paint normally; `.ink` multiplies over `.red`
+     (see `.leak-seepage`). WHAT WOULD BREAK: `.red` in multiply.
+     Tried in the sketch: multiply only darkens, and it took the red's
+     chroma down with it, desaturating the below (docs/HISTORY.md,
+     background/02). */
+  --op-ink:  1.00;
+  --op-red:  1.00;
+  --op-pool: 1.00;
+  /* THE LAW FOR EVERY VALUE HERE: a flat field at this hue reads as
+     brown, at any saturation. The same hue broken by dark marbled
+     strands reads as blood. If the soil ever looks brown, restore the
+     strands; never add red, saturation or hue. */
+  --ink-mid:  0.92; /* doc 62% */
+  --ink-deep: 1.00; /* doc 78% */
+  --ink-bot:  0.22; /* doc 100% — deliberately low; see below */
+  --red-bot:  1.00; /* doc 100% */
+  --pool-bot: 1.00; /* doc 100% */
+  /* WHY `--ink-bot` IS LOW. At the very bottom more ink stops picking
+     out strands and floods the band evenly toward black: no marbling
+     left, so, by the law above, brown. `.pool` carries the bottom
+     instead. Raising this to make the bottom "richer" makes it flatter.
+
+     `--mask-h`: the painting's height as a share of the document, with
+     `auto` width, so it scales without stretching. stain-a.webp's top
+     quarter is empty; at 100% that emptiness sat over the sky and the
+     upper page had no strands. Taller, anchored at the bottom, pushes
+     it off the top; the cost is the sides cropped. Too tall and the
+     dense base falls below the page: the soil goes flat, and softer.
+     145% is between the two (docs/HISTORY.md, background/02).
+     Judge it on how much the texture varies per band, never on a
+     smoothness score, and never from a `fullPage` screenshot: Chromium
+     paints fixed layers once there and fakes an edge at one screen
+     height. */
+  --mask-h: 145%;
+}
+
+/* `.leak-seepage`: the box for `.red` and `.ink`, the whole document.
+   It paints nothing itself.
+   CHOICE, each wrapper is its own stacking context, on purpose: this
+   box and `.leak-seepage--below` are `position: absolute` with
+   `z-index: 1`, and a blend inside a stacking context sees only what
+   is inside it. So `.ink` multiplies over `.red` alone, never over the
+   body gradient, and `.pool` has nothing under it to multiply with, so
+   it paints `normal`. This is the approved look. It differs from the
+   sketch, where the layers are bare <body> children and multiply over
+   the gradient; the difference is not visible at 1:1, and the shipped
+   look was kept (docs/HISTORY.md, background/02, "Isolation").
+   WHAT WOULD BREAK: `z-index: auto` on either wrapper, or anything else
+   that stops it forming a stacking context, puts the multiply back
+   over the gradient: the sky slightly lighter, the soil darker, and
+   more pixels under the crush floor (background/01). Re-measure
+   against the floor before doing it. */
+.leak-seepage {
+  --leak-red: #5d0e18; /* one step redder than --below at the same
+     lightness, so the red registers over it; local, not palette. */
+  position: absolute;
+  inset: 0; /* body is `position: relative` (01): the whole document */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.leak-single {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* `.red`: the red field inside the strands. Same asset, mask size and
+   position as `.ink` below, so both land on the same pixels: one set
+   of strands, not a dark texture above a red one.
+   The paint runs left to right: --below at the edge, --leak-red at
+   46%, settling on a blend, never back to --below (a mirrored twin)
+   and never a third hue.
+   Its envelope is 0 above 44%: the middle plane stays neutral because
+   nothing is painted there. It stays open at the bottom: the field
+   supplies the red that the layers above darken.
+   WHAT WOULD BREAK: the order. `.red` first, `.ink` after it (the
+   `::after` of the same wrapper). Reversed in the sketch's first
+   draft, the red covered the strands in the below. */
+.leak-single__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--below) 0%,
+    var(--leak-red) 46%,
+    color-mix(in srgb, var(--leak-red) 38%, var(--below) 62%) 100%
+  );
+  mix-blend-mode: normal; /* written out so the rule against multiply is
+     visible where it applies */
+  opacity: var(--op-red);
+  /* Two masks intersected: the painting (`luminance`), anchored bottom
+     to bottom, and the depth envelope (`alpha`). */
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)     44%,
+      rgba(0,0,0,0.30)  58%,
+      rgba(0,0,0,0.82)  70%,
+      rgba(0,0,0,1.00)  78%,
+      rgba(0,0,0,var(--red-bot)) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)     44%,
+      rgba(0,0,0,0.30)  58%,
+      rgba(0,0,0,0.82)  70%,
+      rgba(0,0,0,1.00)  78%,
+      rgba(0,0,0,var(--red-bot)) 100%);
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-size: auto var(--mask-h), 100% 100%;
+  mask-size: auto var(--mask-h), 100% 100%;
+  -webkit-mask-position: 50% 100%, 0 0;
+  mask-position: 50% 100%, 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* `.ink`: her strands in near-black, the full height of the page.
+   A pseudo-element so it paints after `.red`: the markup was not
+   changed when this was built.
+   The envelope never reaches 0, so there is no edge anywhere:
+   0.55 at the top, which is what puts strands in the night sky and
+   makes the page one painting (leave it); full at 78%, where the
+   strands are strongest; eased to 0.22 at the bottom (see `--ink-bot`).
+   `multiply` here: see the note on `.leak-seepage`. */
+.leak-seepage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #0d0a0b;
+  mix-blend-mode: multiply;
+  opacity: var(--op-ink);
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55)   0%,
+      rgba(0,0,0,0.70)  40%,
+      rgba(0,0,0,var(--ink-mid))  62%,
+      rgba(0,0,0,var(--ink-deep))  78%,
+      rgba(0,0,0,var(--ink-bot)) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55)   0%,
+      rgba(0,0,0,0.70)  40%,
+      rgba(0,0,0,var(--ink-mid))  62%,
+      rgba(0,0,0,var(--ink-deep))  78%,
+      rgba(0,0,0,var(--ink-bot)) 100%);
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-size: auto var(--mask-h), 100% 100%;
+  mask-size: auto var(--mask-h), 100% 100%;
+  -webkit-mask-position: 50% 100%, 0 0;
+  mask-position: 50% 100%, 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* `.leak-seepage--below`: the box for `.pool`, the whole document.
+   Paints nothing. Same stacking note as `.leak-seepage`. */
+.leak-seepage--below {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* `.pool`: the second stain, stain-b.webp, whose dense pooled base
+   sits at the file's bottom edge, anchored to the page's bottom edge:
+   the deepest part of her painting lands on the deepest soil.
+   Envelope: 0 above 55%, a slope through 74% (where the old boxes
+   met), full at the bottom, because `.ink` gives way there.
+   `brightness(0.10)` and `--pool-bot` are one control in two parts:
+   too light and the soil has no weight, too dark and it goes flat
+   (brown). Raise one, lower the other, then look at the page.
+   WHAT WOULD BREAK: `transform: scaleY(-1)`, used when the box began
+   mid-page, would now put the sparse end at the soil. */
+.leak-stain--below {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--below);
+  mix-blend-mode: normal; /* not `multiply`: see `.leak-seepage` */
+  opacity: var(--op-pool);
+  filter: brightness(0.10);
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-b.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)     55%,
+      rgba(0,0,0,0.60)  74%,
+      rgba(0,0,0,0.95)  88%,
+      rgba(0,0,0,var(--pool-bot)) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-b.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)     55%,
+      rgba(0,0,0,0.60)  74%,
+      rgba(0,0,0,0.95)  88%,
+      rgba(0,0,0,var(--pool-bot)) 100%);
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-size: cover, 100% 100%;
+  mask-size: cover, 100% 100%;
+  -webkit-mask-position: 50% 100%, 0 0;
+  mask-position: 50% 100%, 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* THE STARS: seven dots, each a `radial-gradient()`, on a layer fixed
+   to the screen. `pointer-events: none`: it never takes a click.
+   The fade: a scroll-driven animation (`animation-timeline:
+   scroll(root)`) ties the opacity to how far down the page you are,
+   with no script: full through 35%, faint by 75%, gone at the bottom.
+   CHOICE, the fade, not a constant opacity: stars are the above's own
+   visual grammar and don't belong in the below (docs/GRIMOIRE.md
+   §XIV). At a flat 0.8 the dots sat on the blood-red floor.
+   ACCESSIBILITY: reduced motion does not stop it. It moves only when
+   the reader scrolls; under reduced motion it still fades with
+   scrolling.
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/animation-timeline */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 20% 15%, #fff 100%, transparent),
+    radial-gradient(1px 1px at 65% 8%, #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 80% 22%, #fff 100%, transparent),
+    radial-gradient(1px 1px at 45% 30%, #ccc 100%, transparent),
+    radial-gradient(1px 1px at 10% 40%, #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 90% 45%, #fff 100%, transparent),
+    radial-gradient(1px 1px at 30% 55%, #ccc 100%, transparent);
+  opacity: 0.8;
+  animation: starsFadeWithDescent linear;
+  animation-timeline: scroll(root);
+  animation-range: 0% 100%;
+}
+
+@keyframes starsFadeWithDescent {
+  0%   { opacity: 0.8; }
+  35%  { opacity: 0.8; }
+  75%  { opacity: 0.08; }
+  100% { opacity: 0; }
+}
+
+/* NO FADE, NO STARS. A fixed layer can't know where the reader is
+   without the scroll timeline, so where it's missing the stars would
+   hold 0.8 over the soil. Firefox lacks it today and hides them
+   (docs/HISTORY.md, background/02).
+   CHOICE, hide, not a fainter opacity: a faint star on the soil is
+   still a star on the soil. Stars on Firefox would need a script
+   listener: a founder call, not a builder's. */
+@supports not (animation-timeline: scroll()) {
+  .stars { display: none; }
+}
+
+
+/* ----------------------------------------------------------
+   background/03 — THE DISTRESSED SURFACE
+   WHAT: a layer fixed to the screen, over everything, that catches no
+   clicks (`pointer-events: none`) and is hidden from screen readers
+   in the markup. Three child layers and two pseudo-elements paint
+   print damage on it; none of them moves.
+   ROLE HERE: the whole page reads as printed on distressed paper, her
+   reference cover art. Of the six effects found in it, five are here:
+   grain, dust, tooth, plate edges, misregistration. The sixth, tonal
+   compression (blacks lifted off pure black), lives in the palette
+   (tokens/02).
+   CHOICE, on top of the content, not under it: reason not recorded
+   beyond "reads as sitting ON TOP of the whole page like a real print
+   artefact would". `z-index: 40` is above the nav (20) and sections
+   (2), below the gallery's lightbox (100), so a photo opened full
+   screen is seen without grain.
+   ACCESSIBILITY: it costs about 15% of text contrast wherever text
+   sits above the leaks (numbers: docs/HISTORY.md, background/03).
+   The plate is its own stacking context (fixed + `z-index`), so the
+   blend modes below mix inside it, not with the page, and switching
+   them to `normal` changes little.
+   VISION: her ask for "noise and desaturate print-like background"
+   (docs/DECISIONS.md, FIX 3; docs/HISTORY.md, background/02,
+   "Tartan/plaid removed").
+   ---------------------------------------------------------- */
+
+.distressed-plate {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Grain: fine even noise, in the dark as much as the light. The same
+   `--grain-noise` turbulence as the sepulchre's threshold grain
+   (chrome.css), tiled over the screen. Random noise, not a grid of
+   dots: two dot grids beat against each other into a woven pattern. */
+.distressed-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.11;
+  background-image: var(--grain-noise);
+  mix-blend-mode: overlay;
+}
+
+/* Dust: seven faint specks at odd positions, so nothing lines up.
+   WHAT WOULD BREAK: a scratch drawn as a `linear-gradient` on this
+   box. A gradient spans its whole box, so two "short scratches" drew
+   two full-screen diagonal beams, "optical error pyramid" in her
+   words. A small mark needs its own sized, placed background layer. */
+.distressed-dust {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 12%, rgba(193, 191, 189, 0.5), transparent 100%),
+    radial-gradient(1px 1px at 92% 6%, rgba(193, 191, 189, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 34% 78%, rgba(193, 191, 189, 0.35), transparent 100%),
+    radial-gradient(1.5px 1.5px at 71% 41%, rgba(193, 191, 189, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 18% 63%, rgba(193, 191, 189, 0.3), transparent 100%),
+    radial-gradient(1px 1px at 88% 89%, rgba(193, 191, 189, 0.4), transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 15%, rgba(193, 191, 189, 0.3), transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  mix-blend-mode: screen;
+}
+
+/* Tooth: ink on paper rather than light on a screen. A second, coarser
+   noise (`--grain-noise-coarse`), so it reads as paper, not doubled
+   grain. */
+.distressed-tooth {
+  position: absolute;
+  inset: 0;
+  opacity: 0.09;
+  background-image: var(--grain-noise-coarse);
+  mix-blend-mode: soft-light;
+}
+
+/* Plate edges: dark bands at the left and right, so the page sits like
+   a printed object. One gradient, so the two edges can't drift apart.
+   The gallery's grid is built to keep out of the outer 5%, so no focus
+   ring there falls under a band (gallery/02). The rest of the site is
+   not held to it: the homepage's Textrina Siderum heading sits 46px
+   into the right band at 1440 and 61.5px at 1920 (home/04), and still
+   reads. */
+.distressed-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(16, 16, 17, 0.55) 0%,
+    transparent 5%,
+    transparent 95%,
+    rgba(16, 16, 17, 0.55) 100%
+  );
+}
+
+/* Misregistration: a hairline magenta and teal fringe at the frame's
+   edges only. CHOICE, not per-glyph colour fringes: the brief
+   warns "overdone this reads as a cheap glitch filter", and fringes
+   on every paragraph would cost legibility. */
+.distressed-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow:
+    inset 1.5px 0 0 rgba(214, 81, 137, 0.1),
+    inset -1.5px 0 0 rgba(94, 147, 161, 0.08);
+}
+
+/* Reduced motion: nothing in this group moves, so the query is empty.
+   It is the place to switch off motion if some is ever added here.
+   The stars' fade (02) follows scrolling only and stays. */
+@media (prefers-reduced-motion: reduce) {
+}
+
+
+/* ----------------------------------------------------------
+   background/04 — HORIZON (SHORT PAGES)
+   Opt-in: <body data-bg="horizon">. Thirteen pages: the ten text pages
+   (contact, echolocation, terms, privacy, legal, shipping, returns,
+   sizing, the 404, the log-in placeholder account/login/), the
+   summoning page, the Atlas and the Bestiary.
+
+   WHAT: a variant of the world above, switched on by an attribute on
+   <body>. Every rule in this group starts with `body[data-bg…]`, so a
+   page without the attribute never matches any of them and gets
+   background/01, 02 and 03 exactly as written. The variant overrides six
+   paintings those groups already make: the body gradient, the
+   `body::before` lift, the masks of the ink, the red fill and the
+   pool, and the stars, which it masks off the soil. It adds no layer
+   of its own; the page carries the homepage's
+   leak `div`s (`.leak-seepage` and `.leak-seepage--below`).
+
+   ROLE HERE: every stop in background/01 and 02 is a percentage of the
+   document, measured against the homepage's four screens. On a page of
+   one to three and a half screens the same percentages squeeze sky,
+   plane, soil and blood into that space, and the painting shrinks
+   narrower than a wide window. This variant keeps both ends of the
+   world at full size instead:
+     - the SKY is fixed to the top of the document, at the homepage's
+       own scale, and capped so it can never run into the soil;
+     - the SOIL is fixed to the bottom, as one set depth of ground
+       (`--soil`, 75svh): the homepage's whole lower half, every
+       waypoint in order, mapped into that band;
+     - the PLANE, the neutral reading field, stretches or shrinks
+       between them. It is the only part that depends on page length.
+   The strands (stain-a) keep the homepage's scale and anchoring,
+   bottom to bottom. The pool (stain-b) keeps background/02's `cover`,
+   so it is fitted to the window, smaller than on the homepage.
+
+   CHOICE, an attribute and not a class: an attribute holds one value,
+   so two background variants can never be applied to one page at once
+   (`class="horizon threshold"` could). The value is the name of the
+   sketch's option she chose.
+   CHOICE, horizon among the sketch's ways to fit the world to a short
+   page (squeeze it, cut it after the plane, pin it to the screen, the
+   homepage's first screens at true scale): the only one that keeps sky
+   and soil on every page. Why each other lost:
+   sketches/background-short-pages/README.md.
+   CHOICE, stops in `svh` and not `vh`: `svh` is the viewport with the
+   mobile browser's toolbars shown, so the soil band does not grow and
+   shrink as the address bar slides in and out on a phone.
+
+   SMALL SCREEN: on a phone the 75svh of soil arrives in the last
+   screen as a whole ground with strands in it, not as a stripe. The
+   red starts later in the page than on desktop.
+
+   VISION, her ruling: "Short pages background looks perfect on the
+   terms page, we will use the same background for contact, 404 and
+   summoning page" (docs/DECISIONS.md, SHORT PAGES USE THE HORIZON
+   BACKGROUND). The footer's line, "soil below, the galactic abysses
+   above", holds on any page, however short. And her law holds: "the
+   background must not depend on the elements, THE ELEMENTS ARE
+   ARRANGED ON THE BACKGROUND". The anchors are the document's top and
+   bottom edges and a constant depth; nothing here reads any element.
+   Measurements: docs/HISTORY.md, "background/04".
+   ---------------------------------------------------------- */
+
+/* The homepage's height, in screens, as a constant: the scale the
+   strands and the sky are drawn at. A constant and not a measurement,
+   because reading the homepage's real height would make one page's
+   background depend on another page's content. If the homepage gets
+   much longer or shorter, re-measure it. Keyed on any `data-bg` value,
+   so a future short-page variant shares it. */
+body[data-bg] {
+  --world: 390svh;
+}
+
+/* THE CONTENT PLANE. `.leak-seepage` and `.leak-seepage--below` are
+   positioned at z-index 1 and paint the ink and the pool over whatever
+   is under them. Anything
+   that is not positioned paints UNDER them, so on a short page the
+   soil inks over the page's content. The homepage lifts its sections
+   instead (z-index 2, chrome.css). A short page's `main` is a plain
+   <body> child and gets nothing, so this rule lifts every direct
+   <body> child to the same plane (z-index 2).
+   CHOICE, it lists the background layers to leave alone, not the
+   content to lift: a list of content (`main, section, …`)
+   misses the first tag nobody thought of, and that element silently
+   goes under the soil. An exclusion list fails safe: a new element is
+   lifted by default. `nav` is excluded so it keeps its own position
+   (chrome/07's `absolute` on these pages) and z-index 20; `script`
+   because it paints nothing.
+   `footer` is excluded: it must stay positioned without a z-index.
+   Lifted whole it would be one plane, and its stylistic line would
+   read about 8:1 above the stains. chrome/06 lifts only the shop's
+   notice and a focused link (every link and the stylistic line while
+   a mouse pointer is over the footer), one by one, and leaves the
+   rest of the links and the "© Strigoi — …" line under the soil.
+   CHOICE, zero specificity: the whole selector is inside `:where()`,
+   so any rule a component writes about its own position or z-index
+   wins over this default, in any sheet, in any order (the Atlas's
+   filter <svg> keeps its `absolute` by it). chrome/06's `footer`
+   would out-rank it anyway; the exclusion says so here.
+   ACCESSIBILITY: the focused skip link (tokens.css, fixed, z-index
+   100) must stay above the nav it lets a keyboard user skip. Two
+   guards hold it there, the zero specificity and `.skip-link` in the
+   list; either alone is enough. Without both it drops to z-index 2,
+   under the logo.
+   WHAT WOULD BREAK: content wrapped in a plain <div> is lifted as that
+   div, with everything inside it. A sheet that sets `position: static`
+   or a z-index below 2 on a <body> child puts it back under the soil.
+   The skip-link bug's history: docs/HISTORY.md, "background/04". */
+:where(body[data-bg]) > :where(:not(.distressed-plate, .stars, .leak-seepage, .leak-seepage--below, .skip-link, nav, script, footer)) {
+  position: relative;
+  z-index: 2;
+}
+
+/* The body gradient. The first three stops are the homepage's sky at
+   the homepage's scale (`--world`); `min()` caps each so it stays above
+   the soil even on a page barely a screen tall. The rest are background/01's
+   own waypoints from mid-page to the bottom, in the same order, each
+   placed at `100% - --soil × (1 - f)`, where f is how far through the
+   homepage's lower half that waypoint sits. No new colour: every value
+   is a token or one of background/01's own waypoints. */
+body[data-bg="horizon"] {
+  --soil: 75svh; /* one set depth of ground, whatever the page length */
+  background: linear-gradient(
+    to bottom,
+    var(--above-black) 0,
+    var(--above-mid) min(calc(var(--world) * 0.10), calc(100% - var(--soil) - 40svh)),
+    var(--plane)     min(calc(var(--world) * 0.32), calc(100% - var(--soil) - 10svh)),
+    #241c1f calc(100% - var(--soil)),
+    #291b1e calc(100% - var(--soil) * 0.952),
+    #301a1d calc(100% - var(--soil) * 0.896),
+    #38181c calc(100% - var(--soil) * 0.828),
+    #41161b calc(100% - var(--soil) * 0.745),
+    #4d1419 calc(100% - var(--soil) * 0.647),
+    var(--below) calc(100% - var(--soil) * 0.533),
+    #510e15 calc(100% - var(--soil) * 0.449),
+    #410c12 calc(100% - var(--soil) * 0.246),
+    var(--below-deep) 100%
+  );
+}
+
+/* background/01's lift, same mapping: flat where the homepage's is
+   flat, and fading to nothing as the below arrives, as on the
+   homepage (black at its 74%; `--below` sits at its 73.4%). */
+body[data-bg="horizon"]::before {
+  background: linear-gradient(
+    to bottom,
+    #1a0f12 0,
+    #1a0f12 calc(100% - var(--soil) * 0.762),
+    #000 calc(100% - var(--soil) * 0.521)
+  );
+}
+
+/* The ink, the red fill and the pool: background/02's envelopes, re-placed
+   against the soil band with the same mapping as the gradient. The
+   ink's and the red's mask size becomes `--world`-based, so the
+   strands are drawn at homepage scale; the pool's stays `cover` (see
+   the banner). Positions stay as background/02 has them, bottom to
+   bottom. */
+body[data-bg="horizon"] .leak-seepage::after {
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55) 0,
+      rgba(0,0,0,0.70) calc(100% - var(--soil)),
+      rgba(0,0,0,0.92) calc(100% - var(--soil) * 0.762),
+      rgba(0,0,0,1.00) calc(100% - var(--soil) * 0.441),
+      rgba(0,0,0,0.22) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55) 0,
+      rgba(0,0,0,0.70) calc(100% - var(--soil)),
+      rgba(0,0,0,0.92) calc(100% - var(--soil) * 0.762),
+      rgba(0,0,0,1.00) calc(100% - var(--soil) * 0.441),
+      rgba(0,0,0,0.22) 100%);
+  -webkit-mask-size: auto calc(var(--world) * 1.45), 100% 100%;
+  mask-size: auto calc(var(--world) * 1.45), 100% 100%;
+}
+body[data-bg="horizon"] .leak-single__fill {
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)    calc(100% - var(--soil)),
+      rgba(0,0,0,0.30) calc(100% - var(--soil) * 0.842),
+      rgba(0,0,0,0.82) calc(100% - var(--soil) * 0.601),
+      rgba(0,0,0,1.00) calc(100% - var(--soil) * 0.441),
+      rgba(0,0,0,1.00) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)    calc(100% - var(--soil)),
+      rgba(0,0,0,0.30) calc(100% - var(--soil) * 0.842),
+      rgba(0,0,0,0.82) calc(100% - var(--soil) * 0.601),
+      rgba(0,0,0,1.00) calc(100% - var(--soil) * 0.441),
+      rgba(0,0,0,1.00) 100%);
+  -webkit-mask-size: auto calc(var(--world) * 1.45), 100% 100%;
+  mask-size: auto calc(var(--world) * 1.45), 100% 100%;
+}
+body[data-bg="horizon"] .leak-stain--below {
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-b.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)    calc(100% - var(--soil) * 0.902),
+      rgba(0,0,0,0.60) calc(100% - var(--soil) * 0.521),
+      rgba(0,0,0,0.95) calc(100% - var(--soil) * 0.240),
+      rgba(0,0,0,1.00) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-b.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0)    calc(100% - var(--soil) * 0.902),
+      rgba(0,0,0,0.60) calc(100% - var(--soil) * 0.521),
+      rgba(0,0,0,0.95) calc(100% - var(--soil) * 0.240),
+      rgba(0,0,0,1.00) 100%);
+}
+/* THE STARS SET AT THE HORIZON. background/02's fade follows how far
+   the page is scrolled, not where the soil is, so on a short page it
+   left stars over the soil (the 404's lowest star at full 0.8 on
+   load). background/02's rule is that stars don't belong in the below.
+   This keeps that fade and adds a mask whose lower edge is the soil's
+   top edge on the screen: the stars are cut off there, and none is
+   ever drawn over the soil, whatever the page length.
+   HOW: a second animation on the same `scroll(root)` timeline. The
+   mask's height runs from 100% to `100% - --soil` over the last
+   `--soil` of the scroll; on a page whose scroll is shorter than
+   `--soil` (the 404) it is already running at load. Nothing here
+   reads an element.
+   CHOICE, a mask and not an earlier end to the fade: a fade cannot
+   tell the stars still in the sky from the ones over the soil, so
+   ending it before the soil takes every star off the 404 even at the
+   top, and dims the sky on every short page. The mask cuts only
+   where the soil is.
+   CHOICE, the last 10svh above the edge fades and is not cut: a hard
+   edge would cut a dot in half as it crosses the horizon.
+   ACCESSIBILITY: as the fade, it moves only when the reader scrolls,
+   so it stays under reduced motion. Where `animation-timeline` is
+   missing, background/02 hides the stars and this does nothing.
+   Figures: docs/HISTORY.md, background/04. */
+body[data-bg="horizon"] .stars {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 10svh), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 10svh), transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  animation: starsFadeWithDescent linear, starsSetAtHorizon linear;
+  animation-timeline: scroll(root), scroll(root);
+  animation-range: 0% 100%, calc(100% - var(--soil)) 100%;
+}
+@keyframes starsSetAtHorizon {
+  from { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+  to   { -webkit-mask-size: 100% calc(100% - var(--soil)); mask-size: 100% calc(100% - var(--soil)); }
+}
+
+
+/* ----------------------------------------------------------
+   background/05 — GREY (NEUTRAL GROUND)
+   Opt-in: <body data-ground="grey">. Used by the Sepulchre gallery.
+
+   WHAT: a second world, not a reshaped one. It replaces what background/01
+   paints on <body> with a flat neutral field and the homepage's ink
+   strands with their colour taken out. One empty element and three
+   boxes carry it:
+     body            THE FIELD, a flat grey (#232323).
+     body::before    replaces background/01's lift. That lift is a red-tinted
+                     near-black (#1a0f12) in `screen` mode, written for
+                     the homepage's descent, and it is the one layer
+                     through which red reached the gallery. Every
+                     property it set is reset here. In grey it paints
+                     nothing (opacity 0).
+     .ground         <div class="ground" aria-hidden="true">, the first
+                     child of <body>. A screen-sized, fixed box that
+                     paints the same field again and closes the ink
+                     inside itself (`isolation: isolate`).
+     .ground::after  THE INK STRANDS: background/02's `.leak-seepage::after`
+                     in neutral. A near-black (#0c0c0c) in `multiply`,
+                     masked by her painting stain-a.webp.
+   `body::before` and `.ground` sit at z-index -1: under all content,
+   under the distressed plate (z-index 40, background/03, unchanged) and
+   under the lightbox (z-index 100). background/02's `.leak-*` layers and
+   `.stars` are not used: they need HTML the gallery doesn't carry.
+
+   ROLE HERE: the Sepulchre gallery holds her archive photographs. The
+   ground gives them the homepage's marbling at the homepage's
+   strength, with no colour of its own, so a photo is judged against
+   grey, not against a red or blue cast.
+
+   CHOICE, a separate attribute and not a second value of `data-bg`:
+   `data-bg` reshapes the descent and works through the leak `div`s;
+   its content-plane rule and `--world` above are keyed on the
+   attribute being present at all. `data-ground` replaces the field and
+   needs no layers. As one attribute, `data-bg="grey"` would lift every
+   <body> child of the gallery onto the content plane for no reason.
+   The cost of two: nothing stops a page from carrying both, and the
+   pair is not designed (the grey field would win, with the horizon's
+   red leaks multiplied over it). Use one or the other.
+   CHOICE, `:root body[data-ground]` and not `body[data-ground]`: the
+   extra `:root` raises the specificity to 0,2,1, above gallery.css's
+   `body.gallery-page` (0,1,1), whose field would otherwise win on
+   order (this sheet loads first). That field is not drawn today
+   (gallery/01).
+   CHOICE, the grey values are the defaults on `[data-ground]` itself:
+   a later ground (the sketch had slate, marble and cloud) would change
+   only the custom properties, under `[data-ground="<name>"]`.
+   CHOICE, FIXED TO THE VIEWPORT, not to the document as background/02 is:
+   the gallery is 48 homepages tall at 1440 (168,069px), so a
+   painting anchored to the document would stretch by that factor and
+   the strands would blur away. Pinned to the screen, the ground is the
+   same behind the first photo and the last. `max(141vw, 316vh)` is the
+   homepage's magnification: its painting is about 316vh wide at every
+   screen size; 141vw takes over only on a very wide, short window.
+   `50% 85%` picks the band the homepage shows over its plane and soil.
+   CHOICE, THE INK IN ITS OWN ISOLATED BOX, not on `body::after`: the
+   screen is the same, the scrolling is not. On `body::after`,
+   `multiply` blends into <body>'s whole stacking context, the full
+   column of photos, and the compositor rebuilds full-screen passes on
+   every scrolled frame. Inside `.ground`, `isolation: isolate` gives
+   the blend a one-screen backdrop that never scrolls, and `.ground`
+   repaints the field so `multiply` has the same grey to darken.
+   Measured pixel-identical. The alternatives tried, and the numbers:
+   docs/HISTORY.md, background/05, "The ink moved into an isolated box".
+   Keep `.ground` the first child of <body>, empty and `aria-hidden`:
+   it is decoration, and screen readers skip it.
+
+   Around the grid the ground shows in the header, the footer, the
+   side margins (5vw + 2px each, gallery/02; 21.5px at 390) and the
+   seams between photos (4px; 2px on phones).
+
+   VISION, her brief: "a marbled background but in neutral, b&w"
+   (docs/HISTORY.md, background/05); her ruling: "grey marble for
+   sepulchre is perfect!" (docs/DECISIONS.md, "THE SEPULCHRE GALLERY
+   USES THE GREY GROUND"). Measurements, the rejected grounds and the
+   red check: docs/HISTORY.md, "background/05".
+   ---------------------------------------------------------- */
+:root body[data-ground] {
+  --g-field:      #232323;
+  --g-vein:       #7a7a7a;      /* pale-vein colour (veins off in grey) */
+  --g-vein-op:    0;            /* pale veins off */
+  --g-vein-file:  url('../assets/leak-wall/stain-a.webp');
+  --g-vein-size:  var(--g-size);
+  --g-vein-pos:   var(--g-pos);
+  --g-ink:        #0c0c0c;
+  --g-ink-op:     1;
+  --g-ink-top:    0.70;         /* ink envelope, top of the screen */
+  --g-ink-bot:    0.92;         /*               bottom of the screen */
+  --g-size:       max(141vw, 316vh) auto;
+  --g-pos:        50% 85%;
+
+  background: var(--g-field);
+}
+
+/* Replaces background/01's lift: every property that rule sets is reset. */
+:root body[data-ground]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: normal;
+  background: var(--g-vein);
+  opacity: var(--g-vein-op);
+  -webkit-mask-image: var(--g-vein-file);
+  mask-image: var(--g-vein-file);
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: var(--g-vein-size);
+  mask-size: var(--g-vein-size);
+  -webkit-mask-position: var(--g-vein-pos);
+  mask-position: var(--g-vein-pos);
+}
+
+/* The ink's box. Fixed to the screen like `body::before`. `isolation`
+   closes the `multiply` below inside this box, and the box paints the
+   field again, so the ink darkens the same #232323 it would find on
+   <body>. A `data-ground` page without this <div> shows the flat field
+   with no strands. */
+:root body[data-ground] > .ground {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  isolation: isolate;
+  background: var(--g-field);
+}
+
+/* The ink strands. Two masks intersected, as in background/02: the painting
+   (where the strands are) and a top-to-bottom envelope (how dark they
+   get down the screen). */
+:root body[data-ground] > .ground::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--g-ink);
+  mix-blend-mode: multiply;
+  opacity: var(--g-ink-op);
+  -webkit-mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,var(--g-ink-top)) 0%,
+      rgba(0,0,0,var(--g-ink-bot)) 100%);
+  mask-image:
+    url('../assets/leak-wall/stain-a.webp'),
+    linear-gradient(to bottom,
+      rgba(0,0,0,var(--g-ink-top)) 0%,
+      rgba(0,0,0,var(--g-ink-bot)) 100%);
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-size: var(--g-size), 100% 100%;
+  mask-size: var(--g-size), 100% 100%;
+  -webkit-mask-position: var(--g-pos), 0 0;
+  mask-position: var(--g-pos), 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+/* Motion: none. Every layer is static, so there is nothing for
+   prefers-reduced-motion to switch off. */

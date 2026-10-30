@@ -1,0 +1,329 @@
+/* ==== motion.css: what stops for a visitor who asks for less motion ====
+   OWNS:      every prefers-reduced-motion query on the site but one, background/03's (empty: nothing there moves); one group, motion/01.
+   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   POSITION:  last on every page, after responsive.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   motion/01 — EVERY REDUCED-MOTION GUARD (was GROUP 23)
+   WHAT: eighteen `@media (prefers-reduced-motion: reduce)` blocks, each
+   headed by the address of the group whose motion it stops: the
+   scroll snap (tokens/03), the nav (chrome/02, two), the sky marks,
+   the beacon, the skymap and the roster (home/02–05), the homepage
+   doors (home/01, home/06), the wheel
+   (summoning/02), the sepulchre and the threshold (chrome/05), the
+   footer links (chrome/06), the photo grid (gallery/02), the Atlas,
+   the Bestiary, the shop's stage, the shop's summon, Transmission and
+   the piece page's strip of photos. Each drops the
+   movement; the state it led to stays.
+   CHOICE, one sheet, not a guard beside each rule: whether every
+   animation is guarded is answered by reading one group.
+   WHAT WOULD BREAK: this sheet loaded earlier. A guard as specific as
+   the rule it guards wins only by coming later; chrome/02's nav guard
+   repeats its rules' selectors for that reason.
+   ACCESSIBILITY: WCAG 2.3.3. script.js reads no motion preference
+   (§6b says why for the nav; the wheel's draw is stopped here).
+   History: docs/HISTORY.md, document/head, "The file headers".
+   ---------------------------------------------------------- */
+
+/* tokens/03 — the scroll snap and the smooth scroll, both off.
+   ACCESSIBILITY: a snap moves the page after the visitor stops
+   scrolling, and a smooth in-page jump scrolls it for them: motion
+   they did not make, which this preference asks to remove (WCAG
+   2.3.3). Proximity snapping does it too, so it is not exempt.
+   Measured, when the nav's Specimens star still jumped to its section
+   (before 2026-10-16; it opens the Bestiary now): a click landed at
+   once (scrollY 1800 after 60ms, 0 without the preference). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+/* chrome/02 — the nav stars: the dots' pulse stops, and the dots'
+   and the two reveal labels' 0.3s eases become instant. The dots stay
+   visible and clickable; the labels still show on hover and focus. */
+@media (prefers-reduced-motion: reduce) {
+  .nav-star-dot {
+    animation: none;
+  }
+  .nav-star--reveal .nav-star-label,
+  .nav-star-dot {
+    transition: none;
+  }
+}
+
+/* chrome/02 — the nav's words on the way down: the fade becomes a
+   cut. The words still hide past the top and come back at the top or
+   on Tab, for everyone (script.js §6b); only the 0.3s fade goes.
+   WHAT WOULD BREAK: keeping the words shown for these visitors, as an
+   earlier version did, put the logo back over the page's text, the
+   collision the fade exists to stop. The preference asks for less
+   motion, not a different state (docs/LEARNING.md Ch.1).
+   The selectors repeat the fade rules' own, so the guard is as
+   specific as what it guards and wins by coming later: a bare `.logo`
+   loses to `nav.nav--words-hidden .logo`. `nav` itself has no
+   transition. History: docs/HISTORY.md, chrome/02. */
+@media (prefers-reduced-motion: reduce) {
+  nav.nav--words-hidden .logo,
+  nav.nav--words-hidden:focus-within .logo,
+  nav.nav--words-hidden .nav-star-label,
+  .logo,
+  .nav-star-label {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+
+/* home/02 — .sky-seal-star: the pulse stops; the star holds at 0.85,
+   never invisible. */
+@media (prefers-reduced-motion: reduce) {
+  .sky-seal-star {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+/* home/03 — the beacon: blink and ping stop. The dot holds full and
+   the ring holds still at 2.5× its size and 0.4, so the beacon stays
+   visible. Hover and focus still change its colours. */
+@media (prefers-reduced-motion: reduce) {
+  .beacon-dot,
+  .beacon-ring {
+    animation: none;
+  }
+  .beacon-ring {
+    opacity: 0.4;
+    transform: scale(2.5);
+  }
+}
+
+/* home/04 — the skymap stars: the dot's grow and the name's slide
+   become instant; both still happen. The dots never pulse, so there
+   is no loop to stop. */
+@media (prefers-reduced-motion: reduce) {
+  .skymap-star-dot,
+  .skymap-star-label {
+    transition: none;
+  }
+}
+
+/* home/05 — the roster's "View shop" hint: its fade and 3px slide
+   become instant; it still shows on hover and keyboard focus. */
+@media (prefers-reduced-motion: reduce) {
+  .roster-link-hint {
+    transition: none;
+  }
+}
+
+/* home/01, home/06 — the homepage doors: the wing's 0.2s rise to full
+   and its tail dot's halo, and the two text doors' 0.3s glow, become
+   instant; every state still shows on hover and keyboard focus. The
+   doors have no loop to stop. */
+@media (prefers-reduced-motion: reduce) {
+  .wingmark-door .wingmark,
+  .wingmark-door .wingmark circle,
+  .door-link {
+    transition: none;
+  }
+}
+
+/* summoning/02 — the wheel's rings: no draw-on. They show drawn,
+   whole, from the first paint, with or without the script, because
+   this sets the end state itself rather than waiting for `.drawn`
+   (script.js §7). The SVG is `aria-hidden`, so nothing the page says
+   waits on the motion. */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-svg circle.ring {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* chrome/05 — the sepulchre and the gallery threshold */
+@media (prefers-reduced-motion: reduce) {
+  /* The inscriptions: `animation: none` stops the tearing, `transition:
+     none` the hover filter's ease. What stays is the base rule's split,
+     which is paint, not motion, so the text still reads as damaged.
+     WHAT WOULD BREAK: `transition: none` alone. It was, until the
+     inscription got its animation, and the tearing ran on for visitors
+     who asked for less motion. Adding an animation to a guarded element
+     means re-reading its guard. */
+  .sepulchre-inscription,
+  .threshold-inscription {
+    transition: none;
+    animation: none;
+  }
+
+  /* Both REC dots stop (the scanlines, rendered on neither page, too).
+     Each falls back to its base rule: the dot with its split and glow,
+     which the next rule replaces. The grain these lines also stopped
+     is gone from both pages (2026-10-12, chrome/05: her "coverd in
+     fog" and "a line", QA t_2fe64579), its two selectors with it. The
+     shop's `.transmission-rec-dot` keeps its own guard. */
+  .sepulchre-scanlines,
+  .sepulchre-rec-dot,
+  .threshold-scanlines,
+  .threshold-rec-dot {
+    animation: none;
+  }
+
+  /* THE STILL DOT HAS TO LOOK BROKEN TOO. At rest the ±1.5px split on a
+     6px dot is antialiased to almost nothing and read as a clean pink
+     lamp (6.1° of hue split against 4.7° for a dot with none). Full
+     alpha on both stops, offsets unchanged: 16.4°, and the dot keeps its
+     round shape (w/h 1.27 either way).
+     CHOICE, alpha, not wider offsets: ±2px or ±3px split more but turn
+     the still dot into a permanent lozenge for exactly the visitors
+     who asked not to see the tearing. No glow: with nothing moving it is
+     only loudness. The figures were measured on the homepage's crimson;
+     the gallery's grey was not re-measured. Numbers and instruments:
+     docs/HISTORY.md, home/07. */
+  .sepulchre-rec-dot,
+  .threshold-rec-dot {
+    box-shadow:
+       1.5px 0 0 rgba(214, 81, 137, 1),
+      -1.5px 0 0 rgba(94, 147, 161, 1);
+  }
+}
+
+/* chrome/06 — every footer link on every page (the policy row, "Back
+   to the top", "Back to Strigoi"): the hover glow comes on at once,
+   without the 0.3s ease, and with the pointer over the footer the
+   links and the stylistic line come above the stain at once, without
+   the 0.2s fade. The glow and the lift stay. Each selector is as
+   specific as the rule it guards and wins by coming later. */
+@media (prefers-reduced-motion: reduce) {
+  footer a {
+    transition: none;
+  }
+
+  footer:hover a:not(:focus-visible),
+  footer:hover > span:not(.footer-info),
+  footer:hover > .room-zero-footer-mark {
+    animation: none;
+  }
+}
+
+/* gallery/02 — the photo grid's hover and keyboard focus (`:hover`,
+   `:focus-visible`): the 4% zoom, the veil and the badge come on at
+   once, without the 0.35s and 0.2s eases. All three still happen. The
+   focus ring and the arrow-key hint have no transition to guard. Each
+   selector is as specific as the rule it guards and wins by coming
+   later. */
+@media (prefers-reduced-motion: reduce) {
+  .cell img,
+  .cell .hover-veil,
+  .cell .idx-badge {
+    transition: none;
+  }
+}
+
+/* atlas/03 — a constellation lit on the Atlas: the hub's turn to teal,
+   the lines' thickening and the name's fade and 8px drop come on at
+   once, without the 0.3s ease. All of them still happen. Each selector
+   is as specific as the rule it guards and wins by coming later. */
+@media (prefers-reduced-motion: reduce) {
+  .atlas-line,
+  .atlas-hub,
+  .atlas-star-label {
+    transition: none;
+  }
+}
+
+/* bestiary/03 — a piece lit on the Bestiary: the caption appears at
+   once, without the 0.3s fade. The caption still comes, and on
+   keyboard focus the name's underline. The photo needs no guard: it
+   never moves or changes. The selector is as specific as the rule it
+   guards and wins by coming later. */
+@media (prefers-reduced-motion: reduce) {
+  .bestiary-caption {
+    transition: none;
+  }
+}
+
+/* shop/01 and shop/04 — the stage, in every skin, on a piece's page
+   (product/02). What moves becomes
+   instant or a plain fade (the spec's reduced-motion note, §11.7 item
+   4): no ripple; the colour split's copies and the photo's grade jump
+   instead of easing (on a piece's page the photo is an <img>,
+   `.piece-photo`); the words fade in and out over 0.3s, with no blur
+   and no rise. The hint still fades out over 0.4s when spent
+   (shop/01): an opacity change, not motion. */
+@media (prefers-reduced-motion: reduce) {
+  .ripple { display: none; }
+  .ch { transition: none; }
+  .stage-visual:not(.ch),
+  .piece-photo { transition: none; }
+  .desc {
+    filter: none;
+    transform: none;
+    transition: opacity 0.3s ease;
+  }
+  .stage.holding .desc,
+  .stage.revealed .desc { filter: none; transform: none; }
+  /* shop/04: Dossier's stamps fade out while a piece is summoned; here
+     they keep the words' 0.3s crossfade instead of the 0.6s curve. */
+  [data-skin="dossier"] .dossier-hud { transition: opacity 0.3s ease; }
+  /* No `.hint` rule here, on purpose: an opacity under 1 on the hint
+     would multiply its scrim's alpha (shop/01, DO NOT LOWER THE ALPHA),
+     and its base rule neither pulses nor animates. */
+}
+
+/* shop/08 — the shop's summon (Séance only): the words at a photo's
+   foot fade in and out over 0.3s, with no blur and no rise, as `.desc`
+   above. The pill goes and comes back at once, with no 0.4s fade (the
+   spec's summon.css; the piece page's hint keeps its fade, above,
+   because there it goes once and for good, while the shop's comes and
+   goes on every summon). */
+@media (prefers-reduced-motion: reduce) {
+  .summon-words {
+    filter: none;
+    transform: none;
+    transition: opacity 0.3s ease;
+  }
+  .summon[aria-pressed="true"] .summon-words,
+  .summon.holding .summon-words { filter: none; transform: none; }
+  .summon-pill { transition: none; }
+  /* shop/11, bestiary/06: the saved mark's plate comes and goes with
+     the pill, so at once too (chrome/08). */
+  .save-plate { transition: none; }
+}
+
+/* shop/05 — Transmission: the scanlines, the grain and the REC dot
+   stand still (the dot at full strength). The crawl stops and shows
+   the start of one copy, 14px in from each side of the strip, ending
+   in "…" (45 characters at 1440, 44 at 390): uiux's ruling, the WHAT
+   and WHY in shop/05's crawl block. `flex: 1 1 auto; min-width: 0`
+   hold the line to the strip's width so `text-overflow` has an edge to
+   cut at; the markup's second copy is hidden past the "…". The strip
+   gives way to summoned words over 0.3s instead of the 0.6s curve, as
+   Dossier's HUD above. */
+@media (prefers-reduced-motion: reduce) {
+  .transmission-scanlines,
+  .transmission-grain,
+  .transmission-rec-dot { animation: none; }
+  .transmission-ticker-text {
+    animation: none;
+    padding: 0 14px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  [data-skin="transmission"] .transmission-ticker-track { transition: opacity 0.3s ease; }
+}
+
+/* product/05 — the strip's thumbnails on a piece's page: a photo dims
+   and brightens at once, without the 200ms ease, when another is shown
+   or the pointer passes. The shown one still stands at full strength,
+   the others at half. As specific as the rule it guards; wins by
+   coming later. */
+@media (prefers-reduced-motion: reduce) {
+  .piece-thumb img {
+    transition: none;
+  }
+}
+
+/* background/03's reduced-motion block stays in css/background.css. */

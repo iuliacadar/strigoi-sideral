@@ -1,0 +1,2085 @@
+/* ==== shop.css: a shop ====
+   OWNS:      the Séance stage, a piece's photograph and summoned words (shop/01); the product grid, each piece's caption and the colours of the footer's seep (02); the demo's skin switcher (03); the Dossier skin (04); the Transmission skin (05); the shop with the script off (06); each piece one link, its name unseen and its facts its description, and the line to the Atlas (07); the Séance's summon on the shop (08); the maker's inscription in the hero, her ways after the pieces and, in the demo, the demo line under the wall (the note and the switcher, a marked placeholder) (09); above 700px the pieces hung as ikebana B, each row of three one arrangement, mirrored row to row (10); the saved mark on each photo, its place and its hover story with the pill (11).
+   LOADED BY: the demo shop, shops/demo/index.html (the one shop built), and its seven piece pages, shops/demo/pieces/<slug>/, where the stage and its skins live now.
+   POSITION:  fourth of six on the shop, the page's own sheet: after chrome.css, before responsive.css and motion.css. On a piece's page fourth of seven, before product.css.
+   THE SKINS select `[data-skin="…"]`, wherever the attribute sits: the shop's `.shop-products`, a piece's <article> (re-scoped from `.shop-products[data-skin]` 2026-10-15, frontend t_e75d6266; the shop measured at 0 px in all three skins, docs/HISTORY.md, product/).
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   shop/01 — THE SÉANCE: A PIECE'S PHOTOGRAPH AND ITS SUMMONED WORDS
+   (was GROUP 15, its first half)
+   WHAT: each piece is a <button class="stage">, a 4:5 frame holding
+   the photograph in three stacked layers (the photo and two copies
+   of it), a one-shot ripple, the hint "hold to summon" and the
+   piece's words. At rest the photo and the hint show. Summoned
+   (`.holding` while a press lasts, `.revealed` after a click, a tap,
+   Enter or Space; script.js §4), the copies part 4px each way, the
+   ripple fires once and the words rise out of a blur onto a dark
+   scrim. The two classes paint the same: every rule below names
+   both, so nobody can tell which path summoned a piece (§11.3).
+   ROLE HERE: the stage of a demo piece's page, one per page
+   (product/02 lays it over the photo at its own shape). On the shop
+   each card keeps only the frame and its photo layer, a <div> inside a
+   link (shop/07); in Séance a separate button over the photo's top
+   summons the piece's facts to its foot (shop/08). The photographs are real
+   files, set through `--photo`; the `.ph-*` gradients below are a
+   fallback no page renders. Dossier and Transmission (shop/04–05)
+   re-dress this same markup.
+   ACCESSIBILITY: the stage is a native <button>, so focus, Enter and
+   Space come from the browser (§11.6.2); the words are always in
+   the DOM, hidden by opacity, never `display: none` (§11.6.3).
+   With the script off nothing can summon them, so they show at rest
+   in the summoned place, on their scrim, and the hint goes (shop/06).
+   VISION: "The photo is the whole page at rest; the description is
+   something a visitor conjures, not something served to them in a
+   panel" (the spec's words, docs/SHOP-TEMPLATE.md §11.0). Of the
+   three concepts she chose this one, the Séance, as every shop's
+   default, and a shop's skin is hers to assign, never the
+   designer's (docs/DECISIONS.md, "Séance chosen as the canonical
+   shop skin, with founder-assigned per-shop skins"). Reference
+   build: sketches/lightbox-concepts/002-seance/.
+   History: docs/HISTORY.md, shop/01–02.
+   ---------------------------------------------------------- */
+
+/* The frame: a <button> reset to draw as a plain box (no border, no
+   padding, the page's font and colour), 4:5 (356 × 445 at 1440),
+   4px corners (§11.1), clipping its layers. Its `--above-black`
+   shows until the photo loads, or if it fails. `cursor: pointer` says it
+   can be pressed before the hint is read (§11.1); Dossier and
+   Transmission set `default`. `user-select: none` keeps a held press
+   from selecting the words. On a touch screen, `touch-action: pan-y`
+   lets a vertical drag that starts on a piece scroll the page, and
+   stops a sideways pan or a pinch-zoom that starts there.
+   Keyboard focus: no rule here. The frame takes the site's 2px
+   `--teal` ring as tokens/03 draws it, 4px outside the frame, off the
+   photo (§11.6.2 asks for a ring that stays visible against it),
+   round these 4px corners. A tap draws none (measured). */
+
+.stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--above-black);
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  touch-action: pan-y;
+}
+
+/* The photo layer. `.stage-visual` is the box the photo and its two
+   copies share: the whole frame, a centred column (the fallback's
+   glyph and label, 10px apart) and the three background sizes the
+   gradients need. The modifier decides what fills it:
+   - `.stage-photo` (below): the piece's photograph, from `--photo`,
+     set on each stage in the markup. All three demo pieces use it.
+   - `.ph-garment`/`.ph-jewelry`/`.ph-perfume`: CSS gradients
+     (scanlines, a coloured glow, a dark ground), kept as the fallback
+     for a shop without photographs. No page renders them. */
+.stage-visual {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-size: 100% 3px, 140% 140%, 100% 100%;
+}
+
+.stage-visual.ph-garment {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at 30% 20%, rgba(214, 81, 137, 0.28), transparent 60%),
+    linear-gradient(160deg, var(--ground-dark), var(--above-black) 55%, var(--ground) 100%);
+}
+
+.stage-visual.ph-jewelry {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at 70% 25%, rgba(94, 147, 161, 0.30), transparent 60%),
+    linear-gradient(160deg, var(--above-black), var(--ground-dark) 60%, var(--plane) 130%);
+}
+
+.stage-visual.ph-perfume {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at 50% 70%, rgba(94, 147, 161, 0.22), transparent 55%),
+    linear-gradient(200deg, var(--ground-dark), var(--above-black) 50%, var(--ground) 100%);
+}
+
+/* The photograph: `--photo` as a background, `cover` and centred (a
+   background's `object-fit: cover`). A background, not an <img>, so
+   a photo and the gradient fallback are the same kind of paint and
+   every layer stacked over it works on either (the recorded reason).
+   Its grade, `saturate(0.92) contrast(1.04)`, is close to the Dossier
+   sketch's (0.92 / 1.03). Reason not recorded (the gallery, whose
+   grade it was said to match, has none). The Bestiary borrowed it
+   until the wall (715f9e7), which wears no grade (bestiary/03).
+   The two copies carry these classes too, so they get the photo from
+   here; their filter is the tint (`.ch.ch-r`/`.ch.ch-b`, below), or
+   this grade again with the untinted switch on (below it). */
+.stage-visual.stage-photo {
+  background-image: var(--photo);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: saturate(0.92) contrast(1.04);
+}
+
+/* The fallback's glyph: a large character on the gradient, 1.6rem,
+   `--bone-quiet` (the ramp's small-print tone, tokens/02), bone by her
+   rule that every text is bone. Not rendered: see the next rule. */
+.ph-glyph {
+  font-size: 1.6rem;
+  color: var(--bone-quiet);
+}
+
+/* The fallback's label: Space Mono 0.6rem, tracked, upper case,
+   `--bone-quiet`. NOT RENDERED: no page, no script and no other live
+   sheet uses `.ph-glyph` or `.ph-label` (grep). Kept on purpose, with the
+   gradients above, as the fallback for a shop without photographs (the
+   recorded reason, docs/HISTORY.md, shop/01–02); deleting them drops it.
+   KNOWN GAP: their ink is unmeasured, since nothing draws them. Whoever
+   first renders one measures it on its gradient
+   (tests/e2e/frontend_t_0eb34f58_sweep.js) rather than assuming it: a
+   lifted ground is where small text failed before (docs/HISTORY.md,
+   shop/01–02). */
+.ph-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-quiet);
+}
+
+/* The colour split: the two copies (`.ch-r`, `.ch-b`) over the photo,
+   screen-blended, at 0 at rest. Summoned they rise to .28 and part 4px
+   left and right over 0.6s, and the photo under them turns to
+   `saturate(0.85) contrast(1.05)` over 0.5s. The copies are tinted
+   red and blue, so they pull colour out of the photo (§11.2.2).
+   Dossier and Transmission hide the copies, not the photo's summoned
+   grade. No text inside the copies: they are a colour effect, not a
+   second placeholder.
+   The tints are written `.ch.ch-r`/`.ch.ch-b` (0,2,0), after
+   `.stage-visual.stage-photo` (also 0,2,0), so they win. WHAT WOULD
+   BREAK: as `.ch-r`/`.ch-b` (0,1,0) the photo's grade outranks them
+   and the split is two untinted copies.
+   The grade's `transition` is on the photo at rest, so it eases back
+   on dismiss as it eases in (§11.3: every property reverses along its
+   own transition). WHAT WOULD BREAK: on the summoned rule alone it
+   snaps back; and the summoned grade names its functions in the rest
+   grade's order, saturate then contrast, because two filter lists in
+   a different order don't interpolate, they jump. It also eases a skin
+   switch's change of grade. Reduced motion: no transitions here
+   (motion.css). */
+.ch {
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.ch.ch-r { filter: sepia(1) saturate(7) hue-rotate(-50deg) brightness(1.1); }
+.ch.ch-b { filter: sepia(1) saturate(7) hue-rotate(150deg) brightness(1.1); }
+
+/* THE COLOUR SPLIT: TINTED (LIVE, by her choice) or UNTINTED (A
+   SWITCH, OFF, below). Her words: "keep the tint (if I want to return
+   to the way it was, can that version can be saved too?)"
+   (docs/DECISIONS.md, "THE SÉANCE STAGE: THE TINTED SPLIT STAYS").
+   Tinted, the two rules above: the copies take the red and blue
+   filters and pull colour out of the photo.
+   Untinted: the copies keep the photo's own grade, `saturate(0.92)
+   contrast(1.04)`, and are two plain copies, offset. The switch
+   writes that grade again, by value, at 0,2,0 after the tints, so it
+   wins: if `.stage-visual.stage-photo`'s grade changes, change it
+   here too.
+   To switch back, delete the two lines below that hold only a comment
+   marker, and nothing else. Only the split changes: the grade's easing
+   and the press timing stay. Dossier and Transmission hide the copies,
+   so the switch changes nothing there. */
+/*
+.ch.ch-r,
+.ch.ch-b { filter: saturate(0.92) contrast(1.04); }
+*/
+.stage-visual:not(.ch) { transition: filter 0.5s ease; }
+
+.stage.holding .ch-r,
+.stage.revealed .ch-r { opacity: 0.28; transform: translateX(-4px); }
+.stage.holding .ch-b,
+.stage.revealed .ch-b { opacity: 0.28; transform: translateX(4px); }
+.stage.holding .stage-visual:not(.ch),
+.stage.revealed .stage-visual:not(.ch) { filter: saturate(0.85) contrast(1.05); }
+
+/* The ripple: a teal glow (`--teal` at .35, written as rgba) that
+   grows from 0.2 to 1.6 times and fades out over 900ms, once, when a
+   piece is summoned: not again while it's held, and not on dismiss
+   (measured). "Real damage happens once" (§11.2.1). The spec's violet
+   was retired with Palette I; why teal, not recorded. Hidden in
+   Dossier and Transmission; reduced motion removes it (motion.css). */
+.ripple {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(94, 147, 161, 0.35) 0%, transparent 60%);
+  opacity: 0;
+  transform: scale(0.6);
+}
+.stage.holding .ripple,
+.stage.revealed .ripple {
+  animation: rippleGo 900ms ease-out;
+}
+@keyframes rippleGo {
+  0%   { opacity: 0.9; transform: scale(0.2); }
+  100% { opacity: 0;   transform: scale(1.6); }
+}
+
+/* The words' box: the whole frame, the words centred at its foot, 12%
+   of the frame's width up (43px at 1440) and 24px in from each side.
+   `pointer-events: none`: reason not recorded. Transmission shrinks it
+   to 1px at rest and gives it back summoned (shop/05). */
+.desc-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 24px 12%;
+  pointer-events: none;
+}
+
+/* The words: Space Mono 13px, the scale's small print (tokens/02:
+   the skins' typed sentences), tracked 0.02em, line-height 1.75, centred,
+   `--bone`, at most 460px wide (the box allows 308 at 1440). At rest:
+   opacity 0, blurred 7px, 28px low. Summoned, all three settle over
+   0.6s on one curve, so they read as one motion, "surfacing" (§11.2.3);
+   on dismiss they sink back the same way. Reduced motion: a 0.3s fade,
+   no blur or rise (motion.css). */
+.desc {
+  font-family: var(--mono);
+  font-size: var(--type-small);
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  text-align: center;
+  color: var(--bone);
+  max-width: 460px;
+  opacity: 0;
+  filter: blur(7px);
+  transform: translateY(28px);
+  /* The halo is the look, not the legibility: the scrim below carries
+     that, and was measured with this shadow off. */
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  transition: opacity 0.6s cubic-bezier(.2,.8,.2,1),
+              filter 0.6s cubic-bezier(.2,.8,.2,1),
+              transform 0.6s cubic-bezier(.2,.8,.2,1);
+  /* The anchor and the stacking context for the scrim below: `z-index:
+     -1` then paints it behind these words and inside `.desc`, never
+     behind the photograph. Needed on its own: at rest the blur and the
+     translate make a stacking context, summoned under reduced motion
+     (motion.css: filter and transform none) nothing else would. */
+  position: relative;
+  isolation: isolate;
+}
+/* Summoned, the words rest at opacity 1: the summon still animates
+   0 -> 1, the one opacity a text may have (ruling D10). It
+   was 0.88, an unnamed step that also let 12% of the photograph through
+   the ink itself and so needed a heavier scrim. */
+.stage.holding .desc,
+.stage.revealed .desc {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* THE SCRIM UNDER THE SUMMONED WORDS (her ruling: "ok to do the
+   text visible"). Before it, the price line read 1.08:1 on the perfume's
+   bright glass (worst 1% of its glyph pixels) and no halo fixed it: a
+   shadow darkens around a stroke, not under it.
+   WHY A SCRIM, NOT AN INK OR A HALO. The shop is a template; a designer
+   uploads any photograph. No ink can be certified against an unknown
+   image, but a scrim replaces the unknown ground with a known one. Pure
+   white is the worst ground a photograph can have, so the scrim is
+   measured over white (the same argument as `.hint` below, at 0.84):
+     `--above-black` at 0.90 over pure white with the distressed plate
+     on, halo off, 1440 and 390:
+     body `--bone` 6.03:1, price line `--bone-label` 5.26:1 (worst 1%);
+     worst single pixel 5.06; zero glyph pixels under 4.5.
+   DO NOT LOWER THE ALPHA. 0.88 is the floor with this soft edge (price
+   line 4.81, worst pixel 4.66, on white); 0.86 leaves pixels under 4.5.
+   0.90 is headroom for font rendering over that 0.88 floor.
+   Re-measure on a white ground before changing it.
+   It lives on `.desc` itself, so it arrives and leaves with the words:
+   it fades in, un-blurs and rises with them and is at 0 when the piece
+   is at rest; the photograph is untouched until someone asks for the
+   words. On a bright photo it reads as a dark smoked plate: the accepted
+   cost. The solid core covers every glyph (the negative inset); the
+   `box-shadow` is the feather, so it is not a panel with an edge.
+   Transmission clips `.desc-wrap` to 1px at rest, and the scrim with
+   it; summoned, the words and the scrim show as here (shop/05). */
+.desc::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px -10px;
+  border-radius: 14px;
+  background: rgba(16, 16, 17, 0.90); /* --above-black at 0.90 */
+  box-shadow: 0 0 22px 14px rgba(16, 16, 17, 0.90);
+  pointer-events: none;
+}
+
+/* The price/edition line under a summoned piece ("WOOL/SYNTH — ED.
+   №001/003 — €480"): a smaller, tracked mono line in the description.
+   CHOICE: bone, like every text on the site (her rule), not
+   the `--magenta-label` it was, which made the price the one warm line
+   in the description. It is now told apart by size, tracking and its own
+   line, not by colour.
+   TONE: `--bone-label`, the labels' tone of the bone ramp (tokens/02;
+   ruling D10), at opacity 1: it replaced bone at 0.85, an
+   unnamed step. The line still fades in with its description (`.desc`,
+   opacity 0 -> 1 on a summon), the one opacity left here, because it
+   animates the text into view. It sits on the description's scrim
+   (above), which is what it is measured against: 5.26:1 on a white
+   ground. History: docs/HISTORY.md, shop/01–02. */
+.desc .meta {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--bone-label);
+}
+
+/* The hint, "hold to summon": plain words, not an icon (§11.5),
+   centred 16px from the frame's top, Space Mono 12px, the scale's label
+   (tokens/02), tracked 0.12em, upper case. It shows on every piece at rest until that piece is first
+   summoned (by any path), then fades out over 0.4s (`.spent`, set by
+   script.js §4) and stays gone until the page is reloaded; the other
+   pieces keep theirs. Hidden in Dossier and Transmission (shop/04–05).
+   ACCESSIBILITY: the stage is named by its `.desc` (`aria-labelledby`)
+   and described by the hint's words: script.js §4 points its
+   `aria-describedby` at the span round "hold to summon" (the markup
+   ships none, so with the script off nothing tells anyone to hold),
+   so a screen reader hears the instruction once, with the control
+   (§11.6.3).
+   NO GLYPH: the mark that led the words is gone, here and on the
+   shop's hint (shop/08). Her words, 2026-10-16: "it occuring several
+   times on the page turns annoying quickly" (docs/DECISIONS.md). The
+   piece pages lose it too, her ruling at 14:25 on the PM's reading:
+   "Your reading is correct: remove the symbol everywhere the hint
+   appears."
+   script.js §4 finds the hint by `.hint`, not its id.
+   WHAT WOULD BREAK: without `aria-labelledby` the button's name is its
+   whole content, so in Séance the hint is read twice (in the name, then
+   as the description), and the name changes with the skin, because
+   Dossier and Transmission hide the hint and it drops out. */
+.hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's label (tokens/02) */
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  /* WHY A SCRIM AND NOT A BRIGHTER TOKEN. This text sits on `--photo`,
+     which is whatever image a designer uploads. No token can be certified
+     against an unknown backdrop — but a scrim REPLACES the unknown backdrop
+     with a known one. Pure white is the worst backdrop a photograph can
+     have. Over plain white, with nothing else on top:
+
+       rgba(16,16,17,0.78) over PURE WHITE  ->  rgb(69,69,69)
+       --bone on rgb(69,69,69)              ->  5.23:1  (bar 4.5)
+
+     THE PLATE LIFTS IT. The distressed plate (background/03) is fixed
+     over the whole page, the stage included, so its grain and dust also
+     paint over the scrim: at 0.78 they lift the grey under the letters
+     from 69 to 73–87, and the hint read 4.4:1 (median) on a white photo,
+     about two thirds of its glyph pixels under 4.5. At 0.84 the grey
+     under the letters is 60–75. Measured with the plate on, a white
+     photo, reduced motion, all three pieces, each at the top, middle and
+     bottom of the screen (the plate's grain differs across the screen),
+     at 1440, 768 and 390, `--bone` against the ground under each glyph
+     pixel: median 5.4:1, worst pixel 4.65 (390), no glyph pixel under
+     4.5. On the demo's three photos it only gets darker (8.8–9.0 median
+     at 0.78). A `z-index` on the hint alone changes nothing: it is inside
+     `.shop-products`' stacking context (z 2), under the plate's 40.
+     DO NOT LOWER THE ALPHA. 0.84 is the first alpha with no glyph pixel
+     under 4.5 with the plate on; 0.82 leaves 6–12 per width. The bare
+     sum over plain white (0.739) is not the floor: it leaves the plate
+     out. Re-measure with the plate on and a white photo before changing
+     it. The retired `--bone-mid` would have needed 0.923 on plain white
+     (recorded), which erases the photograph: that is why the ink is
+     `--bone`.
+     STILL, NOT PULSING (the spec's §11.5 pulse was removed): a scrim under
+     a pulsing ink still gives a pulsing ink, and this is the only
+     instruction telling a sighted visitor how to work the stage.
+     Instruction text does not animate below full opacity. */
+  color: var(--bone);
+  opacity: 1;
+  background: rgba(16, 16, 17, 0.84);
+  padding: 4px 10px;
+  border-radius: 2px;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hint.spent { opacity: 0; }
+
+/* ----------------------------------------------------------
+   shop/02 — THE PRODUCT GRID; NO CAPTION UNDER THE PHOTOS (was GROUP
+   15, its second half)
+   WHAT: the pieces in a grid of three equal columns 32px apart,
+   at most 1600px wide with 24px padding: a stage is (1600 - 48 - 64)
+   / 3 = 496px wide at 1600 and wider (429 at the 1400 cap it had on
+   2026-10-26, 356 at the 1180 before), the window's share below that
+   (442.7 at 1440).
+   On phones, one
+   column (responsive/06). Nothing is drawn under
+   a stage, in any skin: her C1 = (ii), 2026-10-16, "I prefer (ii)
+   calmness." (docs/DECISIONS.md). The name lives on as `.sr-only` text
+   inside the piece's link (shop/07) and, in Séance, on the summon's
+   plate (shop/08); the maker line went with the caption (her 1b: a
+   real shop is one maker's). ACCEPTED COSTS (spec sketches/
+   shop-seance-summon/seance-summon-spec.md §6, carried as known, not
+   defects): no name shows under a photo; Ctrl-F finds no name in
+   Séance at rest. Since her question of 14:25 ("Can't the piece name
+   be added in Dossier and Transmission, too?") Dossier's frame tag and
+   Transmission's crawl carry it (shop/04, shop/05), so no skin is
+   nameless. Around the grid, the
+   page: its flat ground, its hero's size and its footer's colours.
+   ---------------------------------------------------------- */
+
+/* THE SHOP'S GROUND: `body.shop-page` (the class on the shop's <body>)
+   paints it flat `--above-black`, #101011, with no image, over
+   background/01's descent. (0,1,1) out-ranks background/01's `body`.
+   Here, not inline on the <body>, so a shops/<slug>/ page gets it from
+   its class.
+   NO LIFT (the next rule): background/01's `body::before` keeps the
+   descent's darkest band off black, where it clamped and drew an edge
+   two thirds down. The shop has no descent and no band, and on its flat
+   ground the lift did the opposite: #1f181b to 62% of the page, fading
+   to #101011 by 74%, a tonal edge across the product row at every width
+   (uiux, docs/DECISIONS.md "THE DEMO SHOP: THE DESCENT'S LIFT COMES
+   OFF"). Without it the ground is 16,16,17 from the top down to 83.8%
+   of the page at 1440 and 85.6% at 1920 (the plate hidden); below that
+   the footer's seep (chrome/06, its box from 40px above the footer)
+   darkens the foot to 13-15. With the seep hidden it is 16,16,17 to
+   the bottom. */
+body.shop-page {
+  background: var(--above-black);
+}
+
+body.shop-page::before {
+  content: none;
+}
+
+/* THE SHOP'S HERO: chrome/03's `header.hero` and `h1.title`, made the
+   shop's. `padding-top: 128px` (120 at 700px and below, responsive/06)
+   is room for the nav: a hero taller than the screen (a long bio,
+   shop/09) starts under the nav instead of behind it. 40px below the
+   bio (32 at 700px and below), then the grid's 24px padding: the first
+   photo stands 64px under the bio.
+   AS TALL AS ITS WORDS, at every width: `min-height: 0`, not chrome/03's
+   one screen (`100svh`) with the words centred in it. That screen split
+   what the words left of it above and below them, so at 1920 × 1200 an
+   empty dark band of ~370px lay under the bio and the first photo
+   started below the first screen (y 1299; 1144 in her 1850 × 1045
+   window). The phone already dropped it (responsive/06); this is that
+   rule above 700px. HER WORDS, 2026-10-24: "2. Yes to the preview's
+   layoyt for the demo shop." (uiux t_7b977138, sketches/shop-real/
+   README §2, 7eb7cc1). The flex column stays, so the words keep their
+   horizontal centring. NO SNAP: chrome/03's `scroll-snap-align: start`
+   is dropped with the screen, as on a phone (responsive/06 THE SHORT
+   HERO DOESN'T SNAP: a hero that is not a frame has nothing to settle
+   onto, and it was the shop's only snap point). The homepage's hero
+   (chrome/03) is untouched: `.shop-page` only.
+   The <h1> takes
+   the scale's title, every page's (tokens/02, THE TYPE SCALE): 48px
+   from 960px up, 38.4 at 768, 32 at 390, where chrome/03 gives the
+   homepage's wordmark 102.4, 61.4 and 48. Her rule (2026-10-28): "Keep
+   the same size for all the h1 titles on all the pages." */
+.shop-page header.hero {
+  min-height: 0;
+  padding-top: 128px;
+  padding-bottom: 40px;
+  scroll-snap-align: none;
+}
+
+.shop-page h1.title {
+  font-size: var(--type-title); /* every page's title (tokens/02) */
+}
+
+/* THE WALL'S CAP, 1600: was 1180, then 1400 (held for her pick,
+   672bf5d, with `?wall=1600` to compare on the real page).
+   HER WORDS, 2026-10-26: "1. I think I lean towards 1600, with bigger
+   photos and more presence. If we think a little, the photos are the
+   main characters of the page, aren't they?", then, after uiux
+   t_cada38f7 ("no objection"), "Yes to all three questions!"
+   (docs/DECISIONS.md 2dc046d). The values of uiux t_65030eac
+   (sketches/shop-real/BIG.md, big.css, be6e8d4; 1400 had been
+   recommended, 1600 safe): one value, `max-width`. The 3 columns, the
+   32px gap and the 24px padding stay, and shop/10's offsets are shares
+   of a column, so ikebana B scales with the frames by itself. The hero,
+   the bio (52ch), the Atlas line and the demo line (shop/09, 1180) keep
+   their widths; phones never reach the cap. The cost, stated by BIG.md:
+   the photo files are drawn at 1.45 file px per CSS px at worst, so on
+   a retina screen (2 device px per CSS px) the placeholder files are a
+   little soft. TO REVERT: 1400 or 1180 here (and the numbers in this
+   banner and in shop/10's). */
+.shop-products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* No caption rules: `.product-card-caption`, `.product-name` and
+   `.product-maker` went with the lines (her C1 = (ii), above). The
+   name's type (Spectral 500, 1rem, `--bone`) is now the summon plate's
+   `.summon-name` (shop/08). */
+
+/* THE SHOP'S FOOTER: its seep's colours (chrome/06's `.footer--seep`):
+   the shop's own `--above-black` and a near-black ink, #050505, the
+   sketch's value (sketches/threshold-footers-bone/variants.css; the
+   spec's §2.3 names only `--above-black`); no red (her ruling D4).
+   The "© Strigoi — …" line reads 1.3:1 under it (1.19 worst, 390),
+   and the links 1.46 to 1.50 (median, 1440 and 1920; chrome/06),
+   until a mouse pointer is over the footer (chrome/06); the notice
+   stays above it. */
+.shop-footer {
+  --seep-field: var(--above-black);
+  --seep-ink: #050505;
+}
+
+/* ----------------------------------------------------------
+   shop/03 — THE DEMO'S SKIN SWITCHER (was GROUP 18)
+   WHAT: a row, "SKIN —" and three buttons, Séance,
+   Dossier and Transmission. Pressing one sets `data-skin` on
+   `.shop-products` (script.js §5), and shop/01, shop/04 and shop/05
+   paint the three pieces from that attribute; on a piece's page the
+   same row sets it on the piece's <article> (product/02).
+   ROLE HERE: the demo's pages only, in the demo line at each page's
+   foot (shop/09; a piece's page since 2026-10-24, her "1. Please, move
+   the skin switcher below the main sections of the page."). A real
+   shop has one skin, a column only the admin can write, and no
+   switcher (docs/ARCHITECTURE.md
+   §B.2.3); here the three sit side by side on the same pieces.
+   CHOICE: a radio group of buttons, not a <select>: the three names
+   stay in view at once, so a visitor comparing skins never opens a
+   list to learn what the other two are called (the recorded reason).
+   ACCESSIBILITY: `role="radiogroup"` with an `aria-label`, each button
+   `role="radio"` with `aria-checked`, and a radio group's keyboard
+   (script.js §5): one Tab stop, the checked skin; the arrow keys move
+   and choose, wrapping. Enter, Space and a click choose, as on any
+   button. Home and End stay the page's, as in a native radio group
+   (the gallery grid's are the grid pattern's). With the script off
+   the row is hidden (shop/06): nothing
+   could switch, so the page stays in the skin its markup names.
+   VISION: of the three concepts she chose the Séance as every shop's
+   default, and a shop's skin is hers to assign, never the designer's
+   (docs/DECISIONS.md, "Séance chosen as the canonical shop skin, with
+   founder-assigned per-shop skins"). This row compares the three.
+   History: docs/HISTORY.md, shop/03.
+   ---------------------------------------------------------- */
+
+/* The row: centred, wrapping, 10px apart, in Space Mono. Its own width
+   (at most 1180px), 24px in and 8px bottom margin are for a row on its
+   own; no page has one since 2026-10-24: on the shop and on each piece's
+   page it sits in the demo line at the foot, beside the note, and
+   `.demo-bar` (shop/09) takes its margin, padding and width off. On
+   phones it starts at the left (responsive/06). */
+.skin-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 1180px;
+  margin: 0 auto 8px;
+  padding: 0 24px;
+  font-family: var(--mono);
+}
+
+/* "SKIN —": the scale's label, 12px capitals tracked 0.12em,
+   `--bone-label` (tokens/02;
+   ruling D10): 7.7:1 median, 7.1 at the worst glyph pixel (1440, 390;
+   the ink against the ground under each glyph pixel). */
+.skin-switcher-label {
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  margin-right: 4px;
+}
+
+/* A skin's button: a native <button> with the browser's look taken off,
+   Space Mono 12px in capitals tracked 0.12em, the scale's label
+   (tokens/02), `--bone` (8.8:1 median, 7.71
+   at the worst glyph pixel, 1440 and 390), a 1px bone hairline at .25,
+   2px corners, 36px tall (78, 86 and 127px wide).
+   Hover (the next rule): the hairline goes to .5 over 0.2s. The colour
+   it also sets has been the rest colour since the ink was raised to
+   `--bone`, so only the hairline changes (docs/HISTORY.md, shop/03).
+   The 0.2s ease has no reduced-motion guard in motion.css: nothing
+   moves, only the hairline's alpha. */
+.skin-btn {
+  background: none;
+  border: 1px solid rgba(193, 191, 189, 0.25);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  padding: 8px 14px;
+  min-height: 36px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: opacity 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.skin-btn:hover {
+  color: var(--bone);
+  border-color: rgba(193, 191, 189, 0.5);
+}
+
+/* Keyboard focus: the site's 2px `--teal` ring (tokens/03), 2px
+   outside here, clear of the selected skin's 2px teal border. */
+.skin-btn:focus-visible {
+  outline-offset: 2px;
+}
+
+/* The selected skin: the one `aria-checked="true"` button of the three.
+   Bone text like the others, marked by SHAPE: a 2px teal border (the
+   unselected ones have a 1px bone hairline at .25) and an underline.
+   CHOICE: it was dark text (`--above-black`) on a teal fill, the one
+   non-bone text on the shop. Bone on that teal measures 1.86:1, so the
+   text could not go bone while the fill stayed; the founder chose bone
+   text, no fill, border and underline (her ruling D6). The border
+   measures 5.58:1 against `--above-black` as a token pair and 3.83:1
+   against the lightest 1% of the shop's ground beside the button (the
+   spec's figure, taken with the lift on; with it off, shop/02, 4.34 at
+   1440 and 4.37 at 390), over WCAG's 3:1 floor for a non-text mark.
+   The padding drops by the extra 1px of border, so the selected button
+   is the same size as the others and nothing shifts when it changes.
+   ACCESSIBILITY: "selected" is carried by `aria-checked` for a screen
+   reader and by two shapes for the eye, never by colour alone (WCAG
+   1.4.1): the thicker border and the underline both survive a
+   forced-colours mode, where the teal fill would have been dropped.
+   The focus ring (above) sits 2px outside this border, so a focused
+   selected button shows both. This rule comes after `:hover`, so
+   hovering the selected button keeps the teal border.
+   History: docs/HISTORY.md, shop/03. */
+.skin-btn[aria-checked="true"] {
+  color: var(--bone);
+  border: 2px solid var(--teal);
+  padding: 7px 13px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+
+/* ----------------------------------------------------------
+   shop/04 — THE DOSSIER SKIN (was GROUP 19)
+   WHAT: the same stage as the Séance (shop/01), re-dressed when
+   `.shop-products` has `data-skin="dossier"`: no hint, ripple or
+   colour split; a graded photo under a vignette; five stamps at rest
+   (`.dossier-hud`): "EVIDENCE 01/01" at the top, a fact in three
+   corners, a fragment of the prose in the fourth. The sketch's words:
+   "A product read as a damaged surveillance file: the photo is the
+   evidence, and product data is corner-burned HUD stamps"
+   (sketches/lightbox-concepts/001-dossier/, which also cycles photos).
+   Summoned by any path (script.js §4 wires every stage in every skin),
+   the stamps fade out and the words rise as in the Séance: the one
+   place the whole description shows (sketches/dossier-summon/).
+   ROLE HERE: one of the two skins the demo's switcher (shop/03) shows
+   beside the Séance. No live shop uses it.
+   ACCESSIBILITY: the stamps are `aria-hidden`: they restate facts the
+   piece's `.desc` already carries, and `.desc` stays in the DOM and
+   names the stage in every skin (§11.6.3).
+   History: docs/HISTORY.md, shop/04.
+   ---------------------------------------------------------- */
+
+/* The cursor is `default` (the Séance's is a pointer) and the hint,
+   ripple and colour split don't show: Dossier doesn't advertise the
+   press, though the stage still answers it. */
+[data-skin="dossier"] .stage {
+  cursor: default;
+}
+
+[data-skin="dossier"] .hint,
+[data-skin="dossier"] .ripple,
+[data-skin="dossier"] .ch {
+  display: none;
+}
+
+/* The photo's grade, `saturate(0.85) contrast(1.08)`: more desaturated
+   than the Séance's (0.92 / 1.04); the Dossier sketch used 0.92 / 1.03.
+   Reason not recorded. Summoned, shop/01's grade (0,4,0 against 0,3,0)
+   wins and the photo eases to it. */
+[data-skin="dossier"] .stage-photo {
+  filter: saturate(0.85) contrast(1.08);
+}
+
+/* The vignette: clear to 55% of the way out, then darkening to black
+   at .55 in the corners, multiplied, as in the Dossier sketch. A
+   `::after` with no `z-index`: over the photo, UNDER THE STAMPS AND
+   THE SUMMONED WORDS (`z-index: 1`, below). It darkens the photograph,
+   not the labels printed on the file (uiux, docs/DECISIONS.md "DOSSIER
+   AND TRANSMISSION", item 1; the 001 sketch puts it under the stamps):
+   over them it multiplied their ink down; removed, it takes away a
+   darkening the corner stamps' ground leans on.
+   FIGURES in this group are as built: the vignette under, halo on, a
+   white photo with the distressed plate on, unless a block says
+   otherwise (sketches/shop-plates/final.txt).
+   History: docs/HISTORY.md, shop/04. */
+[data-skin="dossier"] .stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* The stamps' box: the whole frame, no pointer events; Dossier only. */
+.dossier-hud {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+[data-skin="dossier"] .dossier-hud {
+  display: block;
+}
+
+/* THE STAMPS AND THE WORDS OVER THE VIGNETTE (above): `z-index: 1` on
+   both boxes, Dossier only (Transmission lifts its words for its own
+   chrome, shop/05). DO NOT REMOVE: without it the vignette paints over
+   the text again and the figures below no longer hold. */
+[data-skin="dossier"] .dossier-hud,
+[data-skin="dossier"] .desc-wrap {
+  z-index: 1;
+}
+
+/* THE STAMPS GIVE WAY TO THE WORDS (sketches/dossier-summon/). While a
+   piece is summoned (`.holding` or `.revealed`) the HUD fades to 0 on
+   the words' own 0.6s curve, and returns on dismiss. Without it the
+   price line runs under the quote, which paints later; the words carry
+   every fact the stamps do. The wrapper's opacity is 1 at rest, so it
+   lowers no plate while it is read; opacity, not `display`, so it
+   crossfades. Reduced motion: 0.3s (motion.css). */
+[data-skin="dossier"] .dossier-hud {
+  transition: opacity 0.6s cubic-bezier(.2,.8,.2,1);
+}
+[data-skin="dossier"] .stage.holding .dossier-hud,
+[data-skin="dossier"] .stage.revealed .dossier-hud {
+  opacity: 0;
+}
+
+/* A stamp: Space Mono 12px, the scale's line (tokens/02), placed
+   absolutely (each corner below),
+   in `--bone-label`, the labels' tone (tokens/02; ruling D10), with a
+   dark two-layer halo. */
+.dossier-hud p {
+  position: absolute;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-line);
+  line-height: 1.5;
+  color: var(--bone-label);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
+}
+
+/* A dark radial behind each stamp (`--above-black` from .6 at the
+   centre to clear at 80%, 8px and 10px past its box), the sketch's
+   glow. At `z-index: -1` it paints behind the text of the nearest
+   stacking context: a corner stamp's own (`isolation`, below) and the
+   frame tag's (its `transform`), softening the plate's edge. The quote
+   is none, so its radial paints at the back of the HUD's (`z-index: 1`,
+   above): under the quote's plate, over the photo and the vignette
+   (hidden, 26,043 px change at 1440); the quote's figures include it. */
+.dossier-hud p::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -8px -10px;
+  background: radial-gradient(ellipse 150% 170% at 50% 50%, rgba(16, 16, 17, 0.6) 0%, rgba(16, 16, 17, 0.25) 55%, transparent 80%);
+}
+
+/* "EVIDENCE 01/01": centred 14px from the top, 12px, the scale's label
+   (tokens/02), tracked 0.12em, upper
+   case (`!important` beats `.dossier-hud p`, 0,1,1 against 0,1,0), on a
+   solid plate, `--above-black` at 0.78. A PLATE, NOT ONLY THE RADIAL
+   (the spec's §3A note 3): the radial is clear at 80%, so the outer
+   glyphs of a centred line would sit on bare photograph.
+   0.78 over pure white is rgb(69,69,69): `--bone-label` 4.6:1 (its
+   floor 0.773). As built: 6.9 median, worst glyph pixel 5.61; on the
+   three photos 8.2 median, worst 7.06 (1440 and 390). DO NOT LOWER
+   THE ALPHA without measuring again on white with the plate on.
+   `opacity: 1 !important` is a guard: an opacity on `.dossier-hud p` (it
+   had 0.86) would multiply the plate to 0.671 and still look like one. */
+.dossier-frame-tag {
+  top: 14px; left: 50%; transform: translateX(-50%);
+  font-size: var(--type-label) !important; /* the scale's label (tokens/02) */
+  letter-spacing: var(--track-caps) !important;
+  text-transform: uppercase;
+  color: var(--bone-label) !important;
+  opacity: 1 !important;
+  background: rgba(16, 16, 17, 0.78);
+  padding: 3px 8px;
+}
+
+/* ON THE SHOP THE TAG CARRIES THE NAME: "EVIDENCE 01/01 · NYX MANTLE".
+   Her question, 2026-10-16 14:25, on the cost of no captions (C1 =
+   (ii), shop/02): "Can't the piece name be added in Dossier and
+   Transmission, too?"; uiux's answer, built on the PM's assumption that
+   she wants it (flagged, reversible: drop the name from the 7 tags and
+   this rule). The piece pages keep the bare tag (their <h1> is the
+   name), so this is the shop's card only (0,2,0 over the tag's 0,1,0).
+   PLACE: the named tag is 221.5–282.5px wide (measured) and the top row
+   has no room for it between TL and TR (each up to 102px), so it leaves the row:
+   left-aligned under TL, its plate's edge on TL's (8px in), its top 8px
+   below the tallest TL box (13 + 38 = 51px; the one-line "EDP 30ML"
+   leaves more). One line (`nowrap`): the longest, UNRAVELLED SWEATER,
+   fits a 356px stage with room (measured, 1440 and 1920). TL, TR, BR
+   and the quote are untouched.
+   STACKING: without the centring `transform` the tag is no stacking
+   context, and its radial (`::before`, z -1) would sink under the
+   HUD's; `isolation` keeps it under the tag's own text, as before.
+   The plate, the ink and the size are the tag's own (above). */
+.product-card .dossier-frame-tag {
+  top: 59px;
+  left: 8px;
+  transform: none;
+  isolation: isolate;
+  white-space: nowrap;
+}
+
+/* The three corner facts (material, edition, price), each on the frame
+   tag's plate, `--above-black` at 0.78, padding 3px 6px. The text sits
+   where it sat bare, 16px from the top and 14px in, or 14px from the
+   foot: each box moves out by its padding (TL and TR 13px / 8px, BR
+   11px / 8px). `isolation: isolate` makes each a stacking context, so
+   its radial paints behind its own text, as on the tag.
+   WHAT: material, edition and price are the facts a buyer needs, and a
+   designer uploads any photograph; a plate gives them a known ground
+   (uiux, docs/DECISIONS.md "DOSSIER AND TRANSMISSION", item 2).
+   WHY 0.78 AND 3px 6px: bare, a white photo left 2,376 glyph pixels
+   under 4.5 (1440, worst 2.24), and piece 2's top-left stamp 2 pixels
+   on the demo's own photo (390). As built, three pieces at the top,
+   middle and foot of the screen: medians 7.4–7.7, worst pixel
+   5.86–6.46, none under 4.5 (1440 and 390); on the photos 6.7 or
+   better. 3px 8px (the tag's own padding) overlaps the tag's plate by
+   3px at 1440 and 6px at 390 on pieces 1 and 3; 3px 6px, with the
+   boxes moved out, clears it by 7px and 4px.
+   DO NOT LOWER THE ALPHA without measuring again on white with the
+   plate on; DO NOT WIDEN THE PADDING without the gap to the tag.
+   (At 1024, 768 and 320 the top row's text overlaps as it did bare:
+   the responsive phase's, TASK 4A, not this rule's.) */
+.dossier-hud-tl { top: 13px; left: 8px; text-align: left; }
+.dossier-hud-tr { top: 13px; right: 8px; text-align: right; }
+.dossier-hud-br { bottom: 11px; right: 8px; text-align: right; }
+.dossier-hud-tl,
+.dossier-hud-tr,
+.dossier-hud-br {
+  isolation: isolate;
+  background: rgba(16, 16, 17, 0.78);
+  padding: 3px 6px;
+}
+/* The quote, 14px from the bottom-left corner, at most 60% wide, on a
+   plate, `--above-black` at 0.84. THE PLATE IS ON THE <p>, NOT THE
+   `.frag` SPAN (the spec's §3A note 2): an inline span paints one box
+   per line, so a two-line quote would be a ragged stack of plates.
+   The selector is `.dossier-hud p.dossier-hud-bl` (0,1,2) so its
+   `opacity: 1` outranks `.dossier-hud p`: the frame tag's guard.
+   WHY 0.84: the sum over pure white (0.78 gave `--bone` 5.31:1) leaves
+   out the distressed plate, which lifts the ground; at 0.78 a white
+   photo left 98 of 753 glyph pixels under 4.5. The hint's alpha, by
+   the hint's method (shop/01). As built, three pieces at the top,
+   middle and foot of the screen: 8.0–8.1 median, worst pixel 6.35,
+   none under 4.5; on the three photos 9.1 median or better, worst
+   7.41 (1440 and 390).
+   DO NOT LOWER THE ALPHA: 0.82 leaves 1–2 glyph pixels under 4.5 per
+   width, 0.80 over a hundred. These floors were measured halo off,
+   with the vignette over the quote and its radial unseen; as built
+   there is more headroom. Re-measure on white with the plate on
+   before changing it. */
+.dossier-hud-bl { bottom: 14px; left: 14px; text-align: left; max-width: 60%; }
+.dossier-hud p.dossier-hud-bl {
+  opacity: 1;
+  background: rgba(16, 16, 17, 0.84);
+  padding: 4px 8px;
+}
+
+/* The quote's words: Spectral italic 13px, small print, as every
+   caption (tokens/02), `--bone`, untracked. Spectral
+   because small text is set in Spectral, not IM Fell (her System C+,
+   docs/DECISIONS.md "TYPOGRAPHY: 'System C+' confirmed"). The ink is on
+   the parent's plate (above): read that rule before moving either half.
+   The halo is kept for the italic's thin strokes against the plate's
+   edge (the recorded reason). */
+.dossier-hud-bl .frag {
+  font-family: var(--interface);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--type-small);
+  letter-spacing: 0;
+  color: var(--bone);
+  opacity: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* ----------------------------------------------------------
+   shop/05 — THE TRANSMISSION SKIN (was GROUP 20)
+   WHAT: the same stage as the Séance (shop/01), re-dressed when
+   `.shop-products` has `data-skin="transmission"`: the photo, graded,
+   under scanlines and grain, a blinking REC stamp and "FRAME 001" in
+   the top-left corner, and a strip at the foot where the piece's
+   facts and a line of its prose crawl right to left (`.transmission-
+   chrome`). The sketch's words: "A still image simulates a video feed
+   via an animated VHS-grain + scanline overlay (SIMULATED — no real
+   video asset exists yet …). The description scrolls as a slow
+   monospace crawl along the bottom edge like a broadcast subtitle
+   track" (sketches/lightbox-concepts/003-transmission/). The sketch's
+   pause control and its glitches at punctuation are not built.
+   A press summons the piece as in every skin (script.js §4 wires every
+   stage): `aria-pressed` flips, the photo takes shop/01's summoned
+   grade, the crawl's strip fades out and the words surface as in the
+   Séance, on the same scrim (uiux, docs/DECISIONS.md "DOSSIER AND
+   TRANSMISSION", item 3). The stage is the same `<button>` with the
+   same name in every skin, so it does the same thing; and it is how a
+   sighted visitor reads the whole description, still, here.
+   ROLE HERE: one of the two skins the demo's switcher (shop/03) shows
+   beside the Séance. No live shop uses it.
+   ACCESSIBILITY: the chrome is `aria-hidden`. At rest the piece's
+   `.desc` is clipped to 1px, not removed, so it still names the stage
+   (§11.6.3), and nobody has to read the crawl to reach the prose.
+   History: docs/HISTORY.md, shop/05.
+   ---------------------------------------------------------- */
+
+/* The cursor is `default`, the stage's ground is `--above-black`
+   (shows until the photo loads), and the hint, ripple and colour
+   split don't show. */
+[data-skin="transmission"] .stage {
+  cursor: default;
+  background: var(--above-black);
+}
+
+[data-skin="transmission"] .hint,
+[data-skin="transmission"] .ripple,
+[data-skin="transmission"] .ch {
+  display: none;
+}
+
+/* The words' box AT REST, clipped to 1px: the declarations of
+   tokens/03's `.sr-only`, repeated here (the class isn't used). Off
+   the canvas, still read by a screen reader; the words' scrim goes
+   with it (shop/01). */
+[data-skin="transmission"] .desc-wrap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* SUMMONED, THE WORDS SHOW: on `.holding` / `.revealed` the box takes
+   shop/01's back (the whole frame, 24px in, 12% up), so the words
+   surface as in the Séance: the same fade, blur, rise and 0.90 scrim.
+   The hint stays hidden (above); the stage's description is still
+   "hold to summon". At rest nothing changes (0 px at 1440 and 390).
+   Summoned, the words sit 145px or more below FRAME 001 (152.5 at
+   1440, 145.7 at 390; narrower is the responsive phase's). */
+[data-skin="transmission"] .stage.holding .desc-wrap,
+[data-skin="transmission"] .stage.revealed .desc-wrap {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0 24px 12%;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* THE WORDS OVER THE CHROME: `z-index: 1` lifts the words' box over
+   the scanlines and the grain (`.transmission-chrome`, later in the
+   stage). Under them, on a white photo, halo off, the summoned words
+   left 837 glyph pixels under 4.5 (1440, worst 3.71; 706 at 390); over
+   them they measure as the Séance's certified words: median 6.65,
+   worst pixel 5.60 (1440) / 5.55 (390), none under.
+   DO NOT REMOVE THE Z-INDEX (sketches/shop-plates/probe.txt). */
+[data-skin="transmission"] .desc-wrap {
+  z-index: 1;
+}
+
+/* The photo's grade, `saturate(0.85) contrast(1.08) brightness(0.96)`,
+   the Transmission sketch's, word for word. Summoned, shop/01's grade
+   (0,4,0 against this 0,3,0) wins. */
+[data-skin="transmission"] .stage-photo {
+  filter: saturate(0.85) contrast(1.08) brightness(0.96);
+}
+
+/* The feed's layers: the whole frame, no pointer events, `display:
+   none` until the skin is Transmission (the next rule). */
+.transmission-chrome {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+[data-skin="transmission"] .transmission-chrome {
+  display: block;
+}
+
+/* The scanlines: a 1px black line at .28 every 3px, overlay-blended,
+   drifting down 120px every 6s (chrome/05's `transmissionScanShift`:
+   the sepulchre's scanlines, which no page renders, share it). Reduced
+   motion: still (motion.css). */
+.transmission-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.28) 0px, rgba(0,0,0,0.28) 1px, transparent 1px, transparent 3px);
+  animation: transmissionScanShift 6s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+/* The grain: tokens/02's `--grain-noise`, the turbulence the distressed
+   plate's grain uses (and the sepulchre's did, until 2026-10-12),
+   screen-blended at 0.22, 40%
+   larger than the frame so its jitter (chrome/05's
+   `transmissionGrainShift`, a jump every 0.1s) shows no edge. 0.22,
+   up from the old dots' 0.16: turbulence reads fainter than solid dots
+   at the same alpha (the recorded reason). Random noise, not tiled
+   dots: a dot grid beat into a tartan (docs/HISTORY.md, tokens/01–03,
+   "Film grain"). Reduced motion: still (motion.css). */
+.transmission-grain {
+  position: absolute;
+  inset: -20%;
+  opacity: 0.22;
+  background-image: var(--grain-noise);
+  animation: transmissionGrainShift 0.4s steps(2) infinite;
+  mix-blend-mode: screen;
+}
+
+/* "REC": Space Mono 12px, the scale's line (tokens/02), on an 18px
+   line (the labels' leading), in `--bone-label`, the labels'
+   tone (tokens/02; ruling D10), with a dark halo, ON A PLATE,
+   `--above-black` at 0.88, padding 2px 6px. The text stays 14px from
+   the top-left corner: the box moves out by its padding (12px / 8px).
+   The dot sits 6px before the word, inside the plate.
+   WHAT: they say nothing about the piece, but they are text on the
+   photo, and a designer uploads any photograph (uiux, docs/DECISIONS.md
+   "DOSSIER AND TRANSMISSION", item 4).
+   WHY 0.88, here and on "FRAME 001" below: bare, both read 1.4:1 on a
+   white photo, every glyph pixel under 4.5, and FRAME 001 crossed a
+   pale fold on piece 2 of the demo (56 glyph pixels under, worst
+   1.23). The type is 12px (it was 9–9.6px when the numbers below were
+   taken: the same ink and plate, larger letters) with no radial behind
+   it. As drawn (halo
+   on), on white with the distressed plate on, three pieces at the top,
+   middle and foot of the screen: REC medians 6.1–6.2, worst pixel 5.02
+   (1440) / 5.11 (390); FRAME 001 6.2–6.3, worst 5.25 / 5.31; none
+   under 4.5; on the photos 5.88 or better
+   (sketches/shop-plates/final.txt). Halo off, 0.88 gave worst 4.91.
+   DO NOT LOWER THE ALPHA: 0.84 leaves 2 glyph pixels under 4.5 at
+   1440, 0.78 about 390. Re-measure on white with the plate on before
+   changing it. */
+.transmission-rec {
+  position: absolute;
+  top: 12px; left: 8px;
+  margin: 0;
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  line-height: var(--leading-label); /* its plate 22px tall: it ends at
+                         34px, where FRAME 001's begins */
+  color: var(--bone-label);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  background: rgba(16, 16, 17, 0.88);
+  padding: 2px 6px;
+}
+
+/* The REC dot: 7px, #f04c90 (the magenta-red it took when Palette III
+   retired the old red, docs/DECISIONS.md "PALETTE III"), an 8px glow,
+   blinking between full strength and 0.25 every 1.1s
+   (`transmissionRecBlink`, kept in chrome/05 for this dot alone). A
+   mark, not text, so not bone. Reduced motion: steady (motion.css). */
+.transmission-rec-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #f04c90;
+  box-shadow: 0 0 8px rgba(240,76,144,0.8);
+  animation: transmissionRecBlink 1.1s ease-in-out infinite;
+}
+
+/* "FRAME 001", the camcorder's frame counter, under REC: Space Mono
+   12px on an 18px line, as REC, `--bone-label` as REC (tokens/02; ruling D10), the same
+   halo and the same 0.88 plate (why, and DO NOT LOWER, in REC's block
+   above). The text stays 36px from the top and 14px in: the box moves
+   out by its padding (34px / 8px), right under REC's plate, which ends at 34px.
+   CHOICE: bone, like every text on the site (her rule), not the
+   `--magenta-label` it was; the warm accent stays in the REC dot, a
+   mark. History: docs/HISTORY.md, shop/05. */
+.transmission-frame-count {
+  position: absolute;
+  top: 34px; left: 8px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  line-height: var(--leading-label);
+  color: var(--bone-label);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  background: rgba(16, 16, 17, 0.88);
+  padding: 2px 6px;
+}
+
+/* The crawl's strip: 44px at the frame's foot, black from .85 at the
+   bottom to .8 at 70% and clear at the top, clipping the line.
+   A PLATE, CERTIFIED ON WHITE: the line sits 30–70% up the strip, on
+   the solid part. On a white photo with the distressed plate on, halo
+   off, three pieces at the top, middle and foot of the screen:
+   medians 5.9–6.0, worst glyph pixel 4.99 (1440, 390) and 5.14 (768),
+   none under 4.5; the halo adds about 1. On the three photos 9.6–10.0
+   median, 7.2 at the worst pixel. The 70% stop was 0.5, which
+   left 4.0 median and 826 of 998 glyph pixels under 4.5 on white.
+   The strip reads darker than it did: the cost, a band of near-black
+   under the line where the photo showed through at half strength.
+   DO NOT LOWER THE 0.8: 0.78 is the floor (worst pixel 4.69), 0.75
+   leaves 5–17 glyph pixels under 4.5 per width. Re-measure on white
+   with the plate on before changing it. */
+.transmission-ticker-track {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 44px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.8) 70%, transparent 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* THE STRIP GIVES WAY TO THE WORDS: while a piece is summoned
+   (`.holding` or `.revealed`) the strip and its crawl fade to 0 on the
+   words' own 0.6s curve, and return on dismiss: Dossier's HUD rule
+   (shop/04), for the same reason, what the visitor asked for wins the
+   stage. Without it the words' last line overlaps the strip by 1–2px
+   and the crawl runs under the scrim's feather. It also gives a
+   still, readable copy of the prose to anyone the moving crawl doesn't
+   suit (the sketch's pause is not built). Opacity is 1 at rest, so it
+   lowers the strip's certified plate only while it is meant to be
+   gone. Reduced motion: 0.3s (motion.css). */
+[data-skin="transmission"] .transmission-ticker-track {
+  transition: opacity 0.6s cubic-bezier(.2,.8,.2,1);
+}
+[data-skin="transmission"] .stage.holding .transmission-ticker-track,
+[data-skin="transmission"] .stage.revealed .transmission-ticker-track {
+  opacity: 0;
+}
+
+/* The crawl: the piece's facts and one line of its prose, twice over,
+   written in the markup; Space Mono 0.66rem, `--bone`. It starts one
+   strip-width in (`padding-left: 100%`) and slides its own width left
+   in 22s, then starts again: the text enters at the right edge and
+   has left at the left one. Its contrast is the strip's (above).
+   REDUCED MOTION (motion.css, shop/05): the crawl stands still and
+   shows the start of one copy, 14px in from each side of the strip,
+   and ends in "…": 45 characters at 1440, 44 at 390 (of 184–236).
+   WHAT: the ellipsis shows no more than a cut line did (49 characters,
+   ending mid-word, "… a little mor"), but it says there is more, and
+   the line no longer looks broken; the whole description is one press
+   away (above), for everyone (uiux, docs/DECISIONS.md "DOSSIER AND
+   TRANSMISSION", item 5).
+   WHY NOT A WRAP OR A START CONTROL: one copy wrapped takes 35–52px,
+   over the strip's 44, and still cuts 116 characters; a control that
+   only starts motion is for people who asked for none. The "…" still
+   falls mid-word ("line s…"): ending on a word needs per-piece markup
+   or script, not worth it for a teaser.
+   ON THE SHOP THE NAME LEADS each copy ("NYX MANTLE — MATERIAL: …"),
+   so the still strip's visible start is the name (her question on
+   C1 = (ii)'s cost, 2026-10-16 14:25; the PM's assumption, flagged; the
+   frame tag's note in shop/04 has the rest). Markup only; this rule is
+   unchanged. The piece pages' crawl keeps its words (their <h1> is the
+   name). */
+.transmission-ticker-text {
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone);
+  padding-left: 100%;
+  animation: transmissionCrawl 22s linear infinite;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+@keyframes transmissionCrawl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ----------------------------------------------------------
+   shop/06 — THE SHOP WITH THE SCRIPT OFF
+   WHAT: where the browser runs no script, a press on a stage sets no
+   class (script.js §4 never runs), so nothing can summon the words.
+   This block shows them at rest instead, where a summon would put
+   them, and hides what can't work: the hint and the demo's switcher.
+   Everything sits in `@media (scripting: none)`, which matches only
+   when the browser runs no script: a visitor with the script on never
+   gets it, not even for a first paint (0 px changed with the script
+   on). A browser that doesn't know `scripting` (Chromium before 120,
+   Firefox before 113, Safari before 17) ignores the block and keeps
+   the words hidden, as before it.
+   CHOICE, a media query, not a `.js` class set by the script: a class
+   gate shows the words to visitors WITH the script until script.js
+   runs at the end of <body>, and hides them at load, so on a slow page
+   everyone watches the words appear and vanish.
+   AFTER shop/04 AND shop/05, on purpose: the Transmission rules below
+   repeat shop/05's selectors (0,3,0) and win by coming later. WHAT
+   WOULD BREAK: moved above shop/05, Transmission's words stay clipped
+   to 1px with the script off.
+   VISION: the words are the product (material, edition, price). The
+   Séance hides them to be conjured, and conjuring is script; without
+   it the honest state is the conjured one, reached with no motion
+   (uiux, docs/DECISIONS.md "THE DEMO SHOP: THE DESCENT'S LIFT COMES
+   OFF … WITH THE SCRIPT OFF THE WORDS SHOW AT REST").
+   History: docs/HISTORY.md, shop/01–02 and shop/03.
+   ---------------------------------------------------------- */
+
+@media (scripting: none) {
+  /* The switcher does nothing without script.js §5: it goes, rather
+     than three buttons that can't work. The page stays in the skin its
+     markup names. */
+  .skin-switcher { display: none; }
+
+  /* Nothing to press: no pointer, no hint. The stage ships as a
+     disabled <button>, named by its words, and script.js §4 enables
+     it, so with the script off it is no Tab stop and has no hint to
+     describe it. */
+  .stage { cursor: default; }
+  .hint { display: none; }
+
+  /* The words, at rest, where a summon would put them: opacity 1, no
+     blur, no drop; the scrim (`.desc::before`, shop/01) comes with
+     them. The photo keeps its rest grade and there is no colour split
+     or ripple: those are the summon's own effects, and nothing was
+     summoned. On a white photo, halo off, the plate on, 1440 and 390,
+     all three skins: words worst 5.55, price 4.98, no glyph pixel
+     under 4.5. */
+  .desc { opacity: 1; filter: none; transform: none; transition: none; }
+
+  /* Dossier (a real shop's authored skin): the stamps give way, as
+     when summoned; the vignette stays under the words (shop/04's
+     z-index already applies). */
+  [data-skin="dossier"] .dossier-hud { opacity: 0; }
+
+  /* Transmission (a real shop's authored skin): the words' box
+     unclipped, as when summoned; the strip gives way. REC and FRAME 001
+     stay. The words' z-index over the chrome (shop/05) already
+     applies. */
+  [data-skin="transmission"] .desc-wrap {
+    inset: 0; width: auto; height: auto; margin: 0; padding: 0 24px 12%;
+    overflow: visible; clip: auto; white-space: normal;
+  }
+  [data-skin="transmission"] .transmission-ticker-track { opacity: 0; }
+}
+
+/* ----------------------------------------------------------
+   shop/07 — EACH PIECE ONE LINK; THE LINE TO THE ATLAS
+   WHAT: on the shop each piece is one link to its page (its photo,
+   and its name unseen), as a piece on the Bestiary: her ruling,
+   2026-10-15, P1 = direction 1 (sketches/product-page/
+   product-page-spec.md §4.1): "P1. your recommended option." The photo
+   is the stage's frame (shop/01: 4:5, 4px corners, the photo layer and
+   its grade), a <div> here, not a button: script.js §4 wires
+   `button.stage` only. The Dossier stamps and the Transmission feed
+   still dress it at rest (shop/04–05). In Séance a separate button,
+   before the link and over the photo's top, summons the piece's facts
+   to the photo's foot (shop/08); every other pixel of the photo is
+   this link (her option, 2026-10-16); while its piece is summoned, a
+   press on it sends the words back instead (2026-10-17, script.js §4a).
+   Nothing under the photo (her C1 = (ii), shop/02). The facts line
+   that sat there (her (a), 625f239) is gone: "a little too crowded"
+   (docs/DECISIONS.md, 2026-10-16, which supersedes (a)).
+   Under the pieces, one line to the Atlas (her N9).
+   ACCESSIBILITY: one Tab stop per piece in Dossier and Transmission,
+   two in Séance (the summon, then this link). Its name is the
+   piece's name, from a `.sr-only` span inside it (the photo's layers
+   are `aria-hidden`; with no text inside, the link would have no
+   name). Its description is the facts line, in every skin: the
+   link's `aria-describedby` points at a `hidden` span with the
+   words, placed after the link, not inside it (inside, Chromium
+   folds the text into the link's name, which then carries the price;
+   sketches/shop-hover/shop-facts-spec.md §5). So a screen reader
+   hears the name, then the material, edition and price. The ring
+   goes round the photo, 4px out, 4px corners. Hover: nothing changes
+   (the pink glow was on the name, which is no longer drawn); the
+   cursor is the link's.
+   History: docs/HISTORY.md, shop/07.
+   ---------------------------------------------------------- */
+.product-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.product-card-link:focus-visible {
+  outline-offset: 4px;
+}
+
+/* A link's frame shows the link's cursor in every skin (Dossier and
+   Transmission set `default` on a stage, shop/04–05; 0,3,0 here
+   outranks their 0,2,0, and shop/06's script-off 0,1,0). */
+.shop-products .product-card-link .stage {
+  cursor: pointer;
+}
+
+/* THE WAY ON: one plain line, the whole line a link, under the pieces
+   on the shop (to the Atlas) and under the column on a piece's page
+   (to the Bestiary; product/03 places it there). Space Mono 0.72rem,
+   tracked, `--bone`, a 44px box; no arrow and no line, as the Atlas's
+   own line to the Bestiary (atlas.css, her "Clean"); hover the pink
+   glow, focus the ring with 2px corners.
+   NO LIVE PAGE CARRIES IT since 2026-10-27: both lines left the shop
+   and its pieces for the nav's "Atlas" and "Bestiary" (A; HER WORDS,
+   2026-10-27: "Yes, I lean towards A as well.", docs/DECISIONS.md
+   19e5318, (1); chrome/07). The two indexes keep their own lines
+   (`.atlas-ways`, `.bestiary-ways`). The rule stays for the sketches
+   that show the pages as they were (sketches/way-lines `built-*`
+   and older ones that load this sheet). Delete it with them. */
+.shop-ways {
+  margin: 40px auto 0;
+  text-align: center;
+}
+.shop-ways a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--bone);
+  text-decoration: none;
+}
+.shop-ways a:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+.shop-ways a:focus-visible {
+  border-radius: 2px;
+}
+
+/* ----------------------------------------------------------
+   shop/08 — THE SÉANCE'S SUMMON, ON THE SHOP
+   WHAT: in Séance, each photo on the shop bears the piece page's hint,
+   "hold to summon", at its top. A press on the hint summons the
+   piece's few things at the photo's foot, on Séance's dark scrim: its
+   name, its quote (the card's own Dossier stamp) and its facts
+   (material — edition — price, the link's description). The hint goes
+   while they show. A press on the words, Escape, or Enter or Space on
+   the focused hint sends them back, and the hint returns. Summoning
+   one piece sends any other back. A press anywhere else on the photo
+   opens the piece's page (shop/07), unless that piece is summoned:
+   then it sends the words back, and the next press opens the page
+   (her ruling, 2026-10-17; script.js §4a).
+   HER WORDS, 2026-10-16 13:10: "keep the Hold to summon line on the
+   top of the photo and when user clicks on it, it disappears and the
+   few details […] of the product are displayed on the bottom of the
+   page. When the user clicks everywhere else on the photo, they are
+   taken to the product page." 13:30: "the bottom" is the photo's foot,
+   and the summon is Séance's only: "Dossier and Transmission keep
+   their facts at rest. Of course!" S1-S3, the spec's recommendations
+   (her words: "I agree with the recommended answers"): the quote and
+   the facts; the piece page's words; the hint comes back. The name on
+   the plate: C1 = (ii), as sketches/shop-seance-summon/shop-ii.html
+   draws it, so a summon gives the name back. docs/DECISIONS.md,
+   2026-10-16; spec seance-summon-spec.md (uiux t_442b83df, df784f9).
+   HOW: the button is a SIBLING of the link, before it in the markup,
+   never inside it (a button inside a link is invalid and reads as
+   neither). Its box covers the photo but takes no pointer itself
+   (`pointer-events: none`): only its visible parts do, the hint's
+   target and, while summoned, the plate's words; every other pixel
+   falls through to the link under it. script.js §4a gives it its
+   press, its hold and its keys, and unhides it.
+   GEOMETRY (1440 and 1920, stage 356 × 445): the pill sits where the
+   piece page's `.hint` sits (16px down, centred); its target is the
+   pill plus 10px above and below (44px tall) and 12px each side. A
+   press 1px outside the target opens the page. While summoned the
+   target goes with the pill, so the place where it was is photo
+   again: the link, whose click script.js §4a turns into a dismiss
+   while its piece is summoned (QA t_e50f1bed's note: it used to open
+   the page, and someone toggling left the shop).
+   THE PLATE: where a piece page's words rise (24px in, 12% of the
+   frame's width up), the same rise (0.6s, a 7px blur and 28px), the
+   same scrim.
+   ACCESSIBILITY: a native <button>, a toggle (`aria-pressed`), named
+   "Hold to summon the facts: <name>" in the markup; the hint's words
+   and the plate are inside an `aria-label`led button, so they are not
+   read twice; the plate is `aria-hidden` too. A screen reader already
+   has the facts as the link's description (shop/07), so the button
+   reveals nothing new to it and announces "pressed". Two Tab stops
+   per piece in Séance, the hint first (it sits at the top), then the
+   link; in Dossier and Transmission the button is `display: none`.
+   The ring (tokens/03's) is drawn on the pill, 4px out, not round the
+   photo-sized box; summoned, round the words.
+   SCRIPT OFF: the button ships `hidden` and only the script unhides
+   it, so the shop is the links alone, each with its description, and
+   each piece page carries its facts. Not shop/06's show-at-rest rule:
+   on the shop the rest is the clean photo, and the page is one click
+   away (spec §5).
+   TOUCH: a tap toggles, a long press holds, a vertical drag from the
+   hint scrolls (`touch-action: pan-y`). Not measured on a touch
+   device: phones are task 4a.
+   ON A DESKTOP (a mouse or trackpad: `(hover: hover) and (pointer:
+   fine)`), the pill shows only while the pointer is over its photo
+   (the link or the button) or while either has keyboard focus; at
+   rest it is not drawn. HER WORDS, 2026-10-24: 2. Yes to the "Hold
+   to summon" idea. (uiux t_7b977138, sketches/shop-real/README.md
+   §3, gap 2: thirteen pills repeated down the wall, on touch kept as
+   built because there is no hover). The rule is the last one in this
+   block.
+   COSTS (carried): Séance is the one skin with a control on its photo;
+   while a piece is summoned its photo is no way to its page (a press
+   dismisses first; Enter on the link still opens it).
+   History: docs/HISTORY.md, shop/08.
+   ---------------------------------------------------------- */
+.product-card { position: relative; }
+
+.summon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  z-index: 3;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+/* `display: block` above outranks the browser's `[hidden]`; this puts
+   it back, so the button stays out until script.js §4a unhides it. */
+.summon[hidden] { display: none; }
+/* The ring goes on the visible part (the pill, or the words), below. */
+.summon:focus-visible { outline: none; }
+
+/* THE TARGET: 44px tall, the pill + 12px each side; its centre is the
+   pill's (16px + 11px down, as on the piece page). */
+.summon-hint {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+}
+/* THE PILL: shop/01's `.hint`, the same values: Space Mono 12px,
+   0.12em, upper case (the scale's label, tokens/02), `--bone` on
+   `--above-black` at 0.84. That rule
+   holds the measurement (no glyph pixel under 4.5 on a white photo
+   with the plate on) and its DO NOT LOWER THE ALPHA: change the two
+   together. No glyph (her ruling; shop/01). */
+.summon-pill {
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone);
+  background: rgba(16, 16, 17, 0.84); /* --above-black at 0.84, as .hint */
+  padding: 4px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: opacity 0.4s;
+}
+.summon:focus-visible .summon-pill { outline: 2px solid var(--teal); outline-offset: 4px; }
+
+/* SUMMONED (`aria-pressed="true"`) or HELD (`.holding`): the pill goes.
+   Summoned, its target goes too; the plate's words are then the
+   button's visible part, and a press on them dismisses. Dismissed, the
+   pill comes back: on the shop it is the only way in (her S3). */
+.summon[aria-pressed="true"] .summon-pill,
+.summon.holding .summon-pill { opacity: 0; }
+.summon[aria-pressed="true"] .summon-hint { pointer-events: none; }
+
+/* THE PLATE, at the photo's foot. */
+.summon-plate {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  padding-bottom: 12%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.summon-words {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  max-width: 100%;
+  opacity: 0;
+  filter: blur(7px);
+  transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(.2,.8,.2,1),
+              filter 0.6s cubic-bezier(.2,.8,.2,1),
+              transform 0.6s cubic-bezier(.2,.8,.2,1);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  cursor: pointer;
+}
+/* The scrim: shop/01's `.desc::before`, the same values. That rule
+   holds the measurement and its DO NOT LOWER THE ALPHA (0.88 is the
+   floor with this feather): change the two together. Measured here
+   with the plate on, halo off, reduced motion (spec §4): worst glyph
+   pixel 6.02 (facts), 6.49 (quote), 4.81 on a pure white photo. */
+.summon-words::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px -10px;
+  border-radius: 14px;
+  background: rgba(16, 16, 17, 0.90); /* --above-black at 0.90, as .desc::before */
+  box-shadow: 0 0 22px 14px rgba(16, 16, 17, 0.90);
+  pointer-events: none;
+}
+.summon[aria-pressed="true"] .summon-words,
+.summon.holding .summon-words {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+.summon[aria-pressed="true"] .summon-words { pointer-events: auto; }
+.summon[aria-pressed="true"]:focus-visible .summon-words { outline: 2px solid var(--teal); outline-offset: 10px; border-radius: 4px; }
+
+/* The plate's three lines: the name in the caption's old type
+   (Spectral 500, 1rem, `--bone`: the site's machinery, her System C+);
+   the quote in Space Mono 0.78rem `--bone`; the facts in shop/01's
+   `.desc .meta` type (Space Mono 0.66rem, 0.12em, `--bone-label`),
+   one line. */
+.summon-name {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--interface);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--bone);
+}
+.summon-quote {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--type-small); /* small print: the skins' typed sentences */
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  color: var(--bone);
+}
+.summon-facts {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone-label);
+  white-space: nowrap;
+}
+.summon-name + .summon-facts { margin-top: 0; }
+.summon-words > :first-child { margin-top: 0; }
+
+/* Séance only (her ruling, 13:30): Dossier and Transmission keep their
+   facts at rest, on the stamps and in the crawl, and have no button.
+   Reduced motion: motion.css, beside `.desc`. */
+[data-skin="dossier"] .summon,
+[data-skin="transmission"] .summon { display: none; }
+
+/* ON A DESKTOP, THE PILL ON HOVER OR FOCUS. Her words, 2026-10-24:
+   2. Yes to the "Hold to summon" idea. (uiux t_7b977138, gap 2:
+   on a hover-capable pointer the pill shows only while the pointer is
+   over that photo or it has keyboard focus; touch keeps it as built).
+   WHAT: at rest the pill's opacity is 0. It shows while the pointer is
+   over any part of its card that takes the pointer (the link, which is
+   the whole photo, or the hint's target: `.product-card:hover`), or
+   while its button or its link has `:focus-visible` (Tab to either).
+   A mouse click on the button doesn't count as focus here (Chromium
+   gives a clicked button focus, but not `:focus-visible`).
+   WHY ONLY OPACITY: the summoned and held rules above set the same
+   opacity 0 and this rule never sets 1, so a summon still takes the
+   pill away and the plate still shows, hovered or not.
+   THE TARGET STAYS: the hint's 44px target is inside the photo, so a
+   mouse can't reach it without hovering the card, and the pill starts
+   to fade in the frame the pointer enters the photo (half drawn at
+   about 120ms, whole at 0.4s, measured; instant with reduced motion),
+   so a mouse press there lands on a pill that is showing, never on an
+   absent one. The fade is the pill's own transition (above) and its
+   reduced-motion rule (motion.css, shop/08).
+   NOT HERE: touch screens and other coarse pointers (the query doesn't
+   match: the pill stays as built), the script off (the button is
+   hidden), Dossier and Transmission (no button). A browser without
+   `:has()` drops the whole rule and shows the pill as built.
+   The piece page's `.hint` (shop/01) is not touched: there the hint is
+   the one control on a one-photo page and is spent after the first
+   summon. */
+@media (hover: hover) and (pointer: fine) {
+  .product-card:not(:hover):not(:has(:focus-visible)) .summon-pill { opacity: 0; }
+}
+
+/* ----------------------------------------------------------
+   shop/09 — THE MAKER'S INSCRIPTION, HER WAYS AND THE DEMO LINE
+   WHAT: the shop's hero says who made the pieces: the shop's name (the
+   <h1>, shop/02) and, under it, the maker's bio. After the pieces,
+   before the line to the Atlas, her ways, alone: "Write to the maker",
+   then a label and up to 3 of her own sites. After the Atlas line, the
+   demo line: one marked note that says what the demo is and what
+   can't be clicked yet, and the skin switcher, on one line under a
+   dashed hairline.
+   HER WORDS, 2026-10-19: "I'm still not satisfied with how the about
+   the maker section is looking. We have the hero-sub paragraf above
+   the photos section and then the maker's story under that section.
+   It looks redundant, especially with the name of the shop written
+   twice on the page."; shown uiux's two merges (sketches/
+   shop-maker-story/merge/, 45bb4dc), 2026-10-20: "1. M2". So this is
+   M2, the sketch's `merge.css` as written: the name said once, the bio
+   with it, nothing about her at the foot but her ways. Her section
+   after the pieces (B, the epitaph, 155b070) and the hero's demo
+   paragraph are gone. Words: docs/worksheets/
+   2026-10-15_demo-shop-copy.md, ADDENDUM 2026-10-20 §D (writer,
+   ae107e7). Standing rulings kept (2026-10-18): invented and said so,
+   bare, up to 3 links, the ways inert in their live look. "Said so"
+   since 2026-10-24 by the DEMO note and the footer's notice ("Demo shop
+   · placeholder products · not for sale"): the hero's tag, the one
+   place the word "invented" was drawn, is gone (her "2. Yes to the
+   preview's layoyt for the demo shop."; uiux 7eb7cc1: a real shop has
+   no tag). The word stays in the page's meta description.
+   THE HERO keeps chrome/03's horizontal centring and shop/02's h1 and
+   height (as tall as its words). shop/02 gives the hero room above for
+   the nav, so a bio taller than the screen starts under it.
+   THE BIO: the epitaph's dress, moved under the h1: Spectral 1.1rem /
+   1.7 at 52ch (`.hero-sub`'s measure), centred, 28px under the h1.
+   COST, in the sketch's README: 9 lines at 1440, 13 at 390, centred,
+   where the old paragraph had 3. A LONG BIO grows the hero past one
+   screen and the pieces start lower; nothing is cut or hidden. With
+   the backend, `designers.bio` is capped at 500 characters with a
+   counter in the maker's studio (her 2026-10-20: "2. OK to the
+   500-character bio cap for the real maker"); the cap is the form's,
+   not this rule's.
+   ON A PHONE (700px and below, responsive/06), the bio comes after
+   the pieces, above the ways, whole, and the hero is only the name.
+   Her question, 2026-10-20: "Do you think that maker's bio
+   should go under the photos in this format with only the name of the
+   shop and that hero tag on the top of the page?"; shown uiux's (b)
+   (sketches/shop-layout-2/, 9722596), "3. Yes". Two copies in the
+   HTML, one per width, the other `display: none` (the markup's
+   comment says why not one moved); `.shop-bio-foot` is the phone's.
+   LAST LINES: centred, a one-word last line looks like a slip.
+   `text-wrap: pretty` on the bio (Chromium re-breaks the last lines;
+   more than 6 lines, so `balance` would not apply) and `balance` on
+   the note (`pretty` at 700px and below, where it runs longer:
+   responsive/06). No word changed. Where a browser has neither, the same
+   words wrap with a lone last word at some widths.
+   THE WAYS: two rows, as in 155b070. "Write to the maker" alone (her
+   own channel, first), then the label and the three sites on one row;
+   at 700px and below the label takes a short row of its own. The live
+   links' type (`.shop-ways a`: Space Mono 0.72rem, 0.1em, a 44px box).
+   A 680px column on the page's axis, 120px under the grid (+ its 24px
+   padding: 144 from the last photo), then `.shop-ways`' own 40px to the
+   Atlas line, so `.shop-ways`, shared with `.piece-ways`, is untouched.
+   [2026-10-27: the Atlas line is gone (the nav's "Atlas", A); the demo
+   line now follows the ways directly, 120px under them, 84px less.]
+   INERT (the buying slot's rule, product/04): plain text in the live
+   links' places and type, so the live links drop in without moving a
+   box. Tells that keep them from looking pressable: `--bone-quiet`, not
+   the links' `--bone`; no hover and the default cursor; the DEMO note
+   saying you can't write to the maker yet (since 2026-10-23 it no
+   longer names the sites: bare kinds of site, no address to expect;
+   worksheet ADDENDUM 2026-10-23 §F.2). No focus rule: nothing here can
+   take focus.
+   THE DEMO NOTE: demo only, as the switcher beside it. The old foot
+   note's type (Space Mono 0.66rem / 1.6, 0.04em, `--bone-quiet`);
+   "DEMO —" in the switcher label's dress. With the script off the
+   switcher is hidden (shop/06), and so is the note's clause about it.
+   Since 2026-10-23 one line (her "1. OK to a shorten demo note."; the
+   writer's words, worksheet ADDENDUM 2026-10-23 §F.1).
+   THE DEMO LINE (`.demo-bar`, an <aside> "Demo controls"): the note
+   and the switcher, side by side and centred, 28px apart (10px between
+   rows where they wrap), under a 1px dashed hairline in bone at .22
+   (the mark of every placeholder on the site: the piece page's buying
+   slot, and the nav's slot until its real words came, 2026-10-24),
+   1180px wide at most, 120px under the Atlas line (under the maker's
+   ways since 2026-10-27, when that line left for the nav's "Atlas");
+   on a phone (below) 88px under it, 20px in, left-set. Under the wall,
+   after the maker's ways and before the footer: a real shop has
+   neither control, so a real shop is everything above it. HER WORDS,
+   2026-10-24: "2. Yes to the preview's layoyt for the demo shop." (uiux
+   t_7b977138, sketches/shop-real/shop-real.css §2, 7eb7cc1: the values
+   as written). Was: the note centred over the switcher's row, both
+   between the hero and the wall.
+   A sibling of `.shop-products`, all of it: every skin rule is
+   `[data-skin="…"] <descendant>`, so this is the same in all three
+   skins, with the script on and off.
+   ON A PIECE'S PAGE (since 2026-10-24, her "1. Please, move the skin
+   switcher below the main sections of the page."): the same line, these
+   rules, after the <article> and before the footer, with the shop's
+   whole note in the shop's markup since 2026-10-26 (her "Yes to both
+   questions.", uiux t_6f66bda1 item 4), so with the script off it
+   keeps its second clause there too (product/01). Was: the first
+   clause only, and the line hidden with the script off.
+   INKS: tokens only, each measured on the rendered page (docs/
+   HISTORY.md, shop/09).
+   WITH THE BACKEND: the demo line goes; the name and the bio come
+   from the maker's profile; the ways become links styled as
+   `.shop-ways a` (the pink glow on hover, the teal ring, 44px); the
+   margins stay, so the demo shows the real layout.
+   History: docs/HISTORY.md, shop/09.
+   ---------------------------------------------------------- */
+
+/* The bio. `pretty`: LAST LINES, above. A <div>, so a bio of two
+   paragraphs keeps them apart by a line.
+   THE COLUMN STAYS 468px (29.25rem): the type scale moved the bio's
+   size (17.6 → 16), not its column. As built it was `52ch` at 17.6 =
+   468px, and the sketch she picked from kept 468 (sketches/type-scale,
+   still 09; README: "the shop −55"). `52ch` at 16 would have narrowed
+   it to 416 and added a line (+27px): measured, frontend t_d56c54e2.
+   `rem`, not `px`, so it still grows with the reader's text size. */
+.shop-bio {
+  margin-top: 28px;
+  max-width: 29.25rem;
+  font-size: var(--type-body); /* reading text: the body (tokens/02) */
+  line-height: var(--leading-body);
+  color: var(--bone);
+  text-wrap: pretty;
+}
+.shop-bio p + p { margin-top: 1em; }
+
+/* The bio's second copy, the phone's (shop/09 ON A PHONE, below): the
+   same words after the pieces, above the ways. Hidden here, at every
+   width; responsive/06 swaps the two copies at 700px and below. One
+   query decides both, so no width (a fractional one at a zoom level
+   included) draws both copies or neither: a screen reader hears the
+   bio exactly once. */
+.shop-bio-foot { display: none; }
+
+/* The ways: a 680px column on the page's axis, 20px in from each edge
+   (350 at 390); "Write to the maker" across the row, then the label and
+   the sites side by side, the two columns centred as one. */
+.shop-maker-ways {
+  max-width: 680px;
+  margin: 120px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  column-gap: 20px;
+  align-items: center;
+  justify-items: center;
+}
+
+/* "Write to the maker", the label and the sites: the live links' type
+   and 44px rows, in `--bone-quiet` while they can't work (INERT). */
+.shop-maker-write,
+.shop-maker-elsewhere,
+.shop-maker-sites li {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone-quiet);
+}
+.shop-maker-write {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+/* The label that says the sites leave Strigoi: words, not an arrow
+   (CLEAN LINKS, docs/DECISIONS.md 2026-10-09). It names the list
+   (`aria-labelledby`), so a screen reader says it once. */
+.shop-maker-elsewhere {
+  color: var(--bone-label);
+}
+
+/* The sites on one row, 24px apart, no "·" (bare); on a phone they
+   wrap where they must. */
+.shop-maker-sites {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+  list-style: none;
+}
+
+/* The demo note: small print, the old foot note's type. `balance`:
+   LAST LINES, above. In the demo line (next rules) it takes no margin,
+   padding or width of its own. */
+.demo-note {
+  max-width: 104ch;
+  margin: 0 auto 14px;
+  padding: 0 24px;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  line-height: 1.6;
+  letter-spacing: var(--track-line);
+  color: var(--bone-quiet);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* "DEMO —": the switcher label's dress ("SKIN —", shop/03). Sentence
+   case in the source, capitals by CSS. */
+.demo-note-mark {
+  font-size: var(--type-label); /* the scale's label (tokens/02) */
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+}
+
+/* Script off: the switcher is hidden (shop/06), so its clause goes too
+   and the note stays true ("Demo — you can't buy or write to the maker
+   yet."). Since the one-line note (2026-10-23) there is no summon
+   sentence, so no `.demo-note-summon`. */
+@media (scripting: none) {
+  .demo-note-sw { display: none; }
+}
+
+/* THE DEMO LINE (above): the note and the switcher on one centred,
+   wrapping line under a dashed hairline, 120px under the Atlas line.
+   The sketch's values (shop-real.css §2). The two inside lose their
+   own margins, padding and width (0,2,0 over shop/03's and the note's
+   0,1,0, and over responsive/06's phone padding), so the line alone
+   places them. */
+.demo-bar {
+  max-width: 1180px;
+  margin: 120px auto 0;
+  padding: 22px 24px 8px;
+  border-top: 1px dashed rgba(193, 191, 189, 0.22);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px 28px;
+}
+.demo-bar .demo-note,
+.demo-bar .skin-switcher {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+/* On a phone: 88px under the maker's ways (the Atlas line until
+   2026-10-27), 20px in from each edge,
+   left-set as the phone's note and row are (responsive/06). The
+   sketch's values. */
+@media (max-width: 700px) {
+  .demo-bar { margin: 88px 20px 0; padding: 18px 0 8px; justify-content: flex-start; }
+}
+
+/* ----------------------------------------------------------
+   shop/10 — IKEBANA B, "THE ARRANGEMENT TURNS": EACH ROW ONE
+   ARRANGEMENT
+   WHAT: above 700px the pieces hang in shop/02's three lanes, each row
+   of three one small arrangement of three unequal heights, ikebana's
+   shin (heaven, the highest), soe (the middle) and hikae (earth, the
+   lowest), and the empty space between them (ma) part of it. Rows
+   alternate the arrangement and its mirror: shin · hikae · soe, then
+   soe · hikae · shin. The hikae always hangs in the middle lane;
+   heaven swaps sides every row. In the shop's order the first three
+   are Nyx Mantle (shin), Vertebra Cuff (hikae) and Grave Soil (soe):
+   Grave Soil lower than Nyx Mantle and higher than Vertebra Cuff, her
+   example. Any count: a piece's place comes from its position in the
+   list, so adding one moves none (it takes the next place in the
+   rhythm, at the foot) and no row has to be full.
+   HER WORDS, 2026-10-24: "1. Can the gallery be arranged in an
+   asymmetric symmetry instead of a stair? Something that looks like
+   an ikebana arrangement? For example Grave Soil image to be lower
+   than Nyx Mantle one but higher than Vertebra Cuff image?"; shown
+   uiux's three (sketches/shop-real/IKEBANA.md + ikebana.css, b1974e1,
+   B recommended), the same day: "1. For the wall I pick B." It
+   replaces the stair (C, her pick of 2026-10-23, 5048a91), whose
+   mechanism it keeps. Taking this block out restores shop/02's plain
+   rows exactly (nothing else depends on it).
+   HOW: u is a sixth of a step, a step being a frame and the gap under
+   it (652 = 620 + 32px at 1600 and wider, the 1600 cap, so u =
+   108.7px; 97.5 at 1440, the window's share; 94.8 at the 1400 cap,
+   79.5 at the 1180 cap). A piece is pushed down
+   by its offset `--o` (the soe u, the hikae 2u, the shin 0) as a top
+   margin and gives it back as a negative bottom margin, so its row
+   stays one frame tall, plus u: each row but the last is u taller
+   than its frames (the bottom margin is u − o), the room a lane needs
+   to come back up by u from one row to the next without touching the
+   piece above it, and the ma that sets one arrangement off from the
+   next (+108.7px a row at 1600 and wider: the wall 2189px at seven
+   pieces with its padding, 1912 at the 1400 cap, 1606 at the 1180 cap,
+   where the stair's was 1447; +13.5% at 13). The last
+   row (from the lane-1
+   piece among the last three on) gives nothing back, so the grid ends
+   at the foot of the lowest photo and the ways keep their 144px under
+   it (shop/09). Positions in the cycle of six: 6n+2 and 6n+5 hikae,
+   6n+3 and 6n+4 soe, 6n+1 and 6n+6 shin.
+   A grid item's % margin is a share of its column's width (CSS Grid
+   §6.4), and the frame is 4:5, so 125% is the frame's height at any
+   width: `--s` = 125% + 32px is one step. The custom properties hold
+   the expression, not a length, so each % resolves in the margin
+   that uses it.
+   WHY ⅙ AND ⅓ (IKEBANA.md): the highest a piece sits above the one
+   before it is 2u, 217px at 1600 and wider (about 35% of a frame's
+   height at any cap; 190 at 1400, 159 at 1180; the right-hand piece of
+   every other row), and each row's first piece starts below the last
+   row's highest photo, so the eye still reads left to right, row by
+   row. At ¼ / ½ a mirrored row would set a piece 54% of a frame above
+   the one before it, and the higher piece on the right would be read
+   first.
+   WHAT WOULD BREAK: 125% assumes a card is its frame and nothing
+   else in the flow (shop/02: no caption). With a line under the
+   photo the rows grow by that line, the offsets don't, and the
+   arrangement goes uneven.
+   AS SKETCHED (ikebana.css's shared part + B's block, the values
+   verbatim), without the sketch's `html[data-ikebana="b"]` scope,
+   which only picked a variant on its pages.
+   ONE OR TWO PIECES (kept from the stair for a real shop; the demo has
+   seven): a lone piece takes the middle lane; a pair moves half a lane
+   right, so it is centred, the second (a hikae) 2u, a third of a step,
+   lower.
+   READING AND TAB ORDER: no piece moves in the DOM, and every row
+   starts lower than the one before it, so the eye's order is the
+   DOM's and the Tab order's, row by row.
+   SKINS: the frames are shop/02's (496px at 1600 and wider, 442.7 at
+   1440), so Dossier's tag, Séance's summon plate
+   and Transmission's crawl fit as they do in rows; nothing is cropped
+   (measured at the 1600 cap, then the demo's `?wall=1600`, and at 1400:
+   tests/e2e/frontend_t_33dd8597/out/geo.txt).
+   PHONES (700px and below): the built single column (responsive/06),
+   untouched: this whole block sits in a 701px query.
+   WITH THE BACKEND: nothing to write; the pieces in the maker's order
+   are enough.
+   History: docs/HISTORY.md, shop/10 (under shop/01–02).
+   ---------------------------------------------------------- */
+@media (min-width: 701px) {
+  .shop-products { align-items: start; }
+
+  .shop-products > .product-card {
+    --s: calc(125% + 32px);
+    --u: calc(var(--s) / 6);
+    margin-top: var(--o, 0px);
+    margin-bottom: calc(var(--u) - var(--o, 0px));
+  }
+  /* hikae, the earth: 2u down */
+  .shop-products > .product-card:nth-child(6n+2),
+  .shop-products > .product-card:nth-child(6n+5) { --o: calc(var(--u) * 2); }
+  /* soe, between: u down */
+  .shop-products > .product-card:nth-child(6n+3),
+  .shop-products > .product-card:nth-child(6n+4) { --o: var(--u); }
+  /* the last row gives nothing back: the grid ends at the lowest photo */
+  .shop-products > .product-card:nth-child(3n+1):nth-last-child(-n+3),
+  .shop-products > .product-card:nth-child(3n+1):nth-last-child(-n+3) ~ .product-card {
+    margin-bottom: 0;
+  }
+
+  .shop-products > .product-card:only-child { grid-column: 2; }
+  .shop-products > .product-card:first-child:nth-last-child(2),
+  .shop-products > .product-card:first-child:nth-last-child(2) + .product-card {
+    transform: translateX(calc(50% + 16px));
+  }
+}
+
+/* ----------------------------------------------------------
+   shop/11 — THE SAVED MARK ON THE WALL
+   WHAT: on every piece's photo, top right in the pill's row, the saved
+   mark (the drained bite; the button, the plate, the drawing and the
+   states are chrome/08's, assets/marks/mark-save.svg). In the markup a
+   sibling after the piece's link, never inside it.
+   HER WORDS, 2026-10-27: "OK to build it that way: the bite, no nav
+   word, the list under "My crypt"." (chrome/08 has the rest.) The
+   spec: sketches/favourites/README.md §1 and fav.css (uiux t_24c957ad,
+   t_27a381eb), values verbatim.
+   ONE HOVER STORY with the pill (shop/08's query): on a mouse the mark
+   shows only while the pointer is on its photo or the card holds
+   keyboard focus (the piece's link: the inert mark has no focus of its
+   own), and fades in with the pill. One move, two things appear. A
+   SAVED mark (with the backend) is always up. Touch and other coarse
+   pointers: always up, as the pill is; there is no hover to find it
+   with. A browser without `:has()` drops the rule and shows the mark.
+   In every skin and with the script off (the summon is hidden then; the
+   mark still comes with the pointer).
+   THE RULE, every skin, every width above 700px, at rest, on hover,
+   focus and touch: THE MARK NEVER SHARES A ROW WITH WORDS. It takes the
+   photo's right edge in the first row from the top whose words can't
+   reach it, its plate 8px under the words above. A row has room only
+   where the words' length is known: then the mark may share it while
+   the card is wide enough (the pill, below). A line that carries a
+   piece's name has no known length (a maker names her piece), so the
+   mark never shares that line's row at any width. So:
+   - TRANSMISSION: REC and FRAME sit at the left, the corner is clear:
+     the pill's row (chrome/08, top 5).
+   - SÉANCE: the pill ("hold to summon"), centred: its row while the card
+     leaves 8px between them, else under it (below, 701-829px).
+   - DOSSIER: its top-right stamp (the edition) holds the corner, and
+     under it the frame tag carries the name (EVIDENCE 01/01 · NYX
+     MANTLE, shop/04, top 59, from the left), so the mark steps under
+     both: its plate 8px under the tag's foot, at the right edge. The
+     tag's foot is computed from the tag's own values (top 59px, one
+     0.56rem line at 1.5, 3px + 3px padding), so it follows the root
+     font size; less the 6px between the target's top and its plate.
+     At 16px: target top 80.4, plate 86.4-118.4 (tag 59-78.4).
+     Until 2026-10-27 (1e365bf) the mark stepped only under the stamp
+     (target top 37, plate 43-75), beside the tag: it covered the tag's
+     letters on narrow cards (2 of 7 at 1024, all 7 at 768; QA
+     t_14959638 item 2) and would on a wide one with a long name.
+   700px and below is task 4a's (one photo to a row): Dossier keeps the
+   stamp step there (target top 37), measured and reported, not changed.
+   INERT: `disabled` (chrome/08), so no Tab stop: the shop's walk is
+   unchanged. With the backend, +1 per piece, after its link.
+   History: docs/HISTORY.md, chrome/08.
+   ---------------------------------------------------------- */
+[data-skin="dossier"] .product-card .save--photo { top: 37px; }
+@media (min-width: 701px) {
+  [data-skin="dossier"] .product-card .save--photo { top: calc(59px + 0.56rem * 1.5 + 6px + 8px - 6px); }
+}
+
+/* NARROW CARDS, SÉANCE (701-829px): the photo is under 240px wide, so
+   the pill (134.5px, centred) comes within 8px of the mark's plate at
+   the corner, and touches it from 768px down (measured: plate - pill
+   4.4px at 800, -0.9 at 768, -12.1 at 701). There the mark steps down
+   under the pill's row, as Dossier's steps under its stamp and tag
+   (above): target top 49 (the pill's target ends at 49), plate 55-87,
+   still at the right edge. 8px: the Dossier step's own gap. From 830px
+   the two share the row, 9.4px apart and more (41.7 at 1024, 84.4 at
+   1280). The pill is the one line on a photo whose length is known, so
+   it is the one the mark may share a row with; its 134.5px is the
+   English words' at a 16px root (a translated pill, or a larger root
+   size, means measuring this step again). Only on a card
+   whose summon shows (Séance, script on); 700px and below is task 4a's
+   (one photo to a row there; at 390 the row is clear, measured). */
+@media (min-width: 701px) and (max-width: 829px) {
+  [data-skin="seance"] .product-card:has(> .summon:not([hidden])) .save--photo { top: 49px; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:not(:hover):not(:has(:focus-visible)) .save:not([aria-pressed="true"]) .save-plate { opacity: 0; }
+}

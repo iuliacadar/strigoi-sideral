@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<!-- assets/marks/mark-save.svg: THE SAVED MARK, the one drawing (chrome/08).
+     SWAP THIS ONE DRAWING TO CHANGE THE MARK (her 2026-10-27: heart later if she changes her mind).
+     Every "Save" on the site draws it through <use href=".../assets/marks/mark-save.svg#mark-save">: the shop's
+     wall, the Bestiary's pieces, the piece pages' "Save". Nothing else holds a copy.
+     THE DRAWING: the drained bite, two fang drops (uiux t_24c957ad / t_27a381eb, sketches/favourites/ fav.js
+     `bite`, `?mark=bite`). HER WORDS, 2026-10-27: "1. I like the drained bite mark. We keep it for now. Can it be
+     changed later into a heart icon if I change my mind?" then "OK to build it that way: the bite, no nav word, the
+     list under "My crypt"." Magenta dropped the same day ("that pink heart for a saved product kind of breaks
+     Strigoi's doom and gloom mood"): the saved state is bone.
+     HOW TO SWAP: replace the <path>s below (24 x 24 box, open outline shapes; no fill, stroke or width here).
+     The heart she was shown is one path, in sketches/favourites/fav.js (`PATHS.heart`), in the same 24 box:
+     paste it in place of the two below, and the wall, the Bestiary and the 7 piece pages change together.
+     THE STATES come from this one drawing, set by chrome/08 on the <svg> that uses it, and inherited here: not
+     saved = the outline (`fill: none`, a 1.5px line in the button's colour); saved (`aria-pressed="true"`) = the
+     same shape filled. Shape carries the state, not colour. So the paths must carry no fill or stroke of their own.
+     WHAT WOULD BREAK: a `fill` or `stroke` attribute on a path (the states stop working); another id (every <use>
+     names `#mark-save`); opening a page from file:// (Chromium won't draw an external <use> there; the site is
+     served over http anyway, README).
+     This file is not loaded as an image anywhere, only through <use>. -->
+<symbol id="mark-save" viewBox="0 0 24 24" overflow="visible">
+  <path d="M7.6 6.5c.9 3.2 2.6 5.6 2.6 8.1a2.6 2.6 0 0 1-5.2 0c0-2.5 1.7-4.9 2.6-8.1z"/>
+  <path d="M16.4 6.5c.9 3.2 2.6 5.6 2.6 8.1a2.6 2.6 0 0 1-5.2 0c0-2.5 1.7-4.9 2.6-8.1z"/>
+</symbol>
+</svg>

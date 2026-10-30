@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<!-- THE BESTIARY: every piece from every shop, laid on one plane.
+     `/bestiary`, at the site root beside index.html and atlas.html.
+     Keep comments above <meta charset> short: the charset must sit
+     within the first 1024 bytes. -->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Bestiary — Strigoi Sideral</title>
+<meta name="description" content="Every piece on Strigoi, from every shop, on one plane. Draft." />
+<!-- Favicon: the wingmark's square cut, as on every page. At the site
+     root, so no ../. -->
+<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English italic for the h1, IM Fell English SC for the
+     name over it; Spectral 500 for each piece's name, 400 italic for its
+     maker and 400 for the lede; Space Mono for the small labels and the
+     price line. CHOICE: the Atlas's URL (the homepage's), which also asks
+     for Fell roman, set on nothing here. The same URL means the font
+     stylesheet is fetched once and cached for all three pages; the
+     browser downloads a font file only for a face the page renders. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The shared sheets, then the page's own: the Bestiary has a design of
+     its own (a wall of photographs), so it gets a sheet
+     (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"). responsive.css
+     and motion.css stay last, so their overrides win. -->
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/background.css" />
+<link rel="stylesheet" href="css/chrome.css" />
+<link rel="stylesheet" href="css/bestiary.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<link rel="stylesheet" href="css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short pages' background (css/background.css,
+     background/04): sky from the top, soil at the foot. Here the pieces
+     may stand in the upper half of the soil, where the red rises: her
+     image of "a blood leaking background populated with specimens"
+     (docs/DECISIONS.md, "THE ATLAS AND THE BESTIARY"). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: first in Tab order, invisible until focused
+     (css/tokens.css). Enter moves focus into <main>; the next Tab lands
+     on the Atlas link. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, the text pages' markup: the distressed
+     surface and the two leak layers the horizon paints through. Empty
+     and aria-hidden: pure background, no content.
+     CHOICE, no `<div class="stars">`, which every other horizon page
+     carries: the star dots are the sky's own grammar (docs/GRIMOIRE.md
+     §XIV), and the Bestiary is the page of things "bought, worn and
+     shipped", the one that must not borrow the sky's clothes. Leaving
+     the div out is the whole change: no CSS turns it off. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV, the shop's (shops/demo/index.html and chrome/07 say why):
+     a <nav> landmark named "Strigoi", the logo, home, the two places,
+     "Atlas" and "Bestiary", then "Lure me in" and "Bag": the same nav on
+     the shop, its pieces, the Atlas and the Bestiary. `.nav--scrolls`
+     lets it scroll away with the top of the page (chrome/07).
+     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
+     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
+     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2); the
+     full nav here, not the two places only (uiux's recommendation,
+     README §2.5, decided in DECISIONS (1)).
+     THE PAGE YOU ARE ON: "Bestiary" carries `aria-current="page"`. It
+     stays a link and a Tab stop (to this page's top); a screen reader
+     says "Bestiary, current page, link". No underline (her ruling of
+     2026-10-29, chrome/07): the h1 names the page.
+     Plain words, still not the homepage's stars (they are sky navigation, and
+     this page is the plane below the sky): the reason for
+     the bare logo-only nav this page had until 2026-10-27. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="atlas.html">Atlas</a></li>
+    <li><a class="site-control" aria-current="page" href="bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN LANDMARK: the Bestiary. The skip link's target (`id="main"`,
+     `tabindex="-1"` so focus can land on it); the footer stays outside
+     it and keeps the contentinfo landmark.
+     ROLE HERE: see every piece that can be had, whoever made it, and get
+     to the one you want: by looking (the photographs) and by a fact (the
+     caption: who made it, what it costs, how many are left).
+     VISION: "a plane of existence or immanence with a blood leaking
+     background populated with specimens/products of all designers" (her
+     words, docs/DECISIONS.md, "THE ATLAS AND THE BESTIARY"). Where the
+     homepage shows one specimen at a time, the Bestiary shows all of
+     them, and none first (docs/GRIMOIRE.md §XV). -->
+<main class="bestiary" id="main" tabindex="-1">
+  <!-- THE PAGE'S HEADER: the Latin name's slot, the h1, the draft notice,
+       one sentence on what the page is and why its order changes, and the
+       way to the Atlas. A <header> inside <main> is not a banner
+       landmark, only the head of this content.
+       All wording is a draft the founder polishes at go-live. -->
+  <header class="bestiary-head">
+    <!-- [Latin designation]: a slot, in the look of the Atlas's
+         Sodalicium Textorum. The Latin name is hers to give; nothing is
+         reserved for this page yet. If she gives none, the line goes and
+         the h1 stands alone. A <p>, not a heading: it names the page's
+         company, the h1 names the page. When the name arrives, it takes
+         `lang="la"`, as the Atlas's does. -->
+    <p class="bestiary-seal">[Latin designation]</p>
+    <h1>The Bestiary</h1>
+    <!-- DRAFT NOTICE, in the text pages' notice style (bestiary/01): what
+         the page is not yet. It goes when the real pieces and the
+         founder's wording arrive. -->
+    <p class="bestiary-notice">Draft · placeholder pieces and prices · to be polished by the founder</p>
+    <p class="bestiary-lede">Every piece on Strigoi, from every shop, laid on one plane. None is placed first: the order changes once a day.</p>
+    <!-- The way to the Atlas, the other page of the complete side, which
+         links back here. CHOICE, here and not in the footer: each index
+         page links to the other so a visitor who lands on one knows the
+         other exists; at the foot of a hundred pieces it would be
+         thousands of pixels down. "Above": the Atlas is the sky, this is
+         the plane under it. -->
+    <p class="bestiary-ways"><a href="atlas.html">Every shop, as a sky above: the Atlas</a></p>
+  </header>
+
+  <!-- THE PLANE: every piece, hung in a cabinet of curiosities. One <li> per piece,
+       holding one link: the photograph and the caption inside it. A
+       piece with no shop of its own links to the demo shop for now (the
+       Molt Sweater and the founder's five, below).
+       WHAT: a list (`role="list"` gives back the "list, N items" that
+       Safari drops once the bullets are removed in CSS). script.js
+       (initBestiary) hangs it for the day: the order, each piece's size
+       (small, medium or large), its frame (the photo's own shape), its
+       niche on the shelves (css/bestiary.css, bestiary/04). Every photo is untorn, its own square edge
+       (her "OK", 2026-10-30; css/bestiary.css, bestiary/03). Without JS
+       the pieces stand in the order written here (the demo shop's ten
+       cards A to Z by name, then the founder's five as she sent them),
+       four to a row at one size, each photo at its own shape.
+       WHAT EACH PIECE CARRIES for the script: `data-id`, its catalogue
+       id, which deals its size (placeholders here, one per piece; two
+       photos of one piece are two entries, so two ids); and its photo's
+       own width and height on the <img>, which give its frame's shape.
+       Nothing is placed or sized by hand.
+       CHOICE, the pieces as markup and not written by script: the page is
+       complete without JS, and a search engine or a screen reader reads
+       every piece. With the backend the server writes the same markup,
+       already hung.
+       CHOICE, the photograph alone at rest and the caption summoned over
+       it (Direction B, the séance field), not the caption always written
+       under the photo (Direction A, the plates, kept in
+       sketches/bestiary/): her ruling (docs/DECISIONS.md, "THE BESTIARY
+       TAKES B"). The cost, recorded with it: every fact is
+       hidden until asked for.
+       CHOICE, one link per piece, photo and caption inside it: the
+       caption is the link's name, so a screen reader hears each piece
+       once, name first. The photo is `alt=""` for that reason: a
+       description before the name would make every link start with a
+       paragraph. The description belongs to the product page's photo.
+       THE LINK: to the piece's own page, where its photo is the Séance
+       stage and its words are summoned (`shops/demo/pieces/<slug>/
+       index.html`; her ruling of 2026-10-15, P1 = direction 1 of
+       sketches/product-page/product-page-spec.md, §6; frontend
+       t_e75d6266). Before the piece pages, these went to the piece's
+       stage on the shop (`#stage-N`). A piece shown twice, by two
+       photos, links twice to the same page. A piece no shop holds yet
+       links to the demo shop's top (her ruling, below).
+       `pieces` in the address is a placeholder word, hers to choose
+       before launch.
+       WHAT WOULD BREAK: renaming a piece's folder or `pieces`; its links
+       here would land on the 404 (10 links: p001 to p006, p012 to p015).
+       ACCESSIBILITY: one Tab stop per piece, in the day's order,
+       which is also the order the eye reads the shelves. The caption shows
+       on a mouse's hover and on keyboard focus; it is the link's own text, so a
+       screen reader reads it whether shown or not.
+       KNOWN GAP, touch: the summon comes with a mouse's hover or with
+       keyboard focus only (bestiary/03, since 2026-10-27, her "OK to
+       both questions."); a tap follows the link at once, so a touch
+       visitor never reads a caption before leaving (the homepage's 4a
+       audit #8). Phone and tablet layout is not designed
+       yet: the cabinet gives a phone one piece a shelf. -->
+  <!-- THE FIELD'S HEADING, for screen readers only (`.sr-only`,
+       tokens/03): her OK of 2026-10-29 to the PM's suggestion, "OK to the
+       suggestion of hidding it on the screen and keep it only for the
+       screen readers" (uiux sketches/page5, h2=hidden). On screen the
+       wall is the 15 pieces, so the words told a sighted visitor nothing
+       new; a screen reader keeps it in its headings list, the way to jump
+       to the wall, with the count. The section keeps `aria-labelledby`,
+       so the wall stays a named region. -->
+  <section class="bestiary-field" aria-labelledby="bestiary-count">
+    <h2 id="bestiary-count" class="sr-only">Every piece · 15 pieces</h2>
+    <ul class="bestiary-plane" role="list">
+      <!-- Six of the demo shop's seven pieces (shops/demo/, Vârcolac
+           Atelier's sample shop): Grave Soil by its one tall photo (720 ×
+           1280), the Molt Sweater by the homepage specimens' wide photo
+           (1600 × 900), and the Nyx Mantle, the Unravelled Sweater, the
+           Vertebra Collar and the Vertebra Cuff each twice, a tall photo
+           (720 × 1280 or 900 × 1600) and a wide one. Each links to its
+           own page. The shop's seventh piece, the Draped Mantle (new on
+           2026-10-15), is not on the wall: whether it joins is not
+           decided (docs/DECISIONS.md, OPEN QUESTIONS, "Page 2, still
+           open", (h)). With the shop's own names, makers, kinds and invented
+           prices, as its cards write them. Some credit other makers
+           (Ileana C., Studio Moroi) inside Vârcolac's shop: the
+           shop's words, kept until real shops arrive.
+           Availability: the homepage's words for the same pieces
+           ("1 of 3", "Unique", "Pre-order"); Grave Soil, not on the
+           homepage, from the shop's edition line (ED. №014/050), and the
+           Unravelled Sweater from its own (ED. №001/006).
+           After them, p007 to p011: the founder's own photographs of
+           her own work, with placeholder captions, linked to the demo
+           shop until a real shop holds them (their own comment, below).
+           The photo's `width` and `height` are the file's own: the script
+           reads them for the frame's shape, and without it they give the
+           photo's box its shape before it loads.
+           `loading="lazy"` fetches it only as it nears the screen.
+           THE SAVED MARK (chrome/08, bestiary/06): the <button
+           class="save save--photo save--bestiary"> after each link, a
+           sibling: the drained bite in the photo's top right corner,
+           drawn from the one symbol in assets/marks/mark-save.svg; under
+           the photo's foot instead, for a piece whose caption would come
+           within 8px of it (`.save-hangs`, set by the script, bestiary/06;
+           her "OK to both questions.", 2026-10-27). HER
+           WORDS, 2026-10-27: "OK to build it that way: the bite, no nav
+           word, the list under "My crypt"." Named "Save <piece>", the
+           state `aria-pressed`; `disabled` in the demo, as the piece
+           pages' "Add to bag": no Tab stop, "unavailable". -->
+      <li class="bestiary-piece" data-id="p001">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/grave-soil/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/perfume-ash-flacon.webp" alt="" width="720" height="1280" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Grave Soil</span>
+            <span class="bestiary-piece-maker">Studio Moroi · Perfume</span>
+            <span class="bestiary-piece-meta">€165 · 14 of 50</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Grave Soil" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <!-- THE MOLT SWEATER: built as every other piece: one link, one Tab
+           stop, its caption summoned on hover and focus. Before, it was a
+           <figure> with no Tab stop and its caption always written under
+           the photo, since a caption shown only on hover over something
+           the keyboard can't reach would have been hidden from every
+           sighted keyboard user (docs/HISTORY.md, bestiary/).
+           THE LINK: its own page, since the demo shop holds it (her photo
+           plan, 2026-10-15: "I agree with your poposed use of the
+           images", which adds it to the shop; frontend t_e75d6266).
+           Before, the shop's top, at her word: "Yes, give the Molt
+           Sweater the same link to the demo shop." (docs/DECISIONS.md,
+           WHITE AND BRIGHT GROUNDS, 2026-10-09).
+           "Pre-order", and no price: the homepage's words for it, kept.
+           Its page gives an edition and a price (the writer's draft,
+           invented); which one holds is an availability question the
+           writer flagged to the PM (worksheet 2026-10-15_demo-shop-copy.md
+           §1.1), not decided. -->
+      <li class="bestiary-piece" data-id="p002">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/molt-sweater/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-16x9.webp" alt="" width="1600" height="900" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Molt Sweater</span>
+            <span class="bestiary-piece-maker">Studio Moroi · Knitwear</span>
+            <span class="bestiary-piece-meta">Pre-order</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Molt Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p003">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/nyx-mantle/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/garment-nyx-mantle.webp" alt="" width="720" height="1280" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Nyx Mantle</span>
+            <span class="bestiary-piece-maker">Vârcolac Atelier · Garment</span>
+            <span class="bestiary-piece-meta">€480 · 1 of 3</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Nyx Mantle" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p004">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/nyx-mantle/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_outerwear-winged-cloak-16x9.webp" alt="" width="1600" height="900" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Nyx Mantle</span>
+            <span class="bestiary-piece-maker">Vârcolac Atelier · Garment</span>
+            <span class="bestiary-piece-meta">€480 · 1 of 3</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Nyx Mantle" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <!-- THE UNRAVELLED SWEATER (p014, p015): portrait (900 × 1600, 9:16
+           though its file says 3x4) and wide (1600 × 900), the shop's two
+           photos (her words, 2026-10-15: "Add the shared photos in a shop
+           and bestiary page"). Name, maker and kind:
+           docs/worksheets/2026-10-15_demo-shop-copy.md §1.4; "1 of 6"
+           from its edition line (ED. №001/006), as Grave Soil's. Both
+           grounds are dark: no light-ground flag. New ids after the
+           Cuff's, so no id on the wall changes meaning; in the markup A
+           to Z among the demo shop's pieces. -->
+      <li class="bestiary-piece" data-id="p014">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/unravelled-sweater/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_knitwear-unravelled-sweater-3x4.webp" alt="" width="900" height="1600" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Unravelled Sweater</span>
+            <span class="bestiary-piece-maker">Studio Moroi · Knitwear</span>
+            <span class="bestiary-piece-meta">€290 · 1 of 6</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Unravelled Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p015">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/unravelled-sweater/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_knitwear-unravelled-sweater-16x9.webp" alt="" width="1600" height="900" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Unravelled Sweater</span>
+            <span class="bestiary-piece-maker">Studio Moroi · Knitwear</span>
+            <span class="bestiary-piece-meta">€290 · 1 of 6</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Unravelled Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <!-- THE VERTEBRA COLLAR (p005, p006): the necklace, portrait (the
+           shop's file, 720 × 1280) and wide, back on the wall under the
+           name and price of the piece it shows (her words, 2026-10-15:
+           "I noticed you replaced the bone and wire neckpiece (necklace)
+           with a bone and wire cuff. You shouldn't replace it, just add
+           it."; the PM's reading: the necklace back as the Vertebra
+           Collar, the cuff added beside it; DECISIONS, top entry;
+           frontend t_8766b990). Before 02d03d6 these two photos were
+           captioned "Vertebra Cuff", €210; from 02d03d6 to then, the two
+           cards showed the bone cuff. Captions: the writer's (worksheet
+           docs/worksheets/2026-10-15_demo-shop-copy.md §A.2). -->
+      <li class="bestiary-piece" data-id="p005">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/vertebra-collar/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/jewelry-vertebra-collar.webp" alt="" width="720" height="1280" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Vertebra Collar</span>
+            <span class="bestiary-piece-maker">Ileana C. · Jewelry</span>
+            <span class="bestiary-piece-meta">€290 · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Vertebra Collar" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p006">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/vertebra-collar/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-vertebra-collar-16x9.webp" alt="" width="1600" height="900" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Vertebra Collar</span>
+            <span class="bestiary-piece-maker">Ileana C. · Jewelry</span>
+            <span class="bestiary-piece-meta">€290 · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Vertebra Collar" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <!-- THE VERTEBRA CUFF (p012, p013): the bone cuff, portrait (900 ×
+           1600, 9:16 though its file says 3x4) and wide, added beside the
+           Collar (same ruling and reading). New ids after the founder's
+           five, so no id on the wall changes meaning; in the markup with
+           the demo shop's pieces, before hers. -->
+      <li class="bestiary-piece" data-id="p012">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/vertebra-cuff/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-bone-cuff-3x4.webp" alt="" width="900" height="1600" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Vertebra Cuff</span>
+            <span class="bestiary-piece-maker">Ileana C. · Jewelry</span>
+            <span class="bestiary-piece-meta">€210 · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Vertebra Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p013">
+        <a class="bestiary-piece-link" href="shops/demo/pieces/vertebra-cuff/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-bone-cuff-16x9.webp" alt="" width="1600" height="900" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Vertebra Cuff</span>
+            <span class="bestiary-piece-maker">Ileana C. · Jewelry</span>
+            <span class="bestiary-piece-meta">€210 · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Vertebra Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <!-- THE FOUNDER'S OWN FIVE (p007 to p011): her photographs of her
+           own work, sent 2026-10-08, put on the wall at her word: "Add my
+           5 screenshots to the live page as well, I want to see them in
+           the context of the entire page. Also, can you add the
+           bestiary-caption on them too and a link (even if it goes to the
+           demo-shop page)." The files: assets/founder-photography/, her
+           screenshots with Instagram's bars cut off, at their native
+           1080px width; `width` and `height` are each cropped file's own.
+           After the demo shop's ten cards and in the order she sent them, not
+           A to Z among them: the order the wall she approved (still B1 of
+           uiux t_4bcad88c) was dealt from, which the day's shuffle needs
+           to give the same wall again.
+           THE CAPTIONS ARE PLACEHOLDERS: names, maker lines and "Price
+           to come" are the PM's words, to be renamed by her. "Demo shop"
+           because they have no shop of their own yet.
+           THE LINK: `shops/demo/index.html`, the demo shop's page, its
+           top, with no stage: none of these is one of its pieces. Each
+           takes its own link once a real shop holds it.
+           `bestiary-piece--light-ground` (p007 only): a photo on a white
+           ground. It needed a denser scrim until 2026-10-30; the one
+           band now covers it (css/bestiary.css, bestiary/03), and the
+           flag stays, the one her WHITE AND BRIGHT GROUNDS ruling names. -->
+      <li class="bestiary-piece bestiary-piece--light-ground" data-id="p007">
+        <a class="bestiary-piece-link" href="shops/demo/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_wire-earrings.webp" alt="" width="1080" height="1008" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Coil Earrings</span>
+            <span class="bestiary-piece-maker">Demo shop · Jewelry</span>
+            <span class="bestiary-piece-meta">Price to come</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Coil Earrings" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p008">
+        <a class="bestiary-piece-link" href="shops/demo/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_copper-cuff-red-quartz.webp" alt="" width="1080" height="1080" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Red Quartz Cuff</span>
+            <span class="bestiary-piece-maker">Demo shop · Jewelry</span>
+            <span class="bestiary-piece-meta">Price to come</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Red Quartz Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p009">
+        <a class="bestiary-piece-link" href="shops/demo/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp" alt="" width="1080" height="1350" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Mohair Cardigan</span>
+            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Mohair Cardigan" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p010">
+        <a class="bestiary-piece-link" href="shops/demo/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_mohair-knit-rope.webp" alt="" width="1080" height="1345" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Roped Mohair Knit</span>
+            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Roped Mohair Knit" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p011">
+        <a class="bestiary-piece-link" href="shops/demo/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_knit-sleeves-hands.webp" alt="" width="1080" height="1080" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Lace Sleeves</span>
+            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Lace Sleeves" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+    </ul>
+    <!-- Said only while the plane holds three pieces or fewer, so a short
+         row reads as the start of the plane and not as an empty page.
+         From the fourth piece on, the CSS hides it (bestiary/04): with
+         fifteen it is hidden, kept for whoever trims the plane back. -->
+    <p class="bestiary-note">Three pieces so far, from the sample shop. The plane fills as makers are let in.</p>
+  </section>
+</main>
+
+<!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), the
+     text pages' markup unchanged: under the stains, the links and the
+     "© Strigoi — …" line all covered by the soil, by her choice; the
+     link a keyboard user is on comes above while it has focus, and
+     with a mouse pointer over the footer the links and the line come up
+     together. The policy row is on every footer.
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The Bestiary is not in the row, so no link carries
+     `aria-current="page"`. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="shipping/index.html">Shipping</a></li>
+      <li><a href="returns/index.html">Returns</a></li>
+      <li><a href="sizing/index.html">Size guide</a></li>
+      <li><a href="contact/index.html">Contact</a></li>
+      <li><a href="terms/index.html">Terms of sale</a></li>
+      <li><a href="privacy/index.html">Privacy</a></li>
+      <li><a href="legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="index.html">Back to Strigoi</a>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+/* ==== summoning.css: the Summoning ====
+   OWNS:      the page's header, `header.summoning-hero` (summoning/01); the doctrine wheel, its rings drawn at once with the script off (02).
+   LOADED BY: summoning/index.html only.
+   POSITION:  fourth of six, the page's own sheet: after chrome.css, before responsive.css and motion.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   summoning/01 — THE SUMMONING'S HEADER (was GROUP 22)
+   WHAT: the page's first block, `header.summoning-hero`: the small
+   name "Summoning" and the <h1> "What binds the circle", in a centred
+   column at most 760px wide, 160px from the top.
+   ROLE HERE: the page's own rules besides the wheel (summoning/02).
+   The page loads six of the site's eleven sheets (tokens, background,
+   chrome, summoning, responsive, motion); its nav, eyebrow, layers and
+   footer are the shared sheets' rules.
+   THE TEMPLATE: this header is the text pages' header (chrome/07): the
+   same small name (12px, 24px of ink above the title), the same title
+   (48, line-height 1.15), its letters on the same line, 165px from the
+   top of the page, with or without a name over it. Her question
+   (2026-10-28): "The summoning page is going to be a template for the
+   7 pages linked to the footer's links, isn't it?"; her answer: yes.
+   What stays the Summoning's own: the centring and the wheel. The page
+   is one centred object round the wheel; the text pages are read line
+   by line, like a letter, and long legal text is hard to read centred.
+   The room under the title is the wheel's: the header's 40px and the
+   wheel's 140px (summoning/02).
+   CHOICE, its own header, not chrome/03's `header.hero`: the recorded
+   reason is that the homepage's hero carried children this page has
+   none of (docs/HISTORY.md, summoning/01). `header.hero` is also a
+   whole first screen (100svh); this header is 255px tall at 1280 and
+   1850. History: docs/HISTORY.md, summoning/01.
+   ---------------------------------------------------------- */
+
+.summoning-hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 160px 5% 40px;
+  text-align: center;
+}
+
+/* The small name: chrome/04's eyebrow (the scale's label), hung in the
+   room above the title as on the text pages (chrome/07), so the title
+   does not move whether a name is over it or not: its own 18px line and
+   the 13px gap (tokens/02, THE BLOCK ABOVE THE TITLE). The centring
+   repeats the header's, which the label already inherits: nothing
+   moves without it. Reason not recorded. */
+.summoning-eyebrow {
+  text-align: center;
+  margin: calc(-1 * (var(--type-label) * var(--leading-label) + var(--name-gap-mono))) 0 0;
+}
+
+/* 24px of ink from the name's letters to the title's. */
+.summoning-eyebrow + .summoning-h1 {
+  margin-top: var(--name-gap-mono);
+}
+
+/* The page's one <h1>, IM Fell English italic, the voice face
+   (tokens/02), at the title's size, 48 (the scale's, tokens/02: every
+   page's h1), with the titles' 1.15 leading. Not `h1.title`, the
+   homepage's wordmark, one of the scale's two exceptions.
+   INK: `--bone-bright`, the titles' tone (tokens/02; ruling D10):
+   10.04 / 8.27:1, median / worst pixel, at 1280 (10.03 / 8.40 at 1850).
+   `font-weight: 400`: IM Fell English comes in one weight, so 400 is
+   what draws (as chrome/03's `h1.title`). */
+.summoning-h1 {
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--type-title);
+  line-height: var(--leading-title);
+  color: var(--bone-bright);
+}
+
+/* ----------------------------------------------------------
+   summoning/02 — THE DOCTRINE WHEEL (was GROUP 4; the shared
+   `.section-eyebrow` it held is chrome/04)
+   WHAT: `section.vision`, the doctrine in three movements around
+   three concentric rings. The stage (`.orbit-stage`) holds an SVG
+   (the rings, three dashed leaders and a core point) and, over it,
+   the three movements, each placed beside its ring by `position:
+   absolute`: The Binding top left, The Haunting right, The Gathering
+   bottom left. As the stage scrolls into view the rings draw in,
+   inner first (script.js §7 adds `.drawn`). At 780px and below the
+   wheel becomes a column, Binding, Haunting, Gathering, with no SVG
+   (responsive/05).
+   VISION: her brief, verbatim: "the vision section must be written in
+   a circle, a wheel, as a chant or incantation. Not a doctrine, a
+   summoning, a spell." Of three sketches she chose this one: "the
+   wheal, I like 003-rings version" (sketches/doctrine-wheel/). It has
+   a page of its own because, in her words, "the summoning is still a
+   part of the strigoi's doctrine, the glue that brings specific
+   creators together" (docs/DECISIONS.md, "DOCTRINE WHEEL" and
+   "DENSITY CORRECTION").
+   CHOICE, the circle in the layout, not text set on a curve: text on
+   a circular path turns upside down at the bottom; here every
+   paragraph is plain horizontal prose (the recorded reason,
+   docs/BRAND.md, "The doctrine wheel").
+   CHOICE, a class per movement (`.movement-binding`, …), not
+   `:nth-of-type`: in the sketches an extra sibling shifted every
+   index and scrambled the colours and places (the recorded reason).
+   The second movement's classes (`.movement-manifest`,
+   `.ring-manifest`) keep its old name, "The Manifest", now "The
+   Haunting" (her choice, 2026-10-28): a class is a hook, not a word
+   anyone reads, so it was left as it is.
+   ACCESSIBILITY: the SVG is `aria-hidden`; it repeats what the three
+   <h2> names say. The movements stay in source order, Binding,
+   Haunting, Gathering, whatever their painted place.
+   History: docs/HISTORY.md, summoning/02.
+   ---------------------------------------------------------- */
+
+.vision {
+  padding: 140px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* The stage: 16:11, as wide as the screen less 6%, at most 1080px
+   (1080 × 742.5 from 1149px up). The SVG's viewBox is 600 × 400, a
+   3:2 that fits the stage's width (×1.8 at 1080), so the rings keep
+   their size relative to the stage and the movements' percentages
+   below keep their places beside them.
+   KNOWN GAP, 781 to 1149px: the words don't shrink with the stage, so
+   The Haunting runs below it, into the footer up to about 1000px (over
+   three of its links at 900), and up to about 880px The Binding
+   overlaps The Gathering. From 1150px up its last line ends 14px under
+   the stage, inside the section's 60px foot, clear of the footer
+   (measured 2026-10-28, the words at 20px). */
+.orbit-stage {
+  position: relative;
+  width: min(94vw, 1080px);
+  aspect-ratio: 16 / 11;
+  margin: 0 auto;
+}
+
+.orbit-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Outlines only. This rule also matches the core point; the core
+   point's rule below is written to win (0,2,0 against 0,1,1). */
+.orbit-svg circle {
+  fill: none;
+  stroke-width: 1;
+}
+
+/* The rings: teal inside, bone on the two outer rings. Her words
+   (2026-10-28): "I don't like the choice of color for the pink
+   circles, here. In my opinion, magenta is a more violent pink and the
+   one we have here seems more like a pastel. Replace the pink with
+   something else on the palette, even bone color would look better to
+   me."; of the four ways uiux drew (all bone, teal and bone, all teal,
+   as built), she picked teal and bone: "R2".
+   CHOICE, the inner ring keeps its teal: the Binding's words end in
+   "the cold static of an abyss much further out", the site's one cold
+   note; the two outer rings take the bone of the words and the core
+   point, so the wheel reads as one object, fainter outward (0.4, then
+   0.28). Rings are lines, not text: no contrast floor applies. Under
+   the words the markup's mask (`#doctrineKnockout`) fades them out. */
+.ring-binding { stroke: var(--teal); stroke-opacity: 0.5; }
+.ring-manifest { stroke: var(--bone); stroke-opacity: 0.4; }
+.ring-gathering { stroke: var(--bone); stroke-opacity: 0.28; }
+
+/* Leaders: grey, dashed 2 on, 5 off. Reason for the grey not recorded. */
+.leader {
+  stroke: rgba(140, 136, 133, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+}
+
+.orbit-svg .core-dot {
+  fill: var(--bone);
+}
+
+/* The draw-on: one dash per ring, at least its circumference (439.8,
+   816.8 and 1,193.8 user units), so each ring closes. The dash starts
+   hidden (offset = its length) and moves to 0 in 1.4s, the rings
+   0.35s apart, inner first.
+   CHOICE, the length as `--ring-length` on each ring, not a dash and
+   offset rule per ring: the `.drawn` rules below and motion.css's
+   guard set the offset on the same `circle.ring` and win as before.
+   With no script, drawn, as with reduced motion (motion.css): the
+   `scripting: none` rule below. A browser that doesn't know
+   `scripting` (Chromium before 120, Safari before 17, Firefox before
+   113) with the script off keeps the hidden first frame. Nothing is
+   gated behind the motion: the SVG is `aria-hidden`. */
+.ring-binding { --ring-length: 440; }
+.ring-manifest { --ring-length: 817; }
+.ring-gathering { --ring-length: 1194; }
+
+.orbit-svg circle.ring {
+  stroke-dasharray: var(--ring-length);
+  stroke-dashoffset: var(--ring-length);
+  transition: stroke-dashoffset 1.4s ease-out;
+}
+
+@media (scripting: none) {
+  .orbit-svg circle.ring {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+}
+
+.orbit-stage.drawn .ring-binding { stroke-dashoffset: 0; transition-delay: 0s; }
+.orbit-stage.drawn .ring-manifest { stroke-dashoffset: 0; transition-delay: 0.35s; }
+.orbit-stage.drawn .ring-gathering { stroke-dashoffset: 0; transition-delay: 0.7s; }
+
+/* A movement: placed on the stage, out of the flow, so its painted
+   place never changes the reading order. 380px wide, or 34vw below
+   1118px. */
+.doctrine-movement {
+  position: absolute;
+  width: min(380px, 34vw);
+}
+
+.movement-binding {
+  top: 2%;
+  left: 0;
+}
+
+/* The longest movement (two paragraphs), so a wider box: 420px, or
+   36vw (the recorded reason). */
+.movement-manifest {
+  top: 34%;
+  right: 0;
+  width: min(420px, 36vw);
+}
+
+.movement-gathering {
+  bottom: 0%;
+  left: 2%;
+}
+
+/* A movement's name, an <h2>: IM Fell English SC, the capitals face of
+   the doctrine's own voice, at 12px, tracked 0.24em, in capitals: the
+   seal role of THE BLOCK ABOVE THE TITLE (tokens/02), the same as the
+   Atlas's and the Bestiary's Latin seals. 14px above its words, the
+   wheel's own spacing.
+   CHOICE, IM Fell SC and not Space Mono (the site's interface voice,
+   which these names wore in bold until 2026-10-28): the whole doctrine
+   then speaks in one family, the title in Fell italic, the names in
+   Fell SC, the words in Fell; mono is the voice of the HUDs and the
+   labels, and the doctrine is the one place without instruments. The
+   names were the site's only bold; Space Mono 700 is no longer fetched.
+   INK: `--bone-label`, the labels' and seals' tone (tokens/02; ruling
+   D10: a small name over its text is a label): 6.76 / 5.57:1 at 1280,
+   6.77 / 5.35 at 1850 (median / worst pixel of their line boxes). */
+.movement-name {
+  font-family: var(--serif-sc);
+  font-size: var(--type-label);
+  font-weight: 400;
+  letter-spacing: var(--track-seal);
+  text-transform: uppercase;
+  color: var(--bone-label);
+  line-height: var(--leading-label);
+  margin-bottom: 14px;
+  display: block;
+}
+
+/* CHOICE, the three names in one bone, not their rings' colours: she
+   chose bone text on every page and, asked about this cost, chose
+   bone here too (ruling D8). What is lost: the name-to-ring colour
+   echo. What still pairs them: each name sits beside its ring. */
+
+/* The doctrine's words, her text, in IM Fell English at 20px, the
+   scale's heading size (tokens/02): the face's ~19px floor rules out
+   the body's 16. 1.75 leading.
+   INK: `--bone`: 8.09 / 6.83:1 at 1280, 8.19 / 6.90 at 1850 (median /
+   1st percentile of their line boxes); under the letters themselves no
+   pixel under 4.5 at any width from 781 to 2560 (lowest 4.90, measured
+   with the names' dimmer ink as the worst case; the mask's comment in
+   summoning/index.html).
+   WHAT WOULD BREAK: the words' ink holds only with the two other parts
+   of one fix: the markup's mask, which fades the rings out under the
+   words, and responsive/05, which hides the stars under them on
+   phones. */
+.movement-text {
+  font-family: var(--serif);
+  font-size: var(--type-heading);
+  line-height: 1.75;
+  color: var(--bone);
+}
+
+.movement-text p + p {
+  margin-top: 22px;
+}
+
+/* "We do not offer commerce; we offer an infection of the senses.",
+   set apart by italic and its own line, not by a size, bold or colour,
+   so her words stay as written and the doctrine keeps one size: 20px,
+   the words' own, and their 1.75. CHOICE, its own class in the markup,
+   not `p:last-child`, for the reason in the banner.
+   `font-weight: 400`, the face's one weight (as summoning/01).
+   It sits 22px under its paragraph, the `p + p` spacing above, as
+   the other paragraphs. */
+.movement-isolate {
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--type-heading);
+  line-height: 1.75;
+  color: var(--bone);
+}

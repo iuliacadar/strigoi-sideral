@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — Vârcolac Atelier, Demo Shop</title>
+<meta name="description" content="Vârcolac Atelier, a demo Strigoi shop for an invented maker: seven pieces in the three skins a shop can wear, Séance, Dossier and Transmission. Not for sale. Draft." />
+<!-- Favicon: the wingmark's square cut, as on every page. Two folders
+     deep here, hence ../../. -->
+<link rel="icon" href="../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts (her System C+: IM Fell the voice, Spectral the machinery;
+     docs/DECISIONS.md "TYPOGRAPHY: 'System C+' confirmed"): IM Fell
+     English italic for the <h1>; Spectral 500 for the line above it and
+     the pieces' names (on the Séance summon's plate, shop/08), 400 for
+     the maker's bio and the skip link, 400 italic for the Dossier quote;
+     Space Mono 400 for the logo, the demo note, the switcher, the
+     pieces' words and labels, the summon's hint, the maker's ways and
+     the footer.
+     IM Fell roman and IM Fell SC are asked for and set on nothing, so
+     no file is fetched for them. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The site's cascade, with shop.css as this page's own sheet;
+     responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="../../css/tokens.css" />
+<link rel="stylesheet" href="../../css/background.css" />
+<link rel="stylesheet" href="../../css/chrome.css" />
+<link rel="stylesheet" href="../../css/shop.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+<link rel="stylesheet" href="../../css/motion.css" />
+</head>
+<body class="shop-page">
+<!-- <body>: `shop-page` gives the page the shop's flat `--above-black`
+     ground over background.css's descent, and the shop's hero (both
+     shop/02); the page has no stars or leak layers, and no lift: the
+     descent's `body::before` (background/01) keeps its dark band off
+     black, and on this flat ground its 62–74% fade drew the very edge
+     it was written to remove, across the pieces (shop/02).
+     SKIP LINK: first in Tab order, invisible until focused (tokens.css);
+     Enter moves focus into <main> (`tabindex="-1"`), so the next Tab
+     lands on the first piece (the demo's switcher is at the foot, in
+     the demo line after the maker's ways). -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The distressed surface over everything, as on every page
+     (css/background.css, background/03). Empty and decorative. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THIS PAGE: a demo shop, not a designer's storefront: the Séance
+     (docs/SHOP-TEMPLATE.md §11) and, through the switcher, the two other
+     skins a shop can be given (sketches/lightbox-concepts/), on seven
+     invented pieces, words and prices made up ("not for sale", says the
+     footer). Each piece opens its own page, shops/demo/pieces/<slug>/. Their photographs were generated for it, for an earlier
+     palette (docs/DECISIONS.md, "PALETTE OVERHAUL": left to the founder);
+     none is from the personal archive, which stays apart from commerce
+     (docs/ARCHITECTURE.md). shop/01's `.ph-*` placeholders are unused. -->
+
+<!-- THE NAV: a <nav> landmark named "Strigoi" (the site's, not the
+     shop's), the logo on the left, home, then the two places, and on
+     the right the place of
+     the site's two controls, the way in to an account and the bag: one
+     account and one bag across every shop (docs/ARCHITECTURE.md B.5),
+     so the same place on the shop, its pieces, the Atlas and the
+     Bestiary. Plain words, not the homepage's stars: stars are the sky,
+     a shop is where earthly pieces are sold (GRIMOIRE §XIV; her ruling,
+     docs/DECISIONS.md PAGE 2: "no stars on shop, plain menu").
+     THE TWO WORDS, as visitors will see them (her words, 2026-10-24:
+     "2. Yes to the real "Lure me in" / "Cart""; sketches/shop-nav/
+     shop-nav-spec.md §3; chrome/07); the second word is "Bag", for now
+     (her words, 2026-10-26: "1. Nav word: Bag , for no." [now]; it was
+     "Cart"; docs/DECISIONS.md 85200a4, (7)). "Lure me in", her word for the
+     visitor's link (2026-10-15: "Yes to the "Lure me in" label + the
+     fix you suggested"), opens the log-in placeholder page, which says
+     that logging in comes with the backend. "Bag" has no page yet: a
+     link with nowhere to go, and said so (no `href`, `role="link"`,
+     `aria-disabled="true"`): no Tab stop, read as "Bag, link,
+     unavailable". With the backend it takes its `href`. Was (her N4,
+     2026-10-15 to 2026-10-24): a dashed PLACEHOLDER box with a
+     sentence.
+     THE SCROLL: `.nav--scrolls` lets the whole nav scroll away with the
+     top of the page instead of staying fixed over the products (why:
+     chrome/07): her N2, A, provisional ("A, but I want to see it myself
+     before taking the final decison"). B, the two controls staying in
+     view, is one commented block in chrome/07, off.
+     script.js initNavFade returns on a `.nav--scrolls` nav, so this logo
+     never fades. The footer carries the way home from the bottom.
+     THE TWO PLACES, "Atlas" and "Bestiary", right after the logo (A).
+     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
+     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
+     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2): plain words, no article, in the nav's one style
+     (`.site-control`), a list of their own (`.site-places`, chrome/07);
+     the places on the left with the logo, the visitor's own things on
+     the right. The same nav on the shop, its pieces, the Atlas and the
+     Bestiary, where the page you are on is marked (`aria-current`). They
+     replace the shop's long line to the Atlas at the foot ("Every shop
+     on Strigoi, each its own constellation: the Atlas", her N9, here
+     2026-10-15 to 2026-10-27): a first-time visitor sees both places on
+     the first screen, not one of them in the last. TAB: Skip, the logo,
+     Atlas, Bestiary, Lure me in, then the pieces. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN LANDMARK: the page's content (header, products, the maker's
+     ways, then the demo line) and the target of
+     the "Skip to content" link (`id="main"`,
+     `tabindex="-1"` so focus can land on it). The footer stays outside
+     it, so it keeps the contentinfo landmark (docs/DECISIONS.md, "ROSTER
+     TYPE AND SKIP LINKS"). -->
+<main id="main" tabindex="-1">
+<!-- The hero: chrome/03's shared type, as on the homepage, its words
+     centred across the page. shop/02 makes it the shop's, through
+     <body>'s class: room above the texts for the nav, 40px below them,
+     the <h1> at the summoning page's size, 51px at 1440, where chrome/03
+     gives 102, and at every width only as tall as its words, not
+     chrome/03's one screen with the words in its middle, which left an
+     empty dark band under the bio (her "2. Yes to the preview's layoyt
+     for the demo shop.", 2026-10-24; uiux 7eb7cc1, sketches/shop-real/
+     README §2): the first photo stands 64px under the bio.
+     THE MAKER'S INSCRIPTION (shop/09). HER WORDS, 2026-10-19: "I'm
+     still not satisfied with how the about the maker section is
+     looking. We have the hero-sub paragraf above the photos section and
+     then the maker's story under that section. It looks redundant,
+     especially with the name of the shop written twice on the page.";
+     shown uiux's two merges (sketches/shop-maker-story/merge/, 45bb4dc),
+     2026-10-20: "1. M2". So the hero says who made the pieces:
+     the shop's name (the page's one <h1>, the name only) and the
+     maker's bio; nothing about her is said again at the foot, where
+     only her ways are (below; on a phone the bio goes there too: ON A
+     PHONE, below). Her old section after the pieces (B, the
+     epitaph, 155b070) and the hero's demo paragraph are gone; what that
+     paragraph explained is the DEMO note, in the demo line at the foot.
+     THE WORDS: the writer's, verbatim (docs/worksheets/
+     2026-10-15_demo-shop-copy.md, ADDENDUM 2026-10-20 §D, ae107e7).
+     NO TAG: the demo's tag ("Placeholder — An invented maker") is gone,
+     as a real shop has none (no tagline field); her "2. Yes to the
+     preview's layoyt for the demo shop." (2026-10-24, uiux 7eb7cc1).
+     That this is a demo is said by the DEMO note at the foot and by the
+     footer's notice.
+     THE BIO: with the backend, `designers.bio`, capped at 500
+     characters with a counter in the maker's studio (her 2026-10-20:
+     "2. OK to the 500-character bio cap for the real maker"); a long bio
+     grows the hero past the screen, nothing is cut or hidden. A <div>,
+     so a bio of more than one paragraph keeps its <p>s.
+     ON A PHONE (700px and below, responsive/06) this copy is
+     `display: none` and the hero is only the name, as tall as it is:
+     the bio is read after the pieces, in its second copy
+     above the ways (`.shop-bio-foot`, below). HER WORDS, 2026-10-20,
+     asked "Do you think that maker's bio should go under the photos in
+     this format with only the name of the shop and that hero tag on the
+     top of the page?"; shown uiux's (b) (sketches/shop-layout-2/,
+     9722596: bio after the pieces + a short hero), "3. Yes". -->
+<header class="hero">
+  <h1 class="title">Vârcolac Atelier</h1>
+  <div class="shop-bio">
+    <p>One workroom and the hands in it. It makes grave-cloth: things to be worn close and worn down. Wool is cut raw and left to fray. Linen is dyed black over rust, so the rust comes back. Knits are dropped and laddered by hand. Bone is bound in copper and wire. There is one scent, and it smells of soil. Most pieces come in small numbered editions; two were made once. The Draped Mantle is cut only when someone writes, to their measure.</p>
+  </div>
+</header>
+
+  <!-- The pieces (the grid: shop/02). `data-skin` is the one attribute
+       every skin reads: shop/01's rules are the Séance and apply in
+       every skin; shop/04 (dossier), shop/05 (transmission), shop/06
+       (script off) and motion.css's two skin guards select on its value
+       (`[data-skin="…"]`, wherever it sits: here, or on a piece's
+       <article>); script.js §5 writes it. `seance` here, so with the
+       script off the page is in Séance, as a new shop is by default. The
+       label makes it a region. -->
+  <section class="shop-products" data-skin="seance" aria-label="Demo products">
+
+    <!-- EACH PIECE IS ONE LINK to its page (shop/07), her ruling of
+         2026-10-15, P1 = direction 1 (sketches/product-page/
+         product-page-spec.md §4.1): "P1. your recommended option." The
+         photo is the link, as a piece on the Bestiary.
+         NOTHING UNDER THE PHOTO, in any skin: her C1 = (ii), 2026-10-16,
+         "I prefer (ii) calmness." (docs/DECISIONS.md; shop/02). The name
+         stays the link's name as `.sr-only` text inside it ("link, Nyx
+         Mantle"), and its facts its description (`aria-describedby` to
+         the `hidden` span after the </a>, kept from 625f239; the visible
+         facts line of 625f239 is gone, her (a) superseded). Known costs,
+         hers to carry: no name shows under a photo, and in Séance at
+         rest none shows at all. Dossier's frame tag and Transmission's
+         crawl carry it (her question, 14:25: "Can't the piece name be
+         added in Dossier and Transmission, too?"; shop/04–05).
+         THE SUMMON, Séance only (shop/08; script.js §4a): the <button
+         class="summon"> before each link is the hint at the photo's
+         top, "hold to summon"; a press summons the name, the quote and
+         the facts at the photo's foot (the plate is `aria-hidden`: the
+         link already says it). A sibling of the link, never inside it.
+         It ships `hidden`; the script unhides it. Every other pixel of
+         the photo is the link (her option, 2026-10-16).
+         The photo is the stage's frame (`.stage`, a <div>: script.js §4
+         wires only `button.stage`) with one photo layer, decorative; the
+         Dossier stamps and the Transmission feed stay as each skin's
+         resting dress, `aria-hidden` (the words they restate are on the
+         piece's page and in the link's description).
+         `pieces` in the address is a placeholder word, hers to choose
+         before launch (renaming it: one folder, the 7 hrefs here and the
+         Bestiary's 6).
+         WHAT WOULD BREAK: a `url()` in a custom property resolves against
+         the sheet that reads it, css/shop.css, not this page: hence
+         ../assets/placeholder-photography/ (docs/ARCHITECTURE.md,
+         "Relative-path rules").
+         THE PHOTOS: AI-generated stand-ins, replaced before launch. They
+         sit in assets/placeholder-photography/ with the site's other
+         placeholder photos, at her word: "for now, I think that all the
+         product and shop logo photos must sit in the
+         assets/placeholder-photography/. We will reorganise the photo
+         folders later, when we will have real photos." (2026-10-15).
+         THE SEVEN: the shop's three, then the four her photo plan adds
+         (2026-10-15: "I agree with your poposed use of the images"): the
+         Molt Sweater, on the homepage and the Bestiary already, and three
+         new demo pieces. Their words: the writer's draft
+         (docs/worksheets/2026-10-15_demo-shop-copy.md §1); the materials,
+         editions and prices invented, like every piece here. Each card
+         shows its piece's first photo; the others are on its page.
+         THE SAVED MARK (chrome/08, shop/11): the <button class="save
+         save--photo"> after each link, a sibling, never inside it: the
+         drained bite at the photo's top right, in the pill's row, drawn
+         from the one symbol in assets/marks/mark-save.svg (swap that
+         drawing to change every mark). HER WORDS, 2026-10-27: "OK to
+         build it that way: the bite, no nav word, the list under "My
+         crypt"." Named "Save <piece>"; the state is `aria-pressed`.
+         `disabled` in the demo, as the piece pages' "Add to bag": no
+         Tab stop, nothing stored, "unavailable" to a screen reader.
+         With the backend `disabled` goes and it saves to the visitor's
+         list (/account/saved/). -->
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Nyx Mantle" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Nyx Mantle</span><span class="summon-quote">"a wing shedding down it no longer needs"</span><span class="summon-facts">WOOL/SYNTH — ED. №001/003 — €480</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-nyx-mantle" href="pieces/nyx-mantle/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/garment-nyx-mantle.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · NYX MANTLE</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WOOL/SYNTH</p>
+            <p class="dossier-hud-tr">ED. №001/003</p>
+            <p class="dossier-hud-br">€480</p>
+            <p class="dossier-hud-bl"><span class="frag">"a wing shedding down it no longer needs"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">NYX MANTLE — MATERIAL: WOOL/SYNTH — the hem frays a little more with every wear — ED. №001/003 — €480 —&nbsp;&nbsp;&nbsp;&nbsp;NYX MANTLE — MATERIAL: WOOL/SYNTH — the hem frays a little more with every wear — ED. №001/003 — €480 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Nyx Mantle</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Nyx Mantle" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-nyx-mantle" hidden>WOOL/SYNTH — ED. №001/003 — €480</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Vertebra Cuff" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Vertebra Cuff</span><span class="summon-quote">"cold against the wrist for the first minute, then doesn't"</span><span class="summon-facts">WIRE/BONE — UNIQUE — €210</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-vertebra-cuff" href="pieces/vertebra-cuff/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/2026-09-14_placeholder_jewelry-bone-cuff-3x4.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · VERTEBRA CUFF</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WIRE/BONE</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">€210</p>
+            <p class="dossier-hud-bl"><span class="frag">"cold against the wrist for the first minute, then doesn't"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">VERTEBRA CUFF — MATERIAL: WIRE/BONE — bone bound in blackened wire, coil after coil — UNIQUE — €210 —&nbsp;&nbsp;&nbsp;&nbsp;VERTEBRA CUFF — MATERIAL: WIRE/BONE — bone bound in blackened wire, coil after coil — UNIQUE — €210 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Vertebra Cuff</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Vertebra Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-vertebra-cuff" hidden>WIRE/BONE — UNIQUE — €210</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Grave Soil" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Grave Soil</span><span class="summon-quote">"never announces itself across a room"</span><span class="summon-facts">EDP 30ML — ED. №014/050 — €165</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-grave-soil" href="pieces/grave-soil/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/perfume-ash-flacon.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · GRAVE SOIL</p>
+            <p class="dossier-hud-tl">EDP 30ML</p>
+            <p class="dossier-hud-tr">ED. №014/050</p>
+            <p class="dossier-hud-br">€165</p>
+            <p class="dossier-hud-bl"><span class="frag">"never announces itself across a room"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">GRAVE SOIL — EDP 30ML — wet earth, cold iron, a single drop of something that shouldn&#x27;t smell like static — ED. №014/050 — €165 —&nbsp;&nbsp;&nbsp;&nbsp;GRAVE SOIL — EDP 30ML — wet earth, cold iron, a single drop of something that shouldn&#x27;t smell like static — ED. №014/050 — €165 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Grave Soil</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Grave Soil" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-grave-soil" hidden>EDP 30ML — ED. №014/050 — €165</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Molt Sweater" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Molt Sweater</span><span class="summon-quote">"a skin left behind"</span><span class="summon-facts">WOOL/MOHAIR — ED. №003/012 — €340</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-molt-sweater" href="pieces/molt-sweater/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/2026-09-14_placeholder_knitwear-molted-texture-3x4.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · MOLT SWEATER</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WOOL/MOHAIR</p>
+            <p class="dossier-hud-tr">ED. №003/012</p>
+            <p class="dossier-hud-br">€340</p>
+            <p class="dossier-hud-bl"><span class="frag">"a skin left behind"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">MOLT SWEATER — MATERIAL: WOOL/MOHAIR — the stitches dropped and never caught — ED. №003/012 — €340 —&nbsp;&nbsp;&nbsp;&nbsp;MOLT SWEATER — MATERIAL: WOOL/MOHAIR — the stitches dropped and never caught — ED. №003/012 — €340 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Molt Sweater</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Molt Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-molt-sweater" hidden>WOOL/MOHAIR — ED. №003/012 — €340</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Vertebra Collar" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Vertebra Collar</span><span class="summon-quote">"wrapped by hand until it stopped moving"</span><span class="summon-facts">COPPER/BONE — UNIQUE — €290</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-vertebra-collar" href="pieces/vertebra-collar/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/jewelry-vertebra-collar.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · VERTEBRA COLLAR</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>COPPER/BONE</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">€290</p>
+            <p class="dossier-hud-bl"><span class="frag">"wrapped by hand until it stopped moving"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">VERTEBRA COLLAR — MATERIAL: COPPER/BONE — the last vertebra hangs alone at the throat — UNIQUE — €290 —&nbsp;&nbsp;&nbsp;&nbsp;VERTEBRA COLLAR — MATERIAL: COPPER/BONE — the last vertebra hangs alone at the throat — UNIQUE — €290 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Vertebra Collar</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Vertebra Collar" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-vertebra-collar" hidden>COPPER/BONE — UNIQUE — €290</span>
+    </div>
+
+    <!-- THE DRAPED MANTLE is made to order (her ruling, 2026-10-15, "Yes
+         to the made-to-order state."; the piece a PM assumption; spec
+         sketches/product-page/mto/mto-spec.md §3). Wherever the price is
+         printed (the Séance summon's plate, the Dossier's BR stamp, the
+         crawl, and the link's description) it says FROM, so nothing on
+         the shop shows a bare number for a piece with no fixed price. -->
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Draped Mantle" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Draped Mantle</span><span class="summon-quote">"the rust comes back where it's worn thin"</span><span class="summon-facts">LINEN — ED. №002/005 — FROM €560</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-draped-mantle" href="pieces/draped-mantle/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/2026-09-14_placeholder_outerwear-draped-mantle-3x4.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · DRAPED MANTLE</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>LINEN</p>
+            <p class="dossier-hud-tr">ED. №002/005</p>
+            <p class="dossier-hud-br">FROM €560</p>
+            <p class="dossier-hud-bl"><span class="frag">"the rust comes back where it's worn thin"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">DRAPED MANTLE — MATERIAL: LINEN — black over rust, the rust coming back where it&#x27;s worn thin — ED. №002/005 — FROM €560 —&nbsp;&nbsp;&nbsp;&nbsp;DRAPED MANTLE — MATERIAL: LINEN — black over rust, the rust coming back where it&#x27;s worn thin — ED. №002/005 — FROM €560 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Draped Mantle</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Draped Mantle" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-draped-mantle" hidden>LINEN — ED. №002/005 — FROM €560</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Unravelled Sweater" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Unravelled Sweater</span><span class="summon-quote">"every run left to run"</span><span class="summon-facts">WOOL — ED. №001/006 — €290</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-unravelled-sweater" href="pieces/unravelled-sweater/index.html">
+        <div class="stage" style="--photo: url('../assets/placeholder-photography/2026-09-14_placeholder_knitwear-unravelled-sweater-3x4.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · UNRAVELLED SWEATER</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WOOL</p>
+            <p class="dossier-hud-tr">ED. №001/006</p>
+            <p class="dossier-hud-br">€290</p>
+            <p class="dossier-hud-bl"><span class="frag">"every run left to run"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">UNRAVELLED SWEATER — MATERIAL: WOOL — made to let the cold through — ED. №001/006 — €290 —&nbsp;&nbsp;&nbsp;&nbsp;UNRAVELLED SWEATER — MATERIAL: WOOL — made to let the cold through — ED. №001/006 — €290 —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Unravelled Sweater</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Unravelled Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-unravelled-sweater" hidden>WOOL — ED. №001/006 — €290</span>
+    </div>
+
+  </section>
+
+  <!-- THE BIO, SECOND COPY: the phone's (shop/09, responsive/06). The
+       hero's bio, word for word; shown only at 700px and below, where
+       the hero's copy is hidden, so at every width exactly one copy is
+       drawn and in the accessibility tree (`display: none` takes the
+       other out of both, and out of find-in-page): a screen reader
+       hears the bio once, where it is seen. On a phone that is here,
+       after the pieces, as the foot's introduction to the maker, right
+       above her ways (uiux 9722596, README (b); her "3. Yes",
+       2026-10-20).
+       CHOICE, two copies, not one moved: CSS `order` would draw the bio
+       here while the DOM keeps it in the hero, so a phone's screen
+       reader would hear it before the pieces and see it after (the
+       mismatch WCAG 1.3.2 exists for); a script moving it would leave
+       the page wrong with the script off. COST: the bio is in the HTML
+       twice (with the backend, `designers.bio` printed twice), and a
+       reader mode or a page without CSS shows it twice. No Tab stop in
+       either copy. -->
+  <div class="shop-bio shop-bio-foot">
+    <p>One workroom and the hands in it. It makes grave-cloth: things to be worn close and worn down. Wool is cut raw and left to fray. Linen is dyed black over rust, so the rust comes back. Knits are dropped and laddered by hand. Bone is bound in copper and wire. There is one scent, and it smells of soil. Most pieces come in small numbered editions; two were made once. The Draped Mantle is cut only when someone writes, to their measure.</p>
+  </div>
+
+  <!-- THE MAKER'S WAYS (shop/09): after the pieces, the last thing of
+       the shop's own (the way to the Atlas that stood after them is in
+       the nav since 2026-10-27, A, above). M2 (her 2026-10-20,
+       "1. M2"; the hero, above): the ways alone, no name and no tag, as
+       the hero has said who she is (at 700px and below the bio's
+       second copy sits right above them, `.shop-bio-foot`). After the pieces, not in the hero,
+       for the keyboard: with the backend they become 4 links, reached
+       after the pieces, not before them (uiux README, 45bb4dc). A
+       sibling of `.shop-products`, never inside it, so no skin rule
+       reaches it: the same in Séance, Dossier and Transmission, with the
+       script on and off. Her standing rulings, 2026-10-18: invented,
+       bare, up to 3 of the maker's own sites (docs/DECISIONS.md, THE
+       DEMO SHOP GETS THE MAKER'S STORY SECTION).
+       Two rows: the maker's own channel first (it keeps the talk on
+       Strigoi), then the label that says the rest leave the site, in
+       words, not an arrow (CLEAN LINKS; spec §2.3), naming the list,
+       with the sites beside it. `role="list"`: Safari's VoiceOver drops
+       a list once CSS removes its bullets; the role gives back "list, 3
+       items".
+       INERT: plain text in the live links' places and type: no <a>, no
+       href, no tabindex, no role="link". Nothing here is a Tab stop: Tab
+       goes from the last piece to the skin switcher. The DEMO note (in the
+       demo line, at the foot) says they can't be clicked yet. Only the
+       kind of
+       site, no URL and no handle (an invented handle may be a real
+       person's).
+       WITH THE BACKEND: "Write to the maker" and the sites become links
+       in the same boxes (`designer_links`, allowlisted hosts,
+       rel="noopener nofollow ugc", same tab, the maker's order, at most
+       3; each site's name then ends ", leaves Strigoi" in .sr-only text,
+       worksheet §B.3). -->
+  <div class="shop-maker-ways">
+    <p class="shop-maker-write">Write to the maker</p>
+    <p class="shop-maker-elsewhere" id="shop-maker-elsewhere">Elsewhere, off Strigoi:</p>
+    <ul class="shop-maker-sites" role="list" aria-labelledby="shop-maker-elsewhere">
+      <li>Website</li>
+      <li>Instagram</li>
+      <li>Facebook</li>
+    </ul>
+  </div>
+
+  <!-- THE WAY TO THE ATLAS that stood here (her N9; 2026-10-15 to
+       2026-10-27) is the nav's "Atlas" now (A; THE NAV, above), so the
+       body ends with the maker's ways, then the demo line. -->
+
+  <!-- THE DEMO LINE (shop/09): the demo's two controls of its own, the
+       DEMO note and the skin switcher, as one quiet line under the wall,
+       after the maker's ways and before the footer, under a dashed
+       hairline: the mark every placeholder on the site wears (the nav's
+       slot, the piece page's buying slot), so it reads as "not the
+       shop". A real shop has neither, so a real shop is everything above
+       this line. HER WORDS, 2026-10-24: "2. Yes to the preview's layoyt
+       for the demo shop." (uiux t_7b977138, sketches/shop-real/, 7eb7cc1:
+       this line, its place and its values, as shown). An <aside> named
+       "Demo controls", inside <main>.
+       THE NOTE: what the hero's old paragraph explained, and what the old
+       foot note said can't be clicked. "Demo —" in the switcher label's
+       dress. HER WORDS, 2026-10-23: "1. OK to a shorten demo note." The
+       writer's words (worksheet ADDENDUM 2026-10-23 §F.1), verbatim. With
+       the script off the switcher is hidden (shop/06), so its clause goes
+       too (`.demo-note-sw`, shop/09) and the note stays true: "Demo — you
+       can't buy or write to the maker yet." The semicolon and the space
+       after it inside the span, so either way one space after the dash.
+       A <p>, no Tab stop.
+       THE SKIN SWITCHER, the demo's (shop/03; script.js §5): three
+       buttons that set `data-skin` on `.shop-products` above; the same
+       row on each piece's page, and the choice is carried between them
+       for the tab (§5b; a `?skin=` in the address wins). A real shop has
+       one skin, set by the admin, never by its designer, and no switcher
+       (docs/ARCHITECTURE.md §B.2.3; docs/DECISIONS.md, "Séance chosen as
+       the canonical shop skin, with founder-assigned per-shop skins").
+       CHOICE, radios, not a <select>: all three names stay in view
+       (shop/03). ACCESSIBILITY: `role="radiogroup"` with its label, each
+       button `role="radio"` with `aria-checked`; the script gives the
+       group one Tab stop and the arrow keys. With the script off the row
+       is hidden (shop/06: three buttons that can't work would be three
+       things to learn and fail); the page stays in Séance, the skin
+       checked here.
+       TAB: the last piece, the checked skin (one stop), then the
+       footer. COST, accepted with the preview: after choosing a
+       skin here the visitor scrolls up to see the whole wall in it (the
+       last photos are in view above the line). -->
+  <aside class="demo-bar" aria-label="Demo controls">
+    <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+    <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+      <span class="skin-switcher-label">skin —</span>
+      <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+      <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+      <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+    </div>
+  </aside>
+</main>
+
+<!-- THE FOOTER, under the seep (css/chrome.css, chrome/06): the links
+     and the "© Strigoi — …" line are covered, by her choice; the notice
+     reads above, and so does the link a keyboard user is on while it
+     has focus; with a mouse pointer over the footer the links and the
+     line come up together.
+     The shop has no leak layers, so the covering is a seep in the
+     shop's own black (`footer--seep`, chrome/06; its colours on
+     `.shop-footer`, shop.css; her ruling D4).
+     The policy row is every footer's (same markup, seven links, same
+     label; her ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the shop's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The line that was "© Strigoi — demo shop, placeholder products, not
+     for sale" is split in two (her ruling D3): the copyright is the
+     site-wide stylistic line, covered (up with the links on mouse-over);
+     the notice is information (it
+     stops a visitor trying to buy a piece that doesn't exist), so it
+     stands alone as `.footer-info`, above the seep, and reads. -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../returns/index.html">Returns</a></li>
+      <li><a href="../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../contact/index.html">Contact</a></li>
+      <li><a href="../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1648 @@
+/* ==== home.css: the homepage ====
+   OWNS:      the hero's content column (home/01); the sky marks beside the title (02); the beacon (03); the skymap, the designers' constellations (04); the roster (05); the specimens, one at a time (06); the sepulchre's homepage half (07).
+   LOADED BY: index.html only.
+   POSITION:  fourth of six, the page's own sheet: after chrome.css, before responsive.css and motion.css.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   home/01 — THE HERO'S CONTENT COLUMN
+   (was GROUP 3, its homepage half; the type both pages share → chrome/03)
+   The column that holds the title, the paragraph and the wing.
+   ---------------------------------------------------------- */
+
+/* .hero-inner: the column inside `header.hero`. A flex column, centred,
+   900px wide at most (wider from 1440px up, responsive/01).
+   ROLE HERE: `position: relative` makes it the box the sky-seal, its
+   star and the beacon (home/02, home/03) measure their percentages
+   from; the header constellation measures from `header.hero` (home/02).
+   CHOICE, one `gap`, not a margin on each child: at 2560px fixed
+   margins left the wing orphaned under a very large gap. One `gap` sets
+   both spaces, title to paragraph and paragraph to wing, and scales
+   them together (docs/DECISIONS.md, "HEADER + NAVBAR REDESIGN").
+   READ MORE: https://developer.mozilla.org/docs/Web/CSS/gap */
+.hero-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  gap: clamp(28px, 4vw, 44px);
+}
+
+/* The homepage hides its `.hero-tag`, "Via Lactea Inferior", retired
+   with "Abyssus Superior" (home/02) as "pure cosmetic load" (docs/
+   DECISIONS.md, "DENSITY CORRECTION"). Hidden, not deleted, so one
+   line restores it. The shop keeps its own (chrome/03).
+   The declarations under `display: none` are its old look, IM Fell
+   English SC, as a tracked inscription of three Latin words. At 0.55
+   it measured under 4.5:1 on the shop, so re-measure before restoring
+   it (docs/HISTORY.md, chrome/03). */
+.hero-inner .hero-tag {
+  display: none;
+  font-family: var(--serif-sc);
+  font-weight: 400;
+  font-size: var(--type-label); /* the scale's seal: IM Fell SC at 12px */
+  letter-spacing: var(--track-seal);
+  opacity: 0.55;
+}
+
+/* .wingmark: the wing drawn under the paragraph, an inline SVG. Why
+   these two values: reason not recorded. */
+.wingmark {
+  width: 220px;
+  opacity: 0.85;
+}
+
+/* .wingmark-door: the `<a>` round the wing, the door to the Atlas
+   (docs/DECISIONS.md, "THE HOMEPAGE DOORS"). It takes the SVG's place as
+   the flex item of `.hero-inner`; its box is the wing's, 220×76, so the
+   wing is the whole target.
+   WHAT WOULD BREAK: without `display: block` here and on the SVG, and
+   `line-height: 0`, an inline `<a>` round an inline SVG adds a line box
+   with a descender gap under it, and the wing drops a few px. With them
+   the page at rest is the same to the pixel as before the link
+   (docs/HISTORY.md, home/01).
+   CHOICE, no visible label and no `title` tooltip: the red tail dot is
+   the cue, by her ruling; a tooltip would be a label only mouse users
+   get, after a delay. The link's name, "The Atlas", is its
+   `aria-label`. */
+.wingmark-door {
+  display: block;
+  line-height: 0;
+  border-radius: 8px;
+  color: inherit;
+}
+
+.wingmark-door .wingmark {
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.wingmark-door .wingmark circle {
+  transition: filter 0.2s ease;
+}
+
+/* Hover and keyboard focus: the wing comes up from 0.85 to full, and
+   the tail dot, the cue, takes a still halo of its own red. Quiet on
+   purpose: the pointer already says "link", the dot says which part is
+   the cue.
+   CHOICE, still: no blink, no ping, no split. Those are the beacon's
+   (home/03), and the makers' signal has to stay obviously different
+   from the doors for everyone (docs/DECISIONS.md, "THE BEACON IS FOR
+   MAKERS ONLY"). Reduced motion: the 0.2s fades become instant
+   (motion/01). */
+.wingmark-door:hover .wingmark,
+.wingmark-door:focus-visible .wingmark {
+  opacity: 1;
+}
+
+.wingmark-door:hover .wingmark circle,
+.wingmark-door:focus-visible .wingmark circle {
+  filter: drop-shadow(0 0 3px rgba(224, 69, 95, 0.9));
+}
+
+/* The focus ring: the site's (tokens/03), 6px out here, with the 8px
+   corners above, the beacon's geometry. ACCESSIBILITY: median about
+   4.1:1 against the sky it covers at 1280, 1440 and 1920 (numbers:
+   docs/HISTORY.md, home/01). */
+.wingmark-door:focus-visible {
+  outline-offset: 6px;
+}
+
+/* ----------------------------------------------------------
+   home/02 — THE SKY MARKS BESIDE THE TITLE
+   (was GROUP 3a)
+   Three marks in the hero's sky, none of them text anyone reads: the
+   retired Latin seal (hidden), a small pulsing star, and a pinned
+   constellation. All three are absolutely positioned, out of the flow,
+   so they never push the title or the paragraph.
+   ---------------------------------------------------------- */
+
+/* .sky-seal: "Abyssus Superior", retired with its pair (home/01), in
+   the founder's words "pure cosmetic load at this point" (docs/
+   DECISIONS.md, "DENSITY CORRECTION"). Hidden, not deleted, so one
+   line restores it. The declarations under `display: none` are its old
+   look and place (right: 5% cleared the h1 at 1440px and up); if it
+   comes back, re-measure it against the h1 first
+   (docs/HISTORY.md, home/02). Its type is the scale's seal (tokens/02:
+   IM Fell SC 12px, 0.24em), so it would come back in step with the
+   Atlas's and the Bestiary's. */
+.sky-seal {
+  display: none;
+  position: absolute;
+  top: 21%;
+  right: 5%;
+  z-index: 1;
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--serif-sc);
+  font-size: var(--type-label);
+  font-weight: 400;
+  letter-spacing: var(--track-seal);
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--bone);
+  opacity: 0.45;
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+/* .sky-seal-star: a 4px star, bigger and brighter than any dot in the
+   background starfield (1.5px at most, background/02), so it reads as
+   a chosen star. It was drawn to punctuate the seal above ("on the
+   right beside a star", her placement), and still shows although the
+   seal is hidden (fix card open on whether it stays).
+   HOW: a `radial-gradient()` dot with a glow, placed by `top`/`right`
+   percentages of `.hero-inner`, the seal's own box; a star placed in
+   the fixed background layer drifted away from the seal as the screen
+   widened. `aria-hidden` in the markup: decoration.
+   ACCESSIBILITY: a slow 6s pulse; under reduced motion it holds still
+   at 0.85, never invisible (motion/01).
+   SMALL SCREEN: responsive/08 moves it (500px and below). */
+.sky-seal-star {
+  position: absolute;
+  top: 14%;
+  right: 11%;
+  z-index: 1;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0) 75%);
+  box-shadow: 0 0 6px 1px rgba(193, 191, 189, 0.55);
+  pointer-events: none;
+  animation: skySealStarPulse 6s ease-in-out infinite;
+}
+
+@keyframes skySealStarPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* .header-constellation: a small inline SVG figure, six stars and five
+   lines, pinned in the sky left of the texts. Her ask: "take a
+   constellation like the one in the print and 'pin it' somewhere
+   around the header texts" (docs/DECISIONS.md, "NAV DISSOLVED INTO THE
+   SKY"). `aria-hidden` in the markup: it names no one.
+   CHOICE, placed against `header.hero`, not `.hero-inner`: she asked
+   for it "a liitel more to the left, closr to the edge of the screen"
+   (docs/DECISIONS.md, "HERO TUNING"), and `.hero-inner` is a
+   capped, centred column, so a percentage of it never reaches the edge.
+   `header.hero` is the full screen width. The figure is drawn inset in
+   its viewBox, so `left: 2%` leaves a small margin of sky, not flush.
+   From 901px to about 1024px its box meets the beacon's (strokes not
+   checked; docs/DECISIONS.md, "BEACON UNDER THE WINGMARK").
+   SMALL SCREEN: responsive/03 and responsive/08 shrink it and move it
+   up. */
+.header-constellation {
+  position: absolute;
+  left: 2%;
+  top: 32%;
+  z-index: 1;
+  width: clamp(90px, 9vw, 140px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------
+   home/03 — THE BEACON
+   (was GROUP 3b)
+   The way in for makers: a small pulsing red dot in the hero's sky
+   with a label, "For makers. A signal in the dark. Answer it." It
+   replaced the nav's "Propose a Designer" link, styled as a bordered
+   button.
+   VISION, her words: "We are vampyres... we have eco-location... we
+   infest, we bite, we immortalize!!!" A signal sent out into the dark,
+   not a form filled in (docs/DECISIONS.md, "HEADER + NAVBAR REDESIGN",
+   point 1).
+   ---------------------------------------------------------- */
+
+/* .beacon: the whole control, dot and label, one `<a>`, a link to the
+   Echolocation page (`echolocation/index.html`), "a short page on how
+   Strigoi finds its makers" (docs/DECISIONS.md, "THE BEACON IS FOR
+   MAKERS ONLY").
+   CHOICE, a link: it goes somewhere, so Enter and a click follow it
+   (Space does not, as on every link). Until the page had a door it
+   was a `<button>` that did nothing (docs/HISTORY.md, home/03). It
+   still submits nothing: the doctrine rules out a request form, access
+   "cannot be requested" (docs/DECISIONS.md, "HEADER + NAVBAR
+   REDESIGN", point 1), and there is none at the other end either.
+   The reset lines (`margin`, `padding`, `border`, `background`) were
+   written to take off the browser's button look; on the link they
+   change nothing and are kept, so the look holds whichever element
+   carries the class.
+   ROLE HERE, from 901px up: in the hero's upper-left corner, `top`
+   and `left` as percentages of `.hero-inner` (home/01). The label sits
+   under the dot, centred, so it stays narrow and out of the title's
+   column; a label beside the dot, at the older anchor, ran into the h1
+   (docs/HISTORY.md, home/03). From 901 to about 1024px its box meets
+   the header constellation's (home/02).
+   SMALL SCREEN: at 900px and below it moves under the wingmark, as a
+   row (responsive/03).
+   ACCESSIBILITY: `min-width`/`min-height` keep a 44px target even if
+   the label is ever cut; the whole link, label included, takes the
+   click. It is read and focused after the nav's stars and before the
+   wing and the h1. */
+.beacon {
+  position: absolute;
+  top: 6%;
+  left: 5%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* a.beacon: the link never takes a text colour or an underline of its
+   own. The base `a` rule (tokens/03) already does this; the line is
+   kept here so the beacon does not depend on it. */
+a.beacon {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* .beacon-mark: a 44×44 box that centres the dot and the ring on each
+   other (`display: grid` + `place-items`). It sizes the mark's part
+   of the target; the dot inside is 6px. `aria-hidden` in the markup. */
+.beacon-mark {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+/* .beacon-label: the words, always visible, never only on hover and
+   never only in `aria-label`. The founder agreed with the critique
+   that "a pulsing unlabelled red dot is a horror signifier and an
+   accessibility failure" (docs/DECISIONS.md, "DENSITY CORRECTION",
+   6). "For makers." leads: her choice among three options. The reason
+   recorded with it: plain words first, so a designer knows in a second
+   that it is for them, then the inscription (docs/DECISIONS.md,
+   "HOMEPAGE FINISHING", 1).
+   Spectral, the machinery face (tokens/02), small and quiet beside the
+   h1. The dark `text-shadow` is a halo that lifts it off the sky.
+   `max-width: 108px` wraps it into the narrow column above.
+   ACCESSIBILITY: at rest it is `--bone-label` at opacity 1, the labels'
+   tone of the bone ramp (tokens/02; her ruling D10): 6.69 / 5.96:1
+   (median / worst pixel) at 1440, 6.36 / 5.80 at 390, measured
+   without its halo, which only helps. Bone at 0.72, before the ramp,
+   measured 4.71 / 4.35 (docs/HISTORY.md, home/03).
+   On hover or focus it steps up to `--bone`, a lift in value, not hue.
+   TYPE: small print, Spectral 400 at 13px, untracked (tokens/02, THE
+   TYPE SCALE): three lines in its 108px box ("For makers. A / signal
+   in the dark. / Answer it."), its box 24px left of the wordmark's at
+   1280.
+   CHOICE, small print and not the scale's mono line: in Space Mono 12
+   it broke into four ragged lines, and a 140px box to hold it touched
+   the wordmark's S (both drawn, both dropped:
+   sketches/type-scale/scale.css). Its place belongs to the 4a audit
+   (#1, #11).
+   The link's `aria-label` starts with these words and adds one
+   sentence, where it goes, so a screen reader hears more than the
+   screen shows. */
+.beacon-label {
+  font-family: var(--interface);
+  font-size: var(--type-small);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--bone-label);
+  text-shadow: 0 1px 4px rgba(16, 16, 17, 0.85), 0 0 10px rgba(16, 16, 17, 0.55);
+  text-align: center;
+  white-space: normal;
+  max-width: 108px;
+}
+
+.beacon:hover .beacon-label,
+.beacon:focus-visible .beacon-label {
+  color: var(--bone);
+}
+
+
+/* .beacon-dot and .beacon-ring: the signal. The dot blinks, the ring
+   grows from it and fades, a point sending out a wave. Both are
+   `--beacon-red`, kept out of the magenta palette until the founder
+   decides (tokens/02). `beaconBlink` is the beacon's own rhythm, 2.2s;
+   the nav's stars reuse it at 2.6s, so the two drift in and out of
+   step, never locked together (chrome/02).
+   ACCESSIBILITY: under reduced motion both stop; the dot holds full
+   and the ring holds still at 2.5× and 0.4, so the beacon stays
+   visible (motion/01). */
+.beacon-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--beacon-red);
+  box-shadow: 0 0 6px rgba(224, 69, 95, 0.85);
+  animation: beaconBlink 2.2s ease-in-out infinite;
+}
+
+.beacon-ring {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(224, 69, 95, 0.55);
+  animation: beaconPing 2.2s ease-out infinite;
+}
+
+@keyframes beaconBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes beaconPing {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(5.5); opacity: 0; }
+}
+
+/* Hover and keyboard focus: the echo answers. The dot splits into a
+   magenta and a teal copy, the site's damaged-signal pair (the
+   archive's `.lb-hud-glitch`, gallery/03, splits its letters the
+   same way), and both animations speed up. `box-shadow`, not
+   `text-shadow`: the dot is a box, not text. The glitch colours are
+   the site's, not beacon-red. Same response for mouse and keyboard. */
+.beacon:hover .beacon-dot,
+.beacon:focus-visible .beacon-dot {
+  box-shadow:
+    2px 0 0 rgba(214, 81, 137, 0.7),
+    -2px 0 0 rgba(94, 147, 161, 0.6),
+    0 0 8px rgba(214, 81, 137, 0.9);
+  animation-duration: 0.5s;
+}
+
+.beacon:hover .beacon-ring,
+.beacon:focus-visible .beacon-ring {
+  animation-duration: 0.9s;
+  border-color: rgba(94, 147, 161, 0.6);
+}
+
+/* The focus ring: the site's (tokens/03), 6px out, drawn as a rounded
+   rectangle round dot and label.
+   ACCESSIBILITY: on the hero's sky it measures over the 3:1 WCAG 2.2
+   asks of a focus indicator (numbers: docs/HISTORY.md, home/03). */
+.beacon:focus-visible {
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+/* ----------------------------------------------------------
+   home/04 — THE SKYMAP: THE DESIGNERS' CONSTELLATIONS
+   (was GROUP 3c)
+   Three constellations, one per named designer on the roster, spread
+   down the sky from the hero to the specimens. Each has one star that
+   is a button; hover or focus shows the designer's name. Textrina
+   Siderum, an h2 in the hero, names them. SVG and CSS only.
+   VISION, her words: "I want a celestial map, partially erased by
+   time, but still looking like a map of stars, galaxies and
+   constelations. Some of them must be hoverable over as the
+   constelation of the designers." (docs/DECISIONS.md, "SKYMAP")
+   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) lists
+   #7, #8, #10, #11 and #13 here; they wait on the founder.
+   ---------------------------------------------------------- */
+
+/* .skymap-field: the layer the constellations are placed in.
+   `inset: 0` inside `.sky-region` (the <main>, chrome/01) makes it as
+   tall as the hero, roster and specimens together, so a cluster's
+   `top` is a share of the whole sky. `pointer-events: none`: clicks
+   pass through the empty sky. VISION: she wanted them "spreaded on
+   the entire nightsky of the strigoi's homepage, and not crowded there
+   in a limited space of a section" (docs/DECISIONS.md, "NAV DISSOLVED
+   INTO THE SKY + FULL-BLEED DESIGNER CONSTELLATIONS").
+   WHAT WOULD BREAK: a `z-index` here makes the field its own stacking
+   context. At 1 it sat under the hero's 2, no star could be hovered,
+   and only Tab showed the names (docs/HISTORY.md, home/04). */
+.skymap-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* While a star is hovered or focused, the field steps up to 3. The
+   star's own `z-index: 3` already lifts its name above the sections;
+   with or without this rule the name is on top (docs/HISTORY.md). */
+.skymap-field:has(.skymap-star:hover, .skymap-star:focus-visible) {
+  z-index: 3;
+}
+
+.skymap-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* .skymap-heading--float: where Textrina Siderum sits. Its parent is
+   `header.hero`, so `right` and `top` are shares of the full-width
+   hero: near the right edge and, from 901px up, level with the
+   paragraph's last three lines. `16ch` breaks it into two lines.
+   CHOICE, the hero, not the capped `.hero-inner` it sat in before: a
+   share of the column cannot reach the screen's edge, and she asked
+   for it "at the extreme right, and a line or two lower", then "on
+   the same line with the last 3 lines of the header paragraph"
+   (docs/DECISIONS.md, "HERO DECROWDING" 2c, "HERO TUNING").
+   SMALL SCREEN: under the hero at 500px and below (responsive/08).
+   ACCESSIBILITY: its ink is `--bone-quiet` (home/04's `--seal` rule
+   below), 5.87 / 5.22:1 (median / worst pixel) at 1440 and 5.61 / 4.99
+   at 390; at bone 0.45 it measured 2.73 / 2.60 and 2.66 / 2.54
+   (numbers: docs/HISTORY.md, home/04). Its size and place are still
+   the 4a audit's (#11). */
+.skymap-heading--float {
+  position: absolute;
+  left: auto;
+  right: 1.8%;
+  top: 58%;
+  max-width: 16ch;
+  margin-bottom: 0;
+  text-align: right;
+  pointer-events: none;
+}
+/* .skymap-heading: base type, Space Mono in tracked capitals. Every
+   element with this class also carries `--seal`, which overrides all
+   four, so none of them shows today; a heading without `--seal` would
+   get them. */
+.skymap-heading {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* .skymap-heading--seal: the inscription look, IM Fell English SC,
+   tracked wide, in `--bone-quiet`: the last of the hero's Latin
+   designations (home/01, home/02), set horizontal. Her words: "We
+   keep textrina siderum" (docs/DECISIONS.md, "DENSITY CORRECTION",
+   3). The name means the loom of the stars (docs/GRIMOIRE.md, §IX).
+   INK: the small-print tone of the bone ramp, at opacity 1 (tokens/02;
+   her ruling D7). It was bone at 0.45, faint on purpose, and
+   measured 2.6:1 at its worst pixel, under the 4.5:1 a real <h2> of this
+   size needs; the quietest tone that passes is the one she chose.
+   TYPE: the scale's seal (tokens/02), IM Fell SC 12px, 0.24em, an
+   18px line; it keeps its own quieter tone (her ruling D7): it floats
+   alone in the sky, over no title. Its place is the 4a audit's (#11). */
+.skymap-heading--seal {
+  font-family: var(--serif-sc);
+  font-size: var(--type-label);
+  font-weight: 400;
+  letter-spacing: var(--track-seal);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-quiet);
+}
+
+/* .skymap-cluster: one constellation's box, 200:160 like the drawing,
+   `left`/`top` as shares of the whole field. VISION, a critique she
+   adopted in full: "Three, large, widely separated, most of the page
+   empty between them" (docs/DECISIONS.md, "DENSITY CORRECTION", 2).
+   WHAT WOULD BREAK: a section's height change moves every cluster;
+   each `top` was measured against the sections as they stood when it
+   was set (HISTORY, home/04), and some no longer fit (audit #7, #13). */
+.skymap-cluster {
+  position: absolute;
+  width: 280px;
+  aspect-ratio: 200 / 160;
+}
+
+.skymap-cluster--1 { left: 74%; top: 10%; }
+/* 1, Vârcolac Atelier: right of the hero's paragraph, "in the middle
+   of the distance between the header paragraph and the right edge of
+   the screen", her words (DECISIONS, "HERO DECROWDING"). From 901 to
+   about 1076px it runs past the edge; `body` hides it (audit #20). */
+/* 2, Ileana C.: top of the roster's screen; at some widths its lines
+   cross the roster heading (audit #13). */
+.skymap-cluster--2 { left: 8%;  top: 36.3%; }
+/* 3, Studio Moroi: under the specimens, shrunk to 130px to fit from
+   901px up (170px below, responsive/03); star and name keep size.
+   CHOICE: not the photos shrunk, not the sepulchre (no stars). Its
+   star covers the bestiary link's end on phones and tablets (audit #10). */
+.skymap-cluster--3 { left: 62%; top: 96.2%; width: 130px; }
+
+/* .skymap-chart: the SVG drawing, filling its cluster's box. */
+.skymap-chart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* .skymap-star: one designer's star, a `<button>` with a 44×44px
+   invisible hit area around a 5px dot (WCAG 2.5.5, target size), the
+   same pattern as `.nav-star` (chrome/02). It is placed at the centre
+   of its cluster's box, and the dot sits at the end of the hit area
+   away from the name, so the dot is not where the drawing's lines
+   meet: 6 to 86px from that point, by cluster and width. Whether that
+   gap is wanted is not recorded.
+   CHOICE, the name as the button's text, not an `aria-label`: Tab
+   reaches it, and a screen reader reads the name whether or not it
+   is shown (docs/DECISIONS.md, "SKYMAP", 4). Why a `<button>` and not
+   a link: reason not recorded. There is no designer page to link to
+   yet.
+   Pressing it does nothing. It is focused after the beacon and the
+   wing, before the roster.
+   `pointer-events: auto` takes it back from the field's `none`.
+   `z-index: 3`, one above the sections' 2 (chrome/01) and below the
+   nav's 20: without a field z-index this competes with the sections
+   directly, and 3 beats the roster and specimens that come after it
+   in the markup. */
+.skymap-star {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* .skymap-star-dot: the mark always shown. Same size and glow as the
+   nav's dots (chrome/02), but still: unpulsed, so it never reads as a
+   second beacon (docs/DECISIONS.md, "SKYMAP"). `flex-shrink: 0` keeps
+   it whole when the name opens beside it. */
+.skymap-star-dot {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bone);
+  box-shadow: 0 0 5px 1px rgba(193, 191, 189, 0.5);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* .skymap-star-label: the designer's name and craft, Space Mono on a
+   dark plate with a hairline border. At rest it is hidden by opacity,
+   not `display: none`, so it stays the button's accessible name. It
+   sits in the button's row, beside the dot, and slides 6px as it
+   appears on hover or keyboard focus. `pointer-events: none` at rest,
+   so the hidden plate never catches the pointer.
+   ACCESSIBILITY: shown, it measures about 8:1 (numbers:
+   docs/HISTORY.md, home/04).
+   TOUCH: nothing limits the reveal to devices that hover
+   (`hover: hover`). On a phone a tap most likely leaves the star in
+   `:hover`, so the name shows over whatever lies under it: the hero's
+   text for cluster 1, the bestiary link for cluster 3 (audit #8, #10;
+   not checked on a device). */
+.skymap-star-label {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  white-space: nowrap;
+  color: var(--bone);
+  background: rgba(16, 16, 17, 0.75);
+  padding: 4px 10px;
+  border: 1px solid rgba(193, 191, 189, 0.18);
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.skymap-star-label small {
+  display: block;
+  font-size: 1em;
+  /* the craft line: the name's size, as nothing on the site is drawn
+     under 12px (tokens/02, THE TYPE SCALE); `--bone-quiet`, the
+     small-print tone, is what marks it as second now, where a smaller
+     size did. */
+  color: var(--bone-quiet);
+  letter-spacing: var(--track-line);
+  margin-top: 2px;
+}
+
+/* Clusters 1 and 3 sit right of centre: `row-reverse` puts the name
+   left of the dot, so it opens toward the middle of the screen, not
+   off its edge, as nav stars 4 and 5 do (chrome/02). `right: 100%`
+   does nothing: the label is not positioned. */
+.skymap-cluster--1 .skymap-star-label,
+.skymap-cluster--3 .skymap-star-label {
+  right: 100%;
+  transform: translateX(6px);
+  text-align: right;
+}
+
+.skymap-cluster--1 .skymap-star,
+.skymap-cluster--3 .skymap-star {
+  flex-direction: row-reverse;
+}
+
+.skymap-star:hover .skymap-star-dot,
+.skymap-star:focus-visible .skymap-star-dot {
+  background: var(--teal);
+  box-shadow: 0 0 10px 3px rgba(94, 147, 161, 0.65);
+  transform: scale(1.4);
+}
+
+.skymap-star:hover .skymap-star-label,
+.skymap-star:focus-visible .skymap-star-label {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Hover and keyboard focus: the dot turns teal, glows and grows 1.4×
+   (the rule above), and the name appears. Focus also draws the site's
+   ring (tokens/03), 8px out to clear the grown dot and its glow, round
+   like the nav stars' (chrome/02).
+   ACCESSIBILITY: 3.66 to 4.78:1 median, 3.27 or more at p10 (the
+   three stars, 1440 and 390); under 3:1 only where it crosses text
+   behind it or the edge of its own label's plate, up to 8% of its
+   pixels (star 1 at 390).
+   The 1px ring at 0.6 it replaced read 2.23 to 2.54 median, none of
+   it at the 3:1 WCAG 2.2 asks of a focus indicator (docs/HISTORY.md,
+   home/04).
+   Reduced motion: the transitions stop, the states stay (motion/01). */
+.skymap-star:focus-visible {
+  outline-offset: 8px;
+  border-radius: 50%;
+}
+
+/* ----------------------------------------------------------
+   home/05 — THE ROSTER: WHEN THE STARS ARE RIGHT (was GROUP 5)
+   The invited designers as a plain list: per line a small mark, a
+   status word, the name and the craft, with a hairline under it, in
+   one narrow column. Only Vârcolac Atelier's line is a link (the demo
+   shop). VISION, her words, choosing a list over a scatter of stars:
+   "roster and specimens are on the plane of immanence, the sublunar,
+   not on the sky" (docs/DECISIONS.md, "ROSTER/SPECIMENS DIRECTION 001
+   REJECTED"; docs/GRIMOIRE.md §XIV).
+   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) lists
+   #12, #13 and #14 here, waiting on the founder. Under the list,
+   "See the full atlas", her door to the Atlas (`.roster-door`, at the
+   end of this group; its look is home/06's `.door-link`). Its heading,
+   "When the Stars are Right", is centred from 1280px up (the rule after
+   `.roster-wrap`).
+   ---------------------------------------------------------- */
+
+.roster-wrap {
+  /* .roster-wrap: `#roster`, at least a screen, the list centred, with
+     `--frame-void` (tokens/03) as the floor of empty space above and
+     below. Her words for the feel: "there's no place for crowding in
+     the immensity of the space!!!" (docs/worksheets/4b-card-body.md).
+     CHOICE, a floor plus centring, not centring alone: alone, the void
+     was whatever the list left, and it varied too much between screens
+     (docs/DECISIONS.md, "Screen-independent frame doctrine").
+     CHOICE, a whole screen, not a screen less the nav: nothing pushes
+     the landing down any more (`scroll-padding-top` is gone), so there
+     is nothing to compensate. Landed on `#roster`, the list sits in
+     the screen's middle and nothing of the next frame shows. The nav
+     is cleared by `--frame-void` (140px or more, the nav's box is
+     128px), not by this height. The section's own content is about
+     731px on a laptop, so this height sets it down to 768px-high
+     screens (1366×768, 1024×768); the content, taller than the screen,
+     sets it only on screens up to about 730px high (1280×600) and on
+     phones (numbers: docs/HISTORY.md, home/05). */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--frame-void) 5%;
+  scroll-snap-align: start;
+}
+
+/* The roster's heading, "When the Stars are Right", on the page's centre
+   line, like the hero, the list under it, the specimens' heading, the
+   two doors and the sepulchre's kicker.
+   VISION: the founder asked whether the one left heading among centred
+   ones looked right; she chose B1, "all centred", of uiux's sketch
+   fc246aa (sketches/link-symbols/, 2026-10-09). It sat at the 5%
+   gutter, 368px left of the list it titles at 1440 (584px at 1920),
+   under the sky cluster drawn there; no reason for it was recorded:
+   `.section-eyebrow` (chrome/04) sets no alignment and `.roster-wrap`,
+   unlike `.specimens-wrap`, does not centre its children.
+   HOW: the eyebrow is a stretched flex item as wide as the section
+   between its two equal 5% gutters, so centring its text puts it on
+   the page's centre; the list and the door do not move.
+   CHOICE, 1280px and up only, as the sketch: under 1280px the roster
+   is task 4a's (the phone and tablet audit, #12-#14 above). */
+@media (min-width: 1280px) {
+  .roster-wrap > .section-eyebrow {
+    text-align: center;
+  }
+}
+
+/* .roster: the list, a column, 2.6em between lines, at most 560px or
+   72% of the screen, centred: the sketch's numbers
+   (sketches/roster-specimens-void/003-stripped-row/), and BRAND.md's
+   "narrow, centered, text-only columns" rule. */
+.roster {
+  display: flex;
+  flex-direction: column;
+  gap: 2.6em;
+  width: min(560px, 72vw);
+  margin: 0 auto;
+}
+
+/* .roster-card: one line: mark, status, name and craft left, the
+   "View shop" hint right, on one baseline. A hairline at bone 0.08,
+   none under the last, is its only chrome. `color: inherit` and no
+   underline because one line is a link. script.js §1 and the E2E
+   suite find the lines by this class. Stacked at 640px (responsive/06). */
+.roster-card {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5em;
+  padding-bottom: 0.9em;
+  border-bottom: 1px solid rgba(193, 191, 189, 0.08);
+  text-decoration: none;
+  color: inherit;
+}
+
+.roster-card:last-child {
+  border-bottom: none;
+}
+
+/* .roster-card-left: mark, status and name block, centred on each
+   other: a 44px square has no text baseline to sit on. The status's
+   fixed width lines the names up. Stacked at 640px and below, mark and
+   status centre over the name, so the left edge zig-zags (audit #12). */
+.roster-card-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+}
+
+/* .roster-avatar: each designer's mark, a 44px square `<img>` before
+   the text, lazy-loaded (the roster is below the first screen). A
+   square with 2px corners and a hairline border, not a circle. */
+.roster-avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid rgba(193, 191, 189, 0.14);
+}
+
+/* .roster-avatar-frame: the `<span>` around each mark, there to carry
+   its inset shadow, at mark size the vignette the specimens' photos
+   had until 2026-10-08, when the torn wall replaced it (home/06; the
+   sketch's `.clone-avatar`). What it renders: the marks' own edge is
+   near-black, darker than the shadow's colour, so the rim just inside
+   the hairline comes out slightly lighter, and the darkening falls in
+   the centre (2 to 3.5 luminance of 255, at every size; home/05).
+   WHAT WOULD BREAK: an image paints its picture over its own inset
+   `box-shadow`, so the shadow on the `<img>` showed nowhere (0px). The
+   `::after` is painted after the image, inside its hairline border
+   (`inset: 1px`), and lets clicks through to the line (docs/HISTORY.md,
+   home/05, "The vignettes paint again"). */
+.roster-avatar-frame {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.roster-avatar-frame::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 1px;
+  box-shadow: inset 0 0 14px 5px rgba(9, 7, 8, 0.75);
+  pointer-events: none;
+}
+
+/* .roster-avatar--fallback: the mark for a designer with no photo, a
+   "?" in a dashed square with a faint fill, not a broken image. The
+   roster portrait is the one optional image (docs/SUBMISSION-SPEC.md
+   §1). Spectral, as the TYPE rule in tokens/02 asks at this size;
+   italic, inherited from `.roster-card.empty`. `aria-hidden` in the
+   markup: the "?" says nothing a screen reader needs. */
+.roster-avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--interface);
+  font-size: var(--type-small); /* small print (tokens/02): a caption's
+                                   size, the roster's craft line's */
+  /* bone, not dim: the dashes and the fill say "no photo", and the
+     "?" still has to read (over 6:1; docs/HISTORY.md, home/05). */
+  color: var(--bone);
+  background: rgba(193, 191, 189, 0.06);
+  border-style: dashed;
+}
+
+/* .status: the word before each name ("Confirmed", "Invitation
+   sent"), small Space Mono capitals in `--bone-label`, the labels'
+   tone of the bone ramp (tokens/02). It was the magenta label, the one
+   warm word in the list; her rule that every text is bone took it
+   (docs/DECISIONS.md, "THE GALLERY THRESHOLD, THE TWO-LAYER FOOTER,
+   BONE TEXT…", D6–D9; the tone, D10).
+   ACCESSIBILITY: confirmed and pending share one ink, so the words
+   alone tell them apart, which WCAG 1.4.1 asks for anyway. uiux ruled
+   the words enough (docs/worksheets/SPEC-t_0c0b3861-the-seven-bone-refuses.md,
+   §4.2). The class `.pending` is still in the markup; no rule reads
+   it.
+   Over 6:1 at its brightest pixels (numbers: docs/HISTORY.md). */
+.roster-card .status {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's label (tokens/02) */
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  color: var(--bone-label);
+  text-transform: uppercase;
+  /* a fixed width, as in the sketch, so the names start in one column.
+     "Invitation sent" does not fit 8.5em and takes two lines, at every
+     width (audit #14). */
+  width: 8.5em;
+  flex-shrink: 0;
+}
+
+.roster-card h3 {
+  /* The designer's name, an `<h3>`: Spectral 400 italic in
+     `--bone-head`, the headings' tone (tokens/02). Spectral is the
+     MACHINERY face (tokens/02 TYPE); why italic is not recorded. The
+     sketch set the names in IM Fell SC.
+     WHAT WOULD BREAK: 500 here draws nothing new. The font URL loads no
+     Spectral 500 italic, so the browser falls back to 400; she may still
+     choose 500, which needs `1,500` added to the URL too
+     (docs/DECISIONS.md, "ROSTER TYPE AND SKIP LINKS", 1). */
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+  font-weight: 400;
+  margin: 0;
+  color: var(--bone-head);
+}
+
+/* .discipline: the craft under the name, a label read at a glance, so
+   Spectral italic by the TYPE rule; the italic keeps it a step below
+   the upright status (docs/DECISIONS.md, "ROSTER TYPE AND SKIP LINKS",
+   3). Bone, over 7:1 at its brightest pixels. */
+.roster-card .discipline {
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-small); /* small print, a caption (tokens/02) */
+  color: var(--bone);
+  margin-top: 0;
+}
+
+/* .empty: the line for the designer still being scouted, "+ one more
+   voice / being scouted", a plain italic line with no name and no
+   status. The italic alone makes it quieter; the ink stays bone
+   because it still has to read. Spectral: IM Fell blurs at 16px. No
+   hairline under it (the last line). script.js's flash skips it. */
+.roster-card.empty {
+  color: var(--bone);
+  font-style: italic;
+  font-family: var(--interface);
+  font-size: var(--type-body);
+}
+
+/* a.roster-card: Vârcolac Atelier's line, an `<a>` to
+   shops/demo/index.html, the one line Tab reaches; the other three are
+   `<div>`s with no tabindex. Keyboard focus draws the site's ring
+   (tokens/03), 6px out here, about 4:1 against the ground (numbers:
+   docs/HISTORY.md, home/05). */
+a.roster-card {
+  cursor: pointer;
+}
+
+a.roster-card:focus-visible {
+  outline-offset: 6px;
+}
+
+/* .roster-link-hint: "View shop", only on the link, hidden until
+   hover or keyboard focus, then shown and slid 3px (the rule below).
+   Bone, over 7:1 shown. Reduced motion: the fade and the slide become
+   instant; the hint still shows (motion/01). */
+.roster-link-hint {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  white-space: nowrap;
+  color: var(--bone);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+a.roster-card:hover .roster-link-hint,
+a.roster-card:focus-visible .roster-link-hint {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* .roster-foot and .roster-door: "See the full atlas", her door to
+   the Atlas at the roster's foot (docs/DECISIONS.md, "THE HOMEPAGE
+   DOORS"), centred under the list, its top 36px under the last line.
+   That is the roster's floor of void (`--frame-void`), where the
+   specimens' door sits in theirs: both doors at the foot of their
+   frames. Look, hover and hit area: `.door-link` (home/06); the ring
+   is the site's (tokens/03).
+   HOW: `.roster-foot` is a `<p>` 0px high (`height: 0`), a flex item
+   of `.roster-wrap` after `.roster`; the link is placed absolutely
+   inside it. The column's centring is computed as if the link were not
+   there, so the list stays exactly where it was before the door.
+   WHAT WOULD BREAK: a normal-flow link pulled up by a negative margin
+   moved the list 0.08px and changed 1,249 pixels of the roster; and
+   inside `.roster`, the "+ one more voice" line would stop being
+   `:last-child` and take a hairline (docs/HISTORY.md, home/05).
+   CHOICE, `.roster-foot .roster-door`, two classes: `.door-link`'s
+   `position: relative` comes later in this sheet (home/06) and, at one
+   class, would win and drop the link into the 0px box. */
+.roster-foot {
+  position: relative;
+  height: 0;
+  margin: 0;
+}
+
+.roster-foot .roster-door {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------
+   home/06 — THE SPECIMENS: ONE AT A TIME (was GROUP 6)
+   Four pieces, one at a time (three until 2026-10-15, when the
+   Vertebra Cuff joined beside the Vertebra Collar, frontend
+   t_8766b990): a 16:9 photo over a caption row, "See
+   the full bestiary" at the foot. No arrows and no dots: the photo is
+   the "Next specimen" button, and a sliver of the next piece's paper
+   shows in the tear's lower-right corner. Her ruling, 2026-10-12: "I
+   like (c). I am aware that arrows are the convention everyone knows,
+   but I'm also willing to reinforce the idea that strigoi is not
+   exactly a conventional marketplace." (docs/DECISIONS.md, THE
+   SPECIMENS: NO ARROWS; uiux sketches sketches/specimens-photo-control/
+   and sketches/specimens-sliver/, variant B; both recommended keeping
+   the arrows). The dots went the same day ("1. Remove the dots").
+   Her pick among four clones: "I Think 003 — One at a time."
+   (docs/worksheets/qa-verdict-003-card.md; the build: docs/DECISIONS.md,
+   "BUILD: option 003 (one specimen at a time)").
+   VISION, her words: "roster and specimens are on the plane of
+   immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
+   "ROSTER/SPECIMENS DIRECTION 001 REJECTED"); the homepage is "the
+   entry/portal not an index of all platform" (docs/GRIMOIRE.md §XV).
+   Without JS all four show, stacked, with no button and no sliver;
+   script.js §1b adds `.js-stepper` and the rules at the end of this
+   group apply.
+   THE DAY'S FIRST PIECE: with JS the stepper opens on the day's piece
+   (UTC day, the Bestiary's `dayKey()`; each piece first once every n
+   days), the order still the markup's. Her words, 2026-10-12: "Yes,
+   the daily rotation is perfect. In this way, the visitors that are
+   failing to find the second and the third specimen photo, still have
+   the chance to see some new pieces." Fair to the makers too: no
+   piece is always first (script.js §1b). No rule here changes for it:
+   the `nth-child` slots are the markup's, so each piece keeps its tear.
+   Each photo is an older wallpaper under the torn red wall, always at
+   rest, in its own colours; no hover, by her choice of 2026-10-08
+   ("THE TORN WALL", below). The Bestiary is to show the opened torn
+   edge instead, as she confirmed: wider (about four fifths of the
+   photo shown), at all times, in the photo's own colours.
+   OPEN: phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) #16, #17;
+   #18 (the dots' size, the arrows' place at 360) went with the dots
+   and the arrows; #15 is page-wide. Her three answers of 2026-10-12
+   (docs/DECISIONS.md, THE SPECIMENS: NO ARROWS, HER THREE ANSWERS):
+   which piece shows first, the day's, rotating (above); the focal
+   point per photo (`data-sliver-pos`), the curator's at upload, the
+   backend to carry it; the 5-person test, before launch on real
+   makers' photos (PM's recommendation, her reply pending).
+   ---------------------------------------------------------- */
+
+.specimens-wrap {
+  /* .specimens-wrap: `#specimens`, the frame: at least a screen less
+     `--specimens-foot`, content centred, `--frame-void` (tokens/03) as
+     the floor of space above and below, as `.roster-wrap` (home/05).
+     --specimens-foot: the bestiary link is positioned from the frame's
+     foot (below), so this 128px decides where it lands. It was named
+     as the room for the dots and the link; the dots are gone
+     (2026-10-12) and it stays 128px: they sat out of the flow, so
+     their going moves nothing, and task 4a's phone audit (#16) is
+     measured against this value.
+     Where the min-height sets the height (screens about 830px high and
+     up; 360 and 390 phones), the link lands 136px above the screen's
+     edge. Content plus floors come to about 700px, which sets the
+     height on 768 and 800px-high screens (77 to 109px up), at 320×568
+     (2px up), and at 1280×600 and 844×390, where the link lands below
+     the screen (844×390 is audit #16). A full `100svh` would put it 8px
+     from the edge (numbers: docs/HISTORY.md, home/06).
+     CHOICE, its own value, not `--nav-h`: that was subtracted against
+     a landing push that is gone, and `--nav-h` may change; this foot
+     must not move with it (docs/HISTORY.md, home/05). */
+  --specimens-foot: 128px;
+  min-height: calc(100svh - var(--specimens-foot));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--frame-void) 5%;
+  scroll-snap-align: start;
+  /* the box the link is placed in. Out of the flow, it leaves the
+     centring to the eyebrow and the pieces (T5, tests/e2e). */
+  position: relative;
+}
+
+/* .specimens-stage: holds the list; with JS, the shown piece's photo
+   is its one control (`.specimen-photo-btn`, below), and script.js
+   listens here for ArrowLeft/ArrowRight. Its flex centring is kept
+   from the arrows, which stood either side (gone 2026-10-12): it
+   centres the column and moves nothing. */
+.specimens-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .specimens: the column, min(560px, 72vw), centred; 2.2em between
+   pieces when all four show. The roster's width (home/05). */
+.specimens {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2em;
+  width: min(560px, 72vw);
+  margin: 0 auto;
+}
+
+/* .specimen: one piece, photo over caption row, a bone-0.08 hairline
+   under all but the last (none with JS, below). A step is a cut:
+   stepping switches `display`, so the next piece appears at once. The
+   crossfade the build named never ran and was removed; the cut stays
+   by a uiux ruling, a step being the visitor's own input
+   with its photo already loaded (docs/HISTORY.md, home/06). */
+.specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  padding-bottom: 0.9em;
+  border-bottom: 1px solid rgba(193, 191, 189, 0.08);
+}
+
+.specimen:last-child {
+  border-bottom: none;
+}
+
+/* .specimen-photo: the photo, an `<img>` at the column's width, 16:9,
+   `object-fit: cover` (another shape is cropped, never stretched). An
+   `<img>`, not the sketch's CSS background, for `alt` and lazy loading
+   (index.html).
+   CHOICE, landscape, not the sketch's 3:4: a 3:4 photo is taller than
+   the frame's room, and the build's first pass in 3:4 overflowed it
+   (sketches/specimens-with-photos/FINDINGS.md §1; docs/SUBMISSION-SPEC.md
+   §1 asks designers for 4:3 or wider, or square).
+   SMALL SCREEN: 315px high in the full column; at 844×390 heading
+   and piece don't fit the screen together (audit #16). */
+.specimen-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+/* THE TORN WALL: each photo as an older wallpaper under the red wall.
+   WHAT: a CSS mask on the `<img>` (`mask-image`, a PNG-style alpha
+   image: where the mask is opaque the photo is drawn, where it is
+   transparent the photo is not drawn at all), plus a second image, the
+   torn edge, painted over the photo by the wrapper's `::after`.
+   ROLE HERE: the red wall (the page's own background, leaks and grain,
+   not a copy of it) is the newer paper, on top; the photo is the older
+   paper under it, seen through a torn hole. Where the red paper still
+   clings, the photo is simply not drawn and the wall shows through.
+   Nothing is drawn on the wall: no pool, no halo, no frame.
+   Her direction, 2026-10-08: "as an older wallpaper that was coverd by
+   the new one, and the new one is now deterriorated and we can see
+   through the secimen photo"; her pick of sketch E the same day: "yes,
+   E looks good. I like the version before hover more, but without
+   agesd tone. So, remove the hover for the homepage specimen photos"
+   (sketches/specimen-photos/specimen-palimpsest.md, option E).
+   CHOICE, always at rest: the sketch opened the tear on hover and on
+   keyboard focus; she chose the closed tear for every visitor, so no
+   rule here reacts to the mouse, the keyboard, a tap or motion
+   settings. The opened torn edge is for the Bestiary, as she
+   confirmed: wider (about four fifths of the photo shown), at all
+   times, in the photo's own colours; not this page.
+   CHOICE, the photo in its own colours: the sketch toned it (a sepia,
+   lifted-blacks `filter`); she ruled the aged tone out.
+   VISION: "roster and specimens are on the plane of immanence, the
+   sublunar" (above): the pieces come out of the wall itself. */
+
+/* .specimen-photo-vignette: the wrapper round each photo (the name is
+   older than the wall: it once held an inset vignette shadow, removed
+   with the tear, docs/HISTORY.md, home/06). `position: relative` is
+   the box the torn edge (`::after`) and the sliver are laid in.
+   A `<span>`, `display: block`: with JS it sits inside the photo's
+   `<button>`, whose content may only be phrasing content (no `<div>`);
+   as a block it lays out as the `<div>` it was, with or without JS. */
+.specimen-photo-vignette {
+  display: block;
+  position: relative;
+}
+
+/* .specimen-photo, the mask: the tear stretched over the photo's box
+   (`100% 100%`; the image is 16:9 like the box), so the photo shows
+   only through the hole. The hole's edge is a torn line 15 to 30px
+   inside the box, so the photo's straight edge never shows. About half
+   of each photo shows (54, 51, 56%) and all of its middle.
+   WHAT WOULD BREAK: a mask image that fails to load hides the whole
+   photo (CSS Masking: it counts as a transparent mask). Chromium also
+   refuses mask images on a `file://` page, as with the leaks' stains
+   (background/02): serve the site over http. */
+.specimen-photo {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* .specimen-photo-vignette::after, the torn edge, over the photo and
+   inside its box only: the torn red paper's pale fibres along stretches
+   of the hole's rim, the lifted edge's shadow falling into the hole
+   (light from the upper left, about 5px), damp on the old paper near
+   the edge, and a thin uneven wash of the wall's red: one room, one
+   light. Drawn after the image (an image paints over its own inset
+   effects), taking no clicks. The page's grain (background/03) lies
+   over wall and photo alike. */
+.specimen-photo-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* .specimen:nth-child(1-4): one tear per stepper slot, not per photo:
+   a new maker photo needs no new asset, and four different tears (own
+   seeds, none rotated from another) keep it from reading as a repeated
+   tile. Without JS all four pieces stack, each with its own tear.
+   The images: assets/specimen-tears/, 1120×630 (2x the 560px column),
+   lossless WebP, made by sketches/specimen-photos/make-palimpsest.sh
+   (docs/HISTORY.md, home/06). SLOT 4 (2026-10-15, frontend t_8766b990,
+   when the Vertebra Cuff joined as the fourth piece): the same script
+   with a fourth case (seed 4 × 104729, stain-b cropped at 300, flipped
+   both ways, its own tilt; tests/e2e/frontend_t_8766b990/
+   make-palimpsest-4.sh, which makes slots 1-3 pixel-identical to the
+   shipped files): 55.1% of the photo shown, 100% of its middle, as
+   1-3's 54.2 / 51.3 / 55.9. Its rim (damp and wash) re-cut on
+   2026-10-15 (frontend t_a2cbe509) from its own crop, stain-a's top:
+   the first ran a pink drip down through the cuff.
+   CHOICE, the url() written in each rule, not once in a custom
+   property: browsers have disagreed on which base a url() carried in
+   a custom property resolves against (this sheet or the page); written
+   in place it always resolves from this sheet, so the `../` holds
+   (background.css's header). */
+.specimen:nth-child(1) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/tear-1.webp");
+  mask-image: url("../assets/specimen-tears/tear-1.webp");
+}
+.specimen:nth-child(1) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-1.webp");
+}
+.specimen:nth-child(2) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/tear-2.webp");
+  mask-image: url("../assets/specimen-tears/tear-2.webp");
+}
+.specimen:nth-child(2) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-2.webp");
+}
+.specimen:nth-child(3) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/tear-3.webp");
+  mask-image: url("../assets/specimen-tears/tear-3.webp");
+}
+.specimen:nth-child(3) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-3.webp");
+}
+.specimen:nth-child(4) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/tear-4.webp");
+  mask-image: url("../assets/specimen-tears/tear-4.webp");
+}
+.specimen:nth-child(4) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-4.webp");
+}
+
+/* .specimen-row: the caption row, a `<span>`: figure label left, name
+   and maker, availability right, on one baseline, spread by
+   `space-between`. Stacked at 640px and below (responsive/06). */
+.specimen-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5em;
+}
+
+/* .specimen-fig: the figure label ("FIG. 01 — WINGED CLOAK"), small
+   Space Mono capitals at the row's left, 13em wide (the stripped-row
+   sketch had 9em; why 13 is not recorded): every label takes two
+   lines at every width measured. On one line (641px up)
+   `space-between` sets each name by its row's widths, so the names
+   start up to 11px apart.
+   Bone, over 7:1 at its brightest pixels. The caption row sits on the
+   page's ground under the photo, not on it (numbers: docs/HISTORY.md,
+   home/06). */
+.specimen-fig {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone);
+  width: 13em;
+  flex-shrink: 0;
+}
+
+.specimen-namewrap h4 {
+  /* The piece's name, an `<h4>`: Spectral 500 in `--bone-head`, the
+     headings' tone (tokens/02, D10). Spectral, not IM Fell: the name
+     is catalogue text beside the mono availability, the MACHINERY
+     register (tokens/02 TYPE; docs/DECISIONS.md, "TYPOGRAPHY: System
+     C+"). Why 500 is not recorded; the font URL loads it. */
+  font-family: var(--interface);
+  font-weight: 500;
+  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+  color: var(--bone-head);
+  margin: 0 0 0.2em;
+}
+
+/* .specimen-maker: the maker under the name, Space Mono in bone, over
+   7:1 at its brightest pixels. */
+.specimen-maker {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone);
+}
+
+/* .specimen-avail: "Edition of 3" (was "1 of 3", reworded by her
+   ruling of 2026-10-17, index.html), "Unique", "Pre-order" at the
+   row's right, on one line; bone, over 7:1 at its brightest pixels. */
+.specimen-avail {
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  color: var(--bone);
+  letter-spacing: var(--track-line);
+  white-space: nowrap;
+}
+
+/* ---- WITH JS: ONE AT A TIME ----
+   The rules from here on match only after script.js §1b adds
+   `.js-stepper` to `.specimens-wrap`, which it does only once every
+   element it needs is found and its controls are wired. Without it,
+   the stacked list above stands. */
+/* no hairline, no space under the one piece shown. */
+.specimens-wrap.js-stepper .specimen {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+/* the pieces not shown: `display: none`, not opacity, so they take no
+   room and the stage is one piece high. The piece shown keeps
+   `.specimen`'s `display: flex`.
+   LOADING, as measured: this doesn't hold the photos back. At 1440 and
+   390 the first photo sits 1,100 to 1,300px below the first screen,
+   near enough that Chromium fetches all three lazy photos before
+   script.js's stepper runs (at DOMContentLoaded) and adds
+   `.js-stepper`. Pushed 1,500px further down, only the shown piece's
+   photo loaded, and each other one on its step. With JS off no image
+   is lazy (the HTML standard's rule).
+   CHOICE, kept: the photos are requested at low priority, and every
+   step shows a photo already loaded. Holding them back (tried with
+   `content-visibility: auto` on the wrapper) left the frame empty for
+   0.5 to 4.5s a step on slow connections (docs/HISTORY.md, home/06). */
+.specimens-wrap.js-stepper .specimen:not(.is-active) {
+  display: none;
+}
+
+/* .specimen-photo-btn: the photo is the control. script.js §1b wraps
+   each piece's torn-wall photo (`.specimen-photo-vignette`) in one
+   `<button type="button">` named "Next specimen"; a click, a tap,
+   Enter or Space shows the next piece, wrapping. No arrows, her ruling
+   of 2026-10-12, "I like (c)" (docs/DECISIONS.md, THE SPECIMENS: NO
+   ARROWS; uiux sketch sketches/specimens-photo-control/ §1). Only with
+   JS: without it there is no button and the pieces stack.
+   The button has no box of its own (no padding, border, background or
+   margin), so the torn wall at rest is pixel for pixel as it was under
+   the arrows. Its box, and its hit area, is the photo's whole 16:9
+   rectangle, torn rim included: 560×315 in the full column (WCAG 2.5.8
+   by far).
+   CHOICE, the hand cursor is the one hover cue. Her 2026-10-08 ruling
+   keeps the photo still: no rule here reacts to hover, and the photo's
+   pixels on hover equal its pixels at rest (THE TORN WALL, above).
+   `-webkit-tap-highlight-color: transparent` for the same reason on a
+   phone: the browser's tap flash would draw the hidden rectangle over
+   the wall for a moment.
+   FOCUS: the site's ring (tokens/03, P4), 2px of solid teal, 4px out,
+   round the button's box; no rule here sets it. That box is the
+   photo's 16:9 rectangle, so a keyboard user sees a straight frame
+   round the torn hole: the one state of sketch E with a frame, as the
+   sketch says (the wall's rule otherwise draws none). A mouse click
+   draws no ring (`:focus-visible`).
+   KNOWN COST, as the sketches weighed it: nothing at rest says the
+   photo steps (on a phone not even a cursor); a mouse or a thumb has no
+   "previous" (ArrowLeft is keyboard only); the photo's click is spent
+   on stepping, not on a link to its piece (D4). Her choice, made
+   knowing them (docs/DECISIONS.md). */
+.specimen-photo-btn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* THE SLIVER (uiux sketch sketches/specimens-sliver/, variant B, the
+   corner): her "stack of wallpapers". Under the shown photo (the older
+   paper, under the red wall) lies the NEXT piece's photo, older still.
+   Where the shown paper is torn away too, across the hole's lower-right
+   corner, a wedge of the next one shows, in its own colours, at rest.
+   About 2.3 to 3.0% of the photo's box (the sketch's coverage.txt),
+   100×65 to 115×100px in the full column; it stretches with the box.
+   Only with JS (`.js-stepper`): without it each piece would show the
+   one stacked under it. One piece: no sliver, the live tear. Two: each
+   shows the other. Slots past the fourth have no tear at all (the
+   `nth-child(1-4)` rules above), and no sliver.
+   The layers, in paint order inside `.specimen-photo-vignette`:
+   `.specimen-sliver` (the next photo, masked to the wedge), the shown
+   photo (`position: relative`, so it paints over the sliver: both are
+   positioned, so tree order decides), then `::after`, the live rim
+   over the wedge's own torn edge (two background layers).
+   THE IMAGES, three per slot, assets/specimen-tears/, 1120×630, lossless
+   WebP, made by sketches/specimens-sliver/make-slivers.sh (variant b),
+   pixel-identical to its PNGs (the edges at 8 bits): `sliver-tear-n`
+   the shown photo's mask (the live hole minus the wedge), `sliver-n`
+   the wedge's mask, `sliver-rim-n` the shown paper's torn edge where it
+   meets the wedge (pale fibres) and its shadow on the next paper. The
+   live `tear-n`/`rim-n` are untouched and still mask the stacked
+   no-JS pieces. 80,018 B for the nine (docs/HISTORY.md, home/06).
+   SLOT 4 (frontend t_8766b990, 2026-10-15): the same script run on
+   tear-4 (tests/e2e/frontend_t_8766b990/make-slivers-4.sh, slots 1-3
+   pixel-identical to the shipped masks). At the corner's level 0.865
+   its wedge was 0.6% of the box (the hole reaches further right and
+   lower than 1-3's), so slot 4 alone takes 0.80: 2.5% of the box,
+   4.6% of the hole, inside 1-3's 2.3-3.0% / 4.3-5.4%. 24,868 B for
+   its three.
+   No loading cost: the next photo is the same file the next piece
+   shows, already fetched (LOADING, above). Reduced motion: nothing
+   here moves, and a step is still a cut (no peel). */
+.specimen-sliver {
+  display: none;
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(-n + 4) .specimen-sliver {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+/* the next photo, at the box's size, hung so that its point
+   `--sliver-x/-y` (its piece's `data-sliver-pos`, set by script.js;
+   50% 50% = its middle) lies on the slot's wedge centre `--wedge-x/-y`
+   (below). Both are % of the box, as the photo is the box's size.
+   Lined up box on box, the wedge would show only a dark-ground photo's
+   studio ground, read as shadow (the sketch's README §2). */
+.specimen-sliver img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: calc(var(--wedge-x, 50%) - var(--sliver-x, 50%));
+  top: calc(var(--wedge-y, 50%) - var(--sliver-y, 50%));
+  object-fit: cover;
+  display: block;
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(-n + 4) .specimen-photo {
+  position: relative;
+}
+/* per slot: the wedge's centre (the middle of `sliver-n`'s bounding
+   box, in % of the box: the sketch's capture.js CENTRES.b, its px),
+   the shown photo's mask and the edge under the live rim. The url()s
+   in place, as THE TORN WALL's (above). */
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) {
+  --wedge-x: 86.7857%; /* 486 of 560px */
+  --wedge-y: 85.3968%; /* 269 of 315px */
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-1.webp");
+  mask-image: url("../assets/specimen-tears/sliver-tear-1.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-sliver {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-1.webp");
+  mask-image: url("../assets/specimen-tears/sliver-1.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-1.webp"), url("../assets/specimen-tears/sliver-rim-1.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) {
+  --wedge-x: 82.5%;     /* 462 */
+  --wedge-y: 77.1429%; /* 243 */
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-2.webp");
+  mask-image: url("../assets/specimen-tears/sliver-tear-2.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-sliver {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-2.webp");
+  mask-image: url("../assets/specimen-tears/sliver-2.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-2.webp"), url("../assets/specimen-tears/sliver-rim-2.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) {
+  --wedge-x: 85.7143%; /* 480 */
+  --wedge-y: 82.2222%; /* 259 */
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-3.webp");
+  mask-image: url("../assets/specimen-tears/sliver-tear-3.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-sliver {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-3.webp");
+  mask-image: url("../assets/specimen-tears/sliver-3.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-3.webp"), url("../assets/specimen-tears/sliver-rim-3.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) {
+  --wedge-x: 79.2857%; /* 444 */
+  --wedge-y: 66.0317%; /* 208 */
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-photo {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-4.webp");
+  mask-image: url("../assets/specimen-tears/sliver-tear-4.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-sliver {
+  -webkit-mask-image: url("../assets/specimen-tears/sliver-4.webp");
+  mask-image: url("../assets/specimen-tears/sliver-4.webp");
+}
+.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-photo-vignette::after {
+  background-image: url("../assets/specimen-tears/rim-4.webp"), url("../assets/specimen-tears/sliver-rim-4.webp");
+}
+
+/* .door-link: the look the homepage's two text doors share, "See the
+   full atlas" under the roster (home/05) and "See the full bestiary"
+   here (docs/DECISIONS.md, "THE HOMEPAGE DOORS"). One family, so the
+   doors read as one pattern in two places: Space Mono in bone, over
+   7:1 at its brightest pixels, with no arrow and no line.
+   VISION, her words (2026-10-09): "I prefer the pages that are clean
+   of unnecessary symbols"; she chose option A, "Clean", of uiux's
+   sketch fc246aa (sketches/link-symbols/). Until then the doors wore
+   an `aria-hidden` "→" and a hairline (bone at 0.25) that brightened
+   on hover.
+   ACCESSIBILITY, why a link with no line is still found: each door
+   stands alone on its own line, centred at the foot of the list or
+   the carousel it opens, in mono under serif names, and its words are
+   a verb and a place ("See the full ..."). WCAG 1.4.1 asks for a mark
+   other than colour where a link sits among other text; these don't.
+   Hover: the site's pink glow, the footer's and the logo's
+   (chrome/06), never a line (her rule, docs/BRAND.md, "no borders or
+   underlines on hover"). Focus: the site's ring (tokens/03, P4), 2px
+   of teal, 4px out; no rule here sets it: median about 4.1:1 on the
+   roster's ground, about 4.9:1 on the specimens' (numbers:
+   docs/HISTORY.md, home/06). Focus takes no glow, as in the footer.
+   CHOICE, the border kept at 1px, transparent, not removed: the box
+   keeps its height, so neither door, the roster's centring nor the
+   hit area below moves by a pixel.
+   Reduced motion: the 0.3s glow becomes instant (motion/01). */
+.door-link {
+  position: relative;
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  color: var(--bone);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.15em;
+  transition: text-shadow 0.3s ease;
+}
+.door-link:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+/* The hit area: 12px text in a box about 23px high, under the 24px
+   WCAG 2.5.8 asks (audit #17). An invisible `::after` reaches 12px
+   above and below and 4px either side, so the target is 47px high and
+   nothing at rest moves. The specimens' door sits 0.8em above its
+   frame's foot, where the sepulchre's frame begins, so a click just
+   under it does not reach it: its target is about 45px high (measured
+   at 1280, 2026-10-28). */
+.door-link::after {
+  content: "";
+  position: absolute;
+  inset: -12px -4px;
+}
+
+/* .specimens-door: "See the full bestiary", to the Bestiary
+   (`bestiary.html`), centred at the frame's foot (`bottom: 0.8em`).
+   A skymap star's tap box covers its right end on phones, at 844×390
+   and on 641–900px-wide screens about 800px high; at 768×1024, where
+   the audit found it (#10), it was clear (measured with the older,
+   20px-shorter words; not re-measured below 1280px). */
+.specimens-door {
+  position: absolute;
+  left: 50%;
+  bottom: 0.8em;
+  transform: translateX(-50%);
+}
+
+/* ----------------------------------------------------------
+   home/07 — THE SEPULCHRE, THE HOMEPAGE'S HALF (was GROUP 6a)
+   WHAT: the page's last screen, `.sepulchre-frame`: the sepulchre
+   section and the footer. The section's look (kicker, REC dot,
+   inscription, seal) is chrome/05, shared with the gallery's
+   threshold; here are the frame, its veil and the centring. The
+   crimson is the page's own ground (background/01–03).
+   VISION, her words (docs/worksheets/4th-frame-fix-card.md): "the
+   sepulchre section (+ the footer), it definitely needs its own
+   screen space. Imagine it that the only crypt/tomb on an entire
+   planet." History: docs/HISTORY.md, home/07.
+   ---------------------------------------------------------- */
+
+/* .sepulchre-frame: at least a screen (`100svh`), a flex column: the
+   section takes the height the footer leaves, the footer keeps its own
+   at the foot ("footer must remain as it is, at the bottom edge of the
+   screen", her words, docs/worksheets/4b-card-body.md, §2). The frame
+   is the document's last box, so where it is one screen tall the snap
+   lands at the page's end with the whole frame in view.
+   `position: relative`: the veil's (`::after`) box; static, it would
+   take `body`'s. WHAT WOULD BREAK: an opaque `--below` instead of
+   `transparent` hides the body gradient's descent under the frame.
+   KNOWN GAP: `scroll-margin-top` cancels a `scroll-padding-top` the
+   page no longer has. Where the frame is taller than the screen
+   (844×390, 320×568), `scrollIntoView` lands 128px inside it, the
+   kicker's top off the screen; wherever the frame is one screen tall
+   it lands at the page's end either way. It changes only phone
+   landings; it waits for 4a (docs/DECISIONS.md, TASK 4A ... WAIT). */
+.sepulchre-frame {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  position: relative;
+  background: transparent;
+  scroll-margin-top: calc(-1 * var(--nav-h));
+}
+
+/* The veil: a clear-to-rgb(70,4,10) ramp over the frame's top 53%,
+   .16 at its foot, under the text, taking no clicks, for her "a
+   descending (down scrolling) into a darker red, not into a lighter"
+   (docs/HISTORY.md, background/02). Today it moves the last screen
+   by 1–2 of 255 (a few pixels up to 8 at 1440). CHOICE, plain alpha,
+   not `multiply`: over the leak layers' stacking contexts a multiply
+   painted opaque white.
+   WHY 53%: it darkens only where the red under it is above 70, which
+   uiux measured ends at ~87.6% of the document; the box ends at
+   87.8–88.6%. WHAT WOULD BREAK: re-tune the body gradient and 53% is
+   stale; above ~.24 alpha its foot paints a line; the inscription
+   must stay above the cut, or its contrast can fall. */
+.sepulchre-frame::after {
+  content: '';
+  position: absolute;
+
+  inset: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  height: 53%;
+
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(70, 4, 10, 0)    0%,
+    rgba(70, 4, 10, 0.16) 100%
+  );
+}
+
+/* .sepulchre, the homepage only: `flex: 1` takes what the footer
+   leaves, and the column is centred in it: at 1440×900 the kicker
+   starts 224px under the frame's top, the seal ends 221px above the
+   footer. The threshold is padded instead (chrome/05). */
+.sepulchre {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 24px all round on screens up to 948px high or 900px wide, 1440×900
+   included (responsive/03). */
+.sepulchre-inner {
+  padding: 48px 24px;
+}

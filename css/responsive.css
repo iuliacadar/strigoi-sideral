@@ -1,0 +1,557 @@
+/* ==== responsive.css: the site at other widths ====
+   OWNS:      every viewport query on the site, thirteen: the hero wider from 1440px and the doctrine knockout's two halves at 1150px (responsive/01–02); 900px and below, the homepage's nav, sky marks, skymap and beacon, and the sepulchre's and threshold's padding (03); the lightbox at 800px (04); the wheel at 780px (05); the demo shop at 700px, then the roster's and the specimens' rows at 640px (06); the gallery at 600px (07); 500px and below (08). The text pages, the Atlas and the Bestiary have no block of their own, but two rules reach them: responsive/05's `.stars--yields-to-prose` hides the starfield on the ten text pages and the Summoning at 780px and below, and responsive/08's `nav` and `.logo` narrow the nav's padding and the logo on every page with a nav, twenty-two, at 500px and below.
+   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   POSITION:  second-to-last on every page: after every other sheet, before motion.css.
+   ORDER: the two min-width queries first, then max-width from widest to narrowest. A narrower query comes later so that, at the same specificity, it wins where both match (`@media` adds none). The sepulchre's padding (03's last block) also asks for a short screen, `max-height: 948px`.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   responsive/01 — THE HERO, WIDER ON WIDE SCREENS
+   (was GROUP 11c)
+   The file's two min-width queries come first: this one (1440px) and
+   the doctrine knockout's wide half (1150px, the last block below).
+   ---------------------------------------------------------- */
+
+/* Widens home/01's `.hero-inner` from 1440px up. The founder, of wide
+   screens: "everything is cowded in the center and the epty in the
+   margins of the page" (docs/DECISIONS.md, "NAV/SKY POLISH", 2).
+   HOW: `clamp()` lets the cap grow with the screen at 58% of its
+   width, from 900px (passed at about 1550px) to 1700px. The title and
+   the paragraph keep their own caps (`20ch`, `52ch`, chrome/03), so
+   the text does not stretch; what widens is the box the sky-seal star
+   and the beacon take their percentages from (home/02, home/03), so
+   they move out towards the margins. Below 1440px nothing changes.
+   CHOICE, stop at 1700px, not full width: even the sky keeps a margin,
+   or the composition loses its frame (same entry; numbers: docs/
+   HISTORY.md, home/01). */
+@media (min-width: 1440px) {
+  .hero-inner {
+    max-width: clamp(900px, 58vw, 1700px);
+  }
+}
+
+/* The doctrine knockout's wide half (the Summoning page; was GROUP 4's).
+   The markup's mask (`#doctrineKnockout`) fades the rings out under
+   the words with one set of rects per layout; this and responsive/02
+   pick the set: from 1150px up (the stage at its 1080px cap), the
+   wide one. Why 1150: the markup's comment. */
+@media (min-width: 1150px) {
+  .doctrine-knockout-narrow { display: none; }
+}
+
+/* responsive/02 (was GROUP 4's): the knockout's narrow half, below 1150px (above). */
+@media (max-width: 1149px) {
+  .doctrine-knockout-wide { display: none; }
+}
+
+/* ----------------------------------------------------------
+   responsive/03 — 900px AND BELOW
+   (was GROUP 12: its 900px query; its 780px query → responsive/05)
+   The homepage's nav, skymap, sky marks and beacon; the sepulchre's
+   and threshold's padding. The phone audit
+   (task 4a) waits for every page (docs/DECISIONS.md, TASK 4A).
+   ---------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  /* The homepage's nav: the stars' box 84 → 104px and the stars moved;
+     from 501 to 900px no two 44px hit areas overlap and each clears the
+     logo by 39px or more (measured). The values: reason not recorded. */
+  .nav-stars {
+    height: 104px;
+  }
+
+  .nav-star--1 { left: 14%; top: 14%; }
+  .nav-star--2 { left: 40%; top: 78%; }
+  .nav-star--3 { left: 62%; top: 30%; }
+  .nav-star--4 { left: 82%; top: 68%; }
+  .nav-star--5 { left: 92%; top: 18%; }
+
+  /* .nav-star-label: 9.92px (0.62rem), 0.08em, from chrome/02's 11.2px
+     and 0.16em; still Spectral 500, `--bone-label`, opacity 1.
+     WHAT WOULD BREAK: chrome/02's size here: at 768 the labels before
+     2026-10-16 met ("Sepulchre", when shown, and "The Right Ones Let
+     In"; "Specimens" and "Demo Shop"). Today's shorter labels clear at
+     768 even at that size (measured); the smaller size stays for the
+     band below.
+     KNOWN GAP: from about 659 to 501px they meet at this size too
+     ("Specimens" and "Lure me in" 659–501; "Sepulchre", when shown, and
+     "The Right Stars" 611–501): the crowding audit #2 records on
+     phones, at widths it didn't measure. Numbers: docs/HISTORY.md,
+     chrome/02, 2026-10-16. [2026-10-27: the labels are now
+     "Bestiary", "Atlas" and "Summoning" (no articles in the nav,
+     docs/DECISIONS.md 19e5318, (2)), each shorter than the one it
+     replaced; the figures above are the old labels', not re-measured
+     below 1280 (task 4a's band).] */
+  .nav-star-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* home/04 — the skymap at 900px and below: every cluster's box
+     becomes 170px (clusters 1 and 2 shrink from 280; cluster 3 grows
+     from 130, because this rule comes later than
+     `.skymap-cluster--3`'s width at the same specificity; whether that
+     is wanted is not recorded) and moves further left, so the drawings
+     are not cut off at the screen's edge. Cluster 1 then lies over the
+     hero's text: the paragraph on phones, the title at tablet widths
+     (audit #7); cluster 3's star over the bestiary link's end (audit
+     #10). Numbers: docs/HISTORY.md, home/04. */
+  .skymap-cluster {
+    width: 170px;
+  }
+
+  .skymap-cluster--1 { left: 40%; }
+  .skymap-cluster--2 { left: 4%; }
+  .skymap-cluster--3 { left: 46%; }
+
+  /* The sepulchre and the threshold, 900px and below: 90px above,
+     64px below, 20px at the sides. On the homepage the padding sits on
+     the centred section, so the column rides 13px lower (768×1024,
+     390×844); where the section is taller than the screen (844×390,
+     320×568) it adds 154px to the last frame. On the gallery it sits on
+     the column, the only spacing its header has. Two rules because the
+     padding sits on two different boxes (chrome/05, home/07). */
+  .sepulchre {
+    padding: 90px 20px 64px;
+  }
+
+  .threshold-inner {
+    padding: 90px 20px 64px;
+  }
+
+  /* The doctrine wheel (summoning/02) has no rule here: from 781px up
+     the stage and the movements' boxes shrink with the screen, and its
+     one collapse is responsive/05's 780px query. From 781 to about
+     1140px the words don't shrink with them and leave the stage (KNOWN
+     GAP, summoning/02; the queries wait for task 4a). */
+
+  /* .sky-seal, hidden on every page (home/02): this keeps its `right`
+     at 6% for this width, in case it returns. An older `top: 10%` here
+     put it under the nav and was removed (docs/HISTORY.md, home/02). */
+  .sky-seal {
+    right: 6%;
+  }
+
+  /* .header-constellation (home/02), smaller and higher at this width,
+     clear of the narrower column's text. `left: 1.5%` of the full-width
+     header keeps its strokes about 15–22px from the screen's edge. At
+     `top: 4%` it sits in the nav's band, and its strokes share 1–3
+     pixels of ink with the logo's letters at some widths from 501 to
+     900px (fix card open; docs/HISTORY.md, home/02). */
+  .header-constellation {
+    width: clamp(64px, 16vw, 90px);
+    left: 1.5%;
+    top: 4%;
+  }
+
+  /* THE BEACON UNDER THE WINGMARK, AT 900PX AND BELOW.
+     WHAT: the beacon is absolutely positioned against `.hero-inner`
+     (`position: relative`), so `top: calc(100% + 16px)` puts its top
+     edge 16px below `.hero-inner`'s bottom edge, which is the
+     wingmark's lower edge. `left: 0` lines it up with the column's left
+     edge. `flex-direction: row` sets the mark and the label side by
+     side (the base rule, home/03, stacks them), centred on each other.
+     ROLE HERE: on phones, tablets and narrow desktop windows the signal
+     is the last thing in the first screen, after the title, the
+     paragraph and the wing: the summons, then the answer. It sits in
+     open sky, clear of every text on the hero. From 901px up the base
+     rule's corner beside the title applies.
+     CHOICE, under the wingmark and not in the corner: above the title
+     and beside it were both measured on phones, and neither has the
+     44px the mark needs. The corner (`top: 10%; left: 8%` here before)
+     put the label's glyphs on the paragraph, or less than 16px from
+     it, at every width from phones up to about 895px. The corner is a
+     percentage of a box whose height changes with the paragraph, and
+     the label column is taller than the gap between the h1 and the
+     paragraph, so the only corner values that clear the paragraph push
+     the beacon into the nav or the header constellation. One position
+     for the whole band, at the breakpoint it already lived in
+     (docs/DECISIONS.md, "BEACON UNDER THE WINGMARK AT 900PX AND
+     BELOW").
+     WHAT WOULD BREAK: swapping `100%` for a percentage of the hero, or
+     a fixed px. The wingmark moves whenever the hero's text changes
+     height, and a position that doesn't follow it is how the beacon
+     landed on the paragraph.
+     SMALL SCREEN: the whole beacon stays in the first screen at 600px
+     high and up. On shorter screens (phones held sideways, and 320px
+     wide at 640px high or less) the hero itself overflows the screen
+     and the beacon falls under the fold; at 320×568 its label meets
+     Textrina Siderum (`.skymap-heading--float`, responsive/08), which
+     is anchored under the hero too. Open, not fixed here.
+     ACCESSIBILITY: the markup order is unchanged, so the beacon is
+     still read and focused before the h1, although at these widths it
+     shows after the wing. The whole row is the link and is 44px
+     tall. VISION: a signal in the sky, not a button in the text (docs/
+     DECISIONS.md, "HEADER + NAVBAR REDESIGN", point 1). */
+  .beacon {
+    top: calc(100% + 16px);
+    left: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* THE BEACON'S LABEL, TWO LINES BESIDE THE MARK.
+     WHAT: `white-space: nowrap` stops a line of text from wrapping at
+     its spaces; only the `<br>` in the markup still breaks it.
+     `max-width: none` lifts the base rule's 108px cap (home/03), which
+     would otherwise force the wrap back.
+     ROLE HERE: in the row above, the label sits to the right of the
+     mark and reads as exactly two lines, "For makers. A signal in the
+     dark." and "Answer it.", left-aligned so both start from the mark.
+     CHOICE, nowrap and not a narrower cap: a cap is what wrapped the
+     label to three lines deep before, when the beacon stood above the
+     paragraph. Beside the mark the widest line fits across the whole
+     column with room to spare, down to 320px wide, so nothing needs to
+     wrap. WHAT WOULD BREAK: a longer label copy. Re-measure the row's
+     right edge at 320px before changing the words. */
+  .beacon-label {
+    white-space: nowrap;
+    max-width: none;
+    text-align: left;
+  }
+}
+
+/* The sepulchre's column (home/07): its padding, 48px → 24px on
+   screens up to 948px high or 900px wide. Where the column is centred
+   with room to spare (1440×900,
+   1366×768, 390×844) it changes nothing on screen; where the section
+   is taller than the screen (844×390, 320×568) the frame is 48px
+   shorter. Its recorded reason, an overflow at 1366×768, is gone
+   (docs/HISTORY.md, home/07). Keep it or delete it is a phone call:
+   it waits for the phone media queries (docs/DECISIONS.md, TASK 4A). */
+@media (max-height: 948px), (max-width: 900px) {
+  .sepulchre-inner {
+    padding: 24px 24px;
+  }
+}
+
+/* ----------------------------------------------------------
+   responsive/04 — THE LIGHTBOX AT 800px AND BELOW (was GROUP 14)
+   The column may be 95vh tall, not gallery/03's 90vh, set through
+   `--lb-column-h` so the captioned photo's cap follows it. On a
+   screen about 700px tall or more (default text size), the photo's own
+   90vh − 40px binds first, so the extra is the caption line's slack
+   and a photo is the same size captioned or not (768 × 1024 and
+   390 × 844 measured). The breakpoint's reason is not recorded.
+   ---------------------------------------------------------- */
+
+@media (max-width: 800px) {
+  .lightbox-inner {
+    --lb-column-h: 95vh;
+  }
+}
+
+/* ----------------------------------------------------------
+   responsive/05 — THE DOCTRINE WHEEL AT 780px AND BELOW
+   (was GROUP 4's 780px query)
+   WHAT: the wheel (summoning/02) becomes a column. The stage drops
+   its 16:11 shape and stacks the three movements 36px apart, each as
+   wide as the column (351px at 390), in source order. The SVG (rings,
+   leaders, the mask) isn't drawn. The wheel's one collapse.
+   CHOICE, drop the diagram, not shrink it: the answer of the sketch
+   she chose (sketches/doctrine-wheel/003-rings/), in the sketch's
+   words: no room "for three nested circles plus readable paragraph
+   text", and "the words are the entire point". 780px is the sketch's
+   value; reason not recorded.
+   History: docs/HISTORY.md, responsive/01–02, 05.
+   ---------------------------------------------------------- */
+@media (max-width: 780px) {
+  .orbit-stage {
+    width: 100%;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .orbit-svg {
+    display: none;
+  }
+
+  .doctrine-movement {
+    position: static;
+    width: 100%;
+  }
+
+  /* THE STARS YIELD TO PROSE: hides the starfield (background/02,
+     `.stars`) on pages that opt in with this class: summoning and
+     chrome/07's ten text pages. At this width their text runs from
+     top to bottom, and the dots would paint through the words (390,
+     rule undone, worst of ten scroll positions: The Binding 1.13, the
+     intro 1.21, The Manifest 2.26; as built, none under 4.5).
+     CHOICE, hide, not mask: `.stars` is fixed to the screen and the
+     words scroll, so no mask can follow them. Same ruling as the stars'
+     `@supports` gate: where the decoration can't be lawful, it doesn't
+     ship (docs/HISTORY.md, background/02). */
+  .stars--yields-to-prose {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------
+   responsive/06 — THE DEMO SHOP AT 700px AND BELOW (was GROUP 16)
+   Phones: the pieces in one column, 40px apart, 20px in (shop/02 has
+   three, 32px apart, 24px in); at 390 each stage is 350 × 437.5. The
+   skin switcher's row starts at the left, 20px in (shop/03 centres
+   it), and at 390 Transmission wraps to a second line.
+   CHOICE, one column, not two: two would squeeze the 4:5 stages (the
+   recorded reason); at 390 each would be 155 × 194. The 700px
+   breakpoint and the left-aligned row: reason not recorded.
+   The maker's inscription, her ways and the demo note (shop/09, M2;
+   the merge sketch's own values, sketches/shop-maker-story/merge/
+   merge.css, 45bb4dc): the hero's room for the nav 120px; the tag
+   smaller and less tracked, so its four words stay on one line in
+   350px; the bio 20px in from each edge; the ways 88px under the grid
+   (+20 of its padding: 108 from the last photo), in one column, the
+   label on a short row of its own, 28px, above the sites, all centred;
+   the demo note left-set, 20px in, as the switcher's row, and
+   `text-wrap: pretty`, not shop/09's `balance`: here it runs to 6-8
+   lines, past where Chromium balances, and below 375px its last line
+   was one word ("yet.") at 28 widths of 320-373; `pretty` leaves none
+   from 320 to 700 and the same line counts (6 at 390). The one change
+   to the sketch's values.
+   THE PHONE'S BIO AND SHORT HERO (her "3. Yes", 2026-10-20, to uiux's
+   (b), sketches/shop-layout-2/ README and layout2.css, 9722596): the
+   hero's bio copy is hidden and the second copy after the pieces is
+   shown (shop/09), centred, 88px under the grid (+20 of its padding:
+   108 from the last photo), the ways 56px under it (were 88 under the
+   grid); the hero gives up chrome/03's full screen (`min-height:
+   100svh`) and is only as tall as the tag and the name: the 120px
+   room for the nav above, 32px below. Without the short hero, moving
+   the bio changed nothing: the tag and the name alone in the middle of
+   a black screen, the first photo as low as before (README (b)). With
+   it, at 390 the demo's first photo starts at y 450 (a real shop's, no
+   note and no switcher, at 245: whole in the first screen).
+   THE SHORT HERO DOESN'T SNAP (uiux t_6eecabe8, REVISE 1):
+   `scroll-snap-align: none` on the shop's hero here, not chrome/03's
+   `start`. WHY: the short hero is no longer a frame, and it was the
+   shop's only snap point (`html` is `y proximity`, tokens/03), so a
+   snap there fought the scroll it was made for: one wheel gesture of
+   80-280px at 390 (80-200 at 375) came back to the top, while the
+   first piece runs past the fold (450-887 at 390 × 844) and that
+   scroll is the one that shows it whole. Without it the page rests
+   where it was sent. `.shop-page`: the homepage's hero is a whole
+   screen, a frame, and keeps its snap; above 700 the shop's hero is a
+   whole screen again and keeps it too. WHAT WOULD BREAK: dropping the
+   rule brings the bounce back; widening it past `.shop-page` takes the
+   homepage's first frame out of the snap, and moving it out of this
+   query takes the desktop shop's.
+   ---------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .shop-products {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 20px;
+  }
+
+  .skin-switcher {
+    justify-content: flex-start;
+    padding: 0 20px;
+  }
+
+  .shop-page header.hero { padding-top: 120px; }
+  .shop-page .hero-tag { font-size: 0.75rem; letter-spacing: 0.14em; }
+  .shop-bio { padding: 0 20px; }
+  .demo-note { text-align: left; padding: 0 20px; text-wrap: pretty; }
+  .shop-maker-ways { margin-top: 88px; grid-template-columns: 1fr; }
+  .shop-maker-elsewhere { justify-content: center; min-height: 28px; }
+  .shop-maker-sites { justify-content: center; }
+
+  .shop-page header.hero { min-height: 0; padding-bottom: 32px; scroll-snap-align: none; }
+  .shop-page header.hero .shop-bio { display: none; }
+  .shop-bio-foot { display: block; margin: 88px auto 0; text-align: center; }
+  .shop-bio-foot + .shop-maker-ways { margin-top: 56px; }
+}
+
+/* responsive/06b — THE NAV'S PLACES ON A SECOND ROW, 700px AND BELOW.
+   INTERIM, TASK 4A DECIDES (the phone nav is task 4a's: this row, or a
+   menu). Only so that no page scrolls sideways: at 390 the nav's five
+   words (the logo, "Atlas", "Bestiary", "Lure me in", "Bag"; chrome/07)
+   overran the screen by 14px and "Lure me in" broke in two. The fix is
+   the one the sketch drew as its note for 4a (uiux t_55fba969,
+   sketches/way-lines/README.md §2.7 and wl.css, verbatim values; HER
+   WORDS, 2026-10-27: "Yes, I lean towards A as well.", docs/DECISIONS.md
+   19e5318, (1), which leaves phones to 4a): the places take a second row
+   under the logo (y 64-108 at 390), -12px so "Atlas"'s word, not its
+   box, lines up with the logo's S; what stood under the nav moves down
+   by that row, 44px: the piece's frame 104 -> 148 (product/01's
+   `margin-top` 60 -> 104), the shop's hero room 120 -> 164
+   (responsive/06's 120, above). Without the push the row's box overlaps
+   the piece photo's top by 4px at 390. The Atlas's and the Bestiary's
+   heads already start below the row (measured), so they don't move.
+   700: the site's own step (product/01, responsive/06), not a new one.
+   Taking this block out restores the nav as it was on phones, with the
+   overflow. */
+@media (max-width: 700px) {
+  .site-nav { flex-wrap: wrap; }
+  .site-nav ul.site-places {
+    order: 3;
+    flex: 1 0 100%;
+    margin: 0 0 0 -12px;
+  }
+  .piece { margin-top: 104px; }
+  .shop-page header.hero { padding-top: 164px; }
+}
+
+/* home/05 at 640px and below: the roster's lines stack. The line and
+   its left block turn into columns, so the mark, the status and the
+   name block sit one above the other instead of wrapping mid-line. The
+   breakpoint is the sketch's. Mark and status centre over the name at
+   their own widths, so the list's left edge zig-zags (audit #12). */
+@media (max-width: 640px) {
+  .roster-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4em;
+  }
+  .roster-card-left {
+    flex-direction: column;
+    gap: 0.3em;
+  }
+}
+
+/* home/06 at 640px and below: each caption row stacks, figure label,
+   name and maker, availability one above the other, left-aligned, as
+   the roster's lines do above, instead of wrapping mid-line. */
+@media (max-width: 640px) {
+  .specimen-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4em;
+  }
+}
+
+/* ----------------------------------------------------------
+   responsive/07 — THE GALLERY AT 600px AND BELOW (was GROUP 13)
+   Phones only: 2px gaps (gallery/02's 4px); the threshold column pads
+   72/20/48 (601–900px: responsive/03's 90/20/64; wider: chrome/05's
+   130/24/96), so the header doesn't push the grid below the first
+   screen (the recorded reason). At 390×844 the grid starts at 342px.
+   ---------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .grid {
+    gap: 2px;
+  }
+
+  .threshold-inner {
+    padding: 72px 20px 48px;
+  }
+
+  /* No footer rule here: every page's footer, the gallery's included,
+     keeps chrome/06's padding at every width. */
+}
+
+/* ----------------------------------------------------------
+   responsive/08 (was GROUP 17) — 500px AND BELOW
+   The file's narrowest query, last because it overrides the 900px
+   one (responsive/03) at the same specificity. Phones: the nav's
+   padding and the logo on every page with a nav (twenty-two); the
+   homepage's nav stars, sky marks and Textrina Siderum; the gallery
+   lightbox's ×.
+   Reason for 500px: not recorded.
+   ---------------------------------------------------------- */
+
+@media (max-width: 500px) {
+  /* The nav on a phone. On every page with a nav (twenty-two): less
+     side padding, and the logo 9.92px at 0.12em and on one line. On
+     the homepage: the stars' box 118px tall and the stars re-placed.
+     "S T R I G O I" is spaced with real spaces, so it could wrap; at
+     these sizes it fits from 320 to 500px with or without `nowrap`
+     (measured), which stays as the guard.
+     KNOWN GAP, for 4a: star 5's 44px hit area runs past the screen's
+     right edge from 410px down (347–391 at 390); from 330px
+     down stars 3 and 4's hit areas overlap, and at 320 "The Summoning"
+     (when shown) meets "Lure me in". The labels' crowding is audit #2.
+     [2026-10-27: "The Summoning" is "Summoning", "Specimens" is
+     "Bestiary", "The Right Stars" is "Atlas"; the 320 meeting was
+     measured on the old words, not re-measured.] */
+  nav {
+    padding: 20px 4%;
+  }
+
+  /* home/04 — Textrina Siderum at 500px and below: under the hero,
+     not beside its text. `top: 100%` is the hero's bottom edge (its
+     parent is `header.hero`), plus 14px. Smaller and less tracked, so
+     it fits on one line.
+     WHAT WOULD BREAK: a fixed `top`; the hero's height follows its
+     text, and 100% follows the hero.
+     SMALL SCREEN: at 320×568 the beacon's label meets it
+     (responsive/03). History: docs/HISTORY.md, home/04. */
+  .skymap-heading--float {
+    top: 100%;
+    margin-top: 14px;
+    right: 5%;
+    max-width: 200px;
+    white-space: normal;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+  }
+
+  .logo {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .nav-stars {
+    height: 118px;
+    margin-left: 12px;
+  }
+
+  .nav-star--1 { left: 18%; top: 10%; }
+  .nav-star--2 { left: 46%; top: 82%; }
+  .nav-star--3 { left: 66%; top: 34%; }
+  .nav-star--4 { left: 88%; top: 66%; }
+  .nav-star--5 { left: 98%; top: 12%; }
+
+  /* The gallery lightbox's ×: 20px of padding makes its hit area 55 ×
+     69px, from the glyph's own 15 × 29 (gallery/03), and `top`/`right`
+     pull the box back by the padding, so the × draws where it did.
+     ACCESSIBILITY: WCAG 2.5.5's 44px. Wider than 500px it stays 15 ×
+     29: reason not recorded. */
+  .lightbox-close {
+    top: 4px;
+    right: 10px;
+    padding: 20px;
+  }
+
+  /* .sky-seal, hidden on every page (home/02). The declarations keep
+     its phone size and place, above the column, in case it returns;
+     the old numbers were tuned for the old hero (docs/HISTORY.md,
+     home/02). Re-measure against the nav and the title before
+     un-hiding it. */
+  .sky-seal {
+    top: -43px;
+    right: 8%;
+    max-width: 12ch;
+    font-size: 0.54rem;
+    letter-spacing: 0.24em;
+    transform: rotate(0deg);
+  }
+
+  /* .sky-seal-star (home/02) follows the seal up, 14px above it, as a
+     negative `top` from the column's top edge. That edge moves with
+     the screen's height, so on short phones the star rides into the
+     nav: it sits on the "Lure me in" label at 360–375 by 667 and on
+     "Specimens" at 360 by 740, and above the screen at 320 by 568 (fix
+     card open; docs/HISTORY.md, home/02). */
+  .sky-seal-star {
+    top: -57px;
+    right: 12%;
+  }
+
+  /* .header-constellation (home/02), smallest here, moved up into the
+     nav's band, over the logo's box; its strokes pass between the
+     letters. `left: 3%` keeps them off the screen's edge. With `top:
+     -8px` its top two stars are drawn above the screen's top edge at
+     500px wide and below (fix card open; docs/HISTORY.md, home/02). */
+  .header-constellation {
+    width: 56px;
+    left: 3%;
+    top: -8px;
+  }
+}

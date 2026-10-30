@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    favicon.svg - "favicon cut" of the Strigoi Sideral wingmark
+    (see docs/LEARNING.md Chapter 1, "Why a wide logo can't just be
+    scaled into a square icon", for the full explanation).
+
+    This is NOT the hero .wingmark SVG (index.html, viewBox 0 0 260 90)
+    scaled down - that produces illegible hairlines at 16px. This is a
+    deliberate redraw at square-icon scale: the same structure (two
+    wings fanning up and outward from one shared point, marked with
+    the crimson junction dot) rebuilt with two strokes instead of six
+    and a stroke-width heavy enough to survive anti-aliasing at 16px.
+
+    2026-09-10 SAFE-MARGIN FIX (t_e424201e): the rect used to be rounded
+    (rx="7"), which (a) left the four corners unpainted, so rasterisers
+    flattened that unpainted area onto WHITE instead of the ground
+    colour, producing a white-cornered icon in the tab strip, and
+    (b) stole exactly the corner pixels the wing tips needed, so the
+    wings ran past the rounding into nothing. Browsers do not round
+    favicons themselves, so the rounding bought nothing. Fixed by:
+      - a FULL-BLEED square ground (no rx, every pixel painted, so a
+        corner can never flatten to white again), and
+      - redrawing the wings shorter/shallower so the PAINTED extent
+        (path coordinates plus/minus half the 2.6 stroke-width) stays
+        inside a roughly 2.5 to 3 unit margin on all four sides
+        (nothing painted outside roughly x/y 2.5..29.5). Stroke-width
+        was kept at 2.6, thinning it to buy space would make it die
+        at 16px, the wings were shortened instead.
+
+    Colours are project tokens, not new colours:
+      above-black #101011  (ground, PALETTE III, 2026-09-10; was #030308)
+      bone        #c1bfbd  (the wing strokes, PALETTE III; was starlight #eef0f6)
+      beacon-red  #e0455f  (the junction dot, EXCLUDED from PALETTE III,
+                             unchanged; see style.css GROUP 0 for why)
+  -->
+  <rect width="32" height="32" fill="#101011"/>
+  <g fill="none" stroke="#c1bfbd" stroke-linecap="round">
+    <path d="M16 22.5 C 13 19.5, 9.5 14.5, 6.3 5.8" stroke-width="2.6"/>
+    <path d="M16 22.5 C 19 19.5, 22.5 14.5, 25.7 5.8" stroke-width="2.6"/>
+  </g>
+  <circle cx="16" cy="22.5" r="1.6" fill="#e0455f"/>
+</svg>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page not found — Strigoi Sideral</title>
+<meta name="description" content="There is no page at this address." />
+<!-- THE 404 PAGE, served by the host for any address that doesn't
+     exist. WHAT WOULD BREAK: a relative path. The host sends this file at
+     whatever address the visitor asked for (/shops/x/y/z, say), and a
+     relative path (one that climbs a folder up to css/) resolves against
+     that wrong address, so the page arrives unstyled and every link is
+     broken. So every path to the site's own files starts at the site
+     root, `/`. That works because the site is served from the root of
+     its own domain (docs/DECISIONS.md, "HOSTING"; docs/CSS-JS-SPLIT.md
+     §1.4). `#main` (a fragment of this same page) and the font URLs
+     (https://, Google's servers) are not paths into the site.
+     Otherwise the same page as the nine other text pages (contact,
+     terms, and the rest). -->
+<!-- Favicon: the wingmark's square cut, as on every page, from the
+     site root. -->
+<link rel="icon" href="/strigoi-sideral/favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/strigoi-sideral/favicon.ico" sizes="any" />
+<link rel="icon" href="/strigoi-sideral/favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="/strigoi-sideral/favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="/strigoi-sideral/favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fonts: IM Fell English italic for the h1; Spectral 400 for the
+     text; Space Mono for the logo, the labels, the way home and the
+     footer. The URL also asks for Spectral 500 and 400 italic, which
+     this page doesn't set: it has no h2 and no table caption.
+     CHOICE: the same URL on all ten text pages, so the font
+     stylesheet is fetched once and then cached for the others. The
+     browser downloads a font file only for a face the page renders:
+     the two unused faces cost about 120 bytes of gzipped CSS and no
+     file. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<!-- The five shared sheets, and no page sheet of its own: a page gets a
+     sheet only when it has a design of its own, and a text page doesn't
+     (docs/DECISIONS.md, "ONE STYLESHEET PER PAGE TYPE"). Its rules are
+     chrome/07, in chrome.css. responsive.css and motion.css stay last. -->
+<link rel="stylesheet" href="/strigoi-sideral/css/tokens.css" />
+<link rel="stylesheet" href="/strigoi-sideral/css/background.css" />
+<link rel="stylesheet" href="/strigoi-sideral/css/chrome.css" />
+<link rel="stylesheet" href="/strigoi-sideral/css/responsive.css" />
+<link rel="stylesheet" href="/strigoi-sideral/css/motion.css" />
+</head>
+<!-- `data-bg="horizon"`: the short-page background (css/background.css,
+     background/04), sky at the top of the document, soil at the bottom,
+     the plain reading field between (docs/DECISIONS.md, "SHORT PAGES USE
+     THE HORIZON BACKGROUND"). -->
+<body data-bg="horizon">
+<!-- SKIP LINK: the first Tab stop, invisible until focused
+     (css/tokens.css). Enter moves focus past the logo onto <main>; the
+     next Tab goes to the first stop in the text, or to the footer's
+     first link where the text has none. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<!-- The background layers, the same markup as the summoning page: the
+     distressed surface, the stars and the homepage's two leak layers,
+     which the horizon background paints through. Empty: pure
+     background, no content.
+     `.stars--yields-to-prose`: at 780px and below the starfield switches
+     off (responsive/05), because the page is nothing but running text
+     and the fixed dots would paint through it. -->
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+<div class="stars stars--yields-to-prose"></div>
+<div class="leak-seepage" aria-hidden="true">
+  <div class="leak-single">
+    <div class="leak-single__fill"></div>
+  </div>
+</div>
+<div class="leak-seepage--below" aria-hidden="true">
+  <div class="leak-stain--below"></div>
+</div>
+
+<!-- THE NAV: a <nav> landmark with one link, the logo, home.
+     `.nav--scrolls` lets it scroll away with the top of the page
+     instead of staying fixed over the text (why, and the other pages
+     that use it: chrome/07). Its logo's focus ring is the site's 2px of
+     solid teal (tokens/03). The footer carries the way home from the
+     bottom. -->
+<nav class="nav--scrolls">
+  <a class="logo" href="/strigoi-sideral/" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+</nav>
+
+<!-- MAIN LANDMARK: the not-found page, the skip link's target (`id="main"`;
+     `tabindex="-1"` lets focus land on it). The footer stays outside it.
+     ROLE HERE: tell the visitor there is nothing at this address, in
+     words everyone knows (the eyebrow), and give them one way on.
+     CHOICE, the h1 in the Strigoi register: "Nothing is buried here" is
+     the site's own image, the sepulchre, and it is literally true. The
+     eyebrow "404 · Page not found" carries the meaning, so the image
+     never has to carry it alone. The plain line under it doesn't blame
+     the visitor ("you typed..."): most missing pages come from broken
+     links.
+     CHOICE, one action and nothing else: the way home. No search box
+     (search needs a server) and no list of pages (the footer row is
+     one). No draft notice: the page has no notice element, so showing
+     one is a markup change, a frontend card. The words are a draft like
+     the other pages' until the founder polishes them. -->
+<main class="text-page" id="main" tabindex="-1">
+  <p class="section-eyebrow">404 · Page not found</p>
+  <h1>Nothing is buried here</h1>
+  <p>There is no page at this address. It may have moved, or it may never have existed.</p>
+  <!-- The way home: a link, not a <button>, because it goes somewhere.
+       The first stop Tab reaches after the logo. -->
+  <p class="text-page__action-row"><a class="text-page__action" href="/strigoi-sideral/">Return to the homepage</a></p>
+</main>
+
+<!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), under
+     the stains: the links and the "© Strigoi — …" line are all covered
+     by the soil, by her choice; the link a keyboard user is on comes
+     above while it has focus, and with a mouse pointer over the footer
+     the links and the line come up together. The policy row is on
+     every footer (ruling D5).
+     CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
+     bare `nav` as the fixed site header, so a <nav> here would be pulled
+     to the top of the screen. The role gives screen readers the same
+     landmark; the label tells it apart from the logo's nav.
+     `role="list"`: Safari's VoiceOver stops announcing a list once its
+     bullets are removed with CSS; the role gives back "list, 7 items".
+     The link to the page you are on (if it's in the row) carries
+     `aria-current="page"`, no underline (her ruling of 2026-10-29,
+     chrome/07: the h1 names the page). It stays a link,
+     so the row has the same stops on every page. -->
+<footer class="text-footer">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="/strigoi-sideral/shipping/index.html">Shipping</a></li>
+      <li><a href="/strigoi-sideral/returns/index.html">Returns</a></li>
+      <li><a href="/strigoi-sideral/sizing/index.html">Size guide</a></li>
+      <li><a href="/strigoi-sideral/contact/index.html">Contact</a></li>
+      <li><a href="/strigoi-sideral/terms/index.html">Terms of sale</a></li>
+      <li><a href="/strigoi-sideral/privacy/index.html">Privacy</a></li>
+      <li><a href="/strigoi-sideral/legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <a href="/strigoi-sideral/">Back to Strigoi</a>
+</footer>
+
+<script src="/strigoi-sideral/script.js"></script>
+</body>
+</html>
