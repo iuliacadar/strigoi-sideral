@@ -1,6 +1,6 @@
 /* ==== product.css: a piece's page ====
    OWNS:      the page and its two columns (product/01); the stage at the photo's own shape (02); the column of plain words (03); the buying control, shown and inert, and "Save" beside it (04); the strip of photos (05); the Details list (06).
-   LOADED BY: the demo shop's seven piece pages, shops/demo/pieces/<slug>/index.html.
+   LOADED BY: the demo shops' piece pages, shops/<shop>/pieces/<slug>/index.html: Vârcolac Atelier's seven (shops/demo/) and TexxturedBeest's seven (shops/texxturedbeest/, since 2026-10-31; pieces/roped-knit/ is a pointer to mohair-cardigan/ and loads no sheet).
    POSITION:  fifth of seven, after chrome.css and shop.css (which still draws the stage and its three skins), before responsive.css and motion.css.
    ============================================================ */
 
@@ -15,7 +15,7 @@
    The pair is centred in the window and top-aligned. The page wears
    the shop's flat ground (`body.shop-page`, shop/02) and has no hero:
    the piece's name is the page's one <h1>.
-   ROLE HERE: the demo's seven pieces, each opened from its card on the
+   ROLE HERE: the demos' twelve pieces, each opened from its card on the
    shop or from the Bestiary. Her ruling, 2026-10-15, P1 = direction 1
    of sketches/product-page/product-page-spec.md: "P1. your recommended
    option." The shop lists, the piece's page summons.
@@ -145,8 +145,7 @@
    (the sketch's diagnose.txt). A long list no longer runs on alone
    beside the photo's empty foot: product/06's NF split. */
 
-/* The frame: the first photo's shape (`--ratio`, written on the
-   wrapper from the file's width and height), as tall as the window
+/* The frame: the shape of the photo it shows, as tall as the window
    less 150px (750px at 900, 930 at 1080), never over 1280: with its
    top at 104px (product/01, phones), its foot sits 46px above the
    window's edge. Above 700px, less 190px, the top being at 144: the
@@ -160,29 +159,92 @@
    docs/DECISIONS.md 2dc046d). When the Details list ends below the
    stage's foot (the strip's, or the photo's on a piece of one photo),
    script.js §4c writes `--grow` on `.piece-stage`: the frame gets that
-   much taller, and wider by its own shape (`aspect-ratio`; no crop, no
-   letterbox), until the stage's foot is level with the list's. Never
-   closer than 24px to the first screen's foot (the window's; script.js
-   §4c FOOT_GAP), so the photo always ends on its own visible edge. HER
+   much taller, and wider by its own shape (`--ratio` and `--shown`,
+   below; no crop, no letterbox), until the stage's foot is level with
+   the list's. Never closer than 24px to the first screen's foot (the
+   window's; script.js §4c FOOT_GAP), so the photo always ends on its
+   own visible edge. HER
    WORDS, 2026-10-26, on uiux t_49f38ef3's "stop the growth 24px above
    the window's foot" (round5/README.md item 2): "2. Yes." (Was "never
    past the first screen's foot", e9d272f: Grave Soil ended exactly on
    the window's edge and read as cut off.) The frame never over 1280.
    Then NF's split (product/06) measures from the grown foot. With the
    script off, or on phones, no `--grow`: the frame as above.
+   THE FRAME TAKES THE SHAPE OF THE PHOTO SHOWN. HER WORDS, 2026-10-31,
+   on the Cord Cowl Sweater (its 2nd photo, 4:5, letterboxed in the
+   first's near-square frame): "can the photo's container (?) in the
+   product page be adapted to the size of the photo? The empty space
+   around the image looks bad in my opinion (e.g. in the screenshot is
+   visible the lateral empty space)" (frontend t_960cca6a). Three
+   values on the wrapper:
+   - `--ratio`, the markup's: the FIRST photo's width / height. It sets
+     the wrapper's width, so the photo's column, so where the Details
+     column sits: that never changes when another photo is shown.
+   - `--frame-h`, the height above (here and product/05).
+   - `--shown`, script.js §4b's: the shown photo's width / height, from
+     its thumbnail's `data-w` / `data-h`. The frame is `--frame-h` tall
+     and as wide as that makes it, from the same left edge; a narrower
+     photo leaves the page's ground on its right, a wider one runs on
+     to the right, over the wrapper's edge.
+   - `--room`, §4b's too: from the wrapper's left edge to main's right
+     padding; never less than the wrapper's own width (the `max()`
+     below: on phones, task 4a's, the pair runs past the window and the
+     room is the first photo's width). A photo too wide for it at
+     `--frame-h` (the demo's 16:9 beside a 9:16 first) is as wide as
+     the room and shorter, still its own shape: the only case where the
+     height gives. The strip follows its foot and takes the difference
+     as its margin under it (product/05), so the stage keeps its height
+     and nothing under or beside it moves.
+   With the script off neither `--shown` nor `--room` is written: the
+   frame is the first photo's shape, `--frame-h` tall, as before.
+   (Was, to 2026-10-31: `aspect-ratio: var(--ratio)` on the frame, the
+   first photo's shape for every photo, and a photo of another shape
+   letterboxed in it on the frame's `--plane` ground with a 1px hairline,
+   `.is-letterboxed`, frontend t_a2cbe509 / uiux t_7fde06c3. No photo is
+   letterboxed now, so the ground and the hairline are gone with it.)
+   THE CHANGE OF SHAPE eases, 180ms (product/05's thumbnails' 200ms,
+   a little shorter: the frame moves more), only while §4b's
+   `.is-reshaping` is set for a swap, never for `--grow` (§4c measures
+   the frame between its writes and would read a frame in mid-ease).
+   Reduced motion: no ease (the query below). The width and the height
+   ease together with the strip's width and margin, so the stage's
+   height holds through the ease too.
    WHAT WOULD BREAK: `overflow: hidden` here. The stage's focus ring
    is drawn 4px outside it (tokens/03) and would be clipped; the stage
-   clips its own layers (shop/01). */
+   clips its own layers (shop/01). And `overflow` other than visible on
+   the wrapper: a wider photo runs past its right edge. */
+.piece-stage {
+  --frame-h: min(calc(100svh - 150px), 1280px);
+  --shown-h: min(var(--frame-h), max(var(--room, 0px), var(--frame-h) * (var(--ratio))) / (var(--shown, var(--ratio))));
+  --shown-w: calc(var(--shown-h) * (var(--shown, var(--ratio))));
+  width: calc(var(--frame-h) * (var(--ratio)));
+}
+@media (min-width: 701px) {
+  .piece-stage {
+    --frame-h: min(calc(100svh - 190px + var(--grow, 0px)), 1280px);
+  }
+}
+/* `--shown-h` on the layout's own grid, 1/64px (a LayoutUnit): the
+   frame's height and the strip's margin under it (product/05) then add
+   up to `--frame-h` exactly, so a shorter frame leaves the stage's
+   height as it was to the last 1/64px (unrounded, the two are rounded
+   apart and the stage can come out 1/64px short). Without `round()`
+   the rule is skipped, and that 1/64px is all it costs. */
+@supports (height: round(1.5px, 1px)) {
+  .piece-stage {
+    --shown-h: round(nearest, min(var(--frame-h), max(var(--room, 0px), var(--frame-h) * (var(--ratio))) / (var(--shown, var(--ratio)))), 0.015625px);
+  }
+}
 .piece-frame {
   position: relative;
-  height: min(calc(100svh - 150px), 1280px);
-  aspect-ratio: var(--ratio);
+  width: var(--shown-w);
+  height: var(--shown-h);
   border-radius: 4px;
   background: var(--above-black);
 }
-@media (min-width: 701px) {
-  .piece-frame {
-    height: min(calc(100svh - 190px + var(--grow, 0px)), 1280px);
+@media (prefers-reduced-motion: no-preference) {
+  .piece-stage.is-reshaping .piece-frame {
+    transition: width 180ms ease-out, height 180ms ease-out;
   }
 }
 
@@ -571,9 +633,10 @@
    With the script off the row stays: a plain row of links that scrolls
    sideways; a link opens its photo whole, and Back returns. The first,
    the photo the stage shows, is `aria-current` and at full strength.
-   The frame keeps the first photo's shape; a photo of another shape
-   sits letterboxed in it (`.is-letterboxed`), so nothing on the page
-   moves. The cost: a wide 16:9 photo shows small in the tall frame.
+   With the script, the frame takes the shape of the photo shown
+   (product/02, her words of 2026-10-31 there), and the row follows it:
+   as wide as the photo, right under its foot. (Was: the frame kept the
+   first photo's shape and another shape sat letterboxed in it.)
    NOT DESIGNED: phones (task 4a).
    ---------------------------------------------------------- */
 
@@ -586,19 +649,21 @@
    (below): the ~11px stays, as room under the row, so the photo keeps
    its size; giving it to the photo is a design call, not taken here.
    Above 700px, 296 (the top at 144, product/01): the row's foot stays
-   62px above the window's, where it was; `--grow` as product/02. */
-.piece-stage:has(.piece-strip) .piece-frame {
-  height: min(calc(100svh - 256px), 1280px);
+   62px above the window's, where it was; `--grow` as product/02.
+   (These set product/02's `--frame-h`, the frame's full height.) */
+.piece-stage:has(.piece-strip) {
+  --frame-h: min(calc(100svh - 256px), 1280px);
 }
 @media (min-width: 701px) {
-  .piece-stage:has(.piece-strip) .piece-frame {
-    height: min(calc(100svh - 296px + var(--grow, 0px)), 1280px);
+  .piece-stage:has(.piece-strip) {
+    --frame-h: min(calc(100svh - 296px + var(--grow, 0px)), 1280px);
   }
 }
 
-/* The row: as wide as the photo above it and never wider (`contain:
-   inline-size`; its eight thumbnails would otherwise widen the photo's
-   column). 6px of padding all round, so a thumbnail's focus ring (2px,
+/* The row: as wide as the photo above it and never wider (`width`, the
+   frame's `--shown-w`, product/02; `contain: inline-size`, so its eight
+   thumbnails never widen the photo's column). 6px of padding all
+   round, so a thumbnail's focus ring (2px,
    2px out) is never clipped by the scroller.
    NO SCROLLBAR. HER WORDS, 2026-10-24: "3. On the product page,remove
    the lateral scroll bar under the piece-strip, it breaks the bare
@@ -639,8 +704,19 @@
   scroll-padding-inline: 30px;
   scrollbar-width: none;
   contain: inline-size;
+  width: var(--shown-w);
+  margin-bottom: calc(var(--frame-h) - var(--shown-h));
   -webkit-user-select: none;
   user-select: none;
+}
+/* The row's width and its margin under it ease with the frame
+   (product/02, THE CHANGE OF SHAPE): their sum with the frame's height
+   holds, so the stage's foot doesn't move. The margin is 0 unless a
+   photo too wide for the room is shown. */
+@media (prefers-reduced-motion: no-preference) {
+  .piece-stage.is-reshaping .piece-strip {
+    transition: width 180ms ease-out, margin-bottom 180ms ease-out;
+  }
 }
 .piece-strip::-webkit-scrollbar {
   display: none;
@@ -756,39 +832,17 @@
   mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
 }
 
-/* A photo whose shape isn't the frame's: whole, letterboxed in the
-   frame, the colour-split copies with it. */
-.piece-stage.is-letterboxed .piece-photo {
-  object-fit: contain;
-}
-.piece-stage.is-letterboxed .stage-visual.stage-photo {
-  background-size: contain;
-}
-
-/* THE LETTERBOXED FRAME READS AS A BOX (frontend t_a2cbe509, uiux
-   t_7fde06c3, SIGNOFF item 1). The frame's ground was `--above-black`,
-   the page's own (both 16,16,17), so with a wide photo letterboxed the
-   frame vanished: a small photo floating in the page, and the Séance
-   hint, the Dossier's four stamps and the Transmission's REC, FRAME and
-   crawl hanging in the void round it. While `.is-letterboxed` is set
-   (script.js §4b) the frame takes:
-   - the ground `--plane`, #1c1b1c, two steps up the descent's ramp
-     (tokens/02). `--above-mid` (#151517), one step, was tried: on the
-     plate's grain the band read as the page, and only the hairline drew
-     the box;
-   - the thumbnails' hairline (product/05: 1px bone at .2), as a
-     `box-shadow` OUTSIDE the frame, so it rounds the frame's 4px corners
-     and takes no room: a border would shrink the box the photo and the
-     stage fill by 2px, and the photo would move on a swap.
-   The hint, stamps, REC/FRAME and crawl keep their own plates; on this
-   ground they and the summoned words measure 4.5 or more (docs/
-   HISTORY.md, product/). The stage's focus ring is drawn 4px outside the
-   frame (tokens/03), clear of the 1px line. The first photo is never
-   letterboxed, so with it the page is as before. */
-.piece-stage.is-letterboxed .piece-frame {
-  background: var(--plane);
-  box-shadow: 0 0 0 1px rgba(193, 191, 189, 0.2);
-}
+/* NO LETTERBOX (product/02, her words of 2026-10-31 there): the frame
+   takes the shape of the photo it shows, so the photo and its two
+   colour-split copies fill it at `cover` with nothing cut. Was, to
+   2026-10-31: `.is-letterboxed` (script.js §4b, a shape 0.01 or more
+   off the first's) drew the photo and the copies at `contain` and the
+   frame as a box round them: the ground `--plane` and the thumbnails'
+   hairline as a 1px `box-shadow` outside it (frontend t_a2cbe509, uiux
+   t_7fde06c3 SIGNOFF item 1: a letterboxed frame on the page's own
+   ground vanished). That hairline was the light rim round the frame in
+   her screenshot. With no band left to draw there is no box: the
+   frame's edge is the photo's own, with its 4px corners. */
 
 /* ----------------------------------------------------------
    product/06 — THE DETAILS LIST

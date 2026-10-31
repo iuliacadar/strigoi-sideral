@@ -1,5 +1,5 @@
 /* ==== atlas.css: the Atlas, the page of every shop ====
-   OWNS:      atlas.html: the page frame, the header, the sky of constellations, the index of names.
+   OWNS:      atlas.html: the page frame, the header, the sky of constellations, the index's section and heading (its plates are chrome/09).
    LOADED BY: atlas.html only.
    POSITION:  fourth of six on atlas.html, the page's own sheet: after chrome.css, before responsive.css and motion.css.
    ============================================================ */
@@ -171,16 +171,16 @@
   text-decoration: none;
 }
 
-/* Hover on the page's text links, the Bestiary link and the index's
-   names: the site's pink glow (the footer's, the logo's, chrome/07's),
-   and nothing else: no border, no underline (her rule, docs/BRAND.md).
-   The one underline that comes and goes is an index name's while its
-   constellation in the sky is hovered (atlas/04): it says which name
-   the drawing is, on an element the pointer is not on.
+/* Hover on the page's text links and the Bestiary link: the site's pink
+   glow (the footer's, the logo's, chrome/07's), and nothing else: no
+   border, no underline (her rule, docs/BRAND.md). The index's plates
+   glow their names the same way (chrome/09). The one underline that
+   comes and goes is a plate's name while its constellation in the sky
+   is hovered (chrome/09, `.is-lit`): it says which name the drawing is,
+   on an element the pointer is not on.
    CHOICE, not on a constellation: its lit state (atlas/03) is its hover
    mark, as the homepage's skymap names don't glow either (home/04). */
-.atlas-ways a:hover,
-.atlas-index-list a:hover {
+.atlas-ways a:hover {
   text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
 }
 
@@ -304,8 +304,9 @@
 /* ----------------------------------------------------------
    atlas/03 — A CONSTELLATION
    WHAT: one shop, drawn: an inline SVG (bone stars, teal lines, the
-   shop's own star at the hub) and the shop's name and craft under it
-   on a dark plate. The whole of it is one link to the shop. The name
+   shop's own star at the hub) and the shop's name and craft under it,
+   lettered on the sky (no plate since 2026-10-31, hover labels A, the
+   rule below). The whole of it is one link to the shop. The name
    is hidden (opacity 0) until the link is hovered or has keyboard
    focus, or its name in the index is (`.is-lit`, script.js).
 
@@ -368,10 +369,17 @@
   transition: fill 0.3s ease;
 }
 
-/* The name and craft, the homepage skymap's plate (home/04): Space Mono
-   on a dark plate with a hairline border, centred under the drawing,
-   on one line each. At rest it is invisible and 4px higher; it drops
-   into place as it appears. */
+/* The name and craft, centred under the drawing, on one line each,
+   LETTERED on the sky: no plate, no border, held by the labels' halo
+   (`--halo-label`, tokens/02, the nav's star names' own).
+   HER WORDS, 2026-10-31: "1. Hover labels: A", A "lettered" of uiux's
+   three (t_bc3cf697, sketches/hover-labels/README.md + base.css, item
+   4): the plate and its hairline border were the homepage skymap's
+   (home/04) and go with it; the place does not change. At rest it is
+   invisible and 4px higher; it drops into place as it appears.
+   Measured in the sketch, per glyph pixel, 1280×903 and 1850×925: the
+   name 8.11–8.16:1, the craft 6.35–6.47:1; over the worst clear ground
+   of the Atlas sky 7.52 / 5.92. */
 .atlas-star-label {
   position: absolute;
   left: 50%;
@@ -380,21 +388,24 @@
   white-space: nowrap;
   font-family: var(--mono);
   text-align: center;
-  background: rgba(16, 16, 17, 0.8); /* --above-black at 0.8 */
-  border: 1px solid rgba(193, 191, 189, 0.18); /* --bone at 0.18 */
-  padding: 4px 10px;
+  text-shadow: var(--halo-label);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* INK: the name in `--bone`, the craft in `--bone-label`, one step
-   down: the smaller, second line. */
+/* THE NAME: the old Atlas index's name (until the plates, 2026-10-31),
+   Spectral italic 16 in `--bone-head` (hover labels A); it was Space
+   Mono 12 in `--bone`. THE CRAFT: Space
+   Mono 12 in `--bone-label`, one step down, unchanged. */
 .atlas-star-name {
   display: block;
-  font-size: var(--type-label); /* the scale's line (tokens/02) */
-  letter-spacing: var(--track-line);
-  color: var(--bone);
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--bone-head);
 }
 
 .atlas-star-craft {
@@ -430,22 +441,30 @@
 
 /* ----------------------------------------------------------
    atlas/04 — THE INDEX: EVERY SHOP, BY NAME
-   WHAT: a list of links, A to Z, set in up to four newspaper columns
-   (`columns: 4 14rem`: as many 14rem columns as fit, at most four;
-   while there are 1 to 4 shops, one centred row instead, below).
-   Each entry is the shop's name in Spectral italic and its craft in
-   small mono under it.
+   WHAT: every shop as a fashion plate, A to Z, in rows of at most five,
+   a short last row centred: the homepage roster's plate, the same one
+   (chrome/09 draws the row and the plate; here only the section and its
+   heading). HER PICKS, 2026-10-31 19:50 (uiux t_9d6109aa,
+   sketches/roster-atlas-magazine/plates/README.md): "The roster looks
+   great with the new design." and "1. I like the Candidate 1 mark. 2.
+   OK, keep the numbers on both pages." (here "Planche I, II…" follows
+   the alphabet).
+   WHAT IT REPLACED (2026-10-31): the names as links in up to four
+   newspaper columns (`columns: 4 14rem`), and while there were 1 to 4
+   shops one centred row instead (uiux t_d014c70a); each entry the name
+   in Spectral italic 16 over the craft in Space Mono 12, a 44px box.
+   History: docs/HISTORY.md, atlas/.
 
    ROLE HERE: the way in by name, and the page's plain list for a
    screen reader. Under the sky: at 50 shops it starts thousands of
    pixels down, and the skip link or a screen reader's list jump is the
    quick way to it (the cost of B, recorded with her ruling).
 
-   CHOICE, columns and not a grid: the names run down each column in
-   A–Z order, as a reader expects of an index; a grid would run them
-   across.
-   ACCESSIBILITY: every entry is a 44px box; the link's text is the
-   name and the craft, read as one.
+   CHOICE, rows A to Z, not columns: the plates are one object on both
+   pages, and a plate is read across, like the shops' walls; with rows
+   of five the alphabet still runs in reading order.
+   ACCESSIBILITY: each plate is one link, named by the shop's name only;
+   the whole plate is its target, far over 44px (chrome/09).
    ---------------------------------------------------------- */
 
 .atlas-index {
@@ -453,13 +472,18 @@
 }
 
 /* The index's heading: a small tracked label, centred on the header's
-   axis over the list. "nocount" (her "OK", 2026-10-30, to uiux
+   axis over the plates. "nocount" (her "OK", 2026-10-30, to uiux
    t_5e609701's recommendation; atlas.html says why): the count after
    it is for screen readers only (`.atlas-index-count.sr-only`), and the
    hairline under it went with its 12px padding, as the Bestiary's
-   heading's did; the 12px to the list stays. CENTRED: her decision,
-   2026-10-30, "OK, go on with centred label" (uiux t_d014c70a, 3f0e343,
-   recommended the same: page5.css §7, `alabel=centre`).
+   heading's did. CENTRED: her decision, 2026-10-30, "OK, go on with
+   centred label" (uiux t_d014c70a, 3f0e343, recommended the same:
+   page5.css §7, `alabel=centre`).
+   32px TO THE PLATES (was 12px to the list, 2026-10-31): the distance
+   the homepage's two labelled regions keep, so the plates' heading is
+   the same on both pages (uiux t_035ae8af). No fleuron under it: her
+   (a), "the svg icon under the 'When the stars are right' title should
+   be removed", taken here too for one family (atlas.html).
    INK: `--bone-label`, the small tracked labels' tone (tokens/02). */
 .atlas-index h2 {
   font-family: var(--mono);
@@ -468,77 +492,9 @@
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
   color: var(--bone-label);
-  margin-bottom: 12px;
+  margin-bottom: 32px;
   line-height: var(--leading-label);
   text-align: center;
-}
-
-.atlas-index-list {
-  list-style: none;
-  columns: 4 14rem;
-  column-gap: 48px;
-}
-
-/* An entry never splits across two columns. */
-.atlas-index-list li {
-  break-inside: avoid;
-}
-
-/* UNDER THE CENTRED LABEL, WHILE THE LIST FITS ONE ROW (1 to 4 shops):
-   the entries side by side in one centred row, each name centred over
-   its craft, 48px apart (the columns' gap). From the 5th shop on this
-   matches nothing and the list is the four columns above again,
-   left-aligned in each, A to Z down each column, the label still
-   centred over it. uiux t_d014c70a (3f0e343, page5.css §7), verbatim,
-   built on her "OK, go on with centred label" (2026-10-30). No script:
-   `:has(> li:nth-child(5))` decides. At 1280 today's one shop sits at
-   576 to 704px, centred on 640 with the label and the header. */
-.atlas-index-list:not(:has(> li:nth-child(5))) {
-  columns: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  column-gap: 48px;
-}
-.atlas-index-list:not(:has(> li:nth-child(5))) a {
-  align-items: center;
-  text-align: center;
-}
-
-.atlas-index-list a {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 44px;
-  padding: 6px 0;
-}
-
-/* INK: the name in `--bone-head`, the headings' tone (tokens/02): the
-   list's entries are what a reader scans for. */
-.atlas-index-name {
-  font-style: italic;
-  font-size: var(--type-body); /* a name: the body size (tokens/02) */
-  color: var(--bone-head);
-}
-
-/* INK: `--bone-label`. `--bone-quiet`, the small-print tone, measured
-   under 4.5:1 at its worst pixel here (docs/HISTORY.md, atlas/). */
-.atlas-index-craft {
-  font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02) */
-  letter-spacing: var(--track-line);
-  color: var(--bone-label);
-}
-
-/* Its constellation hovered in the sky (`.is-lit`, script.js): the
-   name is underlined, a mark of shape, not only colour (the index and
-   the sky, sketches/atlas/atlas-spec.md §2). The entry's own hover is
-   the glow alone (atlas/01): an underline there would be the hover
-   underline her rule forbids (docs/BRAND.md). */
-.atlas-index-list li.is-lit .atlas-index-name {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.25em;
 }
 
 /* The erosion filter's 0×0 SVG (atlas.html, the end of <body>): out of

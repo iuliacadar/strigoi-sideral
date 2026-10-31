@@ -1,5 +1,5 @@
 /* ==== home.css: the homepage ====
-   OWNS:      the hero's content column (home/01); the sky marks beside the title (02); the beacon (03); the skymap, the designers' constellations (04); the roster (05); the specimens, one at a time (06); the sepulchre's homepage half (07).
+   OWNS:      the hero's content column (home/01); the sky marks beside the title (02); the beacon (03); the skymap, the designers' constellations (04); the roster (05); the specimens, the magic-lantern box (06); the sepulchre's homepage half (07).
    LOADED BY: index.html only.
    POSITION:  fourth of six, the page's own sheet: after chrome.css, before responsive.css and motion.css.
    ============================================================ */
@@ -47,16 +47,26 @@
   opacity: 0.55;
 }
 
-/* .wingmark: the wing drawn under the paragraph, an inline SVG. Why
-   these two values: reason not recorded. */
+/* .wingmark: the wing drawn under the paragraph, an inline SVG.
+   THE WIDTH, 300px (was 220px): her question, 2026-10-31, "do you
+   consider that the winkmrk would look better if it wold be a little
+   bigger than it is now?", and her pick from uiux's stills, "300".
+   uiux's reason (t_1c74b6dc, sketches/wingmark-size/): about 3/4 of the
+   paragraph's measure, so the wing closes the text instead of trailing
+   under it. At 220 it was about half the paragraph and its lines nearly
+   vanished on the grain.
+   STROKES scale with it (1px in the viewBox -> 1.15px on screen), still
+   hairlines. CHOICE, no `vector-effect: non-scaling-stroke`: it would
+   keep them at 220's 0.85px, a wider wing as faint as before.
+   THE OPACITY, 0.85: reason not recorded (unchanged). */
 .wingmark {
-  width: 220px;
+  width: 300px;
   opacity: 0.85;
 }
 
 /* .wingmark-door: the `<a>` round the wing, the door to the Atlas
    (docs/DECISIONS.md, "THE HOMEPAGE DOORS"). It takes the SVG's place as
-   the flex item of `.hero-inner`; its box is the wing's, 220×76, so the
+   the flex item of `.hero-inner`; its box is the wing's, 300×104, so the
    wing is the whole target.
    WHAT WOULD BREAK: without `display: block` here and on the SVG, and
    `line-height: 0`, an inline `<a>` round an inline SVG adds a line box
@@ -400,7 +410,9 @@ a.beacon {
 /* ----------------------------------------------------------
    home/04 — THE SKYMAP: THE DESIGNERS' CONSTELLATIONS
    (was GROUP 3c)
-   Three constellations, one per named designer on the roster, spread
+   Three constellations, one per named designer on the roster (but
+   TexxturedBeest, on the roster since 2026-10-31, drawn on the
+   Atlas only; index.html's sky comment), spread
    down the sky from the hero to the specimens. Each has one star that
    is a button; hover or focus shows the designer's name. Textrina
    Siderum, an h2 in the hero, names them. SVG and CSS only.
@@ -518,14 +530,37 @@ a.beacon {
    of the distance between the header paragraph and the right edge of
    the screen", her words (DECISIONS, "HERO DECROWDING"). From 901 to
    about 1076px it runs past the edge; `body` hides it (audit #20). */
-/* 2, Ileana C.: top of the roster's screen; at some widths its lines
-   cross the roster heading (audit #13). */
+/* 2, Ileana C.: under 1280px at the top of the roster's screen, where at
+   some widths its lines cross the roster heading (audit #13); from
+   1280px in the band between the roster and the specimens (below). */
 .skymap-cluster--2 { left: 8%;  top: 36.3%; }
 /* 3, Studio Moroi: under the specimens, shrunk to 130px to fit from
    901px up (170px below, responsive/03); star and name keep size.
    CHOICE: not the photos shrunk, not the sepulchre (no stars). Its
    star covers the bestiary link's end on phones and tablets (audit #10). */
 .skymap-cluster--3 { left: 62%; top: 96.2%; width: 130px; }
+
+/* FROM 1280px, THE RHYTHM (home/05, 2026-10-31) makes <main> about 370px
+   shorter (at 903 high; 384 at 925), and the shares above would move
+   every cluster. uiux re-anchored each to what it belongs to (t_035ae8af,
+   rhythm/rhythm.css, verbatim):
+   1 Vârcolac: exactly where it was (10% of the old <main> = 30svh less
+   12.8px).
+   2 Ileana C.: its old place, just under the first screen, now holds the
+   roster's heading and plates, so it moves into the empty band between
+   the roster and the specimens, centred in it, at the left, counted from
+   <main>'s foot: half a region gap + the specimens' content 580.6px, less
+   half the cluster 112px = 468.6 (re-measure if the lantern's shelf or
+   caption changes). Measured in the sketch: inside the band at both of
+   her windows (1410-1634px in 1400-1643 at 903), 0 overlaps. The one
+   visible change of the rhythm, uiux's README says, for her to look at.
+   3 Studio Moroi: beside the bestiary door, as before, counted from
+   <main>'s foot. */
+@media (min-width: 1280px) {
+  .skymap-cluster--1 { top: calc(30svh - 12.8px); }
+  .skymap-cluster--2 { top: auto; bottom: calc(var(--region-gap) / 2 + 468.6px); }
+  .skymap-cluster--3 { top: auto; bottom: -4px; }
+}
 
 /* .skymap-chart: the SVG drawing, filling its cluster's box. */
 .skymap-chart {
@@ -536,12 +571,20 @@ a.beacon {
 }
 
 /* .skymap-star: one designer's star, a `<button>` with a 44×44px
-   invisible hit area around a 5px dot (WCAG 2.5.5, target size), the
-   same pattern as `.nav-star` (chrome/02). It is placed at the centre
-   of its cluster's box, and the dot sits at the end of the hit area
-   away from the name, so the dot is not where the drawing's lines
-   meet: 6 to 86px from that point, by cluster and width. Whether that
-   gap is wanted is not recorded.
+   invisible hit area round a 5px dot (WCAG 2.5.5, target size), the
+   same pattern as `.nav-star` (chrome/02). The dot is centred in the
+   button, so the target and the round focus ring are centred on the
+   star itself.
+   THE 19.5px: until 2026-10-31 the name sat in the button's row and the
+   dot at one EDGE of the button (left, or right in clusters 1 and 3's
+   `row-reverse`), so the target and the ring were centred 19.5px beside
+   the star. The name has left the row (`.skymap-star-label`, below), the
+   dot is centred, and the button is shifted 19.5px the other way, so the
+   dot is drawn on the same pixel as before (uiux t_bc3cf697 checked the
+   dot centres equal, built and sketched, at both windows): the star
+   does not move; only its target and ring come onto it.
+   Her words, 2026-10-31: "1. Hover labels: A" (the spec's item 3,
+   sketches/hover-labels/README.md, "For the frontend card (A)").
    CHOICE, the name as the button's text, not an `aria-label`: Tab
    reaches it, and a screen reader reads the name whether or not it
    is shown (docs/DECISIONS.md, "SKYMAP", 4). Why a `<button>` and not
@@ -561,10 +604,10 @@ a.beacon {
   top: 50%;
   width: 44px;
   height: 44px;
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% - 19.5px), -50%);
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   padding: 0;
   border: none;
   background: none;
@@ -572,10 +615,17 @@ a.beacon {
   z-index: 3;
 }
 
+/* Clusters 1 and 3: their dot sat at the button's RIGHT edge (the old
+   `row-reverse`), so their button shifts 19.5px the other way. */
+.skymap-cluster--1 .skymap-star,
+.skymap-cluster--3 .skymap-star {
+  transform: translate(calc(-50% + 19.5px), -50%);
+}
+
 /* .skymap-star-dot: the mark always shown. Same size and glow as the
    nav's dots (chrome/02), but still: unpulsed, so it never reads as a
    second beacon (docs/DECISIONS.md, "SKYMAP"). `flex-shrink: 0` keeps
-   it whole when the name opens beside it. */
+   it whole in its flex box. */
 .skymap-star-dot {
   flex-shrink: 0;
   width: 5px;
@@ -586,60 +636,80 @@ a.beacon {
   transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* .skymap-star-label: the designer's name and craft, Space Mono on a
-   dark plate with a hairline border. At rest it is hidden by opacity,
-   not `display: none`, so it stays the button's accessible name. It
-   sits in the button's row, beside the dot, and slides 6px as it
-   appears on hover or keyboard focus. `pointer-events: none` at rest,
-   so the hidden plate never catches the pointer.
-   ACCESSIBILITY: shown, it measures about 8:1 (numbers:
-   docs/HISTORY.md, home/04).
+/* .skymap-star-label: the designer's name and craft, LETTERED on the
+   sky: no plate, no border, held legible by the labels' halo alone
+   (`--halo-label`, tokens/02, the nav's star names' own).
+   HER WORDS, 2026-10-31: "1. Hover labels: A", A "lettered" of uiux's
+   three (t_bc3cf697, sketches/hover-labels/README.md + base.css, the
+   values verbatim), after the PM's note that she disliked the dark box
+   with the thin border, which read as a stock tooltip.
+   TYPE, the pair the old roster and Atlas index used (until the plates,
+   2026-10-31, which set the name in IM Fell italic 20, chrome/09): the
+   name in Spectral italic 16 in `--bone-head`; the craft under it in
+   Space Mono 12, `--bone-label`, one step down. The sky's names keep
+   that pair (hover labels A).
+   PLACE: outside the button's row, placed from the star's centre (the
+   button's, since the dot is centred in it): the name's near corner
+   26px out and 22px up, 34px from the star, so the round focus ring
+   (30–32px out) never crosses a letter. Clusters 2 and 3 open up and to
+   the right; cluster 1 (the rule after the craft's) down and to the
+   left. Studio Moroi (cluster 3) opened LEFT, onto "See the full
+   bestiary", until 2026-10-31: it now opens right, away from it
+   (0 overlaps with any text box at 1280×903, 1850×925 and 1717×768 in
+   the sketch; re-measured on the build, docs/HISTORY.md, home/04).
+   At rest it is hidden by opacity, not `display: none`, so it stays the
+   button's accessible name, and 4px back toward the star; it slides out
+   as it appears on hover or keyboard focus. `pointer-events: none` at
+   rest, so the hidden name never catches the pointer.
+   LEGIBILITY (the sketch's measure, A, per glyph pixel, 1280×903 and
+   1850×925): names 6.94–8.26:1, the craft 5.33–6.32:1; slid over every
+   clear place on the screens, the worst ground still gives 6.76 / 5.19.
    TOUCH: nothing limits the reveal to devices that hover
    (`hover: hover`). On a phone a tap most likely leaves the star in
-   `:hover`, so the name shows over whatever lies under it: the hero's
-   text for cluster 1, the bestiary link for cluster 3 (audit #8, #10;
-   not checked on a device). */
+   `:hover`, so the name shows over whatever lies under it (audit #8,
+   #10; under 1280px is task 4a's, the sketch's notes for it in its
+   README, "Below 1280"). */
 .skymap-star-label {
-  font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02) */
-  letter-spacing: var(--track-line);
+  position: absolute;
+  left: calc(50% + 26px);
+  bottom: calc(50% + 22px);
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+  line-height: 1.25;
+  letter-spacing: 0;
   white-space: nowrap;
-  color: var(--bone);
-  background: rgba(16, 16, 17, 0.75);
-  padding: 4px 10px;
-  border: 1px solid rgba(193, 191, 189, 0.18);
+  text-align: left;
+  color: var(--bone-head); /* names: the names' tone (tokens/02) */
+  text-shadow: var(--halo-label);
   opacity: 0;
-  transform: translateX(-6px);
+  transform: translate(-4px, 4px);
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .skymap-star-label small {
   display: block;
-  font-size: 1em;
-  /* the craft line: the name's size, as nothing on the site is drawn
-     under 12px (tokens/02, THE TYPE SCALE); `--bone-quiet`, the
-     small-print tone, is what marks it as second now, where a smaller
-     size did. */
-  color: var(--bone-quiet);
-  letter-spacing: var(--track-line);
   margin-top: 2px;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
+  letter-spacing: var(--track-line);
+  /* the craft: one step down, as the old Atlas index's craft was */
+  color: var(--bone-label);
 }
 
-/* Clusters 1 and 3 sit right of centre: `row-reverse` puts the name
-   left of the dot, so it opens toward the middle of the screen, not
-   off its edge, as nav stars 4 and 5 do (chrome/02). `right: 100%`
-   does nothing: the label is not positioned. */
-.skymap-cluster--1 .skymap-star-label,
-.skymap-cluster--3 .skymap-star-label {
-  right: 100%;
-  transform: translateX(6px);
+/* Cluster 1 (Vârcolac, the hero): its drawing rises up and to the left
+   of the star, so its name goes DOWN and to the left, into the clear sky
+   under the drawing: its upper corner 26px out and 22px down. Left is
+   toward the middle of the screen, as before. */
+.skymap-cluster--1 .skymap-star-label {
+  left: auto;
+  right: calc(50% + 26px);
+  bottom: auto;
+  top: calc(50% + 22px);
   text-align: right;
-}
-
-.skymap-cluster--1 .skymap-star,
-.skymap-cluster--3 .skymap-star {
-  flex-direction: row-reverse;
+  transform: translate(4px, -4px);
 }
 
 .skymap-star:hover .skymap-star-dot,
@@ -652,7 +722,7 @@ a.beacon {
 .skymap-star:hover .skymap-star-label,
 .skymap-star:focus-visible .skymap-star-label {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(0, 0);
   pointer-events: auto;
 }
 
@@ -663,7 +733,11 @@ a.beacon {
    ACCESSIBILITY: 3.66 to 4.78:1 median, 3.27 or more at p10 (the
    three stars, 1440 and 390); under 3:1 only where it crosses text
    behind it or the edge of its own label's plate, up to 8% of its
-   pixels (star 1 at 390).
+   pixels (star 1 at 390). Since 2026-10-31 the ring is centred on the
+   dot and no plate is drawn (hover labels A): the sketch measured p10
+   4.17–4.49, median 4.48–4.78, along the ring's own circle at 1280×903
+   and 1850×925; its lightest single pixel (a star or the dot's glow)
+   1.72–2.12.
    The 1px ring at 0.6 it replaced read 2.23 to 2.54 median, none of
    it at the 3:1 WCAG 2.2 asks of a focus indicator (docs/HISTORY.md,
    home/04).
@@ -675,24 +749,37 @@ a.beacon {
 
 /* ----------------------------------------------------------
    home/05 — THE ROSTER: WHEN THE STARS ARE RIGHT (was GROUP 5)
-   The invited designers as a plain list: per line a small mark, a
-   status word, the name and the craft, with a hairline under it, in
-   one narrow column. Only Vârcolac Atelier's line is a link (the demo
-   shop). VISION, her words, choosing a list over a scatter of stars:
-   "roster and specimens are on the plane of immanence, the sublunar,
-   not on the sky" (docs/DECISIONS.md, "ROSTER/SPECIMENS DIRECTION 001
-   REJECTED"; docs/GRIMOIRE.md §XIV).
-   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) lists
-   #12, #13 and #14 here, waiting on the founder. Under the list,
-   "See the full atlas", her door to the Atlas (`.roster-door`, at the
-   end of this group; its look is home/06's `.door-link`). Its heading,
-   "When the Stars are Right", is centred from 1280px up (the rule after
-   `.roster-wrap`).
+   The invited designers as a row of fashion plates, at most five,
+   under the heading "When the Stars are Right"; the plate itself is
+   chrome/09, the Atlas index's too. Here: the section, its heading, the
+   line past five and the door. HER PICKS, 2026-10-31 19:50 (uiux
+   t_9d6109aa, sketches/roster-atlas-magazine/plates/README.md): "The
+   roster looks great with the new design." and "1. I like the Candidate
+   1 mark. 2. OK, keep the numbers on both pages."; and her corrections
+   the same evening, (a) "the svg icon under the 'When the stars are
+   right' title should be removed", (b) "the spaces between the plates
+   and the 'See the full atlas' link and the space specimen photo+row and
+   the 'See the full bestiary' are different in size. I think that this
+   ddifference affects the unity of the homepage overall.", (c) "the
+   distances between the 4 regions of the homepage became a little too
+   big after the latest redesigns" (uiux t_035ae8af, the README's
+   "Rhythm, 31 Oct": THE RHYTHM, at the end of this group).
+   WHAT IT REPLACED (2026-10-31): the plain list, one line per maker
+   (a 44px mark, a status word, the name as an `<h3>`, the craft, a
+   hairline; "View shop" on hover), in one 560px column, and its 640px
+   stacking (responsive/06). History: docs/HISTORY.md, home/05.
+   VISION, her words: "roster and specimens are on the plane of
+   immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
+   "ROSTER/SPECIMENS DIRECTION 001 REJECTED"; docs/GRIMOIRE.md §XIV).
+   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) #12-#14
+   close from 1280px up (a real `<h2>`, a real list, each link named by
+   the maker's name only, the sky off the words); under 1280px they are
+   task 4a's.
    ---------------------------------------------------------- */
 
 .roster-wrap {
-  /* .roster-wrap: `#roster`, at least a screen, the list centred, with
-     `--frame-void` (tokens/03) as the floor of empty space above and
+  /* .roster-wrap: `#roster`, at least a screen, its content centred,
+     with `--frame-void` (tokens/03) as the floor of empty space above and
      below. Her words for the feel: "there's no place for crowding in
      the immensity of the space!!!" (docs/worksheets/4b-card-body.md).
      CHOICE, a floor plus centring, not centring alone: alone, the void
@@ -700,14 +787,12 @@ a.beacon {
      (docs/DECISIONS.md, "Screen-independent frame doctrine").
      CHOICE, a whole screen, not a screen less the nav: nothing pushes
      the landing down any more (`scroll-padding-top` is gone), so there
-     is nothing to compensate. Landed on `#roster`, the list sits in
-     the screen's middle and nothing of the next frame shows. The nav
-     is cleared by `--frame-void` (140px or more, the nav's box is
-     128px), not by this height. The section's own content is about
-     731px on a laptop, so this height sets it down to 768px-high
-     screens (1366×768, 1024×768); the content, taller than the screen,
-     sets it only on screens up to about 730px high (1280×600) and on
-     phones (numbers: docs/HISTORY.md, home/05). */
+     is nothing to compensate. The nav is cleared by `--frame-void` (140px
+     or more, the nav's box is 128px), not by this height.
+     FROM 1280px this is no longer a screen: THE RHYTHM (below) makes it
+     as tall as its content, with half a region gap under it. Under
+     1280px (task 4a's band) it stays as it was: at least a screen, the
+     plates centred in it (numbers: docs/HISTORY.md, home/05). */
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -716,244 +801,54 @@ a.beacon {
   scroll-snap-align: start;
 }
 
-/* The roster's heading, "When the Stars are Right", on the page's centre
-   line, like the hero, the list under it, the specimens' heading, the
-   two doors and the sepulchre's kicker.
-   VISION: the founder asked whether the one left heading among centred
-   ones looked right; she chose B1, "all centred", of uiux's sketch
-   fc246aa (sketches/link-symbols/, 2026-10-09). It sat at the 5%
-   gutter, 368px left of the list it titles at 1440 (584px at 1920),
-   under the sky cluster drawn there; no reason for it was recorded:
-   `.section-eyebrow` (chrome/04) sets no alignment and `.roster-wrap`,
-   unlike `.specimens-wrap`, does not centre its children.
-   HOW: the eyebrow is a stretched flex item as wide as the section
-   between its two equal 5% gutters, so centring its text puts it on
-   the page's centre; the list and the door do not move.
-   CHOICE, 1280px and up only, as the sketch: under 1280px the roster
-   is task 4a's (the phone and tablet audit, #12-#14 above). */
-@media (min-width: 1280px) {
-  .roster-wrap > .section-eyebrow {
-    text-align: center;
-  }
-}
-
-/* .roster: the list, a column, 2.6em between lines, at most 560px or
-   72% of the screen, centred: the sketch's numbers
-   (sketches/roster-specimens-void/003-stripped-row/), and BRAND.md's
-   "narrow, centered, text-only columns" rule. */
-.roster {
-  display: flex;
-  flex-direction: column;
-  gap: 2.6em;
-  width: min(560px, 72vw);
-  margin: 0 auto;
-}
-
-/* .roster-card: one line: mark, status, name and craft left, the
-   "View shop" hint right, on one baseline. A hairline at bone 0.08,
-   none under the last, is its only chrome. `color: inherit` and no
-   underline because one line is a link. script.js §1 and the E2E
-   suite find the lines by this class. Stacked at 640px (responsive/06). */
-.roster-card {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1.5em;
-  padding-bottom: 0.9em;
-  border-bottom: 1px solid rgba(193, 191, 189, 0.08);
-  text-decoration: none;
-  color: inherit;
-}
-
-.roster-card:last-child {
-  border-bottom: none;
-}
-
-/* .roster-card-left: mark, status and name block, centred on each
-   other: a 44px square has no text baseline to sit on. The status's
-   fixed width lines the names up. Stacked at 640px and below, mark and
-   status centre over the name, so the left edge zig-zags (audit #12). */
-.roster-card-left {
-  display: flex;
-  align-items: center;
-  gap: 0.9em;
-}
-
-/* .roster-avatar: each designer's mark, a 44px square `<img>` before
-   the text, lazy-loaded (the roster is below the first screen). A
-   square with 2px corners and a hairline border, not a circle. */
-.roster-avatar {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  border-radius: 2px;
-  object-fit: cover;
-  border: 1px solid rgba(193, 191, 189, 0.14);
-}
-
-/* .roster-avatar-frame: the `<span>` around each mark, there to carry
-   its inset shadow, at mark size the vignette the specimens' photos
-   had until 2026-10-08, when the torn wall replaced it (home/06; the
-   sketch's `.clone-avatar`). What it renders: the marks' own edge is
-   near-black, darker than the shadow's colour, so the rim just inside
-   the hairline comes out slightly lighter, and the darkening falls in
-   the centre (2 to 3.5 luminance of 255, at every size; home/05).
-   WHAT WOULD BREAK: an image paints its picture over its own inset
-   `box-shadow`, so the shadow on the `<img>` showed nowhere (0px). The
-   `::after` is painted after the image, inside its hairline border
-   (`inset: 1px`), and lets clicks through to the line (docs/HISTORY.md,
-   home/05, "The vignettes paint again"). */
-.roster-avatar-frame {
-  position: relative;
-  display: flex;
-  flex-shrink: 0;
-}
-
-.roster-avatar-frame::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: 1px;
-  box-shadow: inset 0 0 14px 5px rgba(9, 7, 8, 0.75);
-  pointer-events: none;
-}
-
-/* .roster-avatar--fallback: the mark for a designer with no photo, a
-   "?" in a dashed square with a faint fill, not a broken image. The
-   roster portrait is the one optional image (docs/SUBMISSION-SPEC.md
-   §1). Spectral, as the TYPE rule in tokens/02 asks at this size;
-   italic, inherited from `.roster-card.empty`. `aria-hidden` in the
-   markup: the "?" says nothing a screen reader needs. */
-.roster-avatar--fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--interface);
-  font-size: var(--type-small); /* small print (tokens/02): a caption's
-                                   size, the roster's craft line's */
-  /* bone, not dim: the dashes and the fill say "no photo", and the
-     "?" still has to read (over 6:1; docs/HISTORY.md, home/05). */
-  color: var(--bone);
-  background: rgba(193, 191, 189, 0.06);
-  border-style: dashed;
-}
-
-/* .status: the word before each name ("Confirmed", "Invitation
-   sent"), small Space Mono capitals in `--bone-label`, the labels'
-   tone of the bone ramp (tokens/02). It was the magenta label, the one
-   warm word in the list; her rule that every text is bone took it
-   (docs/DECISIONS.md, "THE GALLERY THRESHOLD, THE TWO-LAYER FOOTER,
-   BONE TEXT…", D6–D9; the tone, D10).
-   ACCESSIBILITY: confirmed and pending share one ink, so the words
-   alone tell them apart, which WCAG 1.4.1 asks for anyway. uiux ruled
-   the words enough (docs/worksheets/SPEC-t_0c0b3861-the-seven-bone-refuses.md,
-   §4.2). The class `.pending` is still in the markup; no rule reads
-   it.
-   Over 6:1 at its brightest pixels (numbers: docs/HISTORY.md). */
-.roster-card .status {
-  font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's label (tokens/02) */
-  letter-spacing: var(--track-caps);
-  line-height: var(--leading-label);
-  color: var(--bone-label);
-  text-transform: uppercase;
-  /* a fixed width, as in the sketch, so the names start in one column.
-     "Invitation sent" does not fit 8.5em and takes two lines, at every
-     width (audit #14). */
-  width: 8.5em;
-  flex-shrink: 0;
-}
-
-.roster-card h3 {
-  /* The designer's name, an `<h3>`: Spectral 400 italic in
-     `--bone-head`, the headings' tone (tokens/02). Spectral is the
-     MACHINERY face (tokens/02 TYPE); why italic is not recorded. The
-     sketch set the names in IM Fell SC.
-     WHAT WOULD BREAK: 500 here draws nothing new. The font URL loads no
-     Spectral 500 italic, so the browser falls back to 400; she may still
-     choose 500, which needs `1,500` added to the URL too
-     (docs/DECISIONS.md, "ROSTER TYPE AND SKIP LINKS", 1). */
-  font-family: var(--interface);
-  font-style: italic;
-  font-size: var(--type-body); /* a name: the body size (tokens/02) */
+/* The roster's heading, "When the Stars are Right": the section label
+   (chrome/04, Space Mono 12 in capitals) as built, now an `<h2>` that
+   labels the section; centred on the page's centre line, like the hero,
+   the plates under it, the specimens' heading, the two doors and the
+   sepulchre's kicker; 32px over the plates, the distance the specimens'
+   label keeps to its box (the eyebrow's 24px + the stage's 8px, home/06),
+   so the homepage's two labelled regions open the same way (uiux
+   t_035ae8af). It was 24px (chrome/04).
+   VISION: centred since her B1, "all centred", of uiux's sketch fc246aa
+   (sketches/link-symbols/, 2026-10-09), then from 1280px only; the
+   plates' row is centred at every width, so its heading is too (the
+   plates' sketch, plates.css).
+   CHOICE, `font-weight: 400`: an `<h2>` is bold by the browser's own
+   sheet, and Space Mono is loaded at 400 only, so the browser would
+   draw a fake bold; 400 keeps the label as it was built (the spec: "as
+   built, now an `<h2>`"). The Atlas's `<h2>` sets the same (atlas/04).
+   No fleuron under it: her (a) (the group's header). */
+.roster-wrap > .plates-heading {
+  margin: 0 0 32px;
   font-weight: 400;
-  margin: 0;
-  color: var(--bone-head);
+  text-align: center;
 }
 
-/* .discipline: the craft under the name, a label read at a glance, so
-   Spectral italic by the TYPE rule; the italic keeps it a step below
-   the upright status (docs/DECISIONS.md, "ROSTER TYPE AND SKIP LINKS",
-   3). Bone, over 7:1 at its brightest pixels. */
-.roster-card .discipline {
+/* More than five makers: the homepage still shows five plates, the day's
+   five (script.js §1c), and says so in one line under the row, "Five of
+   the ten shops, turned each day. Every one is on the Atlas." (uiux's
+   words, hers to change; §XV: the homepage is a rotating few, the Atlas
+   everyone). Spectral italic 13 (a caption), `--bone-label`, 28px under
+   the row. Written by the script only past five, so none today. */
+.plates-note {
+  margin: 28px 0 0;
   font-family: var(--interface);
   font-style: italic;
-  font-size: var(--type-small); /* small print, a caption (tokens/02) */
-  color: var(--bone);
-  margin-top: 0;
+  font-size: var(--type-small);
+  line-height: 1.4;
+  color: var(--bone-label);
+  text-align: center;
 }
 
-/* .empty: the line for the designer still being scouted, "+ one more
-   voice / being scouted", a plain italic line with no name and no
-   status. The italic alone makes it quieter; the ink stays bone
-   because it still has to read. Spectral: IM Fell blurs at 16px. No
-   hairline under it (the last line). script.js's flash skips it. */
-.roster-card.empty {
-  color: var(--bone);
-  font-style: italic;
-  font-family: var(--interface);
-  font-size: var(--type-body);
-}
-
-/* a.roster-card: Vârcolac Atelier's line, an `<a>` to
-   shops/demo/index.html, the one line Tab reaches; the other three are
-   `<div>`s with no tabindex. Keyboard focus draws the site's ring
-   (tokens/03), 6px out here, about 4:1 against the ground (numbers:
-   docs/HISTORY.md, home/05). */
-a.roster-card {
-  cursor: pointer;
-}
-
-a.roster-card:focus-visible {
-  outline-offset: 6px;
-}
-
-/* .roster-link-hint: "View shop", only on the link, hidden until
-   hover or keyboard focus, then shown and slid 3px (the rule below).
-   Bone, over 7:1 shown. Reduced motion: the fade and the slide become
-   instant; the hint still shows (motion/01). */
-.roster-link-hint {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02) */
-  letter-spacing: var(--track-line);
-  white-space: nowrap;
-  color: var(--bone);
-  opacity: 0;
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-a.roster-card:hover .roster-link-hint,
-a.roster-card:focus-visible .roster-link-hint {
-  opacity: 1;
-  transform: translateX(3px);
-}
-
-/* .roster-foot and .roster-door: "See the full atlas", her door to
-   the Atlas at the roster's foot (docs/DECISIONS.md, "THE HOMEPAGE
-   DOORS"), centred under the list, its top 36px under the last line.
-   That is the roster's floor of void (`--frame-void`), where the
-   specimens' door sits in theirs: both doors at the foot of their
-   frames. Look, hover and hit area: `.door-link` (home/06); the ring
-   is the site's (tokens/03).
-   HOW: `.roster-foot` is a `<p>` 0px high (`height: 0`), a flex item
-   of `.roster-wrap` after `.roster`; the link is placed absolutely
-   inside it. The column's centring is computed as if the link were not
-   there, so the list stays exactly where it was before the door.
-   WHAT WOULD BREAK: a normal-flow link pulled up by a negative margin
-   moved the list 0.08px and changed 1,249 pixels of the roster; and
-   inside `.roster`, the "+ one more voice" line would stop being
-   `:last-child` and take a hairline (docs/HISTORY.md, home/05).
+/* .roster-foot and .roster-door: "See the full atlas", her door to the
+   Atlas at the roster's foot (docs/DECISIONS.md, "THE HOMEPAGE DOORS"),
+   centred under the plates. Look, hover and hit area: `.door-link`
+   (home/06); the ring is the site's (tokens/03).
+   UNDER 1280px: `.roster-foot` is a `<p>` 0px high (`height: 0`), a flex
+   item of `.roster-wrap` after the list; the link is placed absolutely
+   inside it, its top 36px under the last plate, so the section's
+   centring is computed as if the link were not there.
+   FROM 1280px: in the flow, 40px under the plates (THE RHYTHM, below).
    CHOICE, `.roster-foot .roster-door`, two classes: `.door-link`'s
    `position: relative` comes later in this sheet (home/06) and, at one
    class, would win and drop the link into the 0px box. */
@@ -971,51 +866,150 @@ a.roster-card:focus-visible .roster-link-hint {
   white-space: nowrap;
 }
 
+/* THE RHYTHM, from 1280px (her (b) and (c) above; uiux t_035ae8af, the
+   README's "Rhythm, 31 Oct", "For the frontend card (rhythm)", and
+   rhythm/rhythm.css, its values verbatim). The homepage's four regions,
+   as she sees them: the hero, the roster, the specimens, the Sepulchre
+   (with the footer). ONE region gap between each two, measured ink to
+   ink (the last thing of one, a door or the wing, to the first of the
+   next); ONE door gap for both doors.
+   Measured on the sketch: 443 / 319 / 243px became 244 / 244 / 243 at
+   1280×903 (465 / 334 / 254 to 255 / 255 / 254 at 1850×925); the doors
+   36 and 108px became 40 and 40. The page gets about 11% shorter
+   (3,497 to 3,127px at 903).
+   WHY the gaps had grown: the plates are shorter than the old list, and
+   each region was still centred in a whole screen of its own, so a
+   shorter region left more empty space round it, counted twice between
+   two regions. Content-tall regions with one gap between them fix it.
+   CHOICE, the gap the Sepulchre already had above it (its own screen,
+   her ruling, unchanged), given to the other two seams: half a screen
+   less 208px, so it grows with the screen as the hero's void does and
+   the rhythm looks the same on every monitor. Never smaller than what
+   keeps each region alone on the screen when the snap lands on it (the
+   roster, the shortest, needs (screen - 459px) / 2: 222px at 903).
+   CHOICE, homepage tokens here and not in tokens.css: no other page has
+   these regions; `--frame-void` and `--nav-h` stay as they are.
+   UNDER 1280px nothing of this applies (task 4a's band). */
+@media (min-width: 1280px) {
+  html {
+    /* --region-gap: 243.5px at 903 high, 254.5 at 925, 176 at 768,
+       332 at 1080. */
+    --region-gap: calc(50svh - 208px);
+    /* --door-gap: both doors, from the plates' box / the caption row's
+       box to the door's box. 40 = the plates' row gap (the door sits one
+       row-step under the last row), and twice the box-to-caption 20px,
+       so the door reads as the region's, not the caption's. */
+    --door-gap: 40px;
+    /* --hero-lip: the roster's padding above its heading. The hero stays
+       a whole, centred first screen; its own void under the wing (50svh
+       less 245.7px) + this = --region-gap. 38px also keeps the heading
+       38px under the first screen's fold, so nothing new enters it. */
+    --hero-lip: 38px;
+  }
+
+  /* The roster: content-tall, the lip above, half a region gap below,
+     the door in the flow. scroll-margin evens the snap box round the
+     content (both sides `--frame-void` from the ink), and makes a start
+     landing (and a jump to /#roster with the snap off, reduced motion)
+     put the heading `--frame-void` (140px) down, clear of the nav's
+     128px. */
+  .roster-wrap {
+    min-height: 0;
+    justify-content: flex-start;
+    padding: var(--hero-lip) 5% calc(var(--region-gap) / 2);
+    scroll-margin-top: calc(var(--frame-void) - var(--hero-lip));
+    scroll-margin-bottom: calc(var(--frame-void) - var(--region-gap) / 2);
+  }
+  .roster-foot {
+    height: auto;
+    margin: var(--door-gap) 0 0;
+    display: flex;
+    justify-content: center;
+  }
+  .roster-foot .roster-door {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+}
+
+/* WHERE THE SNAP LANDS, from 1280px: a region shorter than the screen is
+   landed on by its CENTRE, so it sits in the middle, alone. But centred,
+   its heading must still clear the nav's 128px: (screen - region) / 2 >=
+   `--frame-void`. The roster (459px of ink, about 505 past five shops
+   with the note line) needs a screen at least 790px high; under that it
+   keeps the START landing above (measured in the sketch at 1717×768:
+   the next region still 7px under the fold). The specimens' is home/06.
+   Proximity, as before; off under reduced motion (motion/01). */
+@media (min-width: 1280px) and (min-height: 790px) {
+  .roster-wrap {
+    scroll-snap-align: center;
+  }
+}
+
 /* ----------------------------------------------------------
-   home/06 — THE SPECIMENS: ONE AT A TIME (was GROUP 6)
-   Four pieces, one at a time (three until 2026-10-15, when the
-   Vertebra Cuff joined beside the Vertebra Collar, frontend
-   t_8766b990): a 16:9 photo over a caption row, "See
-   the full bestiary" at the foot. No arrows and no dots: the photo is
-   the "Next specimen" button, and a sliver of the next piece's paper
-   shows in the tear's lower-right corner. Her ruling, 2026-10-12: "I
+   home/06 — THE SPECIMENS: THE MAGIC-LANTERN BOX (was GROUP 6)
+   Four pieces under "Specimens entering the vault", one at a time, in
+   ONE box of the Bestiary's cabinet that stands still in a magic
+   lantern's light on the red wall; the operator pushes each piece
+   through it as a slide through the lantern's gate. Pause and Sound
+   sit beside the box, not drawn at rest (the stain once laid over
+   them went, 2026-10-31, below); the caption row (figure label,
+   name over maker, availability) stays fully visible under the box; "See
+   the full bestiary" at the foot.
+   HER PICKS, 2026-10-30 and 31 (PM ledger t_717bfd87; uiux's spec,
+   sketches/home-specimens-lantern/README.md, "For the frontend card
+   (her picks)", t_6a358a7d, and the prototype it names): wall (c),
+   the red wall as the lantern's screen, whole; movement (i), the
+   operator, 7 s held, a 1.6 s push; "alone in the light" (nothing lit
+   outside the box); one box that stays in the light, "an entire shelf
+   box, not just the bottom plank" (her words, with her screenshot of
+   the Bestiary's cabinet); 4 pieces; sound (c), off at load (script.js
+   §1b, lantern-sound.js); "could the icons for Play and Sound be
+   covered by stains and become visible at hover/action on them (like
+   the links in the footer)?" (her words), with uiux's 4 conditions;
+   the caption row fully visible (uiux: the row is the content; covered
+   it would read 1.09-1.16:1); for reduced motion her "(a)", the
+   sliver of the next slide at the box's gate; no counter (her ruling
+   of 2026-10-12).
+   WHAT IT REPLACED: the torn red wall (her sketch E of 2026-10-08: each
+   photo an older wallpaper seen through a tear) and its sliver B (the
+   next piece's paper in the tear's corner, 2026-10-12), with their 20
+   images in assets/specimen-tears/ and the per-photo
+   `data-sliver-pos`; the step as a cut for motion visitors from 1280px
+   (a step now travels); one "Next specimen" button per piece (now one
+   over the lit photo). The photo now stands untorn in the niche, as
+   in the Bestiary, so nothing on the homepage is torn any more
+   (docs/HISTORY.md, home/06).
+   KEPT: one at a time (her "I Think 003 — One at a time."); no arrows,
+   the photo is the "Next specimen" button (her ruling of 2026-10-12, "I
    like (c). I am aware that arrows are the convention everyone knows,
    but I'm also willing to reinforce the idea that strigoi is not
-   exactly a conventional marketplace." (docs/DECISIONS.md, THE
-   SPECIMENS: NO ARROWS; uiux sketches sketches/specimens-photo-control/
-   and sketches/specimens-sliver/, variant B; both recommended keeping
-   the arrows). The dots went the same day ("1. Remove the dots").
-   Her pick among four clones: "I Think 003 — One at a time."
-   (docs/worksheets/qa-verdict-003-card.md; the build: docs/DECISIONS.md,
-   "BUILD: option 003 (one specimen at a time)").
+   exactly a conventional marketplace."; docs/DECISIONS.md, THE
+   SPECIMENS: NO ARROWS); no dots; the day's first piece (script.js
+   §1b); no hover look on the photo, in its own colours (her 2026-10-08
+   ruling: hover only holds the movement and brings up the controls).
    VISION, her words: "roster and specimens are on the plane of
    immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
    "ROSTER/SPECIMENS DIRECTION 001 REJECTED"); the homepage is "the
    entry/portal not an index of all platform" (docs/GRIMOIRE.md §XV).
-   Without JS all four show, stacked, with no button and no sliver;
-   script.js §1b adds `.js-stepper` and the rules at the end of this
-   group apply.
-   THE DAY'S FIRST PIECE: with JS the stepper opens on the day's piece
-   (UTC day, the Bestiary's `dayKey()`; each piece first once every n
-   days), the order still the markup's. Her words, 2026-10-12: "Yes,
-   the daily rotation is perfect. In this way, the visitors that are
-   failing to find the second and the third specimen photo, still have
-   the chance to see some new pieces." Fair to the makers too: no
-   piece is always first (script.js §1b). No rule here changes for it:
-   the `nth-child` slots are the markup's, so each piece keeps its tear.
-   Each photo is an older wallpaper under the torn red wall, always at
-   rest, in its own colours; no hover, by her choice of 2026-10-08
-   ("THE TORN WALL", below). The Bestiary is to show the opened torn
-   edge instead, as she confirmed: wider (about four fifths of the
-   photo shown), at all times, in the photo's own colours.
+   THE REFERENCE: the phantasmagoria's magic lantern (docs/GRIMOIRE.md
+   §III).
+   NO SCRIPT: the four pieces stacked, each in the same still box
+   (uiux's call), its caption row under it: the Bestiary's cabinet read
+   top to bottom. script.js §1b adds `.js-lantern` once everything is
+   wired, hides that list and builds the lantern beside it; the rules
+   from "WITH JS" on apply only then.
+   BELOW 1280px (task 4a's band, not designed yet): uiux's rule until
+   then, a plain still box at today's column (the photo at
+   min(560px, 72vw)), steps as cuts, the sliver; no movement, Pause,
+   Sound or stain (`.lantern-still`, `[hidden]` controls).
    OPEN: phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) #16, #17;
-   #18 (the dots' size, the arrows' place at 360) went with the dots
-   and the arrows; #15 is page-wide. Her three answers of 2026-10-12
-   (docs/DECISIONS.md, THE SPECIMENS: NO ARROWS, HER THREE ANSWERS):
-   which piece shows first, the day's, rotating (above); the focal
-   point per photo (`data-sliver-pos`), the curator's at upload, the
-   backend to carry it; the 5-person test, before launch on real
-   makers' photos (PM's recommendation, her reply pending).
+   the 5-person test before launch, with uiux's new questions (do they
+   notice it moves, do they find Pause, do reduced-motion visitors read
+   the sliver as "more"); not seen in Firefox, Safari, on a touch
+   laptop or with a screen reader.
    ---------------------------------------------------------- */
 
 .specimens-wrap {
@@ -1034,10 +1028,17 @@ a.roster-card:focus-visible .roster-link-hint {
      height on 768 and 800px-high screens (77 to 109px up), at 320×568
      (2px up), and at 1280×600 and 844×390, where the link lands below
      the screen (844×390 is audit #16). A full `100svh` would put it 8px
-     from the edge (numbers: docs/HISTORY.md, home/06).
+     from the edge (numbers: docs/HISTORY.md, home/06; measured with the
+     torn wall, before the box: at 1280×903 the box makes the frame 13px
+     taller, 775 to 788, and moves everything under it down 13px; at
+     1850×925 nothing changes).
      CHOICE, its own value, not `--nav-h`: that was subtracted against
      a landing push that is gone, and `--nav-h` may change; this foot
-     must not move with it (docs/HISTORY.md, home/05). */
+     must not move with it (docs/HISTORY.md, home/05).
+     FROM 1280px all of this gives way to THE RHYTHM (home/05, and the
+     rule after `.specimens-door`): the frame is as tall as its content,
+     half a region gap above, the door in the flow 40px under the
+     caption row, and `--specimens-foot` is no longer read. */
   --specimens-foot: 128px;
   min-height: calc(100svh - var(--specimens-foot));
   display: flex;
@@ -1051,11 +1052,10 @@ a.roster-card:focus-visible .roster-link-hint {
   position: relative;
 }
 
-/* .specimens-stage: holds the list; with JS, the shown piece's photo
-   is its one control (`.specimen-photo-btn`, below), and script.js
-   listens here for ArrowLeft/ArrowRight. Its flex centring is kept
-   from the arrows, which stood either side (gone 2026-10-12): it
-   centres the column and moves nothing. */
+/* .specimens-stage: the list as written in index.html, the no-script
+   page. With JS it is hidden (WITH JS, below) and the lantern is built
+   beside it. Its flex centring is kept from the arrows, which stood
+   either side (gone 2026-10-12): it centres the column. */
 .specimens-stage {
   position: relative;
   width: 100%;
@@ -1065,7 +1065,8 @@ a.roster-card:focus-visible .roster-link-hint {
 }
 
 /* .specimens: the column, min(560px, 72vw), centred; 2.2em between
-   pieces when all four show. The roster's width (home/05). */
+   pieces when all four show. The old roster list's width (home/05,
+   until the plates, 2026-10-31). */
 .specimens {
   display: flex;
   flex-direction: column;
@@ -1074,12 +1075,8 @@ a.roster-card:focus-visible .roster-link-hint {
   margin: 0 auto;
 }
 
-/* .specimen: one piece, photo over caption row, a bone-0.08 hairline
-   under all but the last (none with JS, below). A step is a cut:
-   stepping switches `display`, so the next piece appears at once. The
-   crossfade the build named never ran and was removed; the cut stays
-   by a uiux ruling, a step being the visitor's own input
-   with its photo already loaded (docs/HISTORY.md, home/06). */
+/* .specimen: one piece, its box over its caption row, a bone-0.08
+   hairline under all but the last. Seen only with the script off. */
 .specimen {
   display: flex;
   flex-direction: column;
@@ -1095,145 +1092,63 @@ a.roster-card:focus-visible .roster-link-hint {
 /* .specimen-photo: the photo, an `<img>` at the column's width, 16:9,
    `object-fit: cover` (another shape is cropped, never stretched). An
    `<img>`, not the sketch's CSS background, for `alt` and lazy loading
-   (index.html).
+   (index.html). Untorn, in its own colours, with the Bestiary's soft
+   shadow (bestiary/03), above its niche (`position: relative`).
    CHOICE, landscape, not the sketch's 3:4: a 3:4 photo is taller than
    the frame's room, and the build's first pass in 3:4 overflowed it
    (sketches/specimens-with-photos/FINDINGS.md §1; docs/SUBMISSION-SPEC.md
-   §1 asks designers for 4:3 or wider, or square).
+   §1 asks designers for 4:3 or wider, or square). The lantern (script.js
+   §1b) keeps 16:9 too.
    SMALL SCREEN: 315px high in the full column; at 844×390 heading
    and piece don't fit the screen together (audit #16). */
 .specimen-photo {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
 }
 
-/* THE TORN WALL: each photo as an older wallpaper under the red wall.
-   WHAT: a CSS mask on the `<img>` (`mask-image`, a PNG-style alpha
-   image: where the mask is opaque the photo is drawn, where it is
-   transparent the photo is not drawn at all), plus a second image, the
-   torn edge, painted over the photo by the wrapper's `::after`.
-   ROLE HERE: the red wall (the page's own background, leaks and grain,
-   not a copy of it) is the newer paper, on top; the photo is the older
-   paper under it, seen through a torn hole. Where the red paper still
-   clings, the photo is simply not drawn and the wall shows through.
-   Nothing is drawn on the wall: no pool, no halo, no frame.
-   Her direction, 2026-10-08: "as an older wallpaper that was coverd by
-   the new one, and the new one is now deterriorated and we can see
-   through the secimen photo"; her pick of sketch E the same day: "yes,
-   E looks good. I like the version before hover more, but without
-   agesd tone. So, remove the hover for the homepage specimen photos"
-   (sketches/specimen-photos/specimen-palimpsest.md, option E).
-   CHOICE, always at rest: the sketch opened the tear on hover and on
-   keyboard focus; she chose the closed tear for every visitor, so no
-   rule here reacts to the mouse, the keyboard, a tap or motion
-   settings. The opened torn edge is for the Bestiary, as she
-   confirmed: wider (about four fifths of the photo shown), at all
-   times, in the photo's own colours; not this page.
-   CHOICE, the photo in its own colours: the sketch toned it (a sepia,
-   lifted-blacks `filter`); she ruled the aged tone out.
-   VISION: "roster and specimens are on the plane of immanence, the
-   sublunar" (above): the pieces come out of the wall itself. */
-
-/* .specimen-photo-vignette: the wrapper round each photo (the name is
-   older than the wall: it once held an inset vignette shadow, removed
-   with the tear, docs/HISTORY.md, home/06). `position: relative` is
-   the box the torn edge (`::after`) and the sliver are laid in.
-   A `<span>`, `display: block`: with JS it sits inside the photo's
-   `<button>`, whose content may only be phrasing content (no `<div>`);
-   as a block it lays out as the `<div>` it was, with or without JS. */
+/* THE BOX, with the script off (uiux's no-script call): each piece in
+   the Bestiary's niche, cabinet D's values verbatim (css/bestiary.css
+   bestiary/04), the same box the lantern shows one piece in.
+   .specimen-photo-vignette: the box. The photo keeps the column's
+   width and the box reaches 24px past it each side (negative margins,
+   a flex item stretches over them), so the caption row stays level
+   with the photo, as before: 24px round the photo at the top and the
+   sides, a 50px floor under it. The body `rgba(18,15,16,.92)` with its
+   deep shadow. At 390 that is a 281px photo in a 329px box, inside the
+   351px column's room. The name, a `<span>`, is older than the box (it
+   once held a vignette shadow, then the torn edge). */
 .specimen-photo-vignette {
   display: block;
   position: relative;
+  margin: 0 -24px;
+  padding: 24px 24px 50px;
+  background: rgba(18, 15, 16, 0.92);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
 }
-
-/* .specimen-photo, the mask: the tear stretched over the photo's box
-   (`100% 100%`; the image is 16:9 like the box), so the photo shows
-   only through the hole. The hole's edge is a torn line 15 to 30px
-   inside the box, so the photo's straight edge never shows. About half
-   of each photo shows (54, 51, 56%) and all of its middle.
-   WHAT WOULD BREAK: a mask image that fails to load hides the whole
-   photo (CSS Masking: it counts as a transparent mask). Chromium also
-   refuses mask images on a `file://` page, as with the leaks' stains
-   (background/02): serve the site over http. */
-.specimen-photo {
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
-
-/* .specimen-photo-vignette::after, the torn edge, over the photo and
-   inside its box only: the torn red paper's pale fibres along stretches
-   of the hole's rim, the lifted edge's shadow falling into the hole
-   (light from the upper left, about 5px), damp on the old paper near
-   the edge, and a thin uneven wash of the wall's red: one room, one
-   light. Drawn after the image (an image paints over its own inset
-   effects), taking no clicks. The page's grain (background/03) lies
-   over wall and photo alike. */
-.specimen-photo-vignette::after {
+/* the niche, 10px in (the cabinet's wall): lit from above (bone glow
+   .07), a shadow down its back, a 1px bone hairline at .10; under the
+   photo (both positioned: tree order) */
+.specimen-photo-vignette::before,
+.lantern-box::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-/* .specimen:nth-child(1-4): one tear per stepper slot, not per photo:
-   a new maker photo needs no new asset, and four different tears (own
-   seeds, none rotated from another) keep it from reading as a repeated
-   tile. Without JS all four pieces stack, each with its own tear.
-   The images: assets/specimen-tears/, 1120×630 (2x the 560px column),
-   lossless WebP, made by sketches/specimen-photos/make-palimpsest.sh
-   (docs/HISTORY.md, home/06). SLOT 4 (2026-10-15, frontend t_8766b990,
-   when the Vertebra Cuff joined as the fourth piece): the same script
-   with a fourth case (seed 4 × 104729, stain-b cropped at 300, flipped
-   both ways, its own tilt; tests/e2e/frontend_t_8766b990/
-   make-palimpsest-4.sh, which makes slots 1-3 pixel-identical to the
-   shipped files): 55.1% of the photo shown, 100% of its middle, as
-   1-3's 54.2 / 51.3 / 55.9. Its rim (damp and wash) re-cut on
-   2026-10-15 (frontend t_a2cbe509) from its own crop, stain-a's top:
-   the first ran a pink drip down through the cuff.
-   CHOICE, the url() written in each rule, not once in a custom
-   property: browsers have disagreed on which base a url() carried in
-   a custom property resolves against (this sheet or the page); written
-   in place it always resolves from this sheet, so the `../` holds
-   (background.css's header). */
-.specimen:nth-child(1) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/tear-1.webp");
-  mask-image: url("../assets/specimen-tears/tear-1.webp");
-}
-.specimen:nth-child(1) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-1.webp");
-}
-.specimen:nth-child(2) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/tear-2.webp");
-  mask-image: url("../assets/specimen-tears/tear-2.webp");
-}
-.specimen:nth-child(2) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-2.webp");
-}
-.specimen:nth-child(3) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/tear-3.webp");
-  mask-image: url("../assets/specimen-tears/tear-3.webp");
-}
-.specimen:nth-child(3) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-3.webp");
-}
-.specimen:nth-child(4) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/tear-4.webp");
-  mask-image: url("../assets/specimen-tears/tear-4.webp");
-}
-.specimen:nth-child(4) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-4.webp");
+  inset: 10px;
+  background:
+    radial-gradient(ellipse 70% 38% at 50% 0%, rgba(193, 191, 189, 0.07), rgba(193, 191, 189, 0) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.35) 100%),
+    rgba(16, 16, 17, 0.84);
+  box-shadow: inset 0 0 0 1px rgba(193, 191, 189, 0.10), inset 0 10px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* .specimen-row: the caption row, a `<span>`: figure label left, name
    and maker, availability right, on one baseline, spread by
-   `space-between`. Stacked at 640px and below (responsive/06). */
+   `space-between`. Stacked at 640px and below (responsive/06). The
+   lantern's caption is the same row (script.js §1b), never under a
+   stain (her pick). */
 .specimen-row {
   display: flex;
   align-items: baseline;
@@ -1248,7 +1163,7 @@ a.roster-card:focus-visible .roster-link-hint {
    `space-between` sets each name by its row's widths, so the names
    start up to 11px apart.
    Bone, over 7:1 at its brightest pixels. The caption row sits on the
-   page's ground under the photo, not on it (numbers: docs/HISTORY.md,
+   page's ground under the box, not on it (numbers: docs/HISTORY.md,
    home/06). */
 .specimen-fig {
   font-family: var(--mono);
@@ -1293,205 +1208,369 @@ a.roster-card:focus-visible .roster-link-hint {
   white-space: nowrap;
 }
 
-/* ---- WITH JS: ONE AT A TIME ----
-   The rules from here on match only after script.js §1b adds
-   `.js-stepper` to `.specimens-wrap`, which it does only once every
-   element it needs is found and its controls are wired. Without it,
-   the stacked list above stands. */
-/* no hairline, no space under the one piece shown. */
-.specimens-wrap.js-stepper .specimen {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-/* the pieces not shown: `display: none`, not opacity, so they take no
-   room and the stage is one piece high. The piece shown keeps
-   `.specimen`'s `display: flex`.
-   LOADING, as measured: this doesn't hold the photos back. At 1440 and
-   390 the first photo sits 1,100 to 1,300px below the first screen,
-   near enough that Chromium fetches all three lazy photos before
-   script.js's stepper runs (at DOMContentLoaded) and adds
-   `.js-stepper`. Pushed 1,500px further down, only the shown piece's
-   photo loaded, and each other one on its step. With JS off no image
-   is lazy (the HTML standard's rule).
-   CHOICE, kept: the photos are requested at low priority, and every
-   step shows a photo already loaded. Holding them back (tried with
-   `content-visibility: auto` on the wrapper) left the frame empty for
-   0.5 to 4.5s a step on slow connections (docs/HISTORY.md, home/06). */
-.specimens-wrap.js-stepper .specimen:not(.is-active) {
+/* ---- WITH JS: THE LANTERN ----
+   The rules from here on match only what script.js §1b builds, after
+   it adds `.js-lantern` to `.specimens-wrap` (it does so only once
+   every element it needs is found and wired). Without it, the stacked
+   boxes above stand. Its sizes come from the script, on the wrap, so
+   one set of rules draws both bands: `--lantern-pw`/`-ph` the photo
+   (560×315 from 1280px, today's column below), `--lantern-nw` the
+   niche (the photo + 28px), `--lantern-bw` the box (the niche + its
+   two 10px walls), `--lantern-shelf` the box's height (the photo +
+   14px above it, its 40px floor and the two walls: 389 at 315). The
+   values are uiux's prototype's at her picks (sketches/
+   home-specimens-lantern/lantern.css, wall=c move=i n=4 sound=c
+   calm=2 ctl=icon under=ctl box=one cap=row); the build was checked
+   against it pixel for pixel (docs/HISTORY.md, home/06). */
+/* the list stays in the page for a crawler, out of sight and out of
+   the accessibility tree: the lantern names the lit piece */
+.specimens-wrap.js-lantern .specimens-stage {
   display: none;
 }
 
-/* .specimen-photo-btn: the photo is the control. script.js §1b wraps
-   each piece's torn-wall photo (`.specimen-photo-vignette`) in one
-   `<button type="button">` named "Next specimen"; a click, a tap,
-   Enter or Space shows the next piece, wrapping. No arrows, her ruling
-   of 2026-10-12, "I like (c)" (docs/DECISIONS.md, THE SPECIMENS: NO
-   ARROWS; uiux sketch sketches/specimens-photo-control/ §1). Only with
-   JS: without it there is no button and the pieces stack.
-   The button has no box of its own (no padding, border, background or
-   margin), so the torn wall at rest is pixel for pixel as it was under
-   the arrows. Its box, and its hit area, is the photo's whole 16:9
-   rectangle, torn rim included: 560×315 in the full column (WCAG 2.5.8
-   by far).
-   CHOICE, the hand cursor is the one hover cue. Her 2026-10-08 ruling
-   keeps the photo still: no rule here reacts to hover, and the photo's
-   pixels on hover equal its pixels at rest (THE TORN WALL, above).
-   `-webkit-tap-highlight-color: transparent` for the same reason on a
-   phone: the browser's tap flash would draw the hidden rectangle over
-   the wall for a moment.
-   FOCUS: the site's ring (tokens/03, P4), 2px of solid teal, 4px out,
-   round the button's box; no rule here sets it. That box is the
-   photo's 16:9 rectangle, so a keyboard user sees a straight frame
-   round the torn hole: the one state of sketch E with a frame, as the
-   sketch says (the wall's rule otherwise draws none). A mouse click
-   draws no ring (`:focus-visible`).
-   KNOWN COST, as the sketches weighed it: nothing at rest says the
-   photo steps (on a phone not even a cursor); a mouse or a thumb has no
-   "previous" (ArrowLeft is keyboard only); the photo's click is spent
-   on stepping, not on a link to its piece (D4). Her choice, made
-   knowing them (docs/DECISIONS.md). */
-.specimen-photo-btn {
+/* .lantern-stage: the case and the photo's description, as wide as
+   the section's content, 8px under the eyebrow. */
+.lantern-stage {
+  position: relative;
+  width: min(90vw, 1048px);
+  margin-top: 8px;
+}
+/* .lantern-case: the box's height; its own stacking (the light 0,
+   the sliver and the box 1, the slides 2, the button 3). Not clipped
+   sideways: the light stays inside it (below), and the sliver may
+   reach past it into the section's padding on a narrow phone (at 390,
+   5px). */
+.lantern-case {
+  position: relative;
+  isolation: isolate;
+  height: var(--lantern-shelf, 389px);
+}
+/* THE LANTERN'S LIGHT, wall (c): a pool of bone light on the red wall,
+   behind the box, centred on the photo, its radius the photo's height
+   × 1.45 (457px at 315). No darkness is laid on the wall outside it
+   and nothing is lit outside the box ("alone in the light"). It
+   reaches 320px above and below the case (it is a light on the wall,
+   not on the box) and no further sideways than the case: at 1280px and
+   wider the case is 1048px and the pool 914px across, so nothing is
+   cut; below, its faint rim (alpha under .02) is. CHOICE, no sideways
+   overflow: uiux's prototype laid it 200px wider each side, which made
+   the page scroll sideways at 1280 (scrollWidth 1364, her README);
+   seen pixels are the same. */
+.lantern-case::before {
+  content: "";
+  position: absolute;
+  inset: -320px 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle calc(var(--lantern-ph, 315px) * 1.45) at 50% calc(24px + var(--lantern-ph, 315px) / 2 + 320px),
+    rgba(214, 196, 180, 0.09) 0%, rgba(214, 196, 180, 0.045) 45%, rgba(214, 196, 180, 0) 100%);
+}
+/* .lantern-box: THE BOX, still, centred in the case, the Bestiary's
+   cabinet D verbatim (bestiary/04): the body and its deep shadow; its
+   niche is the `::before` it shares with the no-script box (above). It
+   never moves. */
+.lantern-box {
+  position: absolute;
+  z-index: 1;
+  left: calc(50% - var(--lantern-bw, 608px) / 2);
+  top: 0;
+  width: var(--lantern-bw, 608px);
+  height: var(--lantern-shelf, 389px);
+  background: rgba(18, 15, 16, 0.92);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+/* .lantern-gate: THE GATE. The slides are clipped to the niche's
+   opening, so the box's side walls cut them as a lantern's gate cuts
+   a slide: the lit one leaves behind the left inner wall, the next
+   comes in past the right one. `overflow: clip` takes the track's
+   copies out of the page's width (they made the prototype scroll
+   sideways); the clip-path does the cutting. No pointer events: the
+   button over the photo takes the clicks. */
+.lantern-gate {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--lantern-shelf, 389px);
+  overflow: clip;
+  clip-path: inset(10px calc(50% - var(--lantern-nw, 588px) / 2));
+  pointer-events: none;
+}
+/* .lantern-track: the slides in a row, each photo's left edge one
+   photo's width + 158px from the next (28px of niche, a 10px wall and
+   120px of dark), so during a push the two are never both whole in the
+   box. script.js moves it with `transform` (a 1.6s
+   `cubic-bezier(.45,.05,.25,1)` transition) and places the photos.
+   `will-change`: its own layer, so a push repaints nothing else. */
+.lantern-track {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  height: calc(var(--lantern-ph, 315px) + 54px);
+  will-change: transform;
+}
+/* the slides: untorn, their own square edge, the Bestiary's soft
+   shadow (bestiary/03), their own colours, 14px from the niche's top */
+.lantern-track img,
+.lantern-next img {
+  position: absolute;
   display: block;
-  width: 100%;
+  width: var(--lantern-pw, 560px);
+  height: var(--lantern-ph, 315px);
+  max-width: none;
+  object-fit: cover;
+}
+.lantern-track img {
+  top: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
+}
+/* .lantern-lit: "Next specimen", one `<button>` over the lit photo,
+   its box the photo's (560×315 from 1280px: WCAG 2.5.8 by far). No box
+   of its own; the hand cursor is the one hover cue (no hover look, her
+   2026-10-08 ruling). FOCUS: the site's ring (tokens/03), 2px teal, 4px
+   out, round the photo; a mouse click draws none (`:focus-visible`). */
+.lantern-lit {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - var(--lantern-pw, 560px) / 2);
+  top: 24px;
+  width: var(--lantern-pw, 560px);
+  height: var(--lantern-ph, 315px);
   margin: 0;
   padding: 0;
   border: 0;
   background: none;
-  color: inherit;
-  font: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* THE SLIVER (uiux sketch sketches/specimens-sliver/, variant B, the
-   corner): her "stack of wallpapers". Under the shown photo (the older
-   paper, under the red wall) lies the NEXT piece's photo, older still.
-   Where the shown paper is torn away too, across the hole's lower-right
-   corner, a wedge of the next one shows, in its own colours, at rest.
-   About 2.3 to 3.0% of the photo's box (the sketch's coverage.txt),
-   100×65 to 115×100px in the full column; it stretches with the box.
-   Only with JS (`.js-stepper`): without it each piece would show the
-   one stacked under it. One piece: no sliver, the live tear. Two: each
-   shows the other. Slots past the fourth have no tear at all (the
-   `nth-child(1-4)` rules above), and no sliver.
-   The layers, in paint order inside `.specimen-photo-vignette`:
-   `.specimen-sliver` (the next photo, masked to the wedge), the shown
-   photo (`position: relative`, so it paints over the sliver: both are
-   positioned, so tree order decides), then `::after`, the live rim
-   over the wedge's own torn edge (two background layers).
-   THE IMAGES, three per slot, assets/specimen-tears/, 1120×630, lossless
-   WebP, made by sketches/specimens-sliver/make-slivers.sh (variant b),
-   pixel-identical to its PNGs (the edges at 8 bits): `sliver-tear-n`
-   the shown photo's mask (the live hole minus the wedge), `sliver-n`
-   the wedge's mask, `sliver-rim-n` the shown paper's torn edge where it
-   meets the wedge (pale fibres) and its shadow on the next paper. The
-   live `tear-n`/`rim-n` are untouched and still mask the stacked
-   no-JS pieces. 80,018 B for the nine (docs/HISTORY.md, home/06).
-   SLOT 4 (frontend t_8766b990, 2026-10-15): the same script run on
-   tear-4 (tests/e2e/frontend_t_8766b990/make-slivers-4.sh, slots 1-3
-   pixel-identical to the shipped masks). At the corner's level 0.865
-   its wedge was 0.6% of the box (the hole reaches further right and
-   lower than 1-3's), so slot 4 alone takes 0.80: 2.5% of the box,
-   4.6% of the hole, inside 1-3's 2.3-3.0% / 4.3-5.4%. 24,868 B for
-   its three.
-   No loading cost: the next photo is the same file the next piece
-   shows, already fetched (LOADING, above). Reduced motion: nothing
-   here moves, and a step is still a cut (no peel). */
-.specimen-sliver {
+/* THE SLIVER, her "(a)" (2026-10-31: "a thin sliver of the next slide
+   waiting at the box's gate, for reduced-motion visitors only", the
+   PM's suggestion; uiux's drawing, still 27). With motion the push says
+   "there are more"; still, nothing is ever pushed, so the next slide
+   waits in view. WHERE: just past the box's right outer wall, the side
+   the next slide comes in from; the photo's own top and height (it is
+   the next slide, level with this one), tucked 8px behind the wall, so
+   it reads as going on behind the box, not as a strip on the wall. HOW
+   WIDE: 16px seen, the next photo's leading edge, unscaled. HOW DIM: a
+   black veil at .70 (a veil, never a colour or a tone: her 2026-10-08
+   "own colours"), above the light (z 1), under the box (z 1, later in
+   the tree). It was .35 until 2026-10-31, when her rule against bright
+   photos on the homepage was lifted (docs/DECISIONS.md, LIGHT PHOTOS
+   WELCOME EVERYWHERE; her "Drop the limit. My photos are still dark
+   even if they have white backgrounds."): under .35 a light photo's
+   16px read as a lit strip on the wall, 3.10-3.61:1 lighter than the
+   wall beside it, where a dark one read 1.31-1.43:1 darker. At .70,
+   uiux's one condition (t_2c08a0c7, sketches/home-specimens-lantern/
+   light/sliver.css), both sit close to the wall: a light photo
+   1.34-1.46:1 lighter, a dark one 1.37-1.42:1 darker. A
+   cue, not a control: `aria-hidden`, not focusable; a click on it
+   brings that piece in (script.js). With motion it is never shown. */
+.lantern-next {
   display: none;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(-n + 4) .specimen-sliver {
+.lantern-still .lantern-next {
   display: block;
+  position: absolute;
+  z-index: 1;
+  left: calc(50% + var(--lantern-bw, 608px) / 2 - 8px);
+  top: 24px;
+  width: 24px;
+  height: var(--lantern-ph, 315px);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
+}
+.lantern-next img {
+  left: 0;
+  top: 0;
+}
+.lantern-next::after {
+  content: "";
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  background: rgba(6, 4, 5, 0.70);
 }
-/* the next photo, at the box's size, hung so that its point
-   `--sliver-x/-y` (its piece's `data-sliver-pos`, set by script.js;
-   50% 50% = its middle) lies on the slot's wedge centre `--wedge-x/-y`
-   (below). Both are % of the box, as the photo is the box's size.
-   Lined up box on box, the wedge would show only a dark-ground photo's
-   studio ground, read as shadow (the sketch's README §2). */
-.specimen-sliver img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: calc(var(--wedge-x, 50%) - var(--sliver-x, 50%));
-  top: calc(var(--wedge-y, 50%) - var(--sliver-y, 50%));
-  object-fit: cover;
-  display: block;
-}
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(-n + 4) .specimen-photo {
+
+/* .lantern-foot: the caption, centred under the box, 20px down, and
+   the controls (placed from it, below). */
+.lantern-foot {
   position: relative;
+  width: min(90vw, 1048px);
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
-/* per slot: the wedge's centre (the middle of `sliver-n`'s bounding
-   box, in % of the box: the sketch's capture.js CENTRES.b, its px),
-   the shown photo's mask and the edge under the live rim. The url()s
-   in place, as THE TORN WALL's (above). */
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) {
-  --wedge-x: 86.7857%; /* 486 of 560px */
-  --wedge-y: 85.3968%; /* 269 of 315px */
+/* .lantern-caption: today's caption row at today's column. During a
+   push it fades out as the push starts and back in, refilled, at 75%
+   of it (1.2s), as the piece arrives (script.js). Reduced motion: no
+   fade (motion/01). */
+.lantern-caption {
+  width: min(560px, 72vw);
+  transition: opacity 0.26s ease;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-1.webp");
-  mask-image: url("../assets/specimen-tears/sliver-tear-1.webp");
+.lantern-caption.is-out {
+  opacity: 0;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-sliver {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-1.webp");
-  mask-image: url("../assets/specimen-tears/sliver-1.webp");
+
+/* THE CONTROLS: Pause/Play, then Sound (the Tab order: the piece,
+   Pause, Sound, the door), icons alone, each 44×44 (WCAG 2.5.8), 12px
+   right of the box's outer wall, their bottom on the box's floor line
+   (the foot starts 20px under the box: -64 + 44). `--bone-quiet`,
+   `--bone` on hover. The word stays in the button for its name (and
+   Pause's `aria-label` says "Pause the specimens"). Below 1280px they
+   are `hidden`; under reduced motion Pause is (nothing moves). */
+.lantern-ctls {
+  position: absolute;
+  top: -64px;
+  left: calc(50% + var(--lantern-bw, 608px) / 2 + 12px);
+  display: flex;
+  align-items: center;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(1) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-1.webp"), url("../assets/specimen-tears/sliver-rim-1.webp");
+.lantern-ctls[hidden],
+.lantern-ctls button[hidden] {
+  display: none;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) {
-  --wedge-x: 82.5%;     /* 462 */
-  --wedge-y: 77.1429%; /* 243 */
+.lantern-ctls button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--bone-quiet);
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-line);
+  cursor: pointer;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-2.webp");
-  mask-image: url("../assets/specimen-tears/sliver-tear-2.webp");
+.lantern-ctls button:hover {
+  color: var(--bone);
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-sliver {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-2.webp");
-  mask-image: url("../assets/specimen-tears/sliver-2.webp");
+.lantern-play svg {
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(2) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-2.webp"), url("../assets/specimen-tears/sliver-rim-2.webp");
+/* the speaker: struck through when off, two waves when on */
+.lantern-sound svg {
+  width: 14px;
+  height: 12px;
+  fill: currentColor;
+  overflow: visible;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) {
-  --wedge-x: 85.7143%; /* 480 */
-  --wedge-y: 82.2222%; /* 259 */
+.lantern-sound svg .w {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-3.webp");
-  mask-image: url("../assets/specimen-tears/sliver-tear-3.webp");
+/* the word: clipped at rest (still read as the name), shown above the
+   icon on hover or keyboard focus, 8px clear of the focus ring; Esc
+   hides it (`.tip-off`, script.js: WCAG 1.4.13). LETTERED on the wall
+   since 2026-10-31: the near-black chip (rgba(10, 8, 9, 0.92), 3px 8px)
+   went with the sky's plates, and the word is held by the labels' halo
+   alone (`--halo-label`, tokens/02); her "1. Hover labels: A" (uiux
+   t_bc3cf697, sketches/hover-labels/README.md, item 5). Place, size,
+   `--bone` and Esc unchanged; the 3px under the word stays, so its
+   baseline sits where the chip's text sat; it now ends at the button's
+   right edge (the chip's 8px side padding gone). Measured in the
+   sketch, per glyph pixel: 6.73–7.41:1 (6.62 over the worst ground it
+   can land on).
+   Sound's state word keeps "off"'s room, so the word doesn't jump. */
+.lantern-word {
+  position: absolute;
+  display: inline-flex;
+  gap: 6px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-sliver {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-3.webp");
-  mask-image: url("../assets/specimen-tears/sliver-3.webp");
+.lantern-ctls button:is(:hover, :focus-visible):not(.tip-off) .lantern-word {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  bottom: calc(100% + 8px);
+  right: 0;
+  padding: 0 0 3px;
+  color: var(--bone);
+  text-shadow: var(--halo-label);
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(3) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-3.webp"), url("../assets/specimen-tears/sliver-rim-3.webp");
+.lantern-sound span[aria-hidden] {
+  display: inline-grid;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) {
-  --wedge-x: 79.2857%; /* 444 */
-  --wedge-y: 66.0317%; /* 208 */
+.lantern-sound span[aria-hidden]::after {
+  content: "off";
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-photo {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-tear-4.webp");
-  mask-image: url("../assets/specimen-tears/sliver-tear-4.webp");
+
+/* NOT DRAWN AT REST (her ask, uiux's 4 conditions; uiux t_99878537's
+   pick, "A"). At rest Pause and Sound are not drawn (`opacity: 0`) and
+   the wall around them is the wall. Until 2026-10-31 a stain was laid
+   on the spot to cover them (a damp patch of the wall's red masked by
+   the leaks' stain-a file, and near-black strands over it). That day
+   she wrote: "Was this brownish stain added on the original background?
+   It looks awful!! Other than that, the section looks good imo." and
+   "Either A or B. But remove that recently added stain." It was not
+   the wall's (uiux had added it in round 3), so it went, and nothing
+   else in the section changed. A over B (the wall's own strands laid
+   deeper there): at this spot the wall falls between two strands,
+   which hide nothing (2.4-3.0:1) unless thickened back into a patch.
+   Not drawn, the buttons keep their place, size, name and Tab stop: a
+   click where hidden Pause sits pauses (`opacity: 0` keeps
+   hit-testing), and a screen reader reads them as before. At rest
+   they draw at 1.0:1 against the wall (none). WCAG 2.2.2 is met by
+   the button, the holds and the still mode (script.js §1b), not by
+   its being seen. They come UP (`opacity: 1`): 1. a pointer anywhere
+   on the box or the caption (a fine pointer that hovers only), fading
+   in over 0.2s, gone at once when it leaves (no one can aim at what
+   they can't see, the footer's rule); 2. the keyboard anywhere in the
+   shelf (the piece, Pause, Sound), the focused one with the site's
+   ring; 3. a state the visitor chose (paused, sound on) stays up until
+   it is set back; 4. a touch screen, a touch laptop with a trackpad
+   included: always drawn. Revealed, the icons measure 5.2-5.4:1
+   against the lightest wall pixel under them, the ring 3.3-3.6:1
+   (1.4.11 asks 3:1; frontend t_ace7912f, tests/e2e/frontend_t_ace7912f). */
+.lantern-ctls button {
+  opacity: 0;
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-sliver {
-  -webkit-mask-image: url("../assets/specimen-tears/sliver-4.webp");
-  mask-image: url("../assets/specimen-tears/sliver-4.webp");
+/* 1. a pointer on the box or the caption (the foot holds the caption
+   and the controls themselves) */
+@media (hover: hover) and (pointer: fine) {
+  .specimens-wrap:has(.lantern-stage:hover, .lantern-foot:hover) .lantern-ctls button {
+    opacity: 1;
+  }
+  .specimens-wrap:has(.lantern-stage:hover, .lantern-foot:hover) .lantern-ctls button:not(:focus-visible, .is-set) {
+    animation: lanternSurface 0.2s ease-out;
+  }
 }
-.specimens-wrap.js-stepper .specimen.has-sliver:nth-child(4) .specimen-photo-vignette::after {
-  background-image: url("../assets/specimen-tears/rim-4.webp"), url("../assets/specimen-tears/sliver-rim-4.webp");
+/* 2. the keyboard in the shelf; 3. a state the visitor chose */
+.specimens-wrap:has(.lantern-stage :focus-visible, .lantern-foot :focus-visible) .lantern-ctls button,
+.lantern-ctls button.is-set {
+  opacity: 1;
+}
+/* 4. touch: always drawn. `any-pointer: coarse` too: a laptop with a
+   touch screen AND a trackpad reports hover, but a hand on its screen
+   has none, and a tap must have something to aim at */
+@media (hover: none), (any-pointer: coarse) {
+  .lantern-ctls button {
+    opacity: 1;
+  }
+}
+@keyframes lanternSurface {
+  from { opacity: 0; }
 }
 
 /* .door-link: the look the homepage's two text doors share, "See the
@@ -1537,10 +1616,11 @@ a.roster-card:focus-visible .roster-link-hint {
 /* The hit area: 12px text in a box about 23px high, under the 24px
    WCAG 2.5.8 asks (audit #17). An invisible `::after` reaches 12px
    above and below and 4px either side, so the target is 47px high and
-   nothing at rest moves. The specimens' door sits 0.8em above its
-   frame's foot, where the sepulchre's frame begins, so a click just
-   under it does not reach it: its target is about 45px high (measured
-   at 1280, 2026-10-28). */
+   nothing at rest moves. Under 1280px the specimens' door sits 0.8em
+   above its frame's foot, where the sepulchre's frame begins, so a
+   click just under it does not reach it: its target is about 45px high
+   (measured at 1280, 2026-10-28, before THE RHYTHM). From 1280px, in
+   the flow (below), its 47px are whole. */
 .door-link::after {
   content: "";
   position: absolute;
@@ -1548,7 +1628,9 @@ a.roster-card:focus-visible .roster-link-hint {
 }
 
 /* .specimens-door: "See the full bestiary", to the Bestiary
-   (`bestiary.html`), centred at the frame's foot (`bottom: 0.8em`).
+   (`bestiary.html`), centred at the frame's foot (`bottom: 0.8em`);
+   from 1280px in the flow, 40px under the caption row (THE RHYTHM,
+   below).
    A skymap star's tap box covers its right end on phones, at 844×390
    and on 641–900px-wide screens about 800px high; at 768×1024, where
    the audit found it (#10), it was clear (measured with the older,
@@ -1558,6 +1640,41 @@ a.roster-card:focus-visible .roster-link-hint {
   left: 50%;
   bottom: 0.8em;
   transform: translateX(-50%);
+}
+
+/* THE RHYTHM, from 1280px (home/05 has the why, the tokens and her
+   words; uiux t_035ae8af's values verbatim). The specimens: content-tall,
+   half a region gap above; below, the door in the flow, `--door-gap`
+   (40px) under the caption row, as the roster's door is under the plates
+   (her (b): the two doors had sat 36 and 108px from what they close),
+   and the 0.8em (9.6px) the frame kept under the door, so the gap into
+   the Sepulchre stays the one it had (the Sepulchre is untouched).
+   scroll-margin, as the roster's: the snap box even round the content,
+   a start landing with the heading 140px down. The door's 47px hit area
+   (`.door-link::after`) is whole now: nothing sits over its foot.
+   WHERE THE SNAP LANDS: by the centre where the specimens (571px) fit
+   with the nav cleared, screens at least 852px high; under that their
+   START. Measured in the sketch: centred at 1717×768 the label landed at
+   99px, under the nav; hence the height query. */
+@media (min-width: 1280px) {
+  .specimens-wrap {
+    min-height: 0;
+    padding: calc(var(--region-gap) / 2) 5% calc(0.8 * var(--type-label));
+    scroll-margin-top: calc(var(--frame-void) - var(--region-gap) / 2);
+    scroll-margin-bottom: calc(var(--frame-void) - 0.8 * var(--type-label));
+  }
+  .specimens-door {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin-top: var(--door-gap);
+  }
+}
+@media (min-width: 1280px) and (min-height: 852px) {
+  .specimens-wrap {
+    scroll-snap-align: center;
+  }
 }
 
 /* ----------------------------------------------------------

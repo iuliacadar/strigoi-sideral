@@ -1,6 +1,6 @@
 /* ==== shop.css: a shop ====
    OWNS:      the Séance stage, a piece's photograph and summoned words (shop/01); the product grid, each piece's caption and the colours of the footer's seep (02); the demo's skin switcher (03); the Dossier skin (04); the Transmission skin (05); the shop with the script off (06); each piece one link, its name unseen and its facts its description, and the line to the Atlas (07); the Séance's summon on the shop (08); the maker's inscription in the hero, her ways after the pieces and, in the demo, the demo line under the wall (the note and the switcher, a marked placeholder) (09); above 700px the pieces hung as ikebana B, each row of three one arrangement, mirrored row to row (10); the saved mark on each photo, its place and its hover story with the pill (11).
-   LOADED BY: the demo shop, shops/demo/index.html (the one shop built), and its seven piece pages, shops/demo/pieces/<slug>/, where the stage and its skins live now.
+   LOADED BY: the two demo shops, shops/demo/index.html (Vârcolac Atelier) and shops/texxturedbeest/index.html (TexxturedBeest, since 2026-10-31), and their piece pages, shops/<shop>/pieces/<slug>/ (seven and seven), where the stage and its skins live now.
    POSITION:  fourth of six on the shop, the page's own sheet: after chrome.css, before responsive.css and motion.css. On a piece's page fourth of seven, before product.css.
    THE SKINS select `[data-skin="…"]`, wherever the attribute sits: the shop's `.shop-products`, a piece's <article> (re-scoped from `.shop-products[data-skin]` 2026-10-15, frontend t_e75d6266; the shop measured at 0 px in all three skins, docs/HISTORY.md, product/).
    ============================================================ */
@@ -119,6 +119,17 @@
    background's `object-fit: cover`). A background, not an <img>, so
    a photo and the gradient fallback are the same kind of paint and
    every layer stacked over it works on either (the recorded reason).
+   THE FOCAL POINT, `--photo-pos`: optional, set on a `.stage` next to
+   its `--photo`; unset, `center`, as every card was drawn before it. For
+   a photo whose subject would be cut by the centred crop: the Coil
+   Earrings on TexxturedBeest's shop (1080 × 1008 on the 4:5 frame keeps
+   75% of the width, and centred the frame cut the front earring's caged
+   stone; at `80% 50%` it stays whole). uiux's build item (t_d21adf11,
+   sketches/texxturedbeest/README.md §2 and tb.css §1, one rule, still
+   09); every other card sets none and is drawn as before. On a piece's
+   page the frame takes the photo's own shape, so nothing is cropped
+   and no page sets it there. WITH THE BACKEND: one optional value per
+   photo.
    Its grade, `saturate(0.92) contrast(1.04)`, is close to the Dossier
    sketch's (0.92 / 1.03). Reason not recorded (the gallery, whose
    grade it was said to match, has none). The Bestiary borrowed it
@@ -129,7 +140,7 @@
 .stage-visual.stage-photo {
   background-image: var(--photo);
   background-size: cover;
-  background-position: center;
+  background-position: var(--photo-pos, center);
   background-repeat: no-repeat;
   filter: saturate(0.92) contrast(1.04);
 }
@@ -1966,6 +1977,53 @@ body.shop-page::before {
    seven): a lone piece takes the middle lane; a pair moves half a lane
    right, so it is centred, the second (a hikae) 2u, a third of a step,
    lower.
+   A LAST ROW THAT ISN'T FULL IS CENTRED, for every shop, at any count
+   (the rule above made general, 2026-10-31): one piece left over takes
+   the middle lane; two move half a lane right, a lane's half plus half
+   the 32px gap, so they sit centred under the full rows. No piece moves
+   in the DOM, so the reading and Tab order are unchanged. Vârcolac
+   (seven) moves its 7th, the Unravelled Sweater, from the left lane to
+   the middle; TexxturedBeest (five) its 4th and 5th (a soe and a hikae,
+   their heights kept) half a lane right; a shop of one or two pieces is
+   drawn as before. HER WORDS, 2026-10-31: "3. Centered", on uiux's
+   sketch (t_d21adf11, sketches/texxturedbeest/README.md, pick 2,
+   recommended: "the gap on the right pulls the whole wall to the left,
+   and the maker's ways and the demo line under it are centred"; uiux
+   told her it moves Vârcolac's 7th, and she accepted). No layout
+   depends on a multiple of three (her objection of 2026-10-20,
+   docs/DECISIONS.md).
+   THE SHORT ROW'S HEIGHTS (frontend t_3fe1fdd6 and t_56effe9b; uiux's
+   sign-off t_611e6b20; QA t_ea9b858a D1): the sketch said the heights
+   stay. They do for a shop of one or two pieces, and for a pair whose
+   first piece is a soe (4-5, 10-11...: soe · hikae, TexxturedBeest's).
+   They can't for the other two short rows: a piece moved under the
+   middle lane has that row's hikae above it, 2u down, which reaches u
+   below its row, so a shin (0) there begins u − 32px INSIDE its photo.
+   - A LONE PIECE under a full row (4, 7, 10...; Vârcolac's 7th covered
+     the Vertebra Collar's foot: 53px at 1280×903, 77px at 1850×925,
+     measured before this rule) hangs as the middle lane's own piece,
+     the hikae, 2u (shop/10's rule: "the hikae always hangs in the
+     middle lane"), and clears the one above by u + 32px, as every
+     middle-lane piece clears the last. A lone piece alone in its shop
+     (nothing above) keeps 0. COST: Vârcolac's wall ends 2u lower (its
+     page +173px at 1280×903, +217 at 1850×925 and wider).
+   - A PAIR WHOSE FIRST PIECE IS A SHIN (7-8, 13-14, 19-20...: shops of
+     8, 14, 20 pieces; half a lane right, the 7th began 54px inside the
+     5th's photo at 1280×903, 77px at 1850×925, measured before this
+     rule) hangs its shin as a soe, u, so the pair is soe · hikae like
+     every other pair and clears the hikae above by 32px, the rhythm's
+     own gap. No page grows: the hikae beside it already sets the row's
+     height. No shop has 8 pieces yet.
+   HOW: a piece at a row's start (3n+1) that is the last one, or the
+   second to last, is a short last row's first. `grid-column: 2` for the
+   one (and `--o` 2u from the second row on, 3n+4); `translateX(calc(50%
+   + 16px))` for the two (the % is the card's own width, a lane, so half
+   a lane; the 16px half the gap), and `--o` u for the first of the two
+   when it is a shin (6n+7). A transform moves only the drawing:
+   the grid, the row heights and the page's height stay. WHAT WOULD
+   BREAK: a card wider than its lane, or a fourth lane: the 50% would no
+   longer be half a step. Phones: the one column, untouched (this
+   block's 701px query).
    READING AND TAB ORDER: no piece moves in the DOM, and every row
    starts lower than the one before it, so the eye's order is the
    DOM's and the Tab order's, row by row.
@@ -2001,11 +2059,20 @@ body.shop-page::before {
     margin-bottom: 0;
   }
 
-  .shop-products > .product-card:only-child { grid-column: 2; }
-  .shop-products > .product-card:first-child:nth-last-child(2),
-  .shop-products > .product-card:first-child:nth-last-child(2) + .product-card {
+  /* a short last row, centred (above): one piece to the middle lane
+     (a lone piece is this case too), two half a lane right (a pair too) */
+  .shop-products > .product-card:nth-child(3n+1):last-child { grid-column: 2; }
+  /* ...and a lone piece under a full row hangs as the middle lane's
+     hikae, 2u (THE SHORT ROW'S HEIGHTS, above) */
+  .shop-products > .product-card:nth-child(3n+4):last-child { --o: calc(var(--u) * 2); }
+  .shop-products > .product-card:nth-child(3n+1):nth-last-child(2),
+  .shop-products > .product-card:nth-child(3n+1):nth-last-child(2) + .product-card {
     transform: translateX(calc(50% + 16px));
   }
+  /* ...and a pair whose first piece is a shin (7, 13, 19...) hangs it as
+     the soe, u: the pair is soe · hikae, like 4-5 (THE SHORT ROW'S
+     HEIGHTS, above) */
+  .shop-products > .product-card:nth-child(6n+7):nth-last-child(2) { --o: var(--u); }
 }
 
 /* ----------------------------------------------------------

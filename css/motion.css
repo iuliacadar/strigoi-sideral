@@ -6,11 +6,11 @@
 
 /* ----------------------------------------------------------
    motion/01 — EVERY REDUCED-MOTION GUARD (was GROUP 23)
-   WHAT: eighteen `@media (prefers-reduced-motion: reduce)` blocks, each
+   WHAT: nineteen `@media (prefers-reduced-motion: reduce)` blocks, each
    headed by the address of the group whose motion it stops: the
    scroll snap (tokens/03), the nav (chrome/02, two), the sky marks,
-   the beacon, the skymap and the roster (home/02–05), the homepage
-   doors (home/01, home/06), the wheel
+   the beacon and the skymap (home/02–04), the plates (chrome/09), the specimens'
+   lantern (home/06), the homepage doors (home/01, home/06), the wheel
    (summoning/02), the sepulchre and the threshold (chrome/05), the
    footer links (chrome/06), the photo grid (gallery/02), the Atlas,
    the Bestiary, the shop's stage, the shop's summon, Transmission and
@@ -21,8 +21,11 @@
    WHAT WOULD BREAK: this sheet loaded earlier. A guard as specific as
    the rule it guards wins only by coming later; chrome/02's nav guard
    repeats its rules' selectors for that reason.
-   ACCESSIBILITY: WCAG 2.3.3. script.js reads no motion preference
-   (§6b says why for the nav; the wheel's draw is stopped here).
+   ACCESSIBILITY: WCAG 2.3.3. script.js reads the motion preference
+   only where a script makes the motion: §4b's strip (its scrolls go
+   instant) and §1b, the specimens' operator, a timer only the script
+   can keep from starting (§6b says why the nav needs none; the
+   wheel's draw is stopped here).
    History: docs/HISTORY.md, document/head, "The file headers".
    ---------------------------------------------------------- */
 
@@ -109,11 +112,33 @@
   }
 }
 
-/* home/05 — the roster's "View shop" hint: its fade and 3px slide
-   become instant; it still shows on hover and keyboard focus. */
+/* chrome/09 — the plates (the homepage roster, the Atlas index): no
+   rise and no 0.2s ease on hover or keyboard focus; the deeper shadow,
+   the name's glow and the focus ring still come. */
 @media (prefers-reduced-motion: reduce) {
-  .roster-link-hint {
+  .plate {
     transition: none;
+  }
+  .plate:has(a.plate-name:hover),
+  .plate:has(a.plate-name:focus-visible) {
+    transform: none;
+  }
+}
+
+/* home/06 — the specimens' magic-lantern box: nothing moves by itself.
+   script.js §1b reads this preference too and starts no operator (no
+   push, no Pause button), makes every step a cut and shows the sliver
+   (her "(a)", home/06); here the caption's 0.26s fade and the slides'
+   transition go, in case a step ever sets them, and the icons' 0.2s
+   rise from under the stain is instant: they still come up on hover,
+   keyboard focus and a chosen state. */
+@media (prefers-reduced-motion: reduce) {
+  .lantern-track,
+  .lantern-caption {
+    transition: none !important;
+  }
+  .lantern-ctls button {
+    animation: none !important;
   }
 }
 

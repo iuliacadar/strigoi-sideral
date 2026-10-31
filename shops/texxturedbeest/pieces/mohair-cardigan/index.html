@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — Roped Mohair Cardigan, TexxturedBeest</title>
+<meta name="description" content="Mohair knitted open, more hole than stitch, so the dark shows through it everywhere." />
+<!-- Favicon, fonts and sheets as on the demo's piece pages (shops/demo/
+     pieces/grave-soil/index.html says why). Four folders deep here,
+     hence ../../../../. -->
+<link rel="icon" href="../../../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<link rel="stylesheet" href="../../../../css/tokens.css" />
+<link rel="stylesheet" href="../../../../css/background.css" />
+<link rel="stylesheet" href="../../../../css/chrome.css" />
+<link rel="stylesheet" href="../../../../css/shop.css" />
+<link rel="stylesheet" href="../../../../css/product.css" />
+<link rel="stylesheet" href="../../../../css/responsive.css" />
+<link rel="stylesheet" href="../../../../css/motion.css" />
+</head>
+<body class="shop-page piece-page">
+<!-- THIS PAGE: the Roped Mohair Cardigan, a piece of TexxturedBeest, the
+     second demo shop (shops/texxturedbeest/index.html says what the shop is
+     and her words for it): the demo's piece page (shops/demo/pieces/
+     molt-sweater/, product/01-06), its markup and classes kept, so every
+     rule and the script treat it the same; the demo's pages say why each
+     block is there.
+     THE MERGE, 2026-10-31: until then two pages, the Mohair Cardigan (this
+     address) and the Roped Mohair Knit (pieces/roped-knit/). HER WORDS:
+     "photos of the Mohair Cardigan and the Roped Mohair Knit are photos of
+     the same product, actually", then "Yes, merge the Mohair Cardigan and
+     the Roped Mohair Knit pages. You can pick wathever name you like." So
+     one piece, two photos; this slug is kept, so the Bestiary's p009 keeps
+     its link, and pieces/roped-knit/ is now a pointer to this page.
+     THE WORDS: the worksheet's §5.1, verbatim (docs/worksheets/
+     2026-10-30_texxturedbeest-sample-shop-copy.md, writer t_0a113a3a):
+     the name (a placeholder, like every name here), the description merged
+     from the two pages', the Dossier's quote (the Roped Knit's), the crawl
+     (the Cardigan's), the Details with the Belt and Cord rows made one,
+     Cord. "Price to come" (her decision 2), Edition "Unique" (3), no Size
+     row (8): a size made up would be a wrong fact about a real piece.
+     THE PHOTOS: hers (assets/founder-photography/), the cardigan whole,
+     then the cord (§5.1's order); 1080 × 1350 and 1080 × 1345, so the
+     frame opens on the first's shape (`--ratio`) and takes the second's
+     as it is shown (script.js §4b, product/02). Two photos,
+     so the strip (product/05) and "EVIDENCE 01/02", as the Molt Sweater's.
+     Not sticky (product/02, "ONE PACE"). uiux t_d21adf11,
+     sketches/texxturedbeest/README.md §3.
+     `shop-page` gives the shop's flat ground (shop/02); `piece-page` this
+     page's padding (product/01). Built by sketches/texxturedbeest/build/
+     make_live.py (frontend t_3fe1fdd6); the merge by hand (frontend
+     t_f74eb58c); hand-kept from here. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THE NAV, as on the shop (shops/demo/index.html says why). -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+<!-- THE PIECE, named by its <h1>; `data-skin="seance"` in the markup
+     (product/02). The column: the way back to the shop, the name, the
+     kind, the price (plain, never summoned, her P6) and the inert buying
+     slot, "Add to bag" and "Save", as on every demo piece (product/04). -->
+<article class="piece" data-skin="seance" aria-labelledby="piece-name">
+  <div class="piece-text">
+    <a class="piece-shop" href="../../index.html">TexxturedBeest</a>
+    <h1 class="piece-name" id="piece-name">Roped Mohair Cardigan</h1>
+    <p class="piece-maker">Knitwear</p>
+    <p class="piece-price">Price to come</p>
+    <div class="piece-buy">
+      <button type="button" class="piece-buy-btn" disabled>Add to bag</button>
+      <button type="button" class="save save--text" aria-pressed="false" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../../../assets/marks/mark-save.svg#mark-save"/></svg></span><span class="save-word">Save</span><span class="sr-only"> Roped Mohair Cardigan</span></button>
+    </div>
+  </div>
+
+  <!-- THE STAGE (product/02): the first photo, whole, at its own shape;
+       the <img> carries the alt (the worksheet's, written from the photo
+       only); the button summons the description. `--photo` resolves
+       against css/shop.css, hence ../assets/. -->
+  <div class="piece-stage" style="--ratio: 1080 / 1350;">
+    <div class="piece-frame">
+      <img class="piece-photo" src="../../../../assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp" alt="A cardigan of pale, open-mesh mohair with full sleeves, belted at the waist with a wrap of thick yarn, worn by someone holding it closed at the collar, their face behind a sheer red veil and black lace at their wrists, against black." width="1080" height="1350" />
+      <button type="button" class="stage" id="stage" aria-labelledby="desc" disabled
+              style="--photo: url('../assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp');">
+        <div class="stage-visual stage-photo ch ch-r" aria-hidden="true"></div>
+        <div class="stage-visual stage-photo ch ch-b" aria-hidden="true"></div>
+        <div class="ripple" aria-hidden="true"></div>
+        <p class="hint"><span id="hint">hold to summon</span></p>
+        <div class="desc-wrap">
+          <p class="desc" id="desc">
+            Mohair knitted open, more hole than stitch, so the dark shows through it everywhere. A cord knitted from thicker yarn belts it at the waist, or winds round the arm and knots. Everything here is soft except the knot.
+          </p>
+        </div>
+        <div class="dossier-hud" aria-hidden="true">
+          <p class="dossier-frame-tag">EVIDENCE 01/02</p>
+          <p class="dossier-hud-tl">MATERIAL:<br/>MOHAIR</p>
+          <p class="dossier-hud-tr">UNIQUE</p>
+          <p class="dossier-hud-br">PRICE TO COME</p>
+          <p class="dossier-hud-bl"><span class="frag">"everything here is soft except the knot"</span></p>
+        </div>
+        <div class="transmission-chrome" aria-hidden="true">
+          <div class="transmission-scanlines"></div>
+          <div class="transmission-grain"></div>
+          <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+          <p class="transmission-frame-count">FRAME 001</p>
+          <div class="transmission-ticker-track">
+            <p class="transmission-ticker-text">MATERIAL: MOHAIR — knitted open, so the dark shows through — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;MATERIAL: MOHAIR — knitted open, so the dark shows through — UNIQUE — PRICE TO COME —</p>
+          </div>
+        </div>
+      </button>
+    </div>
+    <!-- THE STRIP (product/05, script.js §4b), as the Molt Sweater's: one
+         thumbnail per photo, each a link to its photo's file, named by its
+         place ("Photo 1 of 2"), the first `aria-current`; the script turns
+         them into toggle buttons with one Tab stop. Each thumb's `data-alt`
+         is its own photo's alt (the worksheet's, unchanged). -->
+    <div class="piece-strip" tabindex="-1" role="group" aria-label="Photos of the Roped Mohair Cardigan">
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp" aria-current="true" aria-label="Photo 1 of 2" data-alt="A cardigan of pale, open-mesh mohair with full sleeves, belted at the waist with a wrap of thick yarn, worn by someone holding it closed at the collar, their face behind a sheer red veil and black lace at their wrists, against black." data-w="1080" data-h="1350"><img src="../../../../assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp" alt="" width="1080" height="1350" loading="lazy" draggable="false" /></a>
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-08_founder_mohair-knit-rope.webp" aria-label="Photo 2 of 2" data-alt="A pale, open-mesh mohair knit worn by someone in red light, their face behind a sheer red veil, one raised hand holding a thick knitted cord that falls and winds round the arm in a knot, against black." data-w="1080" data-h="1345"><img src="../../../../assets/founder-photography/2026-10-08_founder_mohair-knit-rope.webp" alt="" width="1080" height="1345" loading="lazy" draggable="false" /></a>
+    </div>
+  </div>
+
+  <!-- THE DETAILS (product/06): Material and Edition first, then the
+       maker's own rows, in the worksheet's order (§5.1: the Cardigan's
+       Belt and the Roped Knit's Cord made one row, Cord); no Size row
+       (her decision 8). -->
+  <div class="piece-details">
+    <h2 class="piece-details-h">Details</h2>
+    <dl class="piece-details-list">
+      <div><dt>Material</dt><dd>Mohair, with a knitted cord</dd></div>
+      <div><dt>Edition</dt><dd>Unique</dd></div>
+      <div><dt>Knit</dt><dd>Open mesh, loose at the edges</dd></div>
+      <div><dt>Sleeves</dt><dd>Full and wide</dd></div>
+      <div><dt>Cord</dt><dd>Thick and long; a belt, or wound round and knotted</dd></div>
+      <div><dt>Care</dt><dd>Wash cold by hand and dry flat</dd></div>
+    </dl>
+  </div>
+
+</article>
+
+<!-- THE DEMO LINE, the shop's (shop/09, product/01): the DEMO note and
+     the skin switcher, word for word. -->
+<aside class="demo-bar" aria-label="Demo controls">
+  <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+  <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+    <span class="skin-switcher-label">skin —</span>
+    <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+    <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+    <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+  </div>
+</aside>
+</main>
+
+<!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
+     there): the seep, the policy row, the notice. -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../../../returns/index.html">Returns</a></li>
+      <li><a href="../../../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../../../contact/index.html">Contact</a></li>
+      <li><a href="../../../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../../../script.js"></script>
+</body>
+</html>

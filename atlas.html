@@ -20,8 +20,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <!-- Fonts: IM Fell English italic for the h1, IM Fell English SC for
      Sodalicium Textorum; Spectral 400 for the lede and 400 italic for
-     the index's names; Space Mono for the small labels and the names in
-     the sky. CHOICE: the homepage's URL, which also asks for Fell roman
+     the names, the index's and, since 2026-10-31, the sky's (hover
+     labels A, atlas/03); Space Mono for the small labels and the crafts
+     in the sky. CHOICE: the homepage's URL, which also asks for Fell roman
      and Spectral 500, set on nothing here. The same URL means the font
      stylesheet is fetched once and cached for both pages; the browser
      downloads a font file only for a face the page renders. -->
@@ -156,7 +157,54 @@
        designed yet: the scatter keeps its desktop box sizes. -->
   <section class="atlas-sky" aria-label="The sky">
     <ul class="atlas-sky-list" role="list">
-      <!-- VÂRCOLAC ATELIER, the demo shop. Its drawing is the homepage's
+      <!-- TEXXTUREDBEEST, the second demo shop (shops/texxturedbeest/): its
+           constellation is A, "the coil". HER WORDS, 2026-10-31: "2. A (the
+           coil)", of uiux's two (t_d21adf11, sketches/texxturedbeest/
+           README.md §1; make.py's A_body, copied verbatim). One line of stars
+           bent like the Coil Earrings: it rises, turns over and hooks back,
+           and at the hook's end the pale stone caged, the brightest small
+           star in a faint ring. Joined star to star, not spoked from the hub,
+           so its outline is the opposite of Vârcolac's burst and the two
+           can't be mixed up at a glance (uiux's reason, recommended). Drawn
+           by Vârcolac's rules: the site's two greys, the sky's teal lines at
+           0.7 (class `atlas-line`, so the lit state thickens them), the hub
+           drawn last, the viewBox cropped to the drawing plus about 16
+           units. WORN BY TIME: its first link stops short of the first star
+           (as the homepage's cluster 2 leaves one unjoined), not Vârcolac's
+           erosion mask, so the two shops don't wear the same wear; no defs,
+           so no id to collide. One drawing per shop: if the homepage sky ever
+           draws this shop, it draws this. Before Vârcolac Atelier in the
+           markup: A to Z, the no-JS row's order; with JS the day decides
+           (initAtlas). -->
+      <li class="atlas-star">
+        <a class="atlas-star-link" href="shops/texxturedbeest/index.html">
+          <svg class="atlas-drawing" viewBox="-12 -4 188 112" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="92" r="0.9" fill="#8c8885" opacity="0.45"/>
+            <circle cx="38" cy="80" r="1.3" fill="#c1bfbd" opacity="0.6"/>
+            <circle cx="64" cy="76" r="1.4" fill="#c1bfbd" opacity="0.7"/>
+            <circle cx="116" cy="50" r="1.5" fill="#c1bfbd" opacity="0.72"/>
+            <circle cx="126" cy="26" r="1.3" fill="#c1bfbd" opacity="0.62"/>
+            <circle cx="108" cy="12" r="1.1" fill="#c1bfbd" opacity="0.5"/>
+            <circle cx="160" cy="88" r="0.8" fill="#8c8885" opacity="0.4"/>
+            <circle cx="4" cy="30" r="0.8" fill="#8c8885" opacity="0.35"/>
+            <path class="atlas-line" d="M22,88 L38,80" stroke="#5e93a1" stroke-width="0.7" opacity="0.3"/>
+            <path class="atlas-line" d="M38,80 L64,76" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+            <path class="atlas-line" d="M64,76 L92,68" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+            <path class="atlas-line" d="M92,68 L116,50" stroke="#5e93a1" stroke-width="0.7" opacity="0.5"/>
+            <path class="atlas-line" d="M116,50 L126,26" stroke="#5e93a1" stroke-width="0.7" opacity="0.45"/>
+            <path class="atlas-line" d="M126,26 L108,12" stroke="#5e93a1" stroke-width="0.7" opacity="0.4"/>
+            <path class="atlas-line" d="M108,12 L91,20" stroke="#5e93a1" stroke-width="0.7" opacity="0.35"/>
+            <circle class="atlas-line" cx="88" cy="22" r="5.2" fill="none" stroke="#5e93a1" stroke-width="0.7" opacity="0.4"/>
+            <circle cx="88" cy="22" r="1.8" fill="#c1bfbd" opacity="0.85"/>
+            <circle class="atlas-hub" cx="92" cy="68" r="2.6"/>
+          </svg>
+          <span class="atlas-star-label">
+            <span class="atlas-star-name">TexxturedBeest</span>
+            <span class="atlas-star-craft">Jewelry and knitwear</span>
+          </span>
+        </a>
+      </li>
+      <!-- VÂRCOLAC ATELIER, the first demo shop. Its drawing is the homepage's
            cluster 1 (index.html, home/04), copied: one drawing per shop,
            the same wherever it appears, so it reads as the shop's
            signature (docs/DECISIONS.md, D5). Added here: the hub, the
@@ -207,16 +255,37 @@
   </section>
 
   <!-- THE INDEX: every shop by name, A to Z, as read (accents ignored:
-       Vârcolac files under V). Written in that order here; script.js
-       does not re-sort it.
+       Vârcolac files under V), as FASHION PLATES: the homepage roster's
+       plate, the same one (css/chrome.css, chrome/09; css/atlas.css,
+       atlas/04). Written in that order here; script.js does not re-sort
+       it, so "Planche I, II…" (a CSS counter) follows the alphabet here
+       and a new shop moves the plates after it up one number.
+       HER PICKS, 2026-10-31 19:50, after uiux's sketch (t_9d6109aa,
+       sketches/roster-atlas-magazine/plates/README.md, "For the frontend
+       card"): "The roster looks great with the new design." and "1. I like
+       the Candidate 1 mark. 2. OK, keep the numbers on both pages." (so a
+       shop can be Planche III on the homepage, the day's turn, and
+       Planche II here; uiux recommended keeping both). The fleuron the
+       sketch drew under the heading is not built here either: her (a),
+       "the svg icon under the 'When the stars are right' title should be
+       removed", taken on both pages for one family (the PM's reading,
+       uiux agreed, t_035ae8af).
        ROLE HERE: the way in by name ("where is Vârcolac's shop?"), and
        for a screen-reader user the one list that reads like a list.
        CHOICE, A to Z here while the sky has no first: alphabetical is the
        order that serves finding a name, and every reader already knows
        it; the sky stays the one place with no ranking.
-       Hover or focus a name and its constellation lights in the sky, its
-       name shown; hover a constellation and its name here is underlined
-       (script.js, initAtlas).
+       Rows of at most five plates, a short last row centred (her ruling
+       for the shops' walls, 2026-10-31), so the old centred row of 1 to 4
+       names and the newspaper columns from the 5th are retired.
+       Hover or focus a plate's name and its constellation lights in the
+       sky, its name shown; hover a constellation and its plate's name is
+       underlined (script.js, initAtlas, which finds the links by
+       `.atlas-index-list` and matches them to the sky by `href`).
+       Each plate's one link is its name, the whole plate its target; the
+       mark's `alt` is empty (the name follows it); a shop with no mark yet
+       shows its initial (`.plate-mount--initial`, aria-hidden); a light
+       mark gets `plate--light` (the homepage's roster comment says when).
        THE HEADING, "nocount" (uiux t_5e609701's recommendation and the
        PM's idea; her "OK", 2026-10-30, after "Let's see how the page
        looks with the 'Every shop, by name' line."): the words stay on
@@ -224,14 +293,21 @@
        way in without the sky"; the count is for screen readers only
        (`.sr-only`, tokens/03), since the list shows it at a glance and
        the sentence above says it. The label is centred on the header's
-       axis, her decision ("OK, go on with centred label", 2026-10-30);
-       while there are 1 to 4 shops the list is one centred row under
-       it, from the 5th the left-aligned columns (uiux t_d014c70a;
-       css/atlas.css, atlas/04). -->
+       axis, her decision ("OK, go on with centred label", 2026-10-30),
+       32px over the plates. -->
   <section class="atlas-index" aria-labelledby="atlas-index-heading">
-    <h2 id="atlas-index-heading">Every shop, by name <span class="atlas-index-count sr-only">· 1 shop</span></h2>
-    <ul class="atlas-index-list" role="list">
-      <li><a href="shops/demo/index.html"><span class="atlas-index-name">Vârcolac Atelier</span><span class="atlas-index-craft">Ritual outerwear</span></a></li>
+    <h2 id="atlas-index-heading">Every shop, by name <span class="atlas-index-count sr-only">· 2 shops</span></h2>
+    <ul class="plates atlas-index-list" role="list">
+      <li class="plate">
+        <span class="plate-mount"><img class="plate-mark" src="assets/placeholder-photography/2026-10-31_placeholder_roster-texxturedbeest-coilmark-1x1.webp" alt="" width="256" height="256" loading="lazy" decoding="async" /></span>
+        <a class="plate-name" href="shops/texxturedbeest/index.html">TexxturedBeest</a>
+        <span class="plate-craft">Jewelry and knitwear</span>
+      </li>
+      <li class="plate">
+        <span class="plate-mount"><img class="plate-mark" src="assets/placeholder-photography/2026-09-14_placeholder_roster-varcolac-wingmark-1x1.webp" alt="" width="256" height="256" loading="lazy" decoding="async" /></span>
+        <a class="plate-name" href="shops/demo/index.html">Vârcolac Atelier</a>
+        <span class="plate-craft">Ritual outerwear</span>
+      </li>
     </ul>
   </section>
 </main>

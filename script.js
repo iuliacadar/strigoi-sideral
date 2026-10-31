@@ -1,7 +1,7 @@
 /* STRIGOI: THE SUBTLE DYNAMICS (script.js)
    The one script every page loads, twenty-three pages. What it runs, by page:
-     the homepage:  §1 the roster's click flash, §1b the specimens one
-                    at a time, §6b the nav's words fading on the way down
+     the homepage:  §1 the plates' click flash, §1a the roster's day, §1b the specimens'
+                    magic-lantern box, §6b the nav's words fading on the way down
      the gallery:   §2 the photo grid drawn from the manifest, §3 the
                     lightbox
      the demo shop: §4a the Séance's summon (the hint at a photo's top
@@ -12,7 +12,7 @@
                     meet the Details list, and a long list
                     continued under both columns, §5 and §5b as the shop
      the Summoning: §7 the wheel's rings drawn as it scrolls into view
-     the Atlas:     §7c the day's sky, on §7b's day order
+     the Atlas:     §1 the plates' click flash, §7c the day's sky, on §7b's day order
      the Bestiary:  §7d the day's wall of pieces, on §7b's
      the ten text pages (the log-in placeholder among them): nothing.
    §6 is a removed mechanism's tombstone; §8 starts the rest. Each init
@@ -20,15 +20,22 @@
    so one file is safe on every page (§8 says why one file).
    ========================================================================== */
 
-// --- 1. ROSTER CARD CLICK FLASH (homepage, home/05) ---
-// A click on Vârcolac's line, the roster's one link, tints its
-// background a faint dark red, `--below` at 16%, and clears it 450ms
-// later: press feedback while the shop page loads. On a fast
-// connection the page leaves before it is seen; on a slow one it is
-// the only sign the click registered. Enter fires it too. It appears
-// and clears without a transition.
-// CHOICE, only the link: the other named lines are `<div>`s that go
-// nowhere, with a default cursor and no hover or focus; a flash there
+// --- 1. THE PLATES' CLICK FLASH (the homepage roster and the Atlas index; the plate, chrome/09) ---
+// A click on a plate's link, a shop's name (Vârcolac Atelier's,
+// TexxturedBeest's), tints the whole plate a faint dark red,
+// `--below` at 16%, and clears it 450ms later: press feedback while the
+// shop page loads. On a fast connection the page leaves before it is
+// seen; on a slow one it is the only sign the click registered. Enter
+// fires it too. It appears and clears without a transition.
+// Since the plates (2026-10-31) the link is the name (`a.plate-name`) and
+// its `::after` covers the plate, so a click anywhere on the plate is the
+// link's; the tint goes on the `<li class="plate">`, the box the visitor
+// pressed (uiux t_9d6109aa's spec: the same tint, the same 450ms, the
+// selector `.plate a.plate-name`). It was on the roster's line
+// (`a.roster-card`), the homepage only; the plate is one object on both
+// pages, so the Atlas's plates flash too.
+// CHOICE, only the links: the plates of makers without a shop are not
+// links, with a default cursor and no hover or focus; a flash there
 // would say something happened when nothing did (docs/HISTORY.md,
 // home/05).
 // CHOICE, the token read at click time (`var()` works in an inline
@@ -38,204 +45,442 @@
 // CHOICE, an inline style and a timer, not a CSS class: no rule has to
 // exist for one effect, and a CSS transition fires on a change of
 // state, not on a timer (the reason as recorded with the code).
-const initRosterFlash = () => {
-  const cards = document.querySelectorAll("a.roster-card");
-  if (!cards.length) return;
+const initPlateFlash = () => {
+  const links = document.querySelectorAll(".plate a.plate-name");
+  if (!links.length) return;
 
-  cards.forEach((card) => {
-    card.addEventListener("click", () => {
-      card.style.background = "color-mix(in srgb, var(--below) 16%, transparent)";
+  // the tint as an image layer over the plate's own ground (#211f20,
+  // chrome/09), not as its `background`: that would replace the opaque
+  // ground with a 16% wash and let the sky show through the plate for
+  // 450ms, a hole, not a tint. A gradient of one colour is the usual way to
+  // lay a colour as an image.
+  const TINT = "color-mix(in srgb, var(--below) 16%, transparent)";
+  links.forEach((link) => {
+    const plate = link.closest(".plate");
+    link.addEventListener("click", () => {
+      plate.style.backgroundImage = `linear-gradient(${TINT}, ${TINT})`;
       setTimeout(() => {
-        card.style.background = "";
+        plate.style.backgroundImage = "";
       }, 450);
     });
   });
 };
 
-// --- 1b. THE SPECIMENS, ONE AT A TIME (homepage, home/06) ---
-// Turns the stacked list into a stepper: each piece's torn-wall photo
-// is wrapped in one `<button>` named "Next specimen", the next piece's
-// photo is laid under it as the sliver, then `.js-stepper` goes on the
-// frame, which home/06's last rules read to show only the `.is-active`
-// piece. Without JS, or if any element it needs is missing, it returns
-// before changing anything, and every piece stays visible, with no
-// button and no sliver (index.html). The class goes on only after the
-// buttons are wired, so the pieces are never hidden with no way to
-// reach them.
-// NO ARROWS: THE PHOTO IS THE BUTTON, her ruling, 2026-10-12: "I like
-// (c). I am aware that arrows are the convention everyone knows, but
-// I'm also willing to reinforce the idea that strigoi is not exactly
-// a conventional marketplace." (docs/DECISIONS.md, THE SPECIMENS: NO
-// ARROWS; uiux sketches sketches/specimens-photo-control/ §1 and
-// sketches/specimens-sliver/ variant B). The ‹ › buttons that stood
-// either side are gone. A click, a tap, Enter or Space on the photo
-// shows the next piece. It wraps: after the last comes the first.
-// Each step moves `.is-active` and writes "Specimen 2 of 4: Vertebra
-// Collar" into the polite live region (WCAG 4.1.3); not at load. It
-// counts the `.specimen`s in the markup, so it works for any number of
-// pieces (tried with 2, 3 and 6; four on the page since 2026-10-15,
-// frontend t_8766b990, with no line of code changed). No dots and no
-// counter (her ruling of the same day, "1. Remove the dots"): a
-// sighted visitor does not see how many pieces there are before
-// stepping.
-// KEYBOARD: one Tab stop, the shown piece's button (the others are
-// `display: none`). ArrowRight steps forward and ArrowLeft back while
-// focus is inside `.specimens-stage`, which means on that button.
-// ArrowLeft is the only "previous", and it is keyboard only: a mouse or
-// a thumb goes round the wrap. FOCUS HANDOFF: each piece has its own
-// button and the old piece goes `display: none` on a step, so the
-// focused button vanishes; without the handoff focus drops to <body>
-// and the next Enter does nothing (measured on the sketch). So when
-// focus was inside the stage, it moves to the new piece's button. A
-// focus moved by script after a mouse click draws no ring (Chromium's
-// `:focus-visible` follows the focus it replaces). No swipe.
-// THE PHOTO'S DESCRIPTION (a11y tree): a `button`'s children are
-// presentational (WAI-ARIA), so a screen reader says the labelled
-// button as "Next specimen, button" and does not read an image inside
-// it; NVDA, JAWS and VoiceOver do that, though Chromium's tree still
-// lists the image (uiux t_779b2550, from the spec, not tried with a
-// reader). The alt is the only description of what each piece looks
-// like (WCAG 1.1.1), so it lives OUTSIDE the button: a `.sr-only`
-// span `#specimen-desc-N` (N = 1, 2, 3 ...) right after the button, in
-// the same `.specimen`, so it is hidden with the piece; the button
-// points to it with `aria-describedby`, and the photo inside the
-// button gets `alt=""`. The name stays "Next specimen", what the
-// button does. After a step the reader says "Next specimen, button,
-// <the new photo's alt>" on the handed-off focus, then the live region
-// its "Specimen k of n: name". No JS, or one piece: no button, the
-// photo keeps its own `alt`, no span.
-// THE SLIVER (variant B): in each piece, a decorative copy of the NEXT
-// piece's photo (`aria-hidden`, empty `alt`: the visible caption and
-// the live region name the pieces) lies under the shown photo, seen
-// in the tear's lower-right corner, where the shown paper is torn
-// away too. Each piece carries its own "next", so a step changes
-// nothing but `.is-active`. Two pieces: each shows the other. One
-// piece: no button, no sliver, nothing to step to; the piece shows
-// with the live tear. Where the next photo hangs: its
-// `data-sliver-pos` (below, and index.html).
-// THE DAY'S FIRST PIECE: at load the stepper opens on the day's piece,
-// not always on the first in the markup. Her words, 2026-10-12: "Yes,
-// the daily rotation is perfect. In this way, the visitors that are
-// failing to find the second and the third specimen photo, still have
-// the chance to see some new pieces. Of course, they should return the
-// next day for that :)." It is also fair to the makers: no one's piece
-// holds the first place for good (§7b's VISION). HOW: §7b's `dayKey()`,
-// the UTC date, so the homepage turns over at the same moment as the
-// Bestiary; read as a day count since 1970-01-01, its remainder by the
-// number of pieces is the start. Consecutive days start on consecutive
-// pieces, so over any n days in a row each of n pieces starts exactly
-// once (by construction, not by chance as a hash would be). Only the
-// start moves: the order stays the markup's, wrapping, so the start
-// piece's sliver still shows the piece after it, and no-JS still
-// stacks them in markup order. The live region stays silent at load.
-// No `?day=` override (the Bestiary has none either): QA fixes the
-// date with Playwright's clock (`page.clock.setFixedTime`).
-const initSpecimensStepper = () => {
+// --- 1a. THE ROSTER'S DAY (homepage, home/05; the plate, chrome/09) ---
+// WHAT IT DOES: turns the roster's plates once a day, the same order for
+// every visitor on that day, shows at most five, and keeps the empty
+// plate of the voice being scouted last. Past five makers it says so in
+// one line under the row.
+// HER WORDS, 2026-10-31 19:50, to uiux's question whether to keep the
+// plates' numbers on the homepage, where the order turns: "2. OK, keep
+// the numbers on both pages." So "Planche I" is the day's first plate,
+// a place and not a rank: on 31 October Ileana C., on 1 November
+// Vârcolac Atelier, on 2 November TexxturedBeest (uiux t_9d6109aa, the
+// README's "What the numbers say to a visitor").
+// HOW: the plates are in the markup A to Z (index.html), the page with
+// the script off. The named plates (not `.plate--empty`) are put in
+// `shuffleForDay` (§7b) order, salt "roster:", and the first five are
+// re-appended in that order before the empty plate; the rest are
+// removed from the list (and from Tab and a screen reader with it). The
+// numbers follow by themselves: a CSS counter numbers the plates as
+// they stand (chrome/09). Moving an element keeps its listeners, so
+// §1's flash does not care which runs first.
+// THE LINE PAST FIVE, uiux's words (hers to change): "Five of the ten
+// shops, turned each day. Every one is on the Atlas." (GRIMOIRE §XV: the
+// homepage is a rotating few, the Atlas everyone). The count is written
+// in words to twenty, in digits past it.
+// SCOPE: runs only where `#roster .plates` exists, the homepage; the
+// Atlas's plates stay A to Z (atlas.html says why).
+// CHOICE, in the browser: the site is static today. With the backend the
+// server does the same, over the full roster, and the page arrives in
+// the day's order (§7b's own note).
+// CHOICE, the empty plate never turned: it is not a maker; last, with
+// the next number, it reads as the next place to fill.
+const initRosterDay = () => {
+  const list = document.querySelector("#roster .plates");
+  if (!list) return; // not the homepage
+  const named = Array.from(list.querySelectorAll(":scope > .plate:not(.plate--empty)"));
+  if (!named.length) return;
+  const empty = list.querySelector(":scope > .plate--empty");
+  const MAX = 5; // the homepage's glance (§XV); a row of the plates holds five
+  const day = shuffleForDay(named, "roster:");
+  day.slice(MAX).forEach((plate) => plate.remove());
+  day.slice(0, MAX).forEach((plate) => list.insertBefore(plate, empty)); // null: at the end
+  if (named.length > MAX) {
+    const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+      "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
+    const count = WORDS[named.length] || String(named.length);
+    const note = document.createElement("p");
+    note.className = "plates-note";
+    note.textContent = `Five of the ${count} shops, turned each day. Every one is on the Atlas.`;
+    list.after(note);
+  }
+};
+
+// --- 1b. THE SPECIMENS: THE MAGIC-LANTERN BOX (homepage, home/06) ---
+// WHAT IT DOES: turns the stacked list into one box of the Bestiary's
+// cabinet, standing still in a lantern's light on the red wall, with
+// the pieces shown one at a time as slides pushed THROUGH it: the
+// operator holds a piece 7 s, then pushes the next in over 1.6 s, right
+// to left; the lit piece leaves behind the box's left inner wall and
+// the next comes in past the right one, the way a slide passes a magic
+// lantern's gate. Pause and Sound sit beside the box, not drawn at rest
+// (the stain once laid over them went, 2026-10-31: css/home.css).
+// Her picks, 2026-10-30 and 31 (PM ledger t_717bfd87; uiux's spec,
+// sketches/home-specimens-lantern/README.md, "For the frontend card
+// (her picks)", t_6a358a7d): wall (c), "the red wall as the lantern's
+// screen"; movement (i), "the operator"; "alone in the light"; one
+// box that stays in the light (her words: "an entire shelf box, not
+// just the bottom plank"); 4 pieces; sound (c), the glass slide in a
+// brass gate, off at load; Pause and Sound as icons under the stains
+// (her words: "could the icons for Play and Sound be covered by stains
+// and become visible at hover/action on them (like the links in the
+// footer)?"); the caption row fully visible; and, for reduced motion,
+// her "(a)": the sliver of the next slide waiting at the box's gate.
+// No counter (her ruling of 2026-10-12).
+// HOW: the four `.specimen`s stay in the markup (index.html) and are
+// read here: photo, alt, figure label, name, maker, availability. The
+// list is hidden by `.js-lantern` (home/06), and this builds beside it
+// the case (the light, the sliver, the box, the gate with its track of
+// slides, and one "Next specimen" button over the lit photo) and the
+// foot (Pause, Sound, one caption row). The track holds the pieces
+// three times over, one photo's width + 158px apart (28px of niche, a
+// 10px wall, 120px of dark: no two slides are ever both whole in the
+// box); a push is a CSS transition of its `transform`. After every
+// step the track is brought back into its middle copy, the same
+// pixels, so it never runs out (`normalize`). The class goes on only
+// once everything is wired, so the pieces are never hidden with no way
+// to reach them. Fewer than 2 pieces, or a missing element: it returns
+// before changing anything, and the stacked boxes stand (no script).
+// IT HOLDS (does not push) while a pointer is on the box or the
+// caption; while the keyboard is in the section (the piece or the
+// door) but not on Pause or Sound, so a mouse press on Play plays at
+// once (uiux 1b's fix, the W3C carousel pattern); while less than half
+// of the stage is on screen; while the tab is hidden; and after a
+// visitor's own step, until Play. Nothing runs off screen, and a
+// visitor arrives at a piece at rest (WCAG 2.2.2 with Pause).
+// KEPT: the day's first piece (her words, 2026-10-12: "Yes, the daily
+// rotation is perfect. In this way, the visitors that are failing to
+// find the second and the third specimen photo, still have the chance
+// to see some new pieces."): §7b's `dayKey()`, the UTC day count mod
+// n, opens the box; the order is the markup's, wrapping (fair to the
+// makers: no piece always first). "Next specimen" on the lit piece: a
+// click, a tap, Enter or Space brings the next piece in; ArrowRight
+// and ArrowLeft while the focus is on it. The live region says
+// "Specimen k of n: name" on the visitor's own steps only, never at
+// load or on the operator's pushes (WCAG 4.1.3 without chatter). The
+// photo's description lives OUTSIDE the button (a button's children
+// are presentational): `#lantern-desc`, the lit piece's alt, named by
+// the button's `aria-describedby`; the slides are `aria-hidden`.
+// REDUCED MOTION, and BELOW 1280px (task 4a's band, uiux's rule until
+// phones are designed): a still box. Nothing moves by itself, a step is
+// a cut, and the sliver (her "(a)") shows: 16px of the next photo's
+// leading edge just past the box's right outer wall, under a .35 black
+// veil; a click on it brings that piece in (it is `aria-hidden` and
+// not focusable: the keyboard has the arrows and Enter on "Next
+// specimen"). No Pause under reduced motion (nothing to pause); below
+// 1280px no Pause and no Sound either. Crossing 1280px or
+// changing the motion setting rebuilds on the same piece, at rest,
+// with no push and no sound.
+// THE SOUND (c): OFF when the page opens, always. Nothing audio exists
+// before the visitor's first press on Sound: lantern-sound.js isn't
+// fetched and no AudioContext is made; the context is made inside the
+// press (Safari requires it). It plays only on a push or a visitor's
+// step, the tap landing as the piece seats (72% into the push; at once
+// on a cut), never at load, on a resize or while held. The choice
+// lives in a variable only (no cookie, no storage): the next page view
+// is silent again. The engine is suspended 1.5 s after each sound and
+// as soon as Sound is turned off.
+// CHOICE, the script reads `prefers-reduced-motion` (as §4b's strip
+// does): the operator is a timer, and only the script can keep it from
+// starting. motion.css still stops every transition.
+// No `?day=` override (the Bestiary has none either): QA fixes the date
+// with Playwright's clock (`page.clock.setFixedTime`).
+const LANTERN_SOUND_SRC = new URL("lantern-sound.js", (document.currentScript && document.currentScript.src) || location.href).href;
+
+const initSpecimensLantern = () => {
   const wrap = document.querySelector(".specimens-wrap");
   if (!wrap) return;
-  const stage = wrap.querySelector(".specimens-stage");
-  const specimens = Array.from(wrap.querySelectorAll(".specimen"));
+  const list = wrap.querySelector(".specimens-stage");
   const announcer = document.getElementById("specimens-announcer");
-  const papers = specimens.map((s) => s.querySelector(".specimen-photo-vignette"));
-  const photos = specimens.map((s) => s.querySelector(".specimen-photo"));
-  if (!stage || !specimens.length || !announcer || papers.includes(null) || photos.includes(null)) {
-    return; // an element is missing: change nothing, all pieces stay shown
+  const pieces = Array.from(wrap.querySelectorAll(".specimens-stage .specimen")).map((s) => {
+    const img = s.querySelector(".specimen-photo");
+    const parts = [".specimen-fig", ".specimen-namewrap h4", ".specimen-maker", ".specimen-avail"].map((q) => s.querySelector(q));
+    if (!img || parts.includes(null)) return null;
+    const [fig, name, maker, avail] = parts.map((el) => el.textContent.trim());
+    return { src: img.currentSrc || img.src, alt: img.alt, fig, name, maker, avail };
+  });
+  if (!list || !announcer || pieces.length < 2 || pieces.includes(null)) {
+    return; // nothing to step through, or an element is missing: the stacked boxes stand
   }
+  const n = pieces.length;
 
-  let current = 0;
+  // The timings and the box, uiux's spec at her picks (README, "The
+  // exact values"). The box: the Bestiary's cabinet D (bestiary/04),
+  // the photo 14px from the niche's sides and top on a 40px floor,
+  // 10px walls; at 560×315 that is 608×389. GAP: calm 2's dark wall
+  // between two slides ("alone in the light").
+  const HOLD = 7000, TRAVEL = 1600, EASE = "cubic-bezier(.45,.05,.25,1)";
+  const CAPTION_AT = 0.75, SEAT = 0.72, SLEEP = 1500;
+  const SIDE = 14, TOP = 14, FLOOR = 40, WALL = 10, GAP = 120, AR = 16 / 9;
+  const RMQ = matchMedia("(prefers-reduced-motion: reduce)");
+  const WIDE = matchMedia("(min-width: 1280px)");
+  const still = () => RMQ.matches || !WIDE.matches;
 
-  const nameOf = (specimen) => {
-    const h4 = specimen.querySelector(".specimen-namewrap h4");
-    return h4 ? h4.textContent.trim() : "";
-  };
+  // ---- the markup (static strings only; the pieces' words go in as text) ----
+  const stage = document.createElement("div");
+  stage.className = "lantern-stage";
+  stage.innerHTML =
+    '<div class="lantern-case">' +
+    '<span class="lantern-next" aria-hidden="true"></span>' +
+    '<span class="lantern-box" aria-hidden="true"></span>' +
+    '<span class="lantern-gate" aria-hidden="true"><span class="lantern-track"></span></span>' +
+    '<button type="button" class="lantern-lit" aria-label="Next specimen" aria-describedby="lantern-desc"></button>' +
+    "</div>" +
+    '<span class="sr-only" id="lantern-desc"></span>';
+  const caption = document.createElement("div");
+  caption.className = "lantern-caption";
+  caption.innerHTML =
+    '<span class="specimen-row"><span class="specimen-fig"></span>' +
+    '<span class="specimen-namewrap"><h4></h4><span class="specimen-maker"></span></span>' +
+    '<span class="specimen-avail"></span></span>';
+  const ctls = document.createElement("div");
+  ctls.className = "lantern-ctls";
+  const play = document.createElement("button");
+  play.type = "button";
+  play.className = "lantern-play";
+  const snd = document.createElement("button");
+  snd.type = "button";
+  snd.className = "lantern-sound";
+  ctls.append(play, snd); // Tab: the piece, Pause, Sound, then the door
+  const foot = document.createElement("div");
+  foot.className = "lantern-foot";
+  foot.append(ctls, caption);
+  list.after(stage);
+  stage.after(foot);
 
-  const announce = (index) => {
-    announcer.textContent = `Specimen ${index + 1} of ${specimens.length}: ${nameOf(specimens[index])}`;
-  };
+  const caseEl = stage.querySelector(".lantern-case");
+  const track = stage.querySelector(".lantern-track");
+  const lit = stage.querySelector(".lantern-lit");
+  const nextEl = stage.querySelector(".lantern-next");
+  const desc = stage.querySelector("#lantern-desc");
+  const idx = (k) => ((k % n) + n) % n;
 
-  const go = (index, { silent } = {}) => {
-    const hadFocus = stage.contains(document.activeElement);
-    current = (index + specimens.length) % specimens.length;
-    specimens.forEach((specimen, i) => {
-      specimen.classList.toggle("is-active", i === current);
-    });
-    if (hadFocus) {
-      const btn = specimens[current].querySelector(".specimen-photo-btn");
-      if (btn) btn.focus({ preventScroll: true });
-    }
-    if (!silent) announce(current);
-  };
-
-  const step = (dir) => go(current + dir);
-
-  // The point of a photo that hangs under the wedge when it shows as a
-  // sliver: `data-sliver-pos="x% y%"` on its `.specimen`, in % of the
-  // photo (50% 50% = its middle), read here into `--sliver-x/-y` on the
-  // layer that shows it; home/06 lines that point up with the slot's
-  // wedge. Missing or malformed: the middle. The placeholders are all
-  // 50% 50%, the sketch's SHIFT (sketches/specimens-sliver/capture.js).
-  // BACKEND: this must come with every photo, like the light-ground
-  // flag: the curator sets it at upload (her ruling, "3. OK";
-  // docs/DECISIONS.md, HER THREE ANSWERS). Lined up box on box, the
-  // wedge shows only a dark-ground photo's studio ground (README §2).
-  const sliverPos = (specimen) => {
-    const m = /^\s*(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%\s*$/.exec(specimen.dataset.sliverPos || "");
-    return m ? [`${m[1]}%`, `${m[2]}%`] : ["50%", "50%"];
-  };
-
-  if (specimens.length > 1) {
-    specimens.forEach((specimen, i) => {
-      const paper = papers[i];
-      const next = specimens[(i + 1) % specimens.length];
-      const nextPhoto = photos[(i + 1) % specimens.length];
-
-      const sliver = document.createElement("span");
-      sliver.className = "specimen-sliver";
-      sliver.setAttribute("aria-hidden", "true");
-      const [x, y] = sliverPos(next);
-      sliver.style.setProperty("--sliver-x", x);
-      sliver.style.setProperty("--sliver-y", y);
+  // ---- geometry: the photo 560×315 from 1280px; below, today's column
+  //      (the caption's width, min(560px, 72vw)), still 16:9 ----
+  let PW = 560, PH = 315, pitch = 0, cur = n;
+  const layout = () => {
+    PW = WIDE.matches ? 560 : Math.round(caption.getBoundingClientRect().width);
+    PH = Math.round(PW / AR);
+    PW = Math.round(PH * AR);
+    const nw = PW + 2 * SIDE;
+    pitch = nw + WALL + GAP;
+    const props = { "--lantern-pw": PW, "--lantern-ph": PH, "--lantern-nw": nw, "--lantern-bw": nw + 2 * WALL, "--lantern-shelf": PH + TOP + FLOOR + 2 * WALL };
+    Object.entries(props).forEach(([k, v]) => wrap.style.setProperty(k, `${v}px`));
+    track.textContent = "";
+    for (let k = 0; k < 3 * n; k++) {
       const img = document.createElement("img");
       img.alt = "";
-      img.src = nextPhoto.currentSrc || nextPhoto.src; // already fetched (home/06, LOADING)
       img.decoding = "async";
-      sliver.appendChild(img);
-      paper.insertBefore(sliver, paper.firstChild); // under the shown photo
-      specimen.classList.add("has-sliver");
+      img.src = pieces[k % n].src; // the list's own files, already fetched
+      img.style.left = `${WALL + k * pitch + SIDE}px`;
+      track.appendChild(img);
+    }
+    track.style.width = `${3 * n * pitch}px`;
+  };
+  // the track's x that puts slide k in the box (the box is the case's centre)
+  const xFor = (k) => caseEl.clientWidth / 2 - (WALL + k * pitch + (PW + 2 * SIDE) / 2);
+  const setX = (x, animate) => {
+    track.style.transition = animate ? `transform ${TRAVEL}ms ${EASE}` : "none";
+    track.style.transform = `translate3d(${x}px,0,0)`;
+  };
+  // back into the middle copy, so a run of quick steps never runs out.
+  // Before a step, from wherever the track is now (mid-push too: the
+  // computed transform, which the new push then starts from); at rest,
+  // from the exact target, so no fraction of a pixel is ever kept
+  const normalize = (atRest) => {
+    if (cur >= n && cur < 2 * n) return;
+    const copies = Math.floor(cur / n) - 1;
+    const x = atRest ? xFor(cur - copies * n) : new DOMMatrixReadOnly(getComputedStyle(track).transform).m41 + copies * n * pitch;
+    cur -= copies * n;
+    setX(x, false);
+    void track.offsetWidth; // the jump is drawn before the next push starts
+  };
+  // a push has ended (an interrupted one fires `transitioncancel`, not this)
+  track.addEventListener("transitionend", (e) => { if (e.target === track && e.propertyName === "transform") normalize(true); });
 
-      // The photo's description leaves the button (THE PHOTO'S
-      // DESCRIPTION, above): its `alt` goes into a `.sr-only` span
-      // right after the button, in the same `.specimen`, and the
-      // shown photo's `alt` empties.
-      const desc = document.createElement("span");
-      desc.className = "sr-only";
-      desc.id = `specimen-desc-${i + 1}`;
-      desc.textContent = photos[i].alt;
+  // ---- the caption, the description, the sliver ----
+  const fill = (i) => {
+    const p = pieces[i];
+    caption.querySelector(".specimen-fig").textContent = p.fig;
+    caption.querySelector("h4").textContent = p.name;
+    caption.querySelector(".specimen-maker").textContent = p.maker;
+    caption.querySelector(".specimen-avail").textContent = p.avail;
+    desc.textContent = p.alt;
+  };
+  let capTimer = 0;
+  const showCaption = (i, fade) => {
+    clearTimeout(capTimer);
+    if (!fade) { fill(i); caption.classList.remove("is-out"); return; }
+    // out as the push starts, the new words in as the piece arrives
+    caption.classList.add("is-out");
+    capTimer = setTimeout(() => { fill(i); caption.classList.remove("is-out"); }, Math.round(TRAVEL * CAPTION_AT));
+  };
+  const placeNext = (i) => { // the slide after piece i, waiting at the gate
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = pieces[idx(i + 1)].src;
+    nextEl.replaceChildren(img);
+  };
 
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "specimen-photo-btn";
-      btn.setAttribute("aria-label", "Next specimen");
-      btn.setAttribute("aria-describedby", desc.id);
-      paper.parentNode.insertBefore(btn, paper);
-      btn.appendChild(paper);
-      btn.after(desc);
-      photos[i].alt = "";
-      btn.addEventListener("click", () => step(1));
-    });
+  // ---- stepping ----
+  const land = (i) => { // at rest on piece i: load, resize, a change of mode
+    cur = n + i;
+    setX(xFor(cur), false);
+    showCaption(i, false);
+    placeNext(i);
+  };
+  const step = (d, user) => {
+    normalize(false);
+    cur += d;
+    const i = idx(cur);
+    const moving = !still();
+    sound(moving);
+    setX(xFor(cur), moving);
+    showCaption(i, moving);
+    placeNext(i);
+    if (!moving) normalize(true); // a cut is at rest at once; a push settles on its `transitionend`
+    if (user) announcer.textContent = `Specimen ${i + 1} of ${n}: ${pieces[i].name}`;
+  };
 
-    stage.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
-    });
+  // ---- the operator: play, hold, pause ----
+  let playing = !RMQ.matches, timer = 0;
+  const holds = new Set(["view"]); // why it is held: hover-shelf, hover-caption, focus, view, tab
+  const running = () => playing && !still() && holds.size === 0;
+  const schedule = (afterPush) => {
+    clearTimeout(timer);
+    if (!running()) return;
+    // the hold is counted from the moment the piece has arrived
+    timer = setTimeout(() => { step(1, false); schedule(true); }, HOLD + (afterPush ? TRAVEL : 0));
+  };
+  const hold = (why, on) => {
+    const was = running();
+    if (on) holds.add(why); else holds.delete(why);
+    if (was !== running()) schedule(false);
+  };
+  const ICON_PAUSE = '<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><rect x="2" y="1.5" width="2.6" height="9"/><rect x="7.4" y="1.5" width="2.6" height="9"/></svg>';
+  const ICON_PLAY = '<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 1.5v9l7.5-4.5z"/></svg>';
+  const label = () => {
+    play.innerHTML = (playing ? ICON_PAUSE : ICON_PLAY) + `<span class="lantern-word">${playing ? "Pause" : "Play"}</span>`;
+    play.setAttribute("aria-label", playing ? "Pause the specimens" : "Play the specimens");
+    // paused (by Pause, or by the visitor's own step) is a state they
+    // chose: Play stays drawn until pressed (condition 3)
+    play.classList.toggle("is-set", !playing);
+  };
+  play.addEventListener("click", () => { playing = !playing; label(); schedule(false); });
+  // a visitor's own step takes the operator's place until they press Play
+  const userStep = (d) => {
+    if (playing && !still()) { playing = false; label(); schedule(false); }
+    step(d, true);
+  };
+  lit.addEventListener("click", () => userStep(1));
+  nextEl.addEventListener("click", () => userStep(1));
+  // the sliver is no focus target: a press on it leaves the focus where
+  // it was (on the piece, the arrows go on working)
+  nextEl.addEventListener("mousedown", (e) => e.preventDefault());
+  stage.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); userStep(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); userStep(-1); }
+  });
+  // a pointer on the box or the caption holds it (not on the controls:
+  // a pointer resting on Play after pressing it must not hold it)
+  [[stage, "hover-shelf"], [caption, "hover-caption"]].forEach(([el, key]) => {
+    el.addEventListener("mouseenter", () => hold(key, true));
+    el.addEventListener("mouseleave", () => hold(key, false));
+  });
+  wrap.addEventListener("focusin", (e) => hold("focus", !e.target.closest(".lantern-ctls")));
+  wrap.addEventListener("focusout", (e) => { if (!wrap.contains(e.relatedTarget)) hold("focus", false); });
+  new IntersectionObserver((es) => es.forEach((en) => hold("view", en.intersectionRatio < 0.5)), { threshold: [0, 0.5, 1] }).observe(stage);
+  document.addEventListener("visibilitychange", () => hold("tab", document.hidden));
+
+  // ---- the icons' words: shown above the icon on hover and keyboard
+  //      focus (home/06); Esc hides them without moving the pointer or
+  //      the focus, and they come back once the pointer or focus leaves
+  //      (WCAG 1.4.13) ----
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") ctls.querySelectorAll("button").forEach((b) => { if (b.matches(":hover, :focus-visible")) b.classList.add("tip-off"); });
+  });
+  ctls.addEventListener("mouseout", (e) => { const b = e.target.closest("button"); if (b && !b.contains(e.relatedTarget)) b.classList.remove("tip-off"); });
+  ctls.addEventListener("focusout", (e) => { const b = e.target.closest("button"); if (b) b.classList.remove("tip-off"); });
+
+  // ---- the sound (THE SOUND, above) ----
+  let soundOn = false, actx = null, sleepTimer = 0;
+  const sndLabel = () => {
+    snd.setAttribute("aria-pressed", String(soundOn));
+    snd.classList.toggle("is-set", soundOn); // sound on: its switch stays drawn (condition 3)
+    // a speaker struck through (off) or with two waves (on); the word
+    // "Sound" names the toggle, its state is `aria-pressed`
+    snd.innerHTML = (soundOn
+      ? '<svg viewBox="0 0 14 12" aria-hidden="true" focusable="false"><path d="M1 4h2.5L7 1v10L3.5 8H1z"/><path class="w" d="M9 3.6a3.4 3.4 0 0 1 0 4.8M10.8 1.8a6 6 0 0 1 0 8.4"/></svg>'
+      : '<svg viewBox="0 0 14 12" aria-hidden="true" focusable="false"><path d="M1 4h2.5L7 1v10L3.5 8H1z"/><path class="w" d="M9 3.5l4 5M13 3.5l-4 5"/></svg>') +
+      `<span class="lantern-word"><span>Sound</span><span aria-hidden="true">${soundOn ? "on" : "off"}</span></span>`;
+  };
+  const sleepSoon = () => { clearTimeout(sleepTimer); sleepTimer = setTimeout(() => { if (actx && actx.state === "running") actx.suspend(); }, SLEEP); };
+  snd.addEventListener("click", () => {
+    soundOn = !soundOn;
+    sndLabel();
+    if (!soundOn) { clearTimeout(sleepTimer); if (actx) actx.suspend(); return; }
+    if (!actx) { // made inside the press, so every browser lets it play
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      actx = new AC();
+    }
+    actx.resume().then(sleepSoon);
+    if (!window.StrigoiLanternSound && !document.getElementById("lantern-sound-js")) {
+      const sc = document.createElement("script");
+      sc.id = "lantern-sound-js";
+      sc.src = LANTERN_SOUND_SRC;
+      document.head.append(sc);
+    }
+  });
+  // on every step; it plays only once the visitor has turned it on
+  function sound(moving) {
+    if (!soundOn || !actx || !window.StrigoiLanternSound) return;
+    clearTimeout(sleepTimer);
+    const fire = () => { window.StrigoiLanternSound.play(actx, moving ? (TRAVEL * SEAT) / 1000 : 0, !moving); sleepSoon(); };
+    if (actx.state === "running") fire(); else actx.resume().then(fire);
   }
 
-  wrap.classList.add("js-stepper");
-  // the day's piece (THE DAY'S FIRST PIECE, above), without an
-  // announcement. `Date.parse` reads a bare "YYYY-MM-DD" as UTC
-  // midnight, so the count is a whole number of days.
+  // ---- the mode: moving (1280px and wider, motion allowed) or still ----
+  const apply = () => {
+    const i = idx(cur);
+    wrap.classList.toggle("lantern-still", still());
+    ctls.hidden = !WIDE.matches; // below 1280px: no Pause, no Sound
+    play.hidden = still(); // reduced motion: nothing to pause
+    layout();
+    land(i);
+    label();
+    schedule(false);
+  };
+  WIDE.addEventListener("change", apply);
+  RMQ.addEventListener("change", () => { playing = !RMQ.matches; apply(); });
+  let caseW = 0;
+  new ResizeObserver(() => {
+    if (caseEl.clientWidth === caseW) return;
+    caseW = caseEl.clientWidth;
+    layout();
+    land(idx(cur));
+  }).observe(caseEl);
+
+  // ---- start: the day's piece (THE DAY'S FIRST PIECE), in the box, at
+  //      rest, without an announcement. `Date.parse` reads a bare
+  //      "YYYY-MM-DD" as UTC midnight, so the count is whole days ----
   const dayCount = Math.round(Date.parse(dayKey()) / 86400000);
-  go(dayCount % specimens.length, { silent: true });
+  cur = n + (dayCount % n);
+  sndLabel();
+  wrap.classList.add("js-lantern");
+  apply();
+  caseW = caseEl.clientWidth;
 };
 
 // --- 2. GALLERY GRID RENDERING (archive) ---
@@ -982,9 +1227,22 @@ const initShopSummons = () => {
 // 0k/0n" and the Transmission's "FRAME 00k" count it (videos too). A
 // summoned description stays summoned (§11.7 item 2): nothing here
 // touches `.revealed`.
-// The frame keeps the first photo's shape (product/02), so nothing on
-// the page moves; a photo of another shape gets `.is-letterboxed`
-// (product/05) and shows whole, on the frame's ground.
+// The frame takes the shape of the photo shown (product/02). HER WORDS,
+// 2026-10-31, on the Cord Cowl Sweater's 4:5 photos letterboxed in its
+// first, near-square one's frame: "can the photo's container (?) in the
+// product page be adapted to the size of the photo? The empty space
+// around the image looks bad in my opinion (e.g. in the screenshot is
+// visible the lateral empty space)" (frontend t_960cca6a). So showing a
+// photo writes its `data-w / data-h` as `--shown` on `.piece-stage`;
+// the frame keeps its height and its left edge and takes that width,
+// eased 180ms by product/02 while `.is-reshaping` is set (none with
+// reduced motion). `--room` (`fit`, below) is how wide it may go: from
+// the stage's left edge to main's right padding, so a wide photo beside
+// a tall first one runs on to the right and, past that, gets shorter at
+// its own shape (product/02). The stage's width (the first photo's), so
+// the Details column, never moves. (Was: the frame kept the first
+// photo's shape and another shape got `.is-letterboxed`, shown whole on
+// the frame's ground; product/05.)
 // HOW: each thumbnail is a link to its photo's file (`href`), with
 // `data-alt`, `data-w`, `data-h` (the markup's, as the backend's
 // product_media will give them); with the script off it is just that,
@@ -1044,7 +1302,9 @@ const initShopSummons = () => {
 // THE FADE: `data-more` on the row ("start", "end", "both") says which
 // sides can still scroll; product/05 draws a 24px fade there.
 // REDUCED MOTION: every scroll asked for here is instant (`behavior:
-// "auto"`); otherwise smooth. The photo swap has no transition.
+// "auto"`); otherwise smooth. The photo swap has no transition; the
+// frame's change of shape eases 180ms, and not at all with reduced
+// motion (product/02's query).
 // SCOPE: a piece's page with a `.piece-strip`; elsewhere it returns.
 const initPieceStrip = () => {
   const strip = document.querySelector(".piece-strip");
@@ -1058,9 +1318,28 @@ const initPieceStrip = () => {
   const frame = stage.querySelector(".transmission-frame-count");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   const two = (n) => String(n).padStart(2, "0");
-  const ratio = (b) => Number(b.dataset.w) / Number(b.dataset.h);
   const still = (b) => b.dataset.poster || b.getAttribute("href"); // a video shows its poster
-  const firstRatio = ratio(thumbs[0]);
+  const main = wrap.closest("main") || document.body;
+
+  // How wide the frame may go (product/02's `--room`): from the stage's
+  // left edge to main's right padding. product/02 never lets it under
+  // the stage's own width (the first photo's; on phones, where the pair
+  // runs past the window, task 4a's, a wider photo then gets the first
+  // one's width and is shorter). Again whenever main or the stage
+  // changes size (the window; §4c's growth), after layout and before
+  // paint. Writing it changes only the frame and the strip, never the
+  // stage's box: no loop.
+  const fit = () => {
+    const box = wrap.getBoundingClientRect();
+    const right = main.getBoundingClientRect().right - (parseFloat(getComputedStyle(main).paddingRight) || 0);
+    wrap.style.setProperty("--room", `${right - box.left}px`);
+  };
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(fit);
+    ro.observe(main);
+    ro.observe(wrap);
+  } else window.addEventListener("resize", fit);
+  fit();
 
   // Each thumbnail's description: its photo's alt, in a hidden copy.
   const alts = document.createElement("div");
@@ -1084,6 +1363,25 @@ const initPieceStrip = () => {
     });
   };
 
+  // The frame takes the shown photo's shape (product/02's `--shown`).
+  // A new shape sets `.is-reshaping` for the ease and, once it is over,
+  // brings the shown thumbnail into the row's view again: `reveal` read
+  // the row's width at the start of the ease, and the row has since
+  // narrowed or widened with the photo.
+  const RESHAPE_MS = 180; // product/02's ease
+  let shown = 0;
+  let reshaping;
+  const reshape = (shape) => {
+    if (wrap.style.getPropertyValue("--shown") === shape) return;
+    wrap.classList.add("is-reshaping");
+    wrap.style.setProperty("--shown", shape);
+    clearTimeout(reshaping);
+    reshaping = setTimeout(() => {
+      wrap.classList.remove("is-reshaping");
+      reveal(shown);
+    }, RESHAPE_MS + 40);
+  };
+
   const show = (k) => {
     const b = thumbs[k];
     const src = still(b);
@@ -1093,7 +1391,8 @@ const initPieceStrip = () => {
     photo.height = Number(b.dataset.h);
     stage.style.setProperty("--photo", `url('${new URL(src, document.baseURI).href}')`);
     mark(k);
-    wrap.classList.toggle("is-letterboxed", Math.abs(ratio(b) - firstRatio) > 0.01);
+    shown = k;
+    reshape(`${Number(b.dataset.w)} / ${Number(b.dataset.h)}`);
     if (tag) tag.textContent = `EVIDENCE ${two(k + 1)}/${two(thumbs.length)}`;
     if (frame) frame.textContent = `FRAME ${String(k + 1).padStart(3, "0")}`;
   };
@@ -1319,7 +1618,12 @@ const initDetailsSplit = () => {
       const stageFoot = foot(stage);
       const over = foot(last) - stageFoot; // the list past the stage
       const room = document.documentElement.clientHeight - FOOT_GAP - stageFoot; // to FOOT_GAP above the first screen's foot
-      const tall = FRAME_MAX - frame.getBoundingClientRect().height;
+      // The frame's full height, `--frame-h` (product/02): a wide photo
+      // shown beside a tall first one may be shorter, the strip's margin
+      // under it (product/05) making up the difference.
+      const strip = stage.querySelector(".piece-strip");
+      const frameH = frame.getBoundingClientRect().height + (strip ? parseFloat(getComputedStyle(strip).marginBottom) || 0 : 0);
+      const tall = FRAME_MAX - frameH;
       let next = g + Math.min(over, room, tall);
       if (next < 1) next = 0; // under a pixel: no growth
       if (Math.abs(next - g) < 0.5) break;
@@ -1344,6 +1648,9 @@ const initDetailsSplit = () => {
   };
 
   const measure = () => {
+    // A change of shape in its ease (§4b, product/02) ends at once: the
+    // passes below must read the frame where it rests.
+    stage.classList.remove("is-reshaping");
     unsplit();
     stage.style.removeProperty("--grow");
     if (!twoColumns.matches) return;
@@ -1666,7 +1973,7 @@ const initOrbitDraw = () => {
   }
 };
 
-// --- 7b. THE DAY'S ORDER (shared: the Atlas, 7c; the Bestiary, 7d) ---
+// --- 7b. THE DAY'S ORDER (shared: the roster, 1a; the Atlas, 7c; the Bestiary, 7d) ---
 // WHAT IT DOES: gives a list a new order once a day, the same order for
 // every visitor on that day, so no item holds the first place for good
 // and nobody's page reshuffles on a reload.
@@ -1965,11 +2272,13 @@ const initAtlas = () => {
 // same steps run on the server, which writes the order and the frame
 // into the markup; the shelves depend on the window's width, so they
 // stay here. What the server needs per piece: the photo's width and
-// height, a stable catalogue id, the link (the demo shop's, for a piece
-// no shop holds yet) and the caption; per day, the date (UTC).
+// height, a stable catalogue id, the link (its page in the shop that
+// holds it; a shop's top for a piece no shop holds) and the caption; per
+// day, the date (UTC).
 // ACCESSIBILITY: one Tab stop per piece, in the wall's order, which is
-// the order the eye reads the shelves. Every piece is a link (a piece no
-// shop holds yet links to the demo shop, bestiary.html), so none is
+// the order the eye reads the shelves. Every piece is a link (since
+// 2026-10-31 each to its own page: the founder's five went to the demo
+// shop's top until TexxturedBeest held them, bestiary.html), so none is
 // skipped. The cabinet is `aria-hidden` and takes no pointer events.
 // VISION: "Nobody is elder, everybody is sometimes visible"
 // (docs/DECISIONS.md, "CONSTELLATIONS/GALAXY PAGE"), the Atlas's rule
@@ -2147,18 +2456,19 @@ const initBestiary = () => {
 // --- 8. START-UP ---
 // WHAT IT DOES: starts every mechanism above once the page is read.
 // HOW: `DOMContentLoaded` fires when the HTML is parsed and its elements
-// exist (images may still be loading). All thirteen inits run on every
+// exist (images may still be loading). All fourteen inits run on every
 // page; each looks for its own elements first and returns if they are
 // absent.
-// SCOPE: all twenty-three pages load this file. The homepage uses 3 of
-// the thirteen, a demo piece's page 4 (3 for Grave Soil, one photo), the
-// shop 3 (§4a's summon, 2026-10-16) and the gallery 2, the Summoning,
-// the Atlas and the Bestiary 1 each, the ten text pages none.
+// SCOPE: all twenty-three pages load this file. The homepage uses 4 of
+// the fourteen, a demo piece's page 4 (3 for Grave Soil, one photo), the
+// shop 3 (§4a's summon, 2026-10-16), the gallery and the Atlas 2 each,
+// the Summoning and the Bestiary 1 each, the ten text pages none.
 // CHOICE: one guarded file, not one per page: docs/CSS-JS-SPLIT.md
 // §4 (when to split: §4.4).
 document.addEventListener("DOMContentLoaded", () => {
-  initRosterFlash();
-  initSpecimensStepper();
+  initPlateFlash();
+  initRosterDay();
+  initSpecimensLantern();
   initGalleryGrid();
   initLightboxControls();
   initSeanceStages();

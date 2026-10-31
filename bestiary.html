@@ -139,9 +139,9 @@
   </header>
 
   <!-- THE PLANE: every piece, hung in a cabinet of curiosities. One <li> per piece,
-       holding one link: the photograph and the caption inside it. A
-       piece with no shop of its own links to the demo shop for now (the
-       Molt Sweater and the founder's five, below).
+       holding one link: the photograph and the caption inside it. Each
+       links to its piece's own page, in the shop that holds it (THE LINK,
+       below).
        WHAT: a list (`role="list"` gives back the "list, N items" that
        Safari drops once the bullets are removed in CSS). script.js
        (initBestiary) hangs it for the day: the order, each piece's size
@@ -149,7 +149,7 @@
        niche on the shelves (css/bestiary.css, bestiary/04). Every photo is untorn, its own square edge
        (her "OK", 2026-10-30; css/bestiary.css, bestiary/03). Without JS
        the pieces stand in the order written here (the demo shop's ten
-       cards A to Z by name, then the founder's five as she sent them),
+       cards A to Z by name, then the founder's as she sent them),
        four to a row at one size, each photo at its own shape.
        WHAT EACH PIECE CARRIES for the script: `data-id`, its catalogue
        id, which deals its size (placeholders here, one per piece; two
@@ -175,14 +175,19 @@
        stage and its words are summoned (`shops/demo/pieces/<slug>/
        index.html`; her ruling of 2026-10-15, P1 = direction 1 of
        sketches/product-page/product-page-spec.md, §6; frontend
-       t_e75d6266). Before the piece pages, these went to the piece's
-       stage on the shop (`#stage-N`). A piece shown twice, by two
-       photos, links twice to the same page. A piece no shop holds yet
-       links to the demo shop's top (her ruling, below).
+       t_e75d6266), in the shop that holds it: `shops/demo/` (Vârcolac
+       Atelier's) or, for the founder's pieces, `shops/texxturedbeest/`
+       (since 2026-10-31). Before the piece pages, these went to the
+       piece's stage on the shop (`#stage-N`). A piece shown twice, by two
+       photos, links twice to the same page. Every piece on the wall now
+       has a page; a piece no shop holds would link to a shop's top (her
+       ruling for her five, 2026-10-08, kept below in their comment).
        `pieces` in the address is a placeholder word, hers to choose
        before launch.
-       WHAT WOULD BREAK: renaming a piece's folder or `pieces`; its links
-       here would land on the 404 (10 links: p001 to p006, p012 to p015).
+       WHAT WOULD BREAK: renaming a piece's folder, a shop's or `pieces`;
+       its links here would land on the 404 (17 links: p001 to p006 and
+       p012 to p015 in shops/demo/, p007 to p009, p011 and p016 to p018 in
+       shops/texxturedbeest/).
        ACCESSIBILITY: one Tab stop per piece, in the day's order,
        which is also the order the eye reads the shelves. The caption shows
        on a mouse's hover and on keyboard focus; it is the link's own text, so a
@@ -197,12 +202,12 @@
        tokens/03): her OK of 2026-10-29 to the PM's suggestion, "OK to the
        suggestion of hidding it on the screen and keep it only for the
        screen readers" (uiux sketches/page5, h2=hidden). On screen the
-       wall is the 15 pieces, so the words told a sighted visitor nothing
+       wall is the 17 pieces, so the words told a sighted visitor nothing
        new; a screen reader keeps it in its headings list, the way to jump
        to the wall, with the count. The section keeps `aria-labelledby`,
        so the wall stays a named region. -->
   <section class="bestiary-field" aria-labelledby="bestiary-count">
-    <h2 id="bestiary-count" class="sr-only">Every piece · 15 pieces</h2>
+    <h2 id="bestiary-count" class="sr-only">Every piece · 17 pieces</h2>
     <ul class="bestiary-plane" role="list">
       <!-- Six of the demo shop's seven pieces (shops/demo/, Vârcolac
            Atelier's sample shop): Grave Soil by its one tall photo (720 ×
@@ -221,9 +226,10 @@
            ("1 of 3", "Unique", "Pre-order"); Grave Soil, not on the
            homepage, from the shop's edition line (ED. №014/050), and the
            Unravelled Sweater from its own (ED. №001/006).
-           After them, p007 to p011: the founder's own photographs of
-           her own work, with placeholder captions, linked to the demo
-           shop until a real shop holds them (their own comment, below).
+           After them, p007 to p009, p011 and p016 to p018: the founder's
+           own photographs of her own work, with placeholder captions, each
+           linked to its page in the second demo shop, TexxturedBeest (their
+           own comment, below).
            The photo's `width` and `height` are the file's own: the script
            reads them for the frame's shape, and without it they give the
            photo's box its shape before it loads.
@@ -391,88 +397,149 @@
         </a>
         <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Vertebra Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
       </li>
-      <!-- THE FOUNDER'S OWN FIVE (p007 to p011): her photographs of her
-           own work, sent 2026-10-08, put on the wall at her word: "Add my
-           5 screenshots to the live page as well, I want to see them in
-           the context of the entire page. Also, can you add the
-           bestiary-caption on them too and a link (even if it goes to the
-           demo-shop page)." The files: assets/founder-photography/, her
-           screenshots with Instagram's bars cut off, at their native
+      <!-- THE FOUNDER'S OWN (p007 to p009, p011, p016 to p018): her
+           photographs of her own work.
+           THE FIRST FIVE (p007 to p011), sent 2026-10-08, put on the wall
+           at her word: "Add my 5 screenshots to the live page as well, I
+           want to see them in the context of the entire page. Also, can you
+           add the bestiary-caption on them too and a link (even if it goes
+           to the demo-shop page)." The files: assets/founder-photography/,
+           her screenshots with Instagram's bars cut off, at their native
            1080px width; `width` and `height` are each cropped file's own.
            After the demo shop's ten cards and in the order she sent them, not
            A to Z among them: the order the wall she approved (still B1 of
-           uiux t_4bcad88c) was dealt from, which the day's shuffle needs
-           to give the same wall again.
-           THE CAPTIONS ARE PLACEHOLDERS: names, maker lines and "Price
-           to come" are the PM's words, to be renamed by her. "Demo shop"
-           because they have no shop of their own yet.
-           THE LINK: `shops/demo/index.html`, the demo shop's page, its
-           top, with no stage: none of these is one of its pieces. Each
-           takes its own link once a real shop holds it.
-           `bestiary-piece--light-ground` (p007 only): a photo on a white
-           ground. It needed a denser scrim until 2026-10-30; the one
-           band now covers it (css/bestiary.css, bestiary/03), and the
-           flag stays, the one her WHITE AND BRIGHT GROUNDS ruling names. -->
+           uiux t_4bcad88c) was dealt from.
+           THE MERGE, 2026-10-31: p009 (the cardigan) and p010 (the cord) were
+           two photos of one piece (her words: "photos of the Mohair Cardigan
+           and the Roped Mohair Knit are photos of the same product,
+           actually", then "Yes, merge the Mohair Cardigan and the Roped
+           Mohair Knit pages"). p009 stays, renamed the Roped Mohair Cardigan
+           (worksheet §5.1: one card per piece, the cardigan's photo, the
+           whole piece); p010 retired, and its id is not reused.
+           THE NEW THREE (p016 to p018), sent 2026-10-31: "I'm sharing here
+           some screenshots of other pieces I created. You can add them to
+           the shop and bestiary." New ids after p015, in the order she sent
+           them, after p011 (worksheet §5.6). One card each, its piece's first
+           photo: the Cobweb Dress (her photo1), the Oat Mohair Sweater
+           (photo2), the Cord Cowl Sweater (photo3, case B: the PM's
+           assumption that photo3 is this piece, §5.0). Her Instagram
+           screenshots, ~700px wide, the app's ground in their rounded left
+           corners cut off (tests/e2e/frontend_t_f74eb58c/make_assets.sh).
+           Any change to the list deals the day's wall anew (script.js,
+           initBestiary), so these walls are new ones, by the same rules.
+           THE CAPTIONS ARE PLACEHOLDERS: the names are the PM's and the
+           writer's, not the pieces' real ones, and stay (her words,
+           2026-10-30: "Their names are not the real ones, they are names you
+           gave to the pieces.").
+           THE SHOP, since 2026-10-31: TexxturedBeest, a second demo shop
+           that holds these pieces under placeholder names, not her real shop
+           (her words, 2026-10-30: "Let's go with a second sample shop. You
+           can use TexxturedBeest as the placeholder name for the shop.").
+           THE MAKER LINE AND THE META, the writer's (docs/worksheets/
+           2026-10-30_texxturedbeest-sample-shop-copy.md §1.3, §5, decided):
+           "TexxturedBeest · Jewelry" / "· Knitwear", the shop named as
+           "Vârcolac Atelier · Garment" is, where it said "Demo shop" while
+           they had no shop of their own; "Price to come · Unique", the
+           wall's "price · availability" pattern, no price invented for her
+           real work (her decisions 2 and 3: "Price to come", "Unique").
+           THE LINK: each piece's own page,
+           `shops/texxturedbeest/pieces/<slug>/index.html` (the worksheet's
+           slugs), where its photo is the Séance stage, as every other piece
+           here. Until 2026-10-31 the first five went to the demo shop's top
+           (`shops/demo/index.html`), at her word of 2026-10-08 (above:
+           "a link (even if it goes to the demo-shop page)").
+           The alts stay `alt=""` (the name follows in the link; the piece
+           page's photo carries the description, worksheet §2, §5).
+           `bestiary-piece--light-ground` (p007, the earrings on white; p016
+           and p017, the dress and the oat sweater on pale walls): a photo on
+           a white or pale ground. It needed a denser scrim until 2026-10-30;
+           the one band now covers it (css/bestiary.css, bestiary/03), and the
+           flag stays, the one her WHITE AND BRIGHT GROUNDS ruling names. No
+           rule reads it. Light grounds are welcome (her words, 2026-10-31:
+           "We can't and we won't force the makers to post only dark
+           photos."). -->
       <li class="bestiary-piece bestiary-piece--light-ground" data-id="p007">
-        <a class="bestiary-piece-link" href="shops/demo/index.html">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/coil-earrings/index.html">
           <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_wire-earrings.webp" alt="" width="1080" height="1008" loading="lazy" /></span>
           <span class="bestiary-caption">
             <span class="bestiary-piece-name">Coil Earrings</span>
-            <span class="bestiary-piece-maker">Demo shop · Jewelry</span>
-            <span class="bestiary-piece-meta">Price to come</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Jewelry</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
           </span>
         </a>
         <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Coil Earrings" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
       </li>
       <li class="bestiary-piece" data-id="p008">
-        <a class="bestiary-piece-link" href="shops/demo/index.html">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/quartz-cuff/index.html">
           <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_copper-cuff-red-quartz.webp" alt="" width="1080" height="1080" loading="lazy" /></span>
           <span class="bestiary-caption">
             <span class="bestiary-piece-name">Red Quartz Cuff</span>
-            <span class="bestiary-piece-maker">Demo shop · Jewelry</span>
-            <span class="bestiary-piece-meta">Price to come</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Jewelry</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
           </span>
         </a>
         <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Red Quartz Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
       </li>
       <li class="bestiary-piece" data-id="p009">
-        <a class="bestiary-piece-link" href="shops/demo/index.html">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/mohair-cardigan/index.html">
           <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp" alt="" width="1080" height="1350" loading="lazy" /></span>
           <span class="bestiary-caption">
-            <span class="bestiary-piece-name">Mohair Cardigan</span>
-            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
-            <span class="bestiary-piece-meta">Price to come</span>
+            <span class="bestiary-piece-name">Roped Mohair Cardigan</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
           </span>
         </a>
-        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Mohair Cardigan" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
-      </li>
-      <li class="bestiary-piece" data-id="p010">
-        <a class="bestiary-piece-link" href="shops/demo/index.html">
-          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_mohair-knit-rope.webp" alt="" width="1080" height="1345" loading="lazy" /></span>
-          <span class="bestiary-caption">
-            <span class="bestiary-piece-name">Roped Mohair Knit</span>
-            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
-            <span class="bestiary-piece-meta">Price to come</span>
-          </span>
-        </a>
-        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Roped Mohair Knit" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Roped Mohair Cardigan" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
       </li>
       <li class="bestiary-piece" data-id="p011">
-        <a class="bestiary-piece-link" href="shops/demo/index.html">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/lace-sleeves/index.html">
           <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-08_founder_knit-sleeves-hands.webp" alt="" width="1080" height="1080" loading="lazy" /></span>
           <span class="bestiary-caption">
             <span class="bestiary-piece-name">Lace Sleeves</span>
-            <span class="bestiary-piece-maker">Demo shop · Knitwear</span>
-            <span class="bestiary-piece-meta">Price to come</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
           </span>
         </a>
         <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Lace Sleeves" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece bestiary-piece--light-ground" data-id="p016">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/cobweb-dress/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-31_founder_cobweb-dress-1.webp" alt="" width="716" height="729" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Cobweb Dress</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Cobweb Dress" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece bestiary-piece--light-ground" data-id="p017">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/oat-sweater/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-31_founder_oat-sweater-1.webp" alt="" width="675" height="842" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Oat Mohair Sweater</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Oat Mohair Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      </li>
+      <li class="bestiary-piece" data-id="p018">
+        <a class="bestiary-piece-link" href="shops/texxturedbeest/pieces/cowl-sweater/index.html">
+          <span class="bestiary-piece-photo"><img src="assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp" alt="" width="712" height="730" loading="lazy" /></span>
+          <span class="bestiary-caption">
+            <span class="bestiary-piece-name">Cord Cowl Sweater</span>
+            <span class="bestiary-piece-maker">TexxturedBeest · Knitwear</span>
+            <span class="bestiary-piece-meta">Price to come · Unique</span>
+          </span>
+        </a>
+        <button type="button" class="save save--photo save--bestiary" aria-pressed="false" aria-label="Save Cord Cowl Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="assets/marks/mark-save.svg#mark-save"/></svg></span></button>
       </li>
     </ul>
     <!-- Said only while the plane holds three pieces or fewer, so a short
          row reads as the start of the plane and not as an empty page.
          From the fourth piece on, the CSS hides it (bestiary/04): with
-         fifteen it is hidden, kept for whoever trims the plane back. -->
+         seventeen it is hidden, kept for whoever trims the plane back. -->
     <p class="bestiary-note">Three pieces so far, from the sample shop. The plane fills as makers are let in.</p>
   </section>
 </main>

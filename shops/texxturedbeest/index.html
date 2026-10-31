@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — TexxturedBeest, Demo Shop</title>
+<meta name="description" content="TexxturedBeest, a demo Strigoi shop under a placeholder name: seven pieces in the three skins a shop can wear, Séance, Dossier and Transmission. Not for sale. Draft." />
+<!-- Head, favicon, fonts and sheets: the demo shop's, line for line
+     (shops/demo/index.html says why each is there). Two folders deep
+     here too, hence ../../. -->
+<link rel="icon" href="../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<link rel="stylesheet" href="../../css/tokens.css" />
+<link rel="stylesheet" href="../../css/background.css" />
+<link rel="stylesheet" href="../../css/chrome.css" />
+<link rel="stylesheet" href="../../css/shop.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+<link rel="stylesheet" href="../../css/motion.css" />
+</head>
+<body class="shop-page">
+<!-- THIS PAGE: TexxturedBeest, the SECOND DEMO SHOP: the demo shop's
+     template (shops/demo/index.html, whose comments say why each block is
+     there; this page keeps its markup and its classes, so every rule and
+     the script treat it the same) with seven pieces that are real: the
+     founder's own work, photographed by her, under placeholder names (five
+     from 2026-10-30, two of them one piece since 2026-10-31, and three
+     more she sent on 2026-10-31: "I'm sharing here some screenshots of
+     other pieces I created. You can add them to the shop and bestiary.").
+     HER WORDS, 2026-10-30: "My 5 Bestiary pieces are used as samples to see
+     how real images would look on the page. Yo can create product pages
+     for them, and even a shop. But it will not be my real shop. Their names
+     are not the real ones, they are names you gave to the pieces." and
+     "Let's go with a second sample shop. You can use TexxturedBeest as the
+     placeholder name for the shop." So the page never names her, and the
+     bio speaks of the work, in the third person.
+     THE WORDS: the writer's, verbatim (docs/worksheets/
+     2026-10-30_texxturedbeest-sample-shop-copy.md §1-§2, DECIDED with her
+     8 answers of 2026-10-30, §0; the merge and the three new pieces, §5,
+     writer t_0a113a3a): "Jewelry and knitwear"; "Price to come"
+     in every price slot (no price is invented for her real work); "Unique"
+     for all seven; "Demo" in the demo shop's four places (the <title>, the
+     meta description, the DEMO note, the footer's notice) and nowhere else;
+     no hero tag. Everything in them is placeholder copy.
+     THE DESIGN: uiux's (t_d21adf11, sketches/texxturedbeest/README.md §2):
+     five cards on the template's wall, ikebana B (shop/10), and the last
+     row centred (shop/10's rule, her "3. Centered", 2026-10-31); seven
+     since 2026-10-31, on the same wall (uiux t_9d97a4aa's B, her "4. OK":
+     the wall as built).
+     Built by sketches/texxturedbeest/build/make_live.py (frontend
+     t_3fe1fdd6), once; hand-kept from here, like the demo's pages. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THE NAV, the demo shop's (shops/demo/index.html and chrome/07 say
+     why): the logo, the two places, the visitor's two words. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+<!-- THE HERO (shop/02, shop/09): the shop's name, the page's one <h1>,
+     and the bio, the worksheet's §1.1, verbatim (324 characters, under
+     the 500 cap). No hero tag (her 2026-10-24 ruling, the demo's).
+     At 700px and below this copy is hidden and the second one, after
+     the pieces, is read (responsive/06). -->
+<header class="hero">
+  <h1 class="title">TexxturedBeest</h1>
+  <div class="shop-bio">
+    <p>Jewelry and knitwear, worked by hand. The wire is woven round itself until it holds a curve, and closed over stone: a slab of red quartz, pale stones caged at the end of a line. The mohair is knitted open, so the dark shows through it, then belted, roped and knotted, or edged in yarn left to curl. Each piece was made once.</p>
+  </div>
+</header>
+
+  <!-- The pieces (the grid: shop/02; ikebana B and the centred last
+       row: shop/10). `data-skin="seance"`: with the script off the page
+       is in Séance; the switcher at the foot sets it (shop/03). -->
+  <section class="shop-products" data-skin="seance" aria-label="Demo products">
+
+    <!-- THE SEVEN: each one link to its own page, pieces/<slug>/ (the
+         worksheet's slugs), with the summon before it and the saved mark after
+         it, exactly as the demo's cards (shop/07, shop/08, shop/11; the
+         template's comment says why each is there and what it costs).
+         THE ORDER (the worksheet's §5.6, case B, the writer's suggestion,
+         2026-10-31): Roped Mohair Cardigan, Coil Earrings, Cord Cowl Sweater /
+         Cobweb Dress, Red Quartz Cuff, Oat Mohair Sweater / Lace Sleeves.
+         Places 1-2 stay as built (uiux's README §2): the Cardigan opens the
+         wall, highest (shin); the white earrings hang lowest, in the middle
+         lane (hikae), so the brightest frame is held low and in the centre,
+         not at an edge. Each jewelry piece keeps its row's middle lane, so no
+         two touch and both full rows open and close on a knit. Seven make two
+         full rows and a lone piece, which shop/10 centres in the middle lane
+         and hangs as its hikae, 2u (2bab4fd; her "3. Centered").
+         THE MERGE, 2026-10-31: the first card was the Mohair Cardigan and the
+         third the Roped Mohair Knit; one piece now (her words: "Yes, merge the
+         Mohair Cardigan and the Roped Mohair Knit pages"), the Roped Mohair
+         Cardigan, its card the cardigan's photo (§5.1), and pieces/roped-knit/
+         a pointer to its page.
+         THE PHOTOS: hers, assets/founder-photography/. The four of
+         2026-10-08 are the files the Bestiary already shows (not re-encoded).
+         On the 4:5 frame the knits lose nothing, the squares 10% at each side
+         (nothing that matters), and the earrings (1080 x 1008) keep 75% of
+         their width: centred, the frame cut the front earring's caged stone,
+         the piece's subject, so this card alone sets a focal point,
+         `--photo-pos: 80% 50%` (shop/01's photo layer reads it; uiux's README
+         §2, still 09). The three of 2026-10-31 are her Instagram screenshots
+         (716 x 729, 675 x 842, 712 x 730; tests/e2e/frontend_t_f74eb58c/
+         make_assets.sh): the two near-squares lose about 9% at each side
+         (the dress and the sweater stand in the middle), the oat sweater
+         nothing. All but the earrings are drawn as every card is. WHAT WOULD
+         BREAK: a `url()` in a custom property resolves against css/shop.css,
+         hence ../assets/ (as the demo's).
+         THE WHITE GROUND (the earrings): allowed by her ruling of 2026-10-09
+         (WHITE AND BRIGHT GROUNDS) and kept by her words of 2026-10-31 ("Keep
+         the white photo for the Coil Earrings"; "We can't and we won't force
+         the makers to post only dark photos."), as are the pale walls behind
+         the Cobweb Dress and the Oat Mohair Sweater; every word over them
+         sits on its skin's own plate (uiux measured 74 words in 3 skins:
+         lowest 4.38-4.49:1 at the crawl band's faded top edge, above the
+         letters; 5.40 glyph by glyph).
+         "PRICE TO COME" fits one line in the summon plate, the Dossier stamp
+         and the crawl at 1280 and 1850 (uiux's stills 06, 03). -->
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Roped Mohair Cardigan" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Roped Mohair Cardigan</span><span class="summon-quote">"everything here is soft except the knot"</span><span class="summon-facts">MOHAIR — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-mohair-cardigan" href="pieces/mohair-cardigan/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-08_founder_mohair-cardigan.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · ROPED MOHAIR CARDIGAN</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>MOHAIR</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"everything here is soft except the knot"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">ROPED MOHAIR CARDIGAN — MATERIAL: MOHAIR — knitted open, so the dark shows through — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;ROPED MOHAIR CARDIGAN — MATERIAL: MOHAIR — knitted open, so the dark shows through — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Roped Mohair Cardigan</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Roped Mohair Cardigan" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-mohair-cardigan" hidden>MOHAIR — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Coil Earrings" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Coil Earrings</span><span class="summon-quote">"a pale stone, caged, half shown"</span><span class="summon-facts">WIRE/STONE — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-coil-earrings" href="pieces/coil-earrings/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-08_founder_wire-earrings.webp'); --photo-pos: 80% 50%;">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · COIL EARRINGS</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WIRE/STONE</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"a pale stone, caged, half shown"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">COIL EARRINGS — MATERIAL: WIRE/STONE — wire woven round wire, row on row — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;COIL EARRINGS — MATERIAL: WIRE/STONE — wire woven round wire, row on row — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Coil Earrings</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Coil Earrings" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-coil-earrings" hidden>WIRE/STONE — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Cord Cowl Sweater" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Cord Cowl Sweater</span><span class="summon-quote">"as much rope as sweater"</span><span class="summon-facts">WOOL/BEADS — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-cowl-sweater" href="pieces/cowl-sweater/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · CORD COWL SWEATER</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WOOL/BEADS</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"as much rope as sweater"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">CORD COWL SWEATER — MATERIAL: WOOL/BEADS — knitted cords coiled at the throat — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;CORD COWL SWEATER — MATERIAL: WOOL/BEADS — knitted cords coiled at the throat — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Cord Cowl Sweater</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Cord Cowl Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-cowl-sweater" hidden>WOOL/BEADS — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Cobweb Dress" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Cobweb Dress</span><span class="summon-quote">"something a spider left"</span><span class="summon-facts">FINE YARN — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-cobweb-dress" href="pieces/cobweb-dress/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-31_founder_cobweb-dress-1.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · COBWEB DRESS</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>FINE YARN</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"something a spider left"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">COBWEB DRESS — MATERIAL: FINE YARN — knitted as an open net, so sheer it hides almost nothing — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;COBWEB DRESS — MATERIAL: FINE YARN — knitted as an open net, so sheer it hides almost nothing — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Cobweb Dress</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Cobweb Dress" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-cobweb-dress" hidden>FINE YARN — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Red Quartz Cuff" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Red Quartz Cuff</span><span class="summon-quote">"like a coal not yet out"</span><span class="summon-facts">COPPER/QUARTZ — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-quartz-cuff" href="pieces/quartz-cuff/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-08_founder_copper-cuff-red-quartz.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · RED QUARTZ CUFF</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>COPPER/QUARTZ</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"like a coal not yet out"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">RED QUARTZ CUFF — MATERIAL: COPPER/QUARTZ — red quartz held in coiled copper — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;RED QUARTZ CUFF — MATERIAL: COPPER/QUARTZ — red quartz held in coiled copper — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Red Quartz Cuff</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Red Quartz Cuff" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-quartz-cuff" hidden>COPPER/QUARTZ — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Oat Mohair Sweater" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Oat Mohair Sweater</span><span class="summon-quote">"light enough to lift in a draught"</span><span class="summon-facts">MOHAIR — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-oat-sweater" href="pieces/oat-sweater/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-31_founder_oat-sweater-1.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · OAT MOHAIR SWEATER</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>MOHAIR</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"light enough to lift in a draught"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">OAT MOHAIR SWEATER — MATERIAL: MOHAIR — knitted loose and open, the colour of oats — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;OAT MOHAIR SWEATER — MATERIAL: MOHAIR — knitted loose and open, the colour of oats — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Oat Mohair Sweater</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Oat Mohair Sweater" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-oat-sweater" hidden>MOHAIR — UNIQUE — PRICE TO COME</span>
+    </div>
+
+    <div class="product-card">
+      <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Lace Sleeves" hidden>
+        <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
+        <span class="summon-plate" aria-hidden="true"><span class="summon-words"><span class="summon-name">Lace Sleeves</span><span class="summon-quote">"as though the cuff had begun to grow"</span><span class="summon-facts">WOOL — UNIQUE — PRICE TO COME</span></span></span>
+      </button>
+      <a class="product-card-link" aria-describedby="facts-lace-sleeves" href="pieces/lace-sleeves/index.html">
+        <div class="stage" style="--photo: url('../assets/founder-photography/2026-10-08_founder_knit-sleeves-hands.webp');">
+          <div class="stage-visual stage-photo" aria-hidden="true"></div>
+          <div class="dossier-hud" aria-hidden="true">
+            <p class="dossier-frame-tag">EVIDENCE 01/01 · LACE SLEEVES</p>
+            <p class="dossier-hud-tl">MATERIAL:<br/>WOOL</p>
+            <p class="dossier-hud-tr">UNIQUE</p>
+            <p class="dossier-hud-br">PRICE TO COME</p>
+            <p class="dossier-hud-bl"><span class="frag">"as though the cuff had begun to grow"</span></p>
+          </div>
+          <div class="transmission-chrome" aria-hidden="true">
+            <div class="transmission-scanlines"></div>
+            <div class="transmission-grain"></div>
+            <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+            <p class="transmission-frame-count">FRAME 001</p>
+            <div class="transmission-ticker-track">
+              <p class="transmission-ticker-text">LACE SLEEVES — MATERIAL: WOOL — a ruff of curled yarn at the wrist — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;LACE SLEEVES — MATERIAL: WOOL — a ruff of curled yarn at the wrist — UNIQUE — PRICE TO COME —</p>
+            </div>
+          </div>
+        </div>
+        <span class="sr-only">Lace Sleeves</span>
+      </a>
+      <button type="button" class="save save--photo" aria-pressed="false" aria-label="Save Lace Sleeves" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../assets/marks/mark-save.svg#mark-save"/></svg></span></button>
+      <span id="facts-lace-sleeves" hidden>WOOL — UNIQUE — PRICE TO COME</span>
+    </div>
+  </section>
+
+  <!-- THE BIO, SECOND COPY: the phone's (shop/09, responsive/06), word for
+       word; at every width exactly one copy is drawn. -->
+  <div class="shop-bio shop-bio-foot">
+    <p>Jewelry and knitwear, worked by hand. The wire is woven round itself until it holds a curve, and closed over stone: a slab of red quartz, pale stones caged at the end of a line. The mohair is knitted open, so the dark shows through it, then belted, roped and knotted, or edged in yarn left to curl. Each piece was made once.</p>
+  </div>
+
+  <!-- THE MAKER'S WAYS (shop/09): the demo's words, inert (worksheet §1:
+       "same words, inert, as on Vârcolac"): no link, no Tab stop. -->
+  <div class="shop-maker-ways">
+    <p class="shop-maker-write">Write to the maker</p>
+    <p class="shop-maker-elsewhere" id="shop-maker-elsewhere">Elsewhere, off Strigoi:</p>
+    <ul class="shop-maker-sites" role="list" aria-labelledby="shop-maker-elsewhere">
+      <li>Website</li>
+      <li>Instagram</li>
+      <li>Facebook</li>
+    </ul>
+  </div>
+
+  <!-- THE DEMO LINE (shop/09): the DEMO note and the skin switcher, the
+       demo's, word for word (worksheet §1: "same"). The skin chosen here
+       is carried to this shop's pieces and to the other demo's for the
+       tab (script.js §5b: one key for the demos). -->
+  <aside class="demo-bar" aria-label="Demo controls">
+    <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+    <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+      <span class="skin-switcher-label">skin —</span>
+      <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+      <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+      <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+    </div>
+  </aside>
+</main>
+
+<!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
+     there): the seep, the policy row, and the notice, "Demo shop ·
+     placeholder products · not for sale", the same words (worksheet §1). -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../returns/index.html">Returns</a></li>
+      <li><a href="../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../contact/index.html">Contact</a></li>
+      <li><a href="../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../script.js"></script>
+</body>
+</html>

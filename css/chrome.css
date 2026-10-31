@@ -1,5 +1,5 @@
 /* ==== chrome.css: what more than one page wears ====
-   OWNS:      content lifted above the painted layers (chrome/01); the nav, on twenty-two pages (02); the hero's type, the homepage's and the demo shop's (03); the section eyebrow, seven on six pages (04); the sepulchre and the gallery's threshold (05); the footer, every page (06); the text page: its column, the scrolling nav, the site's account-and-bag slot in it, the footer's row of links (07); the saved mark, its one drawing and its two states, on the wall, the Bestiary and the piece pages (08).
+   OWNS:      content lifted above the painted layers (chrome/01); the nav, on twenty-two pages (02); the hero's type, the homepage's and the demo shop's (03); the section eyebrow, seven on six pages (04); the sepulchre and the gallery's threshold (05); the footer, every page (06); the text page: its column, the scrolling nav, the site's account-and-bag slot in it, the footer's row of links (07); the saved mark, its one drawing and its two states, on the wall, the Bestiary and the piece pages (08); the plates, the homepage roster's and the Atlas index's one plate (09).
    LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
    POSITION:  third on every page: after tokens.css and background.css, before the page's own sheet (if it has one), responsive.css and motion.css.
    ============================================================ */
@@ -286,7 +286,10 @@ nav.nav--words-hidden:focus-within .nav-star-label {
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--bone-label);
-  text-shadow: 0 1px 4px rgba(16, 16, 17, 0.85), 0 0 10px rgba(16, 16, 17, 0.55);
+  /* the labels' halo (tokens/02, `--halo-label`): this rule's value,
+     made a token on 2026-10-31 when the sky's names and the specimens'
+     word took it too (hover labels A); unchanged here. */
+  text-shadow: var(--halo-label);
 }
 
 /* .nav-star--shown (the three essential routes, see the nav comment
@@ -320,8 +323,9 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    them runs off the screen on narrow widths. `row-reverse` puts the
    label left of the dot, so it grows back towards the centre.
    (`order` would not help: it swaps the items, but the row still
-   overflows to the right.) Same as the skymap's clusters 1 and 3
-   (`.skymap-cluster--1/--3 .skymap-star`). */
+   overflows to the right.) The skymap's clusters 1 and 3 did the same
+   until 2026-10-31; their names now sit outside the button's row, placed
+   from the star (home/04, hover labels A), so this is the nav's alone. */
 .nav-star--4,
 .nav-star--5 {
   flex-direction: row-reverse;
@@ -464,7 +468,8 @@ h1.title .macro {
    name of THE BLOCK ABOVE THE TITLE (tokens/02), 24px of ink above the
    title's letters (chrome/07, summoning/01). The homepage's two have no
    title under them: they name a whole room (the roster, the
-   specimens), so they keep their 24px margin to the room.
+   specimens), so they keep their 24px margin to the room (the roster's,
+   an `<h2>` since the plates of 2026-10-31, 32px: home/05).
    INK: `--bone-label` (tokens/02; D10): worst glyph pixel 5.43–6.38:1 at
    1440; at 390 a skymap star sits on the roster's (3.41; task 4a's #13).
    History: docs/HISTORY.md, chrome/04.
@@ -1894,4 +1899,318 @@ footer:hover a:not(:focus-visible) {
    and the mark takes its taps (saving), as the README §1 asks. */
 @media not ((hover: hover) and (pointer: fine)) {
   .save--photo:disabled { pointer-events: none; }
+}
+
+/* ----------------------------------------------------------
+   chrome/09 — THE PLATES: THE ROSTER AND THE ATLAS INDEX, ONE PLATE
+   WHAT: a row of fashion plates, like the Gazette du Bon Ton's
+   numbered plates: one `<li class="plate">` per maker in a
+   `<ul class="plates">`, each the same dark card, 200px wide: "Planche
+   I, II…" at the top (a CSS counter), the maker's mark in an oval mount
+   with a double ring, the name lettered under it, the craft under the
+   name. Two pages wear it, the same plate: the homepage's roster
+   (index.html, `#roster`; its section is home/05) and the Atlas's index
+   (atlas.html, `.atlas-index`; atlas/04). Each page keeps its own
+   heading rule (home/05, atlas/04); this group is the row and the plate.
+   HER PICKS, 2026-10-31 19:50 (uiux t_9d6109aa, e5eccca, the spec:
+   sketches/roster-atlas-magazine/plates/README.md, "For the frontend
+   card", and plates.css, its values verbatim here): "The roster looks
+   great with the new design." and "1. I like the Candidate 1 mark. 2.
+   OK, keep the numbers on both pages." Her choice of the direction, in
+   the exploration before it (t_16f1f2f8): "I think I'll chose B".
+   ROLE HERE: nobody's plate is bigger or first (GRIMOIRE §VII, a
+   gathering, not a brand): one width for everyone; the number is a
+   place, not a rank (the homepage turns the order each day, script.js
+   §1c; the Atlas goes A to Z); a light mark is set back so it never
+   becomes the loudest. Paper plates and oval mounts, no star, no line,
+   no dot (§XIV, the roster is not the sky); opaque, so the homepage
+   sky's lines no longer run through the names (audit #13, from 1280px).
+   CHOICE, here in chrome.css and not in home.css and atlas.css: the two
+   pages wear the same rules, and a page's own sheet loads only on that
+   page; one group here, rather than two copies that drift apart, is
+   this sheet's purpose ("what more than one page wears"). The cost:
+   every page downloads it (about 12 KB with its comments, 3.8 KB more
+   for chrome.css gzipped: 28.3 to 32.1 KB), and twenty-one of them never
+   use it. A sheet of its own for the two pages would cost a request.
+   CHOICE, flex with wrap, not a grid: a row that isn't full centres
+   itself (`justify-content: center`), her ruling for the shops' walls
+   (2026-10-31: the short last row centred); a grid would need one rule
+   per count. At most five to a row: 5 × 200 + 4 × 32 = 1128px, the
+   `max-width`.
+   SMALL SCREEN: under 1280px the row simply wraps (the plates keep
+   their 200px); task 4a designs it.
+   ---------------------------------------------------------- */
+
+/* The row: plates 200px wide, 32px apart across, 40px between rows,
+   centred, a short last row centred too. `counter-reset` starts the
+   numbering at each list. */
+.plates {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch; /* every plate in a row as tall as the tallest */
+  gap: 40px 32px;
+  max-width: 1128px;
+  counter-reset: plate;
+}
+
+/* The plate: a dark card a step above the plane, a 1px border, a thin
+   inner rule 6px in, a soft drop shadow (the three `box-shadow`s, in
+   that order: the 5px of plate, the 1px rule, the shadow), and the
+   site's fine grain at 5% (`::after`, `screen`, so it only lightens).
+   `position: relative`: the box the grain and the link's target
+   (`a.plate-name::after`, below) are placed in. A column, centred: the
+   number, the mount, the name, the craft, the status. Measured in the
+   sketch: 346px tall with a status line, 318 without; the row stretches
+   each to the tallest. */
+.plate {
+  position: relative;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 24px;
+  background: #211f20;
+  border: 1px solid rgba(193, 191, 189, 0.22); /* --bone at .22 */
+  box-shadow:
+    inset 0 0 0 5px #211f20,
+    inset 0 0 0 6px rgba(193, 191, 189, 0.13),
+    0 22px 46px rgba(0, 0, 0, 0.5);
+  counter-increment: plate;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--grain-noise);
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* The number: "Planche I, II, III…", the plate's place in the row as
+   the page shows it (a counter, so a turn of the order renumbers by
+   itself). IM Fell English SC 12 (`--type-label`: the scale's one IM Fell
+   size under 19px, for inscriptions), tracked like the seals,
+   `--bone-label`, 16px over the mount.
+   ACCESSIBILITY: read to nobody. The second `content` gives the
+   generated text an empty alternative (`/ ""`); a browser that doesn't
+   know that syntax drops the declaration and keeps the first. The
+   `padding-left` as wide as the tracking re-centres the tracked word. */
+.plate::before {
+  content: "Planche " counter(plate, upper-roman);
+  content: "Planche " counter(plate, upper-roman) / "";
+  font-family: var(--serif-sc);
+  font-size: var(--type-label);
+  line-height: 1.5;
+  letter-spacing: var(--track-seal);
+  padding-left: var(--track-seal);
+  color: var(--bone-label);
+  margin-bottom: 16px;
+}
+
+/* The mount: an oval 136 × 168 (4:5, the shop's frame), the mark
+   cropped to it (`object-fit: cover`), on its own dark ground; the
+   double ring: 1px of bone at 55%, 5px of plate, 1px of bone at 28%. */
+.plate-mount {
+  position: relative;
+  flex: none;
+  width: 136px;
+  height: 168px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #141314;
+  box-shadow:
+    0 0 0 1px rgba(193, 191, 189, 0.55),
+    0 0 0 6px #211f20,
+    0 0 0 7px rgba(193, 191, 189, 0.28);
+}
+.plate-mark {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A LIGHT MARK, `plate--light` on the `<li>`. Her ruling (a), 2026-10-31:
+   any mark, light or dark, the plate adapts. The mark is never toned,
+   filtered or re-coloured. The plate sets it back instead, as a cameo: a
+   14px band of the mount's dark ground all round (the mark in an inner
+   oval 108 × 140, 66% of the mount's area), a 1px bone ring at 35% where
+   it meets the dark, and an inset shadow, rgba(9, 7, 8, .6), 16px (the
+   one the old roster laid over every mark's edge), so its light ends in
+   a soft edge, not a hard bright rim. The centre is untouched.
+   WHO GETS IT: read from the mark's own pixels, the mean luminance of
+   the oval's outer fifth at 168 × 168: 0.2 or more is light (README,
+   "The light-mark rule"; today's four 0.000-0.001, her Coil Earrings
+   crop 0.604). Today the class is written by hand; with the backend it
+   is computed when the mark is uploaded. Measured in the sketch: a light
+   mark's frame gives off about half the light (0.535 to 0.282 mean
+   luminance). */
+.plate--light .plate-mount {
+  padding: 14px;
+}
+.plate--light .plate-mark {
+  border-radius: 50%;
+}
+.plate--light .plate-mount::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(193, 191, 189, 0.35),
+    inset 0 0 16px 6px rgba(9, 7, 8, 0.6);
+}
+
+/* NO MARK YET: the shop's initial (A to Z, accents dropped), lettered in
+   the oval: IM Fell English italic 48 (the scale's title size),
+   `--bone-head`, on the mount's dark ground. Never the "?" (that is the
+   scouted voice's), never a broken image. `aria-hidden` in the markup. */
+.plate-mount--initial {
+  display: grid;
+  place-items: center;
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--bone-head);
+}
+
+/* The name: IM Fell English italic 20 (`--type-heading`; IM Fell is sharp
+   from about 19px), `--bone-head`, centred, 22px under the ring; a long
+   name wraps (measured: a 36-character name, two lines). A maker with a
+   shop: the name is the link, its text the name only. A maker with no
+   shop yet, and the scouted voice: upright, not a link. */
+.plate-name {
+  display: block;
+  margin-top: 22px;
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-size: var(--type-heading);
+  line-height: 1.2;
+  color: var(--bone-head);
+  text-decoration: none;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.plate--noshop .plate-name,
+.plate--empty .plate-name {
+  font-style: normal;
+}
+/* The whole plate is the link's target: the name's `::after`, stretched
+   over the plate (its `position: relative` box). One link, no second
+   link and no extra words for a screen reader. `z-index: 2` puts it over
+   the grain. */
+a.plate-name::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* The craft: Spectral italic 13 (`--type-small`, a caption), `--bone`,
+   6px under the name. */
+.plate-craft {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--interface);
+  font-style: italic;
+  font-size: var(--type-small);
+  line-height: 1.4;
+  color: var(--bone);
+  text-align: center;
+}
+
+/* The status, makers with no shop only ("Confirmed", "Invitation
+   sent"): the old roster's label, Space Mono 12 in capitals, tracked,
+   `--bone-label`, 10px under the craft. A plate that links to a shop has
+   none: the link says it. */
+.plate-status {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--track-caps);
+  line-height: var(--leading-label);
+  text-transform: uppercase;
+  color: var(--bone-label);
+}
+
+/* THE SCOUTED VOICE (the homepage only, always the last plate; never on
+   the Atlas, which lists shops): the same plate, empty: no ground, no
+   shadow, no grain, a dashed edge; the oval dashed, a "?" in IM Fell
+   italic 48, `--bone-quiet`; "One more voice / being scouted". */
+.plate--empty {
+  background: transparent;
+  border-style: dashed;
+  border-color: rgba(193, 191, 189, 0.32);
+  box-shadow: none;
+}
+.plate--empty::after {
+  display: none;
+}
+.plate-mount--empty {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  box-shadow: none;
+  outline: 1px dashed rgba(193, 191, 189, 0.4);
+  outline-offset: 0;
+  font-family: var(--serif-i);
+  font-style: italic;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--bone-quiet);
+}
+
+/* HOVER, a pointer on a plate that is a link: the plate rises 4px and
+   its shadow deepens; the name takes the site's pink glow (atlas/01's,
+   chrome/07's, the doors'); no underline, no border (her rule,
+   docs/BRAND.md, "no borders or underlines on hover").
+   `:has()` lets the plate answer its link's hover; where it is missing
+   the plate stays still and the name still glows.
+   Reduced motion: no transition, no rise (motion/01). */
+.plate:has(a.plate-name:hover) {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 0 0 5px #211f20,
+    inset 0 0 0 6px rgba(193, 191, 189, 0.13),
+    0 30px 56px rgba(0, 0, 0, 0.6);
+}
+.plate a.plate-name:hover {
+  text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
+}
+
+/* FOCUS: the site's ring (tokens/03: 2px of `--teal`, 4px out) round the
+   WHOLE plate, square corners, not round the name; the plate rises as
+   on hover. Only where `:has()` works: there the link's own ring goes
+   (`outline: none`) and the plate draws it. Without `:has()` this block
+   is skipped whole and the name keeps the site's ring, so focus is
+   never invisible. */
+@supports selector(:has(*)) {
+  .plate a.plate-name:focus-visible {
+    outline: none;
+  }
+  .plate:has(a.plate-name:focus-visible) {
+    outline: 2px solid var(--teal);
+    outline-offset: 4px;
+    transform: translateY(-4px);
+  }
+}
+
+/* THE ATLAS: its constellation hovered in the sky (`.is-lit` on the
+   plate, script.js initAtlas): the name underlined, 1px, 0.25em under: a
+   mark of shape, not only colour, on an element the pointer is not on
+   (the rule moved here from atlas/04; the plate's own hover is the glow
+   alone, above). */
+.plate.is-lit .plate-name {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }

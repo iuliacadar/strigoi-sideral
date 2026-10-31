@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — Cord Cowl Sweater, TexxturedBeest</title>
+<meta name="description" content="Thick lilac yarn twisted into heavy cables, the body cropped short and the sleeves long, gathered into deep cuffs." />
+<!-- Favicon, fonts and sheets as on the demo's piece pages (shops/demo/
+     pieces/grave-soil/index.html says why). Four folders deep here,
+     hence ../../../../. -->
+<link rel="icon" href="../../../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<link rel="stylesheet" href="../../../../css/tokens.css" />
+<link rel="stylesheet" href="../../../../css/background.css" />
+<link rel="stylesheet" href="../../../../css/chrome.css" />
+<link rel="stylesheet" href="../../../../css/shop.css" />
+<link rel="stylesheet" href="../../../../css/product.css" />
+<link rel="stylesheet" href="../../../../css/responsive.css" />
+<link rel="stylesheet" href="../../../../css/motion.css" />
+</head>
+<body class="shop-page piece-page">
+<!-- THIS PAGE: the Cord Cowl Sweater, a piece of TexxturedBeest, the second
+     demo shop (shops/texxturedbeest/index.html says what the shop is and
+     her words for it): the demo's piece page with a strip (shops/demo/
+     pieces/molt-sweater/, product/01-06), its markup and classes kept, so
+     every rule and the script treat it the same; the demo's pages say why
+     each block is there.
+     HER WORDS, 2026-10-31: "I'm sharing here some screenshots of other
+     pieces I created. You can add them to the shop and bestiary. The last
+     3 screenshots are photos of the same piece." On photo3: "I think that
+     in the photo 3 is the same sweater as the one in the photos 4-6, but
+     I can't tell for sure".
+     CASE B (the PM's assumption on that "I think", logged and reversible;
+     worksheet §5.0): photo3 is this piece too, so four photos, opening on
+     photo3, and the description's "lilac". IF SHE SAYS TWO PIECES (case
+     A): photo3 leaves for its own page (the Lilac Cable Sweater, §5.5),
+     this page opens on photo6 with 3 photos ("EVIDENCE 01/03"), and the
+     description and meta lose "lilac"; the worksheet holds both.
+     THE WORDS: the worksheet's §5.4, case B, verbatim (docs/worksheets/
+     2026-10-30_texxturedbeest-sample-shop-copy.md, writer t_0a113a3a):
+     placeholder copy, every word, the name too. "Price to come" (her
+     decision 2), Edition "Unique" (3), no Size row (8).
+     THE PHOTOS: hers, screenshots of her Instagram ("those are the closest
+     (edited) version to the originals"), assets/founder-photography/, in
+     §5.4's order: photo3 (unedited, its own colour), photo6, photo5,
+     photo4 (the most edited, last: its effect hides the most of the
+     piece). The app's dark ground in each one's rounded left corners cut
+     off (9-15px at the left), nothing else changed (tests/e2e/
+     frontend_t_f74eb58c/make_assets.sh); the edits (photo4's fringes,
+     photo5's black and white, photo6's band of rainbow light) are hers.
+     The frame opens on the first photo's shape (`--ratio`, 712 × 730,
+     nearly square) and takes each photo's own as it is shown (the three
+     taller ones about 4:5; script.js §4b, product/02: her words of
+     2026-10-31, no empty bands round a photo). Four photos, so
+     the strip (product/05) and "EVIDENCE 01/04". Not sticky (product/02,
+     "ONE PACE").
+     `shop-page` gives the shop's flat ground (shop/02); `piece-page` this
+     page's padding (product/01). Written from the Roped Mohair Cardigan's
+     page (frontend t_f74eb58c); hand-kept from here. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THE NAV, as on the shop (shops/demo/index.html says why). -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+<!-- THE PIECE, named by its <h1>; `data-skin="seance"` in the markup
+     (product/02). The column: the way back to the shop, the name, the
+     kind, the price (plain, never summoned, her P6) and the inert buying
+     slot, "Add to bag" and "Save", as on every demo piece (product/04). -->
+<article class="piece" data-skin="seance" aria-labelledby="piece-name">
+  <div class="piece-text">
+    <a class="piece-shop" href="../../index.html">TexxturedBeest</a>
+    <h1 class="piece-name" id="piece-name">Cord Cowl Sweater</h1>
+    <p class="piece-maker">Knitwear</p>
+    <p class="piece-price">Price to come</p>
+    <div class="piece-buy">
+      <button type="button" class="piece-buy-btn" disabled>Add to bag</button>
+      <button type="button" class="save save--text" aria-pressed="false" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../../../assets/marks/mark-save.svg#mark-save"/></svg></span><span class="save-word">Save</span><span class="sr-only"> Cord Cowl Sweater</span></button>
+    </div>
+  </div>
+
+  <!-- THE STAGE (product/02): the first photo, whole, at its own shape;
+       the <img> carries the alt (the worksheet's, written from the photo
+       only); the button summons the description. `--photo` resolves
+       against css/shop.css, hence ../assets/. -->
+  <div class="piece-stage" style="--ratio: 712 / 730;">
+    <div class="piece-frame">
+      <img class="piece-photo" src="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp" alt="A lilac cable-knit sweater with wide, long sleeves, its neck wound with loops of knitted cord strung with small dark beads, knotted cords hanging down the front and below the hem, against a sandy textured wall." width="712" height="730" />
+      <button type="button" class="stage" id="stage" aria-labelledby="desc" disabled
+              style="--photo: url('../assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp');">
+        <div class="stage-visual stage-photo ch ch-r" aria-hidden="true"></div>
+        <div class="stage-visual stage-photo ch ch-b" aria-hidden="true"></div>
+        <div class="ripple" aria-hidden="true"></div>
+        <p class="hint"><span id="hint">hold to summon</span></p>
+        <div class="desc-wrap">
+          <p class="desc" id="desc">
+            Thick lilac yarn twisted into heavy cables, the body cropped short and the sleeves long, gathered into deep cuffs. Knitted cords coil at the throat like a cowl, strung with beads. It is as much rope as sweater.
+          </p>
+        </div>
+        <div class="dossier-hud" aria-hidden="true">
+          <p class="dossier-frame-tag">EVIDENCE 01/04</p>
+          <p class="dossier-hud-tl">MATERIAL:<br/>WOOL/BEADS</p>
+          <p class="dossier-hud-tr">UNIQUE</p>
+          <p class="dossier-hud-br">PRICE TO COME</p>
+          <p class="dossier-hud-bl"><span class="frag">"as much rope as sweater"</span></p>
+        </div>
+        <div class="transmission-chrome" aria-hidden="true">
+          <div class="transmission-scanlines"></div>
+          <div class="transmission-grain"></div>
+          <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+          <p class="transmission-frame-count">FRAME 001</p>
+          <div class="transmission-ticker-track">
+            <p class="transmission-ticker-text">MATERIAL: WOOL/BEADS — knitted cords coiled at the throat — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;MATERIAL: WOOL/BEADS — knitted cords coiled at the throat — UNIQUE — PRICE TO COME —</p>
+          </div>
+        </div>
+      </button>
+    </div>
+    <!-- THE STRIP (product/05, script.js §4b), as the Molt Sweater's: one
+         thumbnail per photo, each a link to its photo's file, named by its
+         place ("Photo 1 of 4"), the first `aria-current`; the script turns
+         them into toggle buttons with one Tab stop. Each thumb's `data-alt`
+         is its own photo's alt (the worksheet's; photo3's is §5.5's, as
+         §5.4 says for case B). -->
+    <div class="piece-strip" tabindex="-1" role="group" aria-label="Photos of the Cord Cowl Sweater">
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp" aria-current="true" aria-label="Photo 1 of 4" data-alt="A lilac cable-knit sweater with wide, long sleeves, its neck wound with loops of knitted cord strung with small dark beads, knotted cords hanging down the front and below the hem, against a sandy textured wall." data-w="712" data-h="730"><img src="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-1.webp" alt="" width="712" height="730" loading="lazy" draggable="false" /></a>
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-2.webp" aria-label="Photo 2 of 4" data-alt="A cropped cable-knit sweater, grey-violet in this light, with a cowl of knitted cords at the neck strung with small dark and silver beads and knotted down the front, on a wooden hanger against a grainy wall, a band of rainbow light crossing it from corner to corner." data-w="665" data-h="854"><img src="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-2.webp" alt="" width="665" height="854" loading="lazy" draggable="false" /></a>
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-3.webp" aria-label="Photo 3 of 4" data-alt="In black and white, a cropped cable-knit sweater with long sleeves gathered into deep cuffs and a cowl of knitted cords coiled at the neck, short knotted ties hanging at the hem, on a dark hanger against a rough wall." data-w="658" data-h="849"><img src="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-3.webp" alt="" width="658" height="849" loading="lazy" draggable="false" /></a>
+      <a class="piece-thumb" href="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-4.webp" aria-label="Photo 4 of 4" data-alt="A cropped cable-knit sweater with long sleeves, a cowl of knitted cords looped and knotted at the neck and short knotted ties hanging at the hem, on a hanger against a pale wall, the photo edited so every edge smears outward from the centre in red and blue fringes, like a relief." data-w="658" data-h="849"><img src="../../../../assets/founder-photography/2026-10-31_founder_cowl-sweater-4.webp" alt="" width="658" height="849" loading="lazy" draggable="false" /></a>
+    </div>
+  </div>
+
+  <!-- THE DETAILS (product/06): Material and Edition first, then the
+       maker's own rows, in the worksheet's order; no Size row (her
+       decision 8). -->
+  <div class="piece-details">
+    <h2 class="piece-details-h">Details</h2>
+    <dl class="piece-details-list">
+      <div><dt>Material</dt><dd>Wool, with beads</dd></div>
+      <div><dt>Edition</dt><dd>Unique</dd></div>
+      <div><dt>Knit</dt><dd>Heavy cables; cropped body, long sleeves</dd></div>
+      <div><dt>Cuffs</dt><dd>Deep, gathered at the wrist</dd></div>
+      <div><dt>Collar</dt><dd>A cowl of knitted cords, looped, knotted and beaded</dd></div>
+      <div><dt>Ties</dt><dd>Short cords at the hem, knotted at the ends</dd></div>
+      <div><dt>Care</dt><dd>Wash cold by hand and dry flat</dd></div>
+    </dl>
+  </div>
+
+</article>
+
+<!-- THE DEMO LINE, the shop's (shop/09, product/01): the DEMO note and
+     the skin switcher, word for word. -->
+<aside class="demo-bar" aria-label="Demo controls">
+  <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+  <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+    <span class="skin-switcher-label">skin —</span>
+    <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+    <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+    <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+  </div>
+</aside>
+</main>
+
+<!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
+     there): the seep, the policy row, the notice. -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../../../returns/index.html">Returns</a></li>
+      <li><a href="../../../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../../../contact/index.html">Contact</a></li>
+      <li><a href="../../../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../../../script.js"></script>
+</body>
+</html>

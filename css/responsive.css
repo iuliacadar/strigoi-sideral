@@ -1,5 +1,5 @@
 /* ==== responsive.css: the site at other widths ====
-   OWNS:      every viewport query on the site, thirteen: the hero wider from 1440px and the doctrine knockout's two halves at 1150px (responsive/01–02); 900px and below, the homepage's nav, sky marks, skymap and beacon, and the sepulchre's and threshold's padding (03); the lightbox at 800px (04); the wheel at 780px (05); the demo shop at 700px, then the roster's and the specimens' rows at 640px (06); the gallery at 600px (07); 500px and below (08). The text pages, the Atlas and the Bestiary have no block of their own, but two rules reach them: responsive/05's `.stars--yields-to-prose` hides the starfield on the ten text pages and the Summoning at 780px and below, and responsive/08's `nav` and `.logo` narrow the nav's padding and the logo on every page with a nav, twenty-two, at 500px and below.
+   OWNS:      every viewport query on the site, twelve (but the homepage's own from 1280px, home/04–06, the rhythm): the hero wider from 1440px and the doctrine knockout's two halves at 1150px (responsive/01–02); 900px and below, the homepage's nav, sky marks, skymap and beacon, and the sepulchre's and threshold's padding (03); the lightbox at 800px (04); the wheel at 780px (05); the demo shop at 700px, then the specimens' caption rows at 640px (06); the gallery at 600px (07); 500px and below (08). The text pages, the Atlas and the Bestiary have no block of their own, but two rules reach them: responsive/05's `.stars--yields-to-prose` hides the starfield on the ten text pages and the Summoning at 780px and below, and responsive/08's `nav` and `.logo` narrow the nav's padding and the logo on every page with a nav, twenty-two, at 500px and below.
    LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
    POSITION:  second-to-last on every page: after every other sheet, before motion.css.
    ORDER: the two min-width queries first, then max-width from widest to narrowest. A narrower query comes later so that, at the same specificity, it wins where both match (`@media` adds none). The sepulchre's padding (03's last block) also asks for a short screen, `max-height: 948px`.
@@ -103,6 +103,23 @@
   .skymap-cluster--1 { left: 40%; }
   .skymap-cluster--2 { left: 4%; }
   .skymap-cluster--3 { left: 46%; }
+
+  /* The skymap's field clips sideways at 900px and below (frontend
+     t_3fe1fdd6, 2026-10-31). WHY: since the hover labels A (home/04) the
+     sky names are placed from the star, and Studio Moroi's (cluster 3)
+     opens to the right; at 390 its hidden name (opacity 0, still laid
+     out) reached 497px and gave the whole homepage a sideways scroll at
+     rest (none before). `overflow-x: clip` cuts what lies past the
+     field's sides, the window's own edges here, where nothing is seen
+     anyway: no scroll container, no stacking context, the vertical
+     untouched, so the names still open above and below their stars.
+     COST, task 4a's to settle: shown at 390 (tap or keyboard), Moroi's
+     name is cut at the window's edge (uiux's note, sketches/hover-labels/
+     README.md, "Below 1280": pick each name's side per width band).
+     Measured: docs/HISTORY.md, home/04. */
+  .skymap-field {
+    overflow-x: clip;
+  }
 
   /* The sepulchre and the threshold, 900px and below: 90px above,
      64px below, 20px at the sides. On the homepage the padding sits on
@@ -395,26 +412,11 @@
   .shop-page header.hero { padding-top: 164px; }
 }
 
-/* home/05 at 640px and below: the roster's lines stack. The line and
-   its left block turn into columns, so the mark, the status and the
-   name block sit one above the other instead of wrapping mid-line. The
-   breakpoint is the sketch's. Mark and status centre over the name at
-   their own widths, so the list's left edge zig-zags (audit #12). */
-@media (max-width: 640px) {
-  .roster-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4em;
-  }
-  .roster-card-left {
-    flex-direction: column;
-    gap: 0.3em;
-  }
-}
-
 /* home/06 at 640px and below: each caption row stacks, figure label,
-   name and maker, availability one above the other, left-aligned, as
-   the roster's lines do above, instead of wrapping mid-line. */
+   name and maker, availability one above the other, left-aligned,
+   instead of wrapping mid-line. (The roster's lines stacked the same
+   way above this until the plates, 2026-10-31: the plates simply wrap,
+   task 4a's to design.) */
 @media (max-width: 640px) {
   .specimen-row {
     flex-direction: column;

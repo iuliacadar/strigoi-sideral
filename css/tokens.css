@@ -25,9 +25,10 @@
               motion.css      every reduced-motion guard
      a page   home.css        index.html
               gallery.css     the archive gallery (Room Zero)
-              product.css     shops/demo/pieces/<slug>/, a piece's
+              product.css     shops/<shop>/pieces/<slug>/, a piece's
                               page, after shop.css
-              shop.css        shops/demo/, and every shop after it:
+              shop.css        shops/demo/, shops/texxturedbeest/, and
+                              every shop after them:
                               all shops share one template
               summoning.css   summoning/
               atlas.css       atlas.html
@@ -276,11 +277,12 @@
   --bone-bright: #d6d4d2;  /* L* 85.0, worst 7.55:1. Titles: the h1s, the two inscriptions */
   --bone-head:   #cccac8;  /* L* 81.4, worst 6.83:1. h2, h3 and names: text-page headings;
                               roster, specimen and movement names, the Atlas index's
-                              names, the Bestiary's names */
-  --bone:        #c1bfbd;  /* L* 77.4, worst 6.09:1. Body text and every link. Two names
-                              too: the Atlas sky's star names (atlas/03's INK) and the
-                              shop's product names (shop/02; the tone's reason not
-                              recorded). Under AA as rendered only in the footers,
+                              names, the Bestiary's names, and since 2026-10-31 the
+                              sky's names on hover (home/04, atlas/03; hover labels A) */
+  --bone:        #c1bfbd;  /* L* 77.4, worst 6.09:1. Body text and every link. One name
+                              too: the shop's product names (shop/02; the tone's reason
+                              not recorded); the Atlas sky's star names were bone until
+                              2026-10-31 (now --bone-head, atlas/03). Under AA as rendered only in the footers,
                               whose lines and links are covered by the founder's
                               choice (see --below) */
   --bone-label:  #b5b3b2;  /* L* 73.1, worst 5.34:1. Small tracked labels: kickers, eyebrows,
@@ -298,6 +300,20 @@
      hover, the skip link's border, the shop's selected skin, one orbit
      ring. Text ON teal is --above-black; bone on teal is illegible. */
   --teal: #5e93a1;
+
+  /* THE LABELS' HALO: the one way a word is held legible on the sky or
+     a wall without a box behind it. A dark `text-shadow` (a tight one
+     for the letters' edges, a wide soft one for the ground round them),
+     never seen as a shape. The nav's star names had it first (chrome/02:
+     the founder refused the "button aspect", a box behind a label);
+     since 2026-10-31 the homepage sky's names (home/04), the Atlas sky's
+     (atlas/03) and the specimens' Pause / Sound word (home/06) read it
+     too, their plates and chips gone: her "1. Hover labels: A" (uiux
+     t_bc3cf697, sketches/hover-labels/README.md, A "lettered"). One
+     value, so the one treatment stays one. Without it the sky names'
+     craft line falls to 4.56:1 over the glow round a star (the sketch's
+     measure), so it is legibility, not decoration. */
+  --halo-label: 0 1px 4px rgba(16, 16, 17, 0.85), 0 0 10px rgba(16, 16, 17, 0.55);
 
   /* MAGENTA, the warm accent, for large text and non-text only; small
      text takes the lighter --magenta-label. */
@@ -430,7 +446,8 @@ html {
      reduced motion gets the jump and no snap (motion.css). */
   --nav-h: 128px; /* the desktop nav's box height, used by the
      sepulchre frame. No frame is shortened by it any more: the roster
-     is a full screen and the specimens' 128px is its own value
+     is a full screen under 1280px (content-tall from 1280px, the rhythm
+     of 2026-10-31) and the specimens' 128px is its own value
      (home/05, home/06). At 900px and
      below the box grows and this value does not follow, on purpose:
      the extra height paints nothing, and the lowest star's tap area

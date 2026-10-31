@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STRIGOI — Cobweb Dress, TexxturedBeest</title>
+<meta name="description" content="Knitted in a fine yarn as an open net, so sheer it hides almost nothing." />
+<!-- Favicon, fonts and sheets as on the demo's piece pages (shops/demo/
+     pieces/grave-soil/index.html says why). Four folders deep here,
+     hence ../../../../. -->
+<link rel="icon" href="../../../../favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../../../../favicon.ico" sizes="any" />
+<link rel="icon" href="../../../../favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="../../../../favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="../../../../favicon/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono&display=swap" />
+<link rel="stylesheet" href="../../../../css/tokens.css" />
+<link rel="stylesheet" href="../../../../css/background.css" />
+<link rel="stylesheet" href="../../../../css/chrome.css" />
+<link rel="stylesheet" href="../../../../css/shop.css" />
+<link rel="stylesheet" href="../../../../css/product.css" />
+<link rel="stylesheet" href="../../../../css/responsive.css" />
+<link rel="stylesheet" href="../../../../css/motion.css" />
+</head>
+<body class="shop-page piece-page">
+<!-- THIS PAGE: the Cobweb Dress, a piece of TexxturedBeest, the second demo
+     shop (shops/texxturedbeest/index.html says what the shop is and her
+     words for it): the demo's one-photo piece page (shops/demo/pieces/
+     grave-soil/, product/01-06), its markup and classes kept, so every rule
+     and the script treat it the same; the demo's pages say why each block
+     is there.
+     HER WORDS, 2026-10-31: "I'm sharing here some screenshots of other
+     pieces I created. You can add them to the shop and bestiary."
+     THE WORDS: the worksheet's §5.2, verbatim (docs/worksheets/
+     2026-10-30_texxturedbeest-sample-shop-copy.md, writer t_0a113a3a):
+     placeholder copy, every word, the name too. "Price to come" (her
+     decision 2), Edition "Unique" (3), no Size row (8).
+     THE PHOTO: hers, her photo1 of 2026-10-31, a screenshot of her
+     Instagram ("those are the closest (edited) version to the
+     originals"), assets/founder-photography/, 716 × 729: the app's dark
+     ground in its rounded left corners cut off (13px at the left), nothing
+     else changed (tests/e2e/frontend_t_f74eb58c/make_assets.sh). One, so no
+     strip (product/05) and "EVIDENCE 01/01"; the frame takes the photo's
+     own shape (`--ratio`), whole, with no crop. Its pale wall is a light
+     ground, welcome here (her words, 2026-10-31: "We can't and we won't
+     force the makers to post only dark photos."). Not sticky (product/02,
+     "ONE PACE").
+     `shop-page` gives the shop's flat ground (shop/02); `piece-page` this
+     page's padding (product/01). Written from the Roped Mohair Cardigan's
+     page (frontend t_f74eb58c); hand-kept from here. -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="distressed-plate" aria-hidden="true">
+  <div class="distressed-grain"></div>
+  <div class="distressed-dust"></div>
+  <div class="distressed-tooth"></div>
+</div>
+
+<!-- THE NAV, as on the shop (shops/demo/index.html says why). -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
+  <a class="logo" href="../../../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../../../../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../../../../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../../../../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+<!-- THE PIECE, named by its <h1>; `data-skin="seance"` in the markup
+     (product/02). The column: the way back to the shop, the name, the
+     kind, the price (plain, never summoned, her P6) and the inert buying
+     slot, "Add to bag" and "Save", as on every demo piece (product/04). -->
+<article class="piece" data-skin="seance" aria-labelledby="piece-name">
+  <div class="piece-text">
+    <a class="piece-shop" href="../../index.html">TexxturedBeest</a>
+    <h1 class="piece-name" id="piece-name">Cobweb Dress</h1>
+    <p class="piece-maker">Knitwear</p>
+    <p class="piece-price">Price to come</p>
+    <div class="piece-buy">
+      <button type="button" class="piece-buy-btn" disabled>Add to bag</button>
+      <button type="button" class="save save--text" aria-pressed="false" disabled><span class="save-plate"><svg class="save-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../../../assets/marks/mark-save.svg#mark-save"/></svg></span><span class="save-word">Save</span><span class="sr-only"> Cobweb Dress</span></button>
+    </div>
+  </div>
+
+  <!-- THE STAGE (product/02): the one photo, whole, at its own shape; the
+       <img> carries the alt (the worksheet's, written from the photo
+       only); the button summons the description. `--photo` resolves
+       against css/shop.css, hence ../assets/. -->
+  <div class="piece-stage" style="--ratio: 716 / 729;">
+    <div class="piece-frame">
+      <img class="piece-photo" src="../../../../assets/founder-photography/2026-10-31_founder_cobweb-dress-1.webp" alt="A sheer dress of fine, open-mesh knit in a greyish mauve, its neckline edged in curled yarn and thin knotted cords hanging from the shoulders, the mesh opening wider towards the hem, on a copper-coloured hanger against a pale pink-white textured wall." width="716" height="729" />
+      <button type="button" class="stage" id="stage" aria-labelledby="desc" disabled
+              style="--photo: url('../assets/founder-photography/2026-10-31_founder_cobweb-dress-1.webp');">
+        <div class="stage-visual stage-photo ch ch-r" aria-hidden="true"></div>
+        <div class="stage-visual stage-photo ch ch-b" aria-hidden="true"></div>
+        <div class="ripple" aria-hidden="true"></div>
+        <p class="hint"><span id="hint">hold to summon</span></p>
+        <div class="desc-wrap">
+          <p class="desc" id="desc">
+            Knitted in a fine yarn as an open net, so sheer it hides almost nothing. Thin cords hang from the shoulders, knotted and left to curl. Hung up empty, it could pass for something a spider left.
+          </p>
+        </div>
+        <div class="dossier-hud" aria-hidden="true">
+          <p class="dossier-frame-tag">EVIDENCE 01/01</p>
+          <p class="dossier-hud-tl">MATERIAL:<br/>FINE YARN</p>
+          <p class="dossier-hud-tr">UNIQUE</p>
+          <p class="dossier-hud-br">PRICE TO COME</p>
+          <p class="dossier-hud-bl"><span class="frag">"something a spider left"</span></p>
+        </div>
+        <div class="transmission-chrome" aria-hidden="true">
+          <div class="transmission-scanlines"></div>
+          <div class="transmission-grain"></div>
+          <p class="transmission-rec"><span class="transmission-rec-dot"></span>REC</p>
+          <p class="transmission-frame-count">FRAME 001</p>
+          <div class="transmission-ticker-track">
+            <p class="transmission-ticker-text">MATERIAL: FINE YARN — knitted as an open net, so sheer it hides almost nothing — UNIQUE — PRICE TO COME —&nbsp;&nbsp;&nbsp;&nbsp;MATERIAL: FINE YARN — knitted as an open net, so sheer it hides almost nothing — UNIQUE — PRICE TO COME —</p>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- THE DETAILS (product/06): Material and Edition first, then the
+       maker's own rows, in the worksheet's order; no Size row (her
+       decision 8). -->
+  <div class="piece-details">
+    <h2 class="piece-details-h">Details</h2>
+    <dl class="piece-details-list">
+      <div><dt>Material</dt><dd>Fine yarn</dd></div>
+      <div><dt>Edition</dt><dd>Unique</dd></div>
+      <div><dt>Knit</dt><dd>An open net, wider towards the hem</dd></div>
+      <div><dt>Neckline</dt><dd>Edged in curled yarn</dd></div>
+      <div><dt>Ties</dt><dd>Thin cords at the shoulders, knotted</dd></div>
+      <div><dt>Care</dt><dd>Wash cold by hand and dry flat</dd></div>
+    </dl>
+  </div>
+
+</article>
+
+<!-- THE DEMO LINE, the shop's (shop/09, product/01): the DEMO note and
+     the skin switcher, word for word. -->
+<aside class="demo-bar" aria-label="Demo controls">
+  <p class="demo-note"><span class="demo-note-mark">Demo —</span> <span class="demo-note-sw">the switcher tries the three skins; </span>you can't buy or write to the maker yet.</p>
+  <div class="skin-switcher" role="radiogroup" aria-label="Demo: product-detail skin">
+    <span class="skin-switcher-label">skin —</span>
+    <button type="button" class="skin-btn" data-skin-btn="seance" role="radio" aria-checked="true">Séance</button>
+    <button type="button" class="skin-btn" data-skin-btn="dossier" role="radio" aria-checked="false">Dossier</button>
+    <button type="button" class="skin-btn" data-skin-btn="transmission" role="radio" aria-checked="false">Transmission</button>
+  </div>
+</aside>
+</main>
+
+<!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
+     there): the seep, the policy row, the notice. -->
+<footer class="shop-footer footer--seep">
+  <div class="footer-links" role="navigation" aria-label="Policies and contact">
+    <ul role="list">
+      <li><a href="../../../../shipping/index.html">Shipping</a></li>
+      <li><a href="../../../../returns/index.html">Returns</a></li>
+      <li><a href="../../../../sizing/index.html">Size guide</a></li>
+      <li><a href="../../../../contact/index.html">Contact</a></li>
+      <li><a href="../../../../terms/index.html">Terms of sale</a></li>
+      <li><a href="../../../../privacy/index.html">Privacy</a></li>
+      <li><a href="../../../../legal/index.html">Legal notice</a></li>
+    </ul>
+  </div>
+  <span>© Strigoi — soil below, the galactic abysses above</span>
+  <span class="footer-info">Demo shop · placeholder products · not for sale</span>
+  <a href="../../../../index.html">Back to Strigoi</a>
+</footer>
+
+<script src="../../../../script.js"></script>
+</body>
+</html>

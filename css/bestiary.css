@@ -439,9 +439,12 @@
 }
 
 /* NO PIECE IS UNLINKED. A piece no shop holds yet links to the demo
-   shop's top, as the Molt Sweater and the founder's five do (her
+   shop's top, as the Molt Sweater and the founder's five once did (her
    ruling, docs/DECISIONS.md, WHITE AND BRIGHT GROUNDS, 2026-10-09:
-   "Yes, give the Molt Sweater the same link to the demo shop.").
+   "Yes, give the Molt Sweater the same link to the demo shop."). Today
+   none needs it: the Molt has its page in the demo shop, and since
+   2026-10-31 the five have theirs in TexxturedBeest, the second demo
+   shop (bestiary.html, their comment).
    CHOICE, the rules for an unlinked piece removed, not kept for a
    later one: they were the Molt's alone (a <figure> whose caption was
    always written under the photo, no Tab stop: a caption shown only on
@@ -604,8 +607,10 @@
    assets/bestiary-tears/ for the sketches that draw them
    (sketches/bestiary-wall/, sketches/bestiary-light-rim/); the story
    and the rules are in git (before frontend t_71858427) and
-   docs/HISTORY.md. The homepage's specimens keep their own torn edge
-   (home.css, assets/specimen-tears/), untouched. The address is kept,
+   docs/HISTORY.md. The homepage's specimens lost their torn edge too
+   (2026-10-31, frontend t_d030b88e, her pick of uiux's lantern box):
+   they stand untorn in this cabinet's niche, one box (home.css
+   home/06), and assets/specimen-tears/ is retired. The address is kept,
    never reused (docs/CSS-GROUP-MAP.md).
    ---------------------------------------------------------- */
 
