@@ -35,6 +35,8 @@ A real, working frontend prototype in **plain HTML, CSS and JavaScript**: no fra
 | `assets/` | Founder and placeholder product photography, maker marks, the background's leak-wall stains, the Bestiary's retired torn-paper masks (kept, unused) |
 | `room-zero.html` | Public placeholder for the private gallery (see below) |
 
+**Placeholders:** the makers on the roster (Ileana C., Studio Moroi, Vârcolac Atelier) and the demo shops are invented stand-ins, not real makers or shops; any likeness to a real maker is unintended.
+
 Built with attention to **accessibility** (skip links, landmarks, keyboard focus order, `prefers-reduced-motion`, WCAG contrast checks) and **performance** (GPU-composited animation, no heavy libraries).
 
 ## Room Zero (private)
@@ -45,7 +47,7 @@ Beneath the homepage sits **Room Zero**, a sealed photo archive: a grid with a f
 
 - **Built:** the frontend prototype described above.
 - **Designed, not yet built:** the platform behind it: a backend and database, accounts for four roles (visitor, customer, designer, admin), invite-only vendor onboarding and payments with per-designer payouts.
-- The full design documentation, decision log and test suite live in the private working repository.
+- Most of the design documentation lives in the private working repository, along with the decision log and test suite; four design documents are in `docs/`.
 
 ## Running it locally
 
@@ -54,6 +56,10 @@ python3 -m http.server
 ```
 
 Then open `http://localhost:8000/`. The custom `404.html` uses `/strigoi-sideral/` paths for GitHub Pages, so it is styled only on the live site.
+
+## Licence
+
+**Licence:** the source code (HTML, CSS, JavaScript) is MIT-licensed; the photographs, images, marks and the names Strigoi, Strigoi Sideral and the shop and maker names are all rights reserved. See [`LICENSE`](LICENSE).
 
 ## Related
 
