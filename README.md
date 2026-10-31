@@ -32,7 +32,7 @@ A real, working frontend prototype in **plain HTML, CSS and JavaScript**: no fra
 | `contact/`, `terms/`, `privacy/`, `shipping/`, `returns/`, `sizing/`, `legal/` | Text pages sharing one layout |
 | `css/` | One stylesheet per concern: design tokens, background, chrome, page styles, responsive queries, motion |
 | `script.js` | The shared script: roster, grid rendering, lightbox viewer, motion and sound controls |
-| `assets/` | Product photography placeholders, maker marks, torn-paper masks for the specimen wall |
+| `assets/` | Founder and placeholder product photography, maker marks, the background's leak-wall stains, the Bestiary's retired torn-paper masks (kept, unused) |
 | `room-zero.html` | Public placeholder for the private gallery (see below) |
 
 Built with attention to **accessibility** (skip links, landmarks, keyboard focus order, `prefers-reduced-motion`, WCAG contrast checks) and **performance** (GPU-composited animation, no heavy libraries).
