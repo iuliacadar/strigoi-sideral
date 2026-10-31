@@ -1,8 +1,8 @@
 /* ==== tokens.css: the vocabulary every sheet reads ====
    OWNS:      the reset (tokens/01); the palette, the type faces, the type scale (its five sizes, its tracking and leading, the block above a title) and the grain as custom properties on :root (tokens/02); the base document: html's scroll, snap and two lengths, every link, .sr-only, the skip link, the focus ring, main:focus (tokens/03).
-   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   LOADED BY: every page (not the redirect stub shops/texxturedbeest/pieces/roped-knit/, which loads no sheet).
    POSITION:  first on every page, before background.css.
-   READ FIRST: the reading guide below, for all eleven sheets.
+   READ FIRST: the reading guide below, for all twelve sheets.
    ============================================================ */
 
 /* ============================================================
@@ -39,8 +39,7 @@
    column. Each sheet's header says what it owns, group by group.
 
    THE LOAD ORDER, the same on all twenty-three pages (read from their
-   <link>s, 2026-10-01; the piece pages 2026-10-15; the log-in page
-   2026-10-16):
+   <link>s):
      tokens → background → chrome → the page's own sheet, if it has
      one → responsive → motion, then script.js.
    So a page loads five sheets, or six; a demo piece's page seven, its
@@ -57,37 +56,32 @@
    width, and nothing reports it. It nearly happened inside the
    single style.css before the split: two groups sat below the
    responsive section, harmless only because no selector overlapped
-   (DECISIONS, "CSS ARCHITECTURE", 2026-09-11).
+   (DECISIONS, "CSS ARCHITECTURE").
 
    A NEW SHEET is created on the day its page's HTML is built, and
    only if the page "has a design of its own" (DECISIONS, "ONE
-   STYLESHEET PER PAGE TYPE", 2026-09-23; her words: "We will do
-   as you said, sounds good and organised.").
+   STYLESHEET PER PAGE TYPE").
    Not before: an empty sheet still costs a request on every page
    that links it, and a plan for a page nobody has designed is a
    guess. Not for a page that looks like another: the text pages
    wear the shared sheets. The two built since are the examples:
    the Atlas, a sky of constellations, and the Bestiary, a museum
    wall of photographs (whole rows, varied sizes, each photo at its
-   own ratio), each a design of its own, each a sheet
-   (2026-09-30; the sheets themselves were the PM's assumption,
-   built as the specs advised, not her ruling: DECISIONS, the
-   Atlas's D2, the Bestiary's D9).
+   own ratio), each a design of its own, each a sheet.
 
    ADDRESSES. A group is named `sheet/NN`: home/03, chrome/06. The
    numbers restart in each sheet, always two digits, never a letter
    suffix; a new group takes the next free number, or the sheet is
-   renumbered inside itself. Her words: "if yes, I agree with
-   architect's advice." (DECISIONS, "CSS GROUP MAP", 1.) Each group
+   renumbered inside itself (DECISIONS, "CSS GROUP MAP"). Each group
    opens with a banner of dashes carrying its address, with two
    exceptions: tokens/01–03 share one banner, each with its own
    address line below it, and responsive/02 is a one-line comment
    inside responsive/01's banner. "(was GROUP 5)"
-   is its name in the single style.css the sheets were split from
-   (2026-09-24). Comments point at addresses ("see chrome/02"), not
+   is its name in the single style.css the sheets were split from.
+   Comments point at addresses ("see chrome/02"), not
    at line numbers. A group left empty leaves the code: "the order in
    the css files must be total, if there are empty groups, I don't
-   think they have to remain on the files" (same entry, 3).
+   think they have to remain on the files" (the founder's rule).
 
    WHERE A RULE LIVES. A component's look is in its own group. What
    changes at other widths is in responsive.css, and what stops for
@@ -96,8 +90,8 @@
    each guard in motion.css is headed by that address. So reading one
    component can mean three sheets.
    Every viewport query (min-width, max-width, max-height) is in
-   responsive.css, "no exceptions" (same entry, 2; her words: "If
-   that's a good practice, I say yes to it."). Its own ORDER line
+   responsive.css, "no exceptions" (DECISIONS, "CSS GROUP MAP").
+   Its own ORDER line
    says how they are ordered there, and why. Capability queries stay
    beside the rules they guard: hover (chrome/02), forced colours
    (home/06), the script off (shop/06, summoning/02), `@supports`
@@ -119,15 +113,14 @@
    `transmissionScanShift` runs the sepulchre's and threshold's
    scanlines (which no page renders) as well as shop/05's;
    `transmissionGrainShift` ran their grain too until both grains
-   were removed (2026-10-12, chrome/05) and is now run only by
+   were removed (chrome/05) and is now run only by
    shop/05's grain; `transmissionRecBlink` is run
    only by shop/05's dot, and is "kept in chrome/05 for this dot
    alone" (shop/05). No rename: the names are unique, which is what
    the rule protects.
    CHOICE, beside its rule, not gathered at the end like the queries:
    moved, `animation: beaconBlink` would be parted from the
-   definition that explains it (DECISIONS, "CSS ARCHITECTURE",
-   2026-09-11; her words: "yes, follow the frontend recommendation.").
+   definition that explains it (DECISIONS, "CSS ARCHITECTURE").
    WHAT WOULD BREAK: two `@keyframes` with one name. The one loaded
    later is used by both animations, with no error.
    READ MORE: https://developer.mozilla.org/docs/Web/CSS/@keyframes
@@ -141,50 +134,46 @@
    BREAK, READ MORE (one MDN link). JavaScript adds WHAT IT DOES, HOW
    and SCOPE to every block (the template's "Accepted final set").
    INK, which names a text's tone of bone, is not a template part: the
-   sheets added it with the ramp. Her words on the parts: "the 4
-   proposed rules by writer are great. we can keep them." Where a rule
-   came from her, her words are quoted, with the DECISIONS entry that
-   records them; where nobody wrote a reason down, the comment says
-   so instead of guessing. New code arrives commented, from its first
-   commit (DECISIONS, "THE COMMENT RULE IS PERMANENT").
+   sheets added it with the ramp. Where the founder's own words are
+   the reason for a rule, they are quoted; where nobody wrote a
+   reason down, the comment says so instead of guessing. New code
+   arrives commented, from its first commit (DECISIONS, "THE COMMENT RULE IS PERMANENT").
 
    HISTORY. A comment says what the code does now, and why. The
    story (old values, withdrawn claims, retired groups) is in
    docs/HISTORY.md, one section per part of the site, headed by the
-   same addresses. Her ruling: "HISTORY.md by part of the site is
-   perfect" (DECISIONS, "HISTORY.md"). A pointer to it is written
-   only where a reader would otherwise walk into a known dead end:
-   her "option A." (DECISIONS, "CSS GROUP MAP", 4). This guide's
+   same addresses (DECISIONS, "HISTORY.md"). So a comment carries no
+   card ids, dates, round numbers or who approved what: that record
+   is git's log, docs/DECISIONS.md and docs/HISTORY.md. A pointer to
+   HISTORY.md is written only where a reader would otherwise walk
+   into a known dead end (DECISIONS, "CSS GROUP MAP"). This guide's
    predecessor, the single style.css's header, is kept there:
    tokens/01–03, "The STYLE.CSS header".
 
-   THE BONE RAMP (ruling D10, 2026-09-28). Text is drawn at opacity
+   THE BONE RAMP. Text is drawn at opacity
    1 in one of five named tones of bone, chosen by its role, not by
    its tag: the Atlas's and the Bestiary's h2s are tracked labels
    (--bone-label), and Textrina Siderum, an h2, is small print
-   (--bone-quiet, ruling D7).
+   (--bone-quiet).
      --bone-bright  titles: the h1s, the two inscriptions
      --bone-head    h2, h3 and names: text-page headings; roster,
                     specimen and movement names, the Atlas index's
-                    names, the Bestiary's names
-     --bone         body text, and every link; two names too: the
-                    Atlas sky's star names (atlas/03's INK) and the
+                    names, the Bestiary's names, the Atlas sky's
+                    star names (atlas/03)
+     --bone         body text, and every link; one name too: the
                     shop's product names (shop/02; the tone's reason
                     not recorded)
      --bone-label   small tracked labels: kickers, eyebrows, seals,
                     nav and HUD labels
      --bone-quiet   small print: notices, captions, Textrina Siderum
    --bone-dim is not text: it fails AA as text. Nothing draws with it
-   since the specimen dots went (2026-10-12).
+   since the specimen dots went.
    Opacity is not a text step: bone at 0.8 is a sixth tone nobody
    named or measured. Opacity moves only a text that appears or goes,
    for example the nav's labels, the shop's summoned words, the
    Atlas sky's names and the Bestiary's captions. A new text takes
    the tone of its role;
-   there is no tone below --bone-quiet to take. Her question: "one
-   bone color tone for h1 titles, other bone tone for h2, h3 and so
-   on titles, other for plain text paragraphs, other for links labels
-   and so on?"; her answer: yes, the five tones as measured. How they
+   there is no tone below --bone-quiet to take. How the five tones
    were measured, and each tone's contrast: tokens/02, BONE.
    ============================================================ */
 
@@ -250,18 +239,16 @@
 
   /* BONE: the text colours, "the color of that skull/bone" in the
      founder's reference.
-     CHOICE: five text tones, one per role, and one non-text tone. Her
-     question (2026-09-25): "one bone color tone for h1 titles, other
-     bone tone for h2, h3 and so on titles, other for plain text
-     paragraphs, other for links labels and so on?"; her answer
-     (2026-09-28, ruling D10): yes, the five tones as measured (spec
-     sketches/threshold-footers-bone/threshold-footers-bone-spec.md §3b).
+     CHOICE: five text tones, one per role, and one non-text tone: the
+     founder's own idea, asked as a question, "one bone color tone for
+     h1 titles, other bone tone for h2, h3 and so on titles, other for
+     plain text paragraphs, other for links labels and so on?"
      MEASURED, not chosen by eye. The lightest 1% of pixels under every
      text box on the five page types (home, a text page, summoning, the
      shop, the gallery) at 1440x900 and 390x844: the worst ground is the
      homepage's median plane at 390 (relative luminance 0.0441). The
      floor is the darkest ink near 4.5:1 there, #a6a4a2 (4.49:1 by
-     that rounded luminance; the spec says it clears 4.5): no text tone
+     that rounded luminance): no text tone
      may go under it, so a sixth, dimmer text tone is not possible.
      Each tone is --bone's own linear RGB scaled (same hue, only
      lightness moves), about 4 L* apart. "worst" below = against
@@ -277,22 +264,21 @@
   --bone-bright: #d6d4d2;  /* L* 85.0, worst 7.55:1. Titles: the h1s, the two inscriptions */
   --bone-head:   #cccac8;  /* L* 81.4, worst 6.83:1. h2, h3 and names: text-page headings;
                               roster, specimen and movement names, the Atlas index's
-                              names, the Bestiary's names, and since 2026-10-31 the
-                              sky's names on hover (home/04, atlas/03; hover labels A) */
+                              names, the Bestiary's names, and the sky's names on
+                              hover (home/04, atlas/03) */
   --bone:        #c1bfbd;  /* L* 77.4, worst 6.09:1. Body text and every link. One name
                               too: the shop's product names (shop/02; the tone's reason
-                              not recorded); the Atlas sky's star names were bone until
-                              2026-10-31 (now --bone-head, atlas/03). Under AA as rendered only in the footers,
+                              not recorded). Under AA as rendered only in the footers,
                               whose lines and links are covered by the founder's
                               choice (see --below) */
   --bone-label:  #b5b3b2;  /* L* 73.1, worst 5.34:1. Small tracked labels: kickers, eyebrows,
                               seals, nav and HUD labels, status, the beacon label */
   --bone-quiet:  #acaaa9;  /* L* 69.7, worst 4.82:1. Small print: the notices (the text
                               pages, the Atlas, the Bestiary), the lightbox caption,
-                              Textrina Siderum (ruling D7) */
+                              Textrina Siderum */
   --bone-dim:    #837f7c;  /* L* 53.4, worst 2.81:1: fails AA as text, so NEVER text. Was
-                              for non-text marks: the specimen dots (gone 2026-10-12,
-                              home/06) and the atlas link's border (gone). No rule
+                              for non-text marks: the specimen dots (gone, home/06)
+                              and the atlas link's border (gone). No rule
                               reads it now; kept until it is ruled on. */
 
   /* TEAL: the one cold accent, "on hold, kept" by the founder, hence one
@@ -306,13 +292,11 @@
      for the letters' edges, a wide soft one for the ground round them),
      never seen as a shape. The nav's star names had it first (chrome/02:
      the founder refused the "button aspect", a box behind a label);
-     since 2026-10-31 the homepage sky's names (home/04), the Atlas sky's
-     (atlas/03) and the specimens' Pause / Sound word (home/06) read it
-     too, their plates and chips gone: her "1. Hover labels: A" (uiux
-     t_bc3cf697, sketches/hover-labels/README.md, A "lettered"). One
-     value, so the one treatment stays one. Without it the sky names'
-     craft line falls to 4.56:1 over the glow round a star (the sketch's
-     measure), so it is legibility, not decoration. */
+     the homepage sky's names (home/04), the Atlas sky's (atlas/03) and
+     the specimens' Pause / Sound word (home/06) read it too, with no
+     plates or chips behind them. One value, so the one treatment stays
+     one. Without it the sky names' craft line falls to 4.56:1 over the
+     glow round a star, so it is legibility, not decoration. */
   --halo-label: 0 1px 4px rgba(16, 16, 17, 0.85), 0 0 10px rgba(16, 16, 17, 0.55);
 
   /* MAGENTA, the warm accent, for large text and non-text only; small
@@ -348,12 +332,11 @@
   /* THE TYPE SCALE: five sizes, one per role, the same on every page.
      A text takes the size of its JOB, never a size of its own: every
      rule that sets a size in the other sheets reads one of these.
-     VISION, her words (2026-10-28): "Keep the same size for all the h1
+     VISION, the founder's reason: "Keep the same size for all the h1
      titles on all the pages. Keep the same sizes for similar elements
      throughout the entire project, please." Before the scale the site
      drew 31 sizes, eleven of them between 15 and 20px for what was all
-     reading text, and 36 styles under 12px (the measurements and her
-     words: sketches/type-scale/README.md).
+     reading text, and 36 styles under 12px.
        12  label, line   Space Mono: every small tracked label in
                          capitals (eyebrows, kickers, counts, the piece
                          page's labels), every small typed line (the
@@ -370,13 +353,13 @@
        48  title         IM Fell italic: every page's <h1>
      CHOICE, five and not a modular ratio (1.25 × 1.25 …): the sizes are
      the ones the site already used for each job, chosen from the piece
-     page she picked (label 12, note 13, price 20, name 48); a ratio
+     page's design (label 12, note 13, price 20, name 48); a ratio
      would have moved all of them. Only the piece page's values moved
      (15.2 → 16): one reading size has to serve legal prose too.
      TWO EXCEPTIONS, the two things that are not page titles: the
      house's name on the homepage, "Strigoi Sideral", and the
      sepulchre's sentence (the homepage's twin h2, the gallery's h1).
-     Her words: "I'd keep the[m] as exceptions." The lightbox's ‹ › ×
+     The lightbox's ‹ › ×
      are controls drawn with type, out of the scale (gallery/04).
      `rem`, not `px`: 1rem is the reader's own text size (16px unless
      they changed it in the browser), so a reader who asked for larger
@@ -408,16 +391,15 @@
      Summoning, Contact, Echolocation, the 404, Log in, the Atlas, the
      Bestiary, the sepulchre's kicker). One role, so one size (12), one
      tone (--bone-label) and ONE DISTANCE, 24px from the last row of the
-     name's letters to the first row of the title's, on every page. Her
-     question (2026-10-28): "Should it be the same size and spacing for
-     all the pages where it occurs?"; her answer: yes.
+     name's letters to the first row of the title's, on every page: the
+     same size and spacing wherever it occurs.
      The face follows the words: Space Mono for a plain name that says
      where you are ("Contact", "Summoning"), IM Fell English SC for the
      Latin and the doctrine's names. At 12px both draw capitals 8px tall,
      so they read as one size.
      The margins below are what makes 24px of ink with each face's own
      line box and the title's 1.15 (measured on the drawn letters, not
-     on the boxes: sketches/type-scale/eyebrow.txt). */
+     on the boxes). */
   --name-gap-mono:   13px;  /* a Space Mono name → a 48 title */
   --name-gap-seal:   14px;  /* an IM Fell SC name → a 48 title */
   --name-gap-kicker: 12px;  /* the kicker → the sepulchre's sentence
@@ -429,8 +411,7 @@
      A fine grain, and a coarser one for the paper tooth (lower
      `baseFrequency`, fewer octaves, a different tile size).
      CHOICE: noise, not a tiled radial-gradient dot: tiled dots are
-     grids, and stacked grids made a visible tartan
-     (sketches/grain-test.html, panes A and B). */
+     grids, and stacked grids made a visible tartan. */
   --grain-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain-noise-coarse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='nc'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23nc)'/%3E%3C/svg%3E");
 }
@@ -446,8 +427,8 @@ html {
      reduced motion gets the jump and no snap (motion.css). */
   --nav-h: 128px; /* the desktop nav's box height, used by the
      sepulchre frame. No frame is shortened by it any more: the roster
-     is a full screen under 1280px (content-tall from 1280px, the rhythm
-     of 2026-10-31) and the specimens' 128px is its own value
+     is a full screen under 1280px (content-tall from 1280px) and the
+     specimens' 128px is its own value
      (home/05, home/06). At 900px and
      below the box grows and this value does not follow, on purpose:
      the extra height paints nothing, and the lowest star's tap area
@@ -501,8 +482,8 @@ a {
    .sr-only until it has keyboard focus, then fixed top left on a solid
    black panel. z-index 100 puts it above the nav (20), which would
    otherwise cover the link that leads to it.
-   CHOICE, `:focus-visible` and not `:focus` (frontend t_e29a49bc,
-   founder 2026-10-08: it showed with the mouse): a focus a mouse
+   CHOICE, `:focus-visible` and not `:focus` (with `:focus` it showed
+   after a mouse click): a focus a mouse
    click gives it does not show it; Tab still does. No `:focus`
    fallback: every browser the site supports has `:focus-visible`.
    NOT A BUG HERE: with a screen reader running (Orca, on Linux) the
@@ -510,7 +491,7 @@ a {
    page is opened from outside the browser, and on some reloads; that
    focus counts as keyboard focus, so the link shows. That is
    right for a screen reader user and is left alone (docs/HISTORY.md,
-   tokens/03, t_e29a49bc). */
+   tokens/03). */
 .skip-link {
   position: absolute;
   width: 1px;
@@ -550,8 +531,7 @@ a {
 
 /* THE FOCUS RING: the site's one keyboard focus ring, 2px of solid
    `--teal`, 4px out, on every focusable element of every page.
-   `:focus-visible` only, never `:focus`: a mouse click never shows it
-   (measured: none of 420 clicks leaves `:focus-visible` on).
+   `:focus-visible` only, never `:focus`: a mouse click never shows it.
    Each component sets only where the ring sits, its `outline-offset`
    and its corners (`border-radius`); none repeats the colour or the
    width. Every component rule is more specific than this one (0,1,0),

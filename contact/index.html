@@ -39,7 +39,7 @@
      THE HORIZON BACKGROUND"). -->
 <body data-bg="horizon">
 <!-- SKIP LINK: the first Tab stop, invisible until focused
-     (css/tokens.css). Enter moves focus past the logo onto <main>; the
+     (css/tokens.css). Enter moves focus past the nav onto <main>; the
      next Tab goes to the first stop in the text, or to the footer's
      first link where the text has none. -->
 <a class="skip-link" href="#main">Skip to content</a>
@@ -65,14 +65,39 @@
   <div class="leak-stain--below"></div>
 </div>
 
-<!-- THE NAV: a <nav> landmark with one link, the logo, home.
-     `.nav--scrolls` lets it scroll away with the top of the page
-     instead of staying fixed over the text (why, and the other pages
-     that use it: chrome/07). Its logo's focus ring is the site's 2px of
-     solid teal (tokens/03). The footer carries the way home from the
-     bottom. -->
-<nav class="nav--scrolls">
+<!-- THE NAV: the internal pages' nav, the same markup as on the
+     shops, their pieces, the Atlas and the Bestiary: a <nav> landmark
+     named "Strigoi", the logo (home), the two places, "Atlas" and
+     "Bestiary", then "Lure me in" and "Bag". chrome/07 styles all of
+     it; this page adds no rule. One folder deep, hence ../ on each path.
+     ROLE HERE: the way back into the site from the first screen. A
+     visitor is likely to open this page while deciding about a piece
+     (an assumption, not yet watched); the nav keeps its shape from the
+     piece to here and back, so they haven't left the shop.
+     CHOICE, the whole nav and not the two places only: one nav on
+     every page but the homepage is one thing to learn, and a reader
+     here can still reach the bag; with the places only, the site would
+     have a third kind of nav. CHOICE, not fixed: `.nav--scrolls` lets
+     it scroll away with the top of the page, so it never sits over the
+     lines being read (chrome/07); at the bottom, the footer's "Back to
+     Strigoi" is the way out.
+     ACCESSIBILITY: Tab goes Skip, the logo, Atlas, Bestiary, Lure me
+     in, then the text. "Bag" has no page yet, so it is no Tab stop and
+     a screen reader says "unavailable" (chrome/07). Every word wears
+     the site's 2px teal focus ring (tokens/03). No word carries
+     `aria-current`: none of the four is this page.
+     VISION: plain words, not the homepage's stars: the stars belong to
+     the homepage's sky, and this is a page for reading. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
   <a class="logo" href="../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="../atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="../bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="../account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
 </nav>
 
 <!-- MAIN LANDMARK: the contact page, the skip link's target (`id="main"`;
@@ -112,19 +137,19 @@
 
 <!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), under
      the stains: the links and the "© Strigoi — …" line are all covered
-     by the soil, by her choice; the link a keyboard user is on comes
-     above while it has focus, and with a mouse pointer over the footer
-     the links and the line come up together. The policy row is on
-     every footer (ruling D5).
+     by the soil (the founder's reason: "it's closer to my vision"); the
+     link a keyboard user is on comes above while it has focus, and with
+     a mouse pointer over the footer the links and the line come up
+     together. The policy row is on every footer.
      CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
      bare `nav` as the fixed site header, so a <nav> here would be pulled
      to the top of the screen. The role gives screen readers the same
-     landmark; the label tells it apart from the logo's nav.
+     landmark; the label tells it apart from the site's nav.
      `role="list"`: Safari's VoiceOver stops announcing a list once its
      bullets are removed with CSS; the role gives back "list, 7 items".
      The link to the page you are on (if it's in the row) carries
-     `aria-current="page"`, no underline (her ruling of 2026-10-29,
-     chrome/07: the h1 names the page). It stays a link,
+     `aria-current="page"`, no underline (chrome/07: the h1 names the
+     page). It stays a link,
      so the row has the same stops on every page. -->
 <footer class="text-footer">
   <div class="footer-links" role="navigation" aria-label="Policies and contact">

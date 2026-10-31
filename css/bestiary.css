@@ -75,7 +75,7 @@
 /* ----------------------------------------------------------
    bestiary/02 — THE PAGE'S HEADER
    WHAT: the Latin name's slot, the h1, the draft notice, one sentence,
-   the link to the Atlas, centred (since 2026-10-29). The same faces,
+   the link to the Atlas, centred. The same faces,
    sizes and tones as the Atlas's header (atlas/01), under this page's
    own class names.
 
@@ -83,16 +83,13 @@
    of the page is the field.
 
    CHOICE, the Atlas's values repeated here and not lifted into one
-   shared chrome group: two pages share them today, and the spec leaves
-   the lift optional (sketches/bestiary/bestiary-spec.md §8). A third
+   shared chrome group: two pages share them today, and for two the
+   lift is optional. A third
    page with this header is the moment to lift it.
    ---------------------------------------------------------- */
 
-/* The header: centred, then 48px down to the field. HER WORDS,
-   2026-10-29 (page 5): "Yes, the header must be centered on all the
-   pages, including the Atlas one." (the piece pages excepted, her OK
-   the same day; the text pages' header is page 6). The spec: uiux
-   sketches/page5 (abd79fd), `page5.css` §3, `head=centre`, verbatim,
+/* The header: centred, then 48px down to the field, as every page's
+   header is but the piece pages', and
    as the Atlas's (atlas/01). The header takes the column's whole
    width; the lines below keep their own measure. */
 .bestiary-head {
@@ -159,8 +156,7 @@
 }
 
 /* The one sentence under the title. Centred (above): at most 28rem
-   (448px) and balanced, as the Atlas's (atlas/01 says why; 52 + 58
-   characters at 1280 and 1850). */
+   (448px) and balanced, as the Atlas's (atlas/01 says why). */
 .bestiary-lede {
   font-size: var(--type-body); /* reading text: the body (tokens/02) */
   line-height: var(--leading-body);
@@ -175,8 +171,8 @@
 }
 
 /* The link to the Atlas: mono, like the site's other small directions,
-   with no arrow and no line (founder 2026-10-09, option A "Clean" of
-   uiux's sketch fc246aa: "clean of unnecessary symbols").
+   with no arrow and no line: the founder's reason, pages "clean of
+   unnecessary symbols" (docs/DECISIONS.md, "CLEAN LINKS").
    ACCESSIBILITY, why no underline: WCAG 1.4.1 asks for a mark other
    than colour where a link sits among other text, so the eye can find
    it in the sentence. This one sits in no sentence: it is alone on its
@@ -195,8 +191,8 @@
 }
 
 /* Hover on the Atlas link: the site's pink glow (the footer's, the
-   logo's, the Atlas's), never a border or an underline (her rule,
-   docs/BRAND.md, "Standing rule: no borders or underlines on hover,
+   logo's, the Atlas's), never a border or an underline
+   (docs/BRAND.md, "Standing rule: no borders or underlines on hover,
    anywhere").
    CHOICE, not on a piece: a piece's hover mark is its caption
    (bestiary/03). */
@@ -212,11 +208,10 @@
    hidden (opacity 0) until
    the link is hovered (by a mouse: the lit rule, below) or has
    keyboard focus. The whole of it is one
-   link, on every piece (the Molt Sweater too, since her 2026-10-09
-   ruling; see the last comment of this group).
-   UNTORN, THE PHOTO'S OWN SQUARE EDGE (since 2026-10-30): uiux
-   t_5e609701's round-2 pick, `tear=off` (sketches/page5 page5.css §5),
-   her "OK" the same day. No frame, no mount, no corners: the niche is
+   link, on every piece (the Molt Sweater too; see the last comment of
+   this group).
+   UNTORN, THE PHOTO'S OWN SQUARE EDGE. No frame, no mount, no
+   corners: the niche is
    already the frame, and a frame inside it would be a third edge round
    one piece. Only a soft shadow, `0 6px 16px` black at .55, light from
    above as the niche's, so a dark photo still stands apart from the
@@ -227,28 +222,26 @@
    way in by a fact (who made it, what it costs, how many are left).
 
    CHOICE, the caption on hover or focus and not always written under
-   the photo (Direction A, kept in sketches/bestiary/): her ruling B,
-   the séance field (docs/DECISIONS.md, "THE BESTIARY TAKES B"): the
-   shop's summoning gesture carried to the index, so the
-   platform has one way of calling up words. The cost, recorded with
-   the ruling: every fact is hidden until asked for, and comparing two
+   the photo: the séance field (docs/DECISIONS.md, "THE BESTIARY TAKES
+   B"), the shop's summoning gesture carried to the index, so the
+   platform has one way of calling up words. The cost: every fact is
+   hidden until asked for, and comparing two
    prices means pointing at both.
    CHOICE, hidden by opacity, not `display: none`: the caption stays the
    link's text, so a screen reader reads it at rest too.
    CHOICE, the photo whole and in its own colours, with nothing about
-   it changing on hover (her rulings for the Bestiary). Not the shop's
+   it changing on hover (the founder's rule for the Bestiary). Not the shop's
    frame, which this page wore before the tears (4:5, `--above-black`
    behind the photo, 4px corners, the shop's grade, a 3% zoom on
-   hover): the grade would change her "own colours", and the zoom is a
-   change on hover she ruled out.
+   hover): the grade would change the photo's "own colours", and the
+   zoom is a change on hover.
 
    ACCESSIBILITY: a lit piece changes shape, not only colour: the
    caption appears. Keyboard focus adds the name's underline and the
-   ring round the whole frame; hover adds no underline (her rule,
-   docs/BRAND.md, "Standing rule: no borders or underlines on hover,
+   ring round the whole frame; hover adds no underline
+   (docs/BRAND.md, "Standing rule: no borders or underlines on hover,
    anywhere", which exempts `:focus-visible`).
-   KNOWN GAP, touch: see the plane's comment in bestiary.html (4a audit
-   #8).
+   KNOWN GAP, touch: see the plane's comment in bestiary.html.
    ---------------------------------------------------------- */
 
 /* The link: the photograph's frame is the hit area, never under 112px
@@ -268,7 +261,7 @@
    script `--ar` is unset, so `auto`: the frame is as tall as the photo,
    whose box the <img>'s width and height attributes shape before it
    loads. No fill and no corners; the soft shadow under it (bestiary/03's
-   UNTORN, uiux's value verbatim). */
+   UNTORN). */
 .bestiary-piece-photo {
   display: block;
   position: relative;
@@ -295,9 +288,7 @@
    foot (`align-content: end`). THE WORDS stand in from the frame's
    sides and foot by 4% of the frame's width, then 10px more at the
    sides and 4px more at the foot: the inset a piece had without a
-   tear, uiux's `tear=off` (sketches/page5 page5.css §5). Untorn, no
-   ragged edge reaches in, so the caption sits lower on the photo than
-   it did with the tears (5 to 15% then).
+   tear. Untorn, no ragged edge reaches in.
    THE SCRIM (`::before`, below): the shop's (shop/01, `.desc::before`),
    `--above-black` at 0.90, from 44px above the name down to the foot,
    across the frame's width: solid from the foot up to the words' top
@@ -326,41 +317,36 @@
    stacking context). Absolutely placed on the caption's grid: from row
    line 1, the name's top, less 44px of feather, to the caption's
    padding edges at the sides and foot, i.e. the frame's.
-   SOLID TO THE WORDS' TOP (since 2026-10-30, page 5): the 0.90 band runs
+   SOLID TO THE WORDS' TOP: the 0.90 band runs
    from the foot up to the top of the words (`calc(100% - 44px)`), and
    only the 44px feather above them fades. One rule for every piece, hung
-   or not, on any ground: uiux's `scrim=fix` (sketches/page5 page5.css
-   §4, verbatim), which replaced three: this one solid to 66% of (words
-   + 44px), the light-ground pieces' and the no-script wall's to 70%.
+   or not, on any ground.
    WHY: a band solid to a SHARE of its height ends at a different place
-   against the words on every caption. On a day the wall deals p010
-   (Roped Mohair Knit) small, its name wraps to two lines and the top
-   line stood on the fade: 3.93:1 at 1280 on 2026-10-29, 3.59 on
-   10-28, 4.15 and 4.43 at 1440 (uiux, line-box pixels, QA's glyph
-   pixels 4.46), under the 4.5 the name needs. Solid to the words, the
+   against the words on every caption. On a day the wall deals a piece
+   small, its name can wrap to two lines, and a top line on the fade
+   falls under the 4.5:1 the name needs. Solid to the words, the
    name stands on the solid 0.90 the shop measured legible on pure
-   white, however many lines it takes: p010 6.18 to 6.85 in the cabinet,
-   every piece's every line 5.39:1 or more (p007's maker and price
-   lines, the earrings on white) at 1280/1440/1850 (uiux README §4).
+   white, however many lines it takes.
    WHY THE GRAIN MATTERS: the grain plate (background/03,
    css/background.css) is fixed to the screen and lies OVER the
    captions, so as the page scrolls each glyph's backdrop is a
    different grain pixel; a band that ends inside the words leaves no
-   margin for it (QA t_e30d592d, 2026-10-09: p011 4.44:1, p010 4.46:1
-   at 62%, the history in docs/HISTORY.md, bestiary/).
+   margin for it (the history in docs/HISTORY.md, bestiary/).
    CHOICE, a solid band and not the grain kept off the caption: the
    plate is a <body> child over <main>, and nothing in this sheet can
    lift one caption above it. Lifting <main> while a piece is summoned
-   would take the grain off every photo at once, a change on hover she
-   ruled out, and cutting a hole in the plate is background.css's, which
+   would take the grain off every photo at once, a change on hover
+   (ruled out, bestiary/03), and cutting a hole in the plate is
+   background.css's, which
    serves every page. The band shows only while a caption is summoned:
    at rest the caption is at opacity 0, and the photo, the niche and the
    grain are as before. Same alpha, colour and feather as before: on a
    one-line caption the band ends within a few px of where it ended.
-   No tone or filter on any photo (her ruling).
+   No tone or filter on any photo (docs/DECISIONS.md, WHITE AND BRIGHT
+   GROUNDS).
    `.bestiary-piece--light-ground` (p007, the founder's earrings on
-   white; markup) is kept as the flag her WHITE AND BRIGHT GROUNDS
-   ruling names (docs/DECISIONS.md, 2026-10-09), though no rule reads it
+   white; markup) is kept as the flag that WHITE AND BRIGHT GROUNDS
+   names, though no rule reads it
    now: the one band already covers a white ground. */
 .bestiary-piece-link > .bestiary-caption::before {
   content: "";
@@ -414,10 +400,8 @@
    HOVER ONLY WHERE HOVER IS REAL, `(hover: hover) and (pointer: fine)`:
    a touch browser keeps `:hover` on the last piece tapped (sticky
    hover), which brought its caption up under the saved mark in the
-   corner (bestiary/06; QA t_6c35a268 O1, 768px: 7 of 15). HER WORDS,
-   2026-10-27, on the PM's question (uiux t_07096feb's rule + the O1
-   fix, the caption's :hover gated to a real mouse): "OK to both
-   questions." On touch the caption still comes with keyboard focus; a
+   corner (bestiary/06). On touch the caption still comes with
+   keyboard focus; a
    tap follows the link (bestiary.html, KNOWN GAP, touch). */
 .bestiary-piece-link:focus-visible .bestiary-caption {
   opacity: 1;
@@ -429,7 +413,7 @@
 }
 
 /* Keyboard focus only: the name is underlined, a mark of shape, not
-   only colour. Hover draws no underline (her rule, docs/BRAND.md,
+   only colour. Hover draws no underline (docs/BRAND.md,
    "Standing rule: no borders or underlines on hover, anywhere";
    `:focus-visible` is exempt from it). */
 .bestiary-piece-link:focus-visible .bestiary-piece-name {
@@ -439,21 +423,20 @@
 }
 
 /* NO PIECE IS UNLINKED. A piece no shop holds yet links to the demo
-   shop's top, as the Molt Sweater and the founder's five once did (her
-   ruling, docs/DECISIONS.md, WHITE AND BRIGHT GROUNDS, 2026-10-09:
-   "Yes, give the Molt Sweater the same link to the demo shop."). Today
-   none needs it: the Molt has its page in the demo shop, and since
-   2026-10-31 the five have theirs in TexxturedBeest, the second demo
+   shop's top, as the Molt Sweater and the founder's five once did
+   (docs/DECISIONS.md, WHITE AND BRIGHT GROUNDS). Today
+   none needs it: the Molt has its page in the demo shop, and
+   the five have theirs in TexxturedBeest, the second demo
    shop (bestiary.html, their comment).
    CHOICE, the rules for an unlinked piece removed, not kept for a
    later one: they were the Molt's alone (a <figure> whose caption was
    always written under the photo, no Tab stop: a caption shown only on
    hover over something the keyboard can't reach would be hidden from
    every sighted keyboard user, WCAG 2.1.1). With nothing wearing them
-   they could not be measured and would go stale unseen, and her ruling
-   makes the demo shop the way for a piece with no shop, so a figure is
+   they could not be measured and would go stale unseen, and the demo
+   shop is the way for a piece with no shop (above), so a figure is
    not the path. Should one ever be needed again, they and their reasons
-   are in git (715f9e7) and docs/HISTORY.md, bestiary/. */
+   are in git and docs/HISTORY.md, bestiary/. */
 
 /* ----------------------------------------------------------
    bestiary/04 — THE FIELD: THE CABINET OF CURIOSITIES
@@ -468,18 +451,16 @@
    writes each piece's `left`, `top` and `width` inline, the list's
    height, and the furniture: one `.bestiary-cabinet` of empty
    `.bestiary-niche` spans, `aria-hidden`, behind the list.
-   HER WORDS, 2026-10-29 (page 5): "I need it to look like a bestiary
-   or a cabinet de curiosités, it's not necessay  to have an ikebana
-   setup."; 2026-10-30: "3. (d)", wall D of uiux's sketch (t_65af9177,
-   abd79fd), untorn (t_5e609701, 72d46a5; her "OK"). The spec:
-   sketches/page5 README §4 and page5.css §4 "D", its values verbatim.
+   CHOICE, a cabinet: the founder's reason, "I need it to look like a
+   bestiary or a cabinet de curiosités, it's not necessay  to have an
+   ikebana setup."
 
    ROLE HERE: the way in by looking ("show me the creatures"). The order
    and the sizes turn once a day (script.js, initBestiary), so no piece
    has the first place, or the largest niche, for good.
 
    CHOICE, varied sizes and the photo's own shape, not five equal
-   columns of 4:5 frames as before: her question, "Isn't it possible to
+   columns of 4:5 frames as before: the founder's reason, "Isn't it possible to
    have various sizes displayed on the gallery, as it would be more
    natural and closer to the art pieces displayed on a real wall in a
    real museum?". Equal 4:5 frames cut away more than half of every
@@ -495,26 +476,25 @@
    rows and uneven air) with furniture, not by moving pieces.
    CHOICE, the density fixed and the page longer as pieces arrive: no
    pages and no "load more": a page that ends before the pieces do is
-   withholding again (sketches/bestiary/bestiary-spec.md §1). The
-   cabinet is taller than the salon wall was (uiux: about 1,650px
-   against 1,450 at 1280, the niches' floors) and its photos about 1.4x
+   withholding again. The
+   cabinet is taller than the salon wall was, and its photos
    larger.
    WITHOUT THE SCRIPT: the pieces stand in the markup's order (the demo
-   shop's ten cards A to Z, then the founder's five) in rows of four,
+   shop's ten cards A to Z, then the founder's own) in rows of four,
    each in a quarter of the width with a twelfth of air each side, at
    its own ratio, rows hung on their centre line, 72px apart; no
-   cabinet (the builder's call: the furniture is decoration, and a page
+   cabinet (the furniture is decoration, and a page
    without the script stays complete).
-   SMALL SCREEN: not designed yet (task 4a). The cabinet holds at any
+   SMALL SCREEN: not designed yet. The cabinet holds at any
    width; at 701–900px it gives one or two pieces a shelf, so it is tall
-   there (2,200–4,000px at 761–781, uiux), and on a phone one piece a
+   there, and on a phone one piece a
    shelf.
    VISION: "closer to the art pieces displayed on a real wall in a real
    museum" (her words, above).
    ---------------------------------------------------------- */
 
 /* The count heading, `<h2 id="bestiary-count" class="sr-only">`: for
-   screen readers only since her OK of 2026-10-29 (bestiary.html says
+   screen readers only (bestiary.html says
    why), so it has no rule here; its type and its hairline went with
    it. The wall starts 48px under the header (bestiary/02). */
 
@@ -560,7 +540,7 @@
    lower shelves (her pieces standing in the blood), lit from above as a
    museum niche (a soft bone glow at .07 under its top), a shadow down
    its back wall, and a 1px bone hairline at .10 round it, so walls and
-   shelves read as edges, not boxes. uiux's page5.css §4 "D", verbatim. */
+   shelves read as edges, not boxes. */
 .bestiary-cabinet {
   position: absolute;
   z-index: 0;
@@ -594,10 +574,8 @@
 }
 
 /* ----------------------------------------------------------
-   bestiary/05 — THE TEARS: RETIRED (2026-10-30)
-   The Bestiary's photos are UNTORN since the cabinet (bestiary/04):
-   uiux t_5e609701's round-2 recommendation, "untorn, inside the
-   cabinet" (sketches/page5, `tear=off`), and her "OK" of 2026-10-30.
+   bestiary/05 — THE TEARS: RETIRED
+   The Bestiary's photos are UNTORN since the cabinet (bestiary/04).
    Each piece then has one frame, the niche, not two (a torn hole inside
    a box), and every photo shows the 12 to 21% the tear hid. The 54
    tears' rules (the caption insets, the masks, the rims and their
@@ -606,9 +584,8 @@
    nothing else on the site used them. The images stay in
    assets/bestiary-tears/ for the sketches that draw them
    (sketches/bestiary-wall/, sketches/bestiary-light-rim/); the story
-   and the rules are in git (before frontend t_71858427) and
-   docs/HISTORY.md. The homepage's specimens lost their torn edge too
-   (2026-10-31, frontend t_d030b88e, her pick of uiux's lantern box):
+   and the rules are in git and
+   docs/HISTORY.md. The homepage's specimens lost their torn edge too:
    they stand untorn in this cabinet's niche, one box (home.css
    home/06), and assets/specimen-tears/ is retired. The address is kept,
    never reused (docs/CSS-GROUP-MAP.md).
@@ -618,12 +595,9 @@
    bestiary/06 — THE SAVED MARK ON A PIECE
    WHAT: the shop's mark (shop/11; chrome/08 draws it, from
    assets/marks/mark-save.svg) on every piece of the wall, a sibling
-   after the piece's link. HER WORDS, 2026-10-27: "OK to build it that
-   way: the bite, no nav word, the list under "My crypt"." The spec:
-   sketches/favourites/README.md §1, "Bestiary" (uiux t_24c957ad).
+   after the piece's link.
    WHERE: in from the top right by the caption's own side inset (4%,
-   bestiary/03) less 6px, 3% down (it stood in by the tear's reach while
-   the photos were torn, bestiary/05). Without the script the piece
+   bestiary/03) less 6px, 3% down. Without the script the piece
    carries a twelfth of its width as air each side (bestiary/04), so the mark steps
    in by that too.
    HOVER: as on the shop, on a mouse it shows while the pointer is on
@@ -633,46 +607,38 @@
    words are the caption, summoned by a mouse's hover or keyboard focus
    (bestiary/03), and it has no row the mark could keep: it grows up
    from the foot with the piece's name and its maker's (any length), and
-   on a small piece it fills the photo to its top (at 768px Coil
-   Earrings, 144px square: name 10-35px down, under the corner; QA
-   t_14959638 item 3). So the mark has two places, at the same right
+   on a small piece it fills the photo to its top. So the mark has two
+   places, at the same right
    edge, and each piece takes one at the width the page is at:
-   - THE CORNER (`top: 3%`, round 9, e924a99), while the piece's own
+   - THE CORNER (`top: 3%`), while the piece's own
      caption stays 8px or more under the corner plate's foot;
-   - UNDER THE PHOTO'S FOOT (`top: 100%`, 0f26ef4) where it would come
+   - UNDER THE PHOTO'S FOOT (`top: 100%`) where it would come
      closer: the one place the caption never reaches (it ends at the
      foot) and the cabinet keeps clear (the niche's 40px floor in front
      of every piece, bestiary/04; without the script 72px between rows;
      the target is 44, its plate ends 38px under the foot). The
      target's top is the foot, so the pointer goes from the photo to
      the mark without leaving the piece.
-   HER WORDS, 2026-10-27, on the PM's question (build uiux t_07096feb's
-   rule, sketches/bestiary-bite-corner/, 7ac3d41: the bite in the card's
-   top-right corner unless that card's own caption comes within 8px,
-   only then under the foot; + the O1 fix): "OK to both questions."
    WHO DECIDES: initBestiary (script.js 7d, step 8) measures each
    caption's words against the corner plate and gives that piece's <li>
    `.save-hangs`; again on resize, zoom, text size and when fonts land.
    So whether a piece hangs is decided per piece, by that 8px, at the
    page's width, and changes with the day's deal: no window is promised
-   the corner. Measured (QA t_853496f5, 5100842; fresh loads on the 35
-   days from 2026-10-27): at 1850x925 no piece hung on any day; at
-   1280x903 1 to 3 pieces hung on 14 of the 35 days (0 on 2026-10-27,
-   the day of her yes); at 1024x768 3 to 8 hung every day (6 of 15 on
-   2026-10-27). A hang at 1280 is the rule working, not a bug.
+   the corner: on some days a few pieces hang even in a 1280px
+   window. A hang at 1280 is the rule working, not a bug.
    CHOICE, measured per piece and not a width threshold: the wall is
    dealt again each day, so a piece is a different size on different
-   days, and a maker's name can be any length (the sketch's README).
+   days, and a maker's name can be any length.
    WHERE THE CAPTION CAN COME UP, the hang applies: on a mouse (it
    comes with the mark, every time), and on keyboard focus anywhere (a
    touch screen with a keyboard). On touch at rest no caption shows (a
    tap no longer brings it: bestiary/03), so every mark keeps the corner
    and the tap goes through it to the photo (chrome/08).
    WITHOUT THE SCRIPT (the list not `.is-hung`) nothing measures, so
-   0f26ef4's placement stands, the safe one: on a mouse and on keyboard
+   the safe placement stands: on a mouse and on keyboard
    focus every mark hangs under the foot.
-   700px and below is task 4a's (one photo to a row): the corner there,
-   measured and reported, not changed.
+   700px and below (one photo to a row) is not designed yet: the mark
+   keeps the corner there.
    INERT: `disabled` (chrome/08): no Tab stop, the walk is unchanged.
    ---------------------------------------------------------- */
 .bestiary-piece { position: relative; }

@@ -1,6 +1,6 @@
 /* ==== background.css ====
    OWNS:      the world every page stands on: the descent (01), the leaks and stars (02), the distressed surface (03); variants horizon (04) and grey (05).
-   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   LOADED BY: every page (not the redirect stub shops/texxturedbeest/pieces/roped-knit/, which loads no sheet).
    POSITION:  second on every page: after tokens.css, whose palette it reads.
    The founder's law: "the background must not depend on the elements,
    THE ELEMENTS ARE ARRANGED ON THE BACKGROUND" (docs/CSS-JS-SPLIT.md),
@@ -69,8 +69,8 @@ body {
    black and warms the upper page (without it: cold, violet, tokens/03).
    CHOICE, not lighter gradient stops: tried first; the leak layers
    paint dark over them, so the rendered floor barely moved. Never a
-   media query per display: she wants the bug gone from "every monitor
-   on the planet" (docs/worksheets/HANDOFF-space3-space4-transition.md).
+   media query per display: the founder's reason, the bug must be gone
+   from "every monitor on the planet".
    WHAT WOULD BREAK: the flat part must end before 65% down, the old
    edge. It fades out as the red arrives, so the blood is not lightened;
    its 74% end was set against an opaque fill that is now transparent,
@@ -167,7 +167,7 @@ body::before {
    `z-index: 1`, and a blend inside a stacking context sees only what
    is inside it. So `.ink` multiplies over `.red` alone, never over the
    body gradient, and `.pool` has nothing under it to multiply with, so
-   it paints `normal`. This is the approved look. It differs from the
+   it paints `normal`. This is the intended look. It differs from the
    sketch, where the layers are bare <body> children and multiply over
    the gradient; the difference is not visible at 1:1, and the shipped
    look was kept (docs/HISTORY.md, background/02, "Isolation").
@@ -551,13 +551,12 @@ body::before {
 
    CHOICE, an attribute and not a class: an attribute holds one value,
    so two background variants can never be applied to one page at once
-   (`class="horizon threshold"` could). The value is the name of the
-   sketch's option she chose.
+   (`class="horizon threshold"` could). The value, "horizon", names
+   the way chosen (next CHOICE).
    CHOICE, horizon among the sketch's ways to fit the world to a short
    page (squeeze it, cut it after the plane, pin it to the screen, the
    homepage's first screens at true scale): the only one that keeps sky
-   and soil on every page. Why each other lost:
-   sketches/background-short-pages/README.md.
+   and soil on every page.
    CHOICE, stops in `svh` and not `vh`: `svh` is the viewport with the
    mobile browser's toolbars shown, so the soil band does not grow and
    shrink as the address bar slides in and out on a phone.
@@ -566,9 +565,8 @@ body::before {
    screen as a whole ground with strands in it, not as a stripe. The
    red starts later in the page than on desktop.
 
-   VISION, her ruling: "Short pages background looks perfect on the
-   terms page, we will use the same background for contact, 404 and
-   summoning page" (docs/DECISIONS.md, SHORT PAGES USE THE HORIZON
+   VISION: every short page wears this one background (docs/
+   DECISIONS.md, SHORT PAGES USE THE HORIZON
    BACKGROUND). The footer's line, "soil below, the galactic abysses
    above", holds on any page, however short. And her law holds: "the
    background must not depend on the elements, THE ELEMENTS ARE
@@ -815,7 +813,7 @@ body[data-bg="horizon"] .stars {
    order (this sheet loads first). That field is not drawn today
    (gallery/01).
    CHOICE, the grey values are the defaults on `[data-ground]` itself:
-   a later ground (the sketch had slate, marble and cloud) would change
+   a later ground would change
    only the custom properties, under `[data-ground="<name>"]`.
    CHOICE, FIXED TO THE VIEWPORT, not to the document as background/02 is:
    the gallery is 48 homepages tall at 1440 (168,069px), so a
@@ -842,8 +840,7 @@ body[data-bg="horizon"] .stars {
    seams between photos (4px; 2px on phones).
 
    VISION, her brief: "a marbled background but in neutral, b&w"
-   (docs/HISTORY.md, background/05); her ruling: "grey marble for
-   sepulchre is perfect!" (docs/DECISIONS.md, "THE SEPULCHRE GALLERY
+   (docs/DECISIONS.md, "THE SEPULCHRE GALLERY
    USES THE GREY GROUND"). Measurements, the rejected grounds and the
    red check: docs/HISTORY.md, "background/05".
    ---------------------------------------------------------- */

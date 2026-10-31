@@ -61,11 +61,8 @@
   color: var(--bone);
 }
 
-/* The header: centred, then 8px down to the sky. HER WORDS, 2026-10-29
-   (page 5): "Yes, the header must be centered on all the pages,
-   including the Atlas one." (the piece pages excepted, her OK the same
-   day; the text pages' header is page 6). The spec: uiux sketches/page5
-   (abd79fd), `page5.css` §3, `head=centre`, verbatim: the seal, the
+/* The header: centred, then 8px down to the sky, as every page's
+   header is but the piece pages': the seal, the
    h1, the notice, the sentence and the way, centred on the column's
    middle, the homepage's, the shop's and the Summoning's axis. The
    header takes the column's whole width; the lines below keep their
@@ -136,8 +133,7 @@
    (448px, about 55 to 62 characters a line in Spectral 16) and
    balanced, so its two lines come out near the same length: a centred
    paragraph with one long line and one short reads ragged on both
-   sides (uiux, sketches/page5 README §3: 59 + 47 characters at 1280 and
-   1850). */
+   sides. */
 .atlas-lede {
   font-size: var(--type-body); /* reading text: the body (tokens/02) */
   line-height: var(--leading-body);
@@ -152,8 +148,8 @@
 }
 
 /* The link to the Bestiary: mono, like the site's other small
-   directions, with no arrow and no line (founder 2026-10-09, option A
-   "Clean" of uiux's sketch fc246aa: "clean of unnecessary symbols").
+   directions, with no arrow and no line: the founder's reason, pages
+   "clean of unnecessary symbols" (docs/DECISIONS.md, "CLEAN LINKS").
    ACCESSIBILITY, why no underline: WCAG 1.4.1 asks for a mark other
    than colour where a link sits among other text, so the eye can find
    it in the sentence. This one sits in no sentence: it is alone on its
@@ -173,7 +169,7 @@
 
 /* Hover on the page's text links and the Bestiary link: the site's pink
    glow (the footer's, the logo's, chrome/07's), and nothing else: no
-   border, no underline (her rule, docs/BRAND.md). The index's plates
+   border, no underline (the standing rule, docs/BRAND.md). The index's plates
    glow their names the same way (chrome/09). The one underline that
    comes and goes is a plate's name while its constellation in the sky
    is hovered (chrome/09, `.is-lit`): it says which name the drawing is,
@@ -208,10 +204,9 @@
    ROLE HERE: the way in by looking ("show me who's here"). The order
    turns once a day, so no shop has the first place for good.
 
-   CHOICE, a scatter and not a grid of cells (Direction A, the chart,
-   kept in sketches/atlas/): her ruling B, "the open sky"
-   (docs/DECISIONS.md, "THE ATLAS TAKES B"):
-   the homepage's grammar at full size.
+   CHOICE, a scatter, "the open sky", and not a grid of cells (a
+   chart): the homepage's grammar at full size
+   (docs/DECISIONS.md, "THE ATLAS TAKES B").
    CHOICE, the field grows with the count (`--rows`, set by the script:
    one row of 250px per three shops, never under 62svh) instead of
    packing more shops into one screen: the dark between constellations
@@ -269,8 +264,8 @@
    arrives; the script leaves a single shop unplaced. */
 .atlas-sky-list:has(> .atlas-star:only-child) {
   height: 62svh;
-  padding-top: calc(0.12 * 62svh); /* 12% of the field down: the sketch's
-     place for it (sketches/atlas/, Direction B). */
+  padding-top: calc(0.12 * 62svh); /* 12% of the field down (reason
+     not recorded). */
 }
 
 .atlas-star:only-child {
@@ -305,18 +300,18 @@
    atlas/03 — A CONSTELLATION
    WHAT: one shop, drawn: an inline SVG (bone stars, teal lines, the
    shop's own star at the hub) and the shop's name and craft under it,
-   lettered on the sky (no plate since 2026-10-31, hover labels A, the
-   rule below). The whole of it is one link to the shop. The name
+   lettered on the sky (no plate, the rule below). The whole of it is
+   one link to the shop. The name
    is hidden (opacity 0) until the link is hovered or has keyboard
    focus, or its name in the index is (`.is-lit`, script.js).
 
    ROLE HERE: each constellation is the shop's signature, drawn once
    and stored with the shop, the same on the Atlas, the homepage and
-   the shop's own page (her D5, docs/DECISIONS.md, "THE ATLAS TAKES B").
+   the shop's own page (docs/DECISIONS.md, "THE ATLAS TAKES B").
 
-   CHOICE, the name on hover or focus, not always written (Direction
-   A): her ruling B, the homepage's pattern (home/04's skymap labels).
-   The cost is recorded with the ruling: a name you must point at to
+   CHOICE, the name on hover or focus, not always written: the
+   homepage's pattern (home/04's skymap labels).
+   The cost: a name you must point at to
    read, and on touch the homepage's sticky-hover problem.
    CHOICE, hidden by opacity, not `display: none`: the name stays the
    link's text, so a screen reader reads it at rest too.
@@ -324,7 +319,7 @@
    ACCESSIBILITY: a lit constellation changes shape, not only colour:
    the lines thicken and the name appears. The focus ring goes round the
    whole drawing (an ellipse, `border-radius: 50%`), 2px of solid teal.
-   KNOWN GAP, touch: see the sky's comment in atlas.html (4a audit #8).
+   KNOWN GAP, touch: see the sky's comment in atlas.html.
    VISION: the homepage's skymap, "a celestial map, partially erased by
    time" (her words, home/04): Vârcolac's drawing keeps its erosion.
    ---------------------------------------------------------- */
@@ -372,14 +367,9 @@
 /* The name and craft, centred under the drawing, on one line each,
    LETTERED on the sky: no plate, no border, held by the labels' halo
    (`--halo-label`, tokens/02, the nav's star names' own).
-   HER WORDS, 2026-10-31: "1. Hover labels: A", A "lettered" of uiux's
-   three (t_bc3cf697, sketches/hover-labels/README.md + base.css, item
-   4): the plate and its hairline border were the homepage skymap's
-   (home/04) and go with it; the place does not change. At rest it is
-   invisible and 4px higher; it drops into place as it appears.
-   Measured in the sketch, per glyph pixel, 1280×903 and 1850×925: the
-   name 8.11–8.16:1, the craft 6.35–6.47:1; over the worst clear ground
-   of the Atlas sky 7.52 / 5.92. */
+   CHOICE, lettered and not on the homepage skymap's plate with its
+   hairline border (home/04): reason not recorded. At rest it is
+   invisible and 4px higher; it drops into place as it appears. */
 .atlas-star-label {
   position: absolute;
   left: 50%;
@@ -394,10 +384,8 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* THE NAME: the old Atlas index's name (until the plates, 2026-10-31),
-   Spectral italic 16 in `--bone-head` (hover labels A); it was Space
-   Mono 12 in `--bone`. THE CRAFT: Space
-   Mono 12 in `--bone-label`, one step down, unchanged. */
+/* THE NAME: Spectral italic 16 in `--bone-head`. THE CRAFT: Space
+   Mono 12 in `--bone-label`, one step down. */
 .atlas-star-name {
   display: block;
   font-family: var(--interface);
@@ -444,21 +432,15 @@
    WHAT: every shop as a fashion plate, A to Z, in rows of at most five,
    a short last row centred: the homepage roster's plate, the same one
    (chrome/09 draws the row and the plate; here only the section and its
-   heading). HER PICKS, 2026-10-31 19:50 (uiux t_9d6109aa,
-   sketches/roster-atlas-magazine/plates/README.md): "The roster looks
-   great with the new design." and "1. I like the Candidate 1 mark. 2.
-   OK, keep the numbers on both pages." (here "Planche I, II…" follows
-   the alphabet).
-   WHAT IT REPLACED (2026-10-31): the names as links in up to four
-   newspaper columns (`columns: 4 14rem`), and while there were 1 to 4
-   shops one centred row instead (uiux t_d014c70a); each entry the name
-   in Spectral italic 16 over the craft in Space Mono 12, a 44px box.
+   heading). The plates keep their numbers here too ("Planche I, II…"
+   follows the alphabet).
    History: docs/HISTORY.md, atlas/.
 
    ROLE HERE: the way in by name, and the page's plain list for a
    screen reader. Under the sky: at 50 shops it starts thousands of
    pixels down, and the skip link or a screen reader's list jump is the
-   quick way to it (the cost of B, recorded with her ruling).
+   quick way to it (the cost of the open sky, docs/DECISIONS.md, "THE
+   ATLAS TAKES B").
 
    CHOICE, rows A to Z, not columns: the plates are one object on both
    pages, and a plate is read across, like the shops' walls; with rows
@@ -472,18 +454,14 @@
 }
 
 /* The index's heading: a small tracked label, centred on the header's
-   axis over the plates. "nocount" (her "OK", 2026-10-30, to uiux
-   t_5e609701's recommendation; atlas.html says why): the count after
-   it is for screen readers only (`.atlas-index-count.sr-only`), and the
-   hairline under it went with its 12px padding, as the Bestiary's
-   heading's did. CENTRED: her decision, 2026-10-30, "OK, go on with
-   centred label" (uiux t_d014c70a, 3f0e343, recommended the same:
-   page5.css §7, `alabel=centre`).
-   32px TO THE PLATES (was 12px to the list, 2026-10-31): the distance
+   axis over the plates (centred: reason not recorded). The count after
+   it is for screen readers only (`.atlas-index-count.sr-only`;
+   atlas.html says why), and it has no hairline under it, as the
+   Bestiary's heading has none.
+   32px TO THE PLATES: the distance
    the homepage's two labelled regions keep, so the plates' heading is
-   the same on both pages (uiux t_035ae8af). No fleuron under it: her
-   (a), "the svg icon under the 'When the stars are right' title should
-   be removed", taken here too for one family (atlas.html).
+   the same on both pages. No fleuron under it, as on the homepage, for
+   one family (atlas.html).
    INK: `--bone-label`, the small tracked labels' tone (tokens/02). */
 .atlas-index h2 {
   font-family: var(--mono);

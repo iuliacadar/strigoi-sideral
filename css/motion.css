@@ -1,6 +1,6 @@
 /* ==== motion.css: what stops for a visitor who asks for less motion ====
    OWNS:      every prefers-reduced-motion query on the site but one, background/03's (empty: nothing there moves); one group, motion/01.
-   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   LOADED BY: every page (not the redirect stub shops/texxturedbeest/pieces/roped-knit/, which loads no sheet).
    POSITION:  last on every page, after responsive.css.
    ============================================================ */
 
@@ -33,10 +33,7 @@
    ACCESSIBILITY: a snap moves the page after the visitor stops
    scrolling, and a smooth in-page jump scrolls it for them: motion
    they did not make, which this preference asks to remove (WCAG
-   2.3.3). Proximity snapping does it too, so it is not exempt.
-   Measured, when the nav's Specimens star still jumped to its section
-   (before 2026-10-16; it opens the Bestiary now): a click landed at
-   once (scrollY 1800 after 60ms, 0 without the preference). */
+   2.3.3). Proximity snapping does it too, so it is not exempt. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-snap-type: none;
@@ -128,7 +125,7 @@
 /* home/06 — the specimens' magic-lantern box: nothing moves by itself.
    script.js §1b reads this preference too and starts no operator (no
    push, no Pause button), makes every step a cut and shows the sliver
-   (her "(a)", home/06); here the caption's 0.26s fade and the slides'
+   (home/06); here the caption's 0.26s fade and the slides'
    transition go, in case a step ever sets them, and the icons' 0.2s
    rise from under the stain is instant: they still come up on hover,
    keyboard focus and a chosen state. */
@@ -184,8 +181,7 @@
   /* Both REC dots stop (the scanlines, rendered on neither page, too).
      Each falls back to its base rule: the dot with its split and glow,
      which the next rule replaces. The grain these lines also stopped
-     is gone from both pages (2026-10-12, chrome/05: her "coverd in
-     fog" and "a line", QA t_2fe64579), its two selectors with it. The
+     is gone from both pages (chrome/05), its two selectors with it. The
      shop's `.transmission-rec-dot` keeps its own guard. */
   .sepulchre-scanlines,
   .sepulchre-rec-dot,
@@ -270,8 +266,8 @@
 
 /* shop/01 and shop/04 — the stage, in every skin, on a piece's page
    (product/02). What moves becomes
-   instant or a plain fade (the spec's reduced-motion note, §11.7 item
-   4): no ripple; the colour split's copies and the photo's grade jump
+   instant or a plain fade: no ripple; the colour split's copies and
+   the photo's grade jump
    instead of easing (on a piece's page the photo is an <img>,
    `.piece-photo`); the words fade in and out over 0.3s, with no blur
    and no rise. The hint still fades out over 0.4s when spent
@@ -299,7 +295,7 @@
 /* shop/08 — the shop's summon (Séance only): the words at a photo's
    foot fade in and out over 0.3s, with no blur and no rise, as `.desc`
    above. The pill goes and comes back at once, with no 0.4s fade (the
-   spec's summon.css; the piece page's hint keeps its fade, above,
+   piece page's hint keeps its fade, above,
    because there it goes once and for good, while the shop's comes and
    goes on every summon). */
 @media (prefers-reduced-motion: reduce) {
@@ -319,8 +315,8 @@
 /* shop/05 — Transmission: the scanlines, the grain and the REC dot
    stand still (the dot at full strength). The crawl stops and shows
    the start of one copy, 14px in from each side of the strip, ending
-   in "…" (45 characters at 1440, 44 at 390): uiux's ruling, the WHAT
-   and WHY in shop/05's crawl block. `flex: 1 1 auto; min-width: 0`
+   in "…" (45 characters at 1440, 44 at 390): the WHAT and WHY are
+   in shop/05's crawl block. `flex: 1 1 auto; min-width: 0`
    hold the line to the strip's width so `text-overflow` has an edge to
    cut at; the markup's second copy is hidden past the "…". The strip
    gives way to summoned words over 0.3s instead of the 0.6s curve, as

@@ -10,15 +10,14 @@
    name "Summoning" and the <h1> "What binds the circle", in a centred
    column at most 760px wide, 160px from the top.
    ROLE HERE: the page's own rules besides the wheel (summoning/02).
-   The page loads six of the site's eleven sheets (tokens, background,
+   The page loads six of the site's twelve sheets (tokens, background,
    chrome, summoning, responsive, motion); its nav, eyebrow, layers and
    footer are the shared sheets' rules.
    THE TEMPLATE: this header is the text pages' header (chrome/07): the
    same small name (12px, 24px of ink above the title), the same title
    (48, line-height 1.15), its letters on the same line, 165px from the
-   top of the page, with or without a name over it. Her question
-   (2026-10-28): "The summoning page is going to be a template for the
-   7 pages linked to the footer's links, isn't it?"; her answer: yes.
+   top of the page, with or without a name over it: this page is the
+   template for the pages the footer links to.
    What stays the Summoning's own: the centring and the wheel. The page
    is one centred object round the wheel; the text pages are read line
    by line, like a letter, and long legal text is hard to read centred.
@@ -58,7 +57,7 @@
    (tokens/02), at the title's size, 48 (the scale's, tokens/02: every
    page's h1), with the titles' 1.15 leading. Not `h1.title`, the
    homepage's wordmark, one of the scale's two exceptions.
-   INK: `--bone-bright`, the titles' tone (tokens/02; ruling D10):
+   INK: `--bone-bright`, the titles' tone (tokens/02):
    10.04 / 8.27:1, median / worst pixel, at 1280 (10.03 / 8.40 at 1850).
    `font-weight: 400`: IM Fell English comes in one weight, so 400 is
    what draws (as chrome/03's `h1.title`). */
@@ -85,8 +84,7 @@
    (responsive/05).
    VISION: her brief, verbatim: "the vision section must be written in
    a circle, a wheel, as a chant or incantation. Not a doctrine, a
-   summoning, a spell." Of three sketches she chose this one: "the
-   wheal, I like 003-rings version" (sketches/doctrine-wheel/). It has
+   summoning, a spell." It has
    a page of its own because, in her words, "the summoning is still a
    part of the strigoi's doctrine, the glue that brings specific
    creators together" (docs/DECISIONS.md, "DOCTRINE WHEEL" and
@@ -100,7 +98,7 @@
    index and scrambled the colours and places (the recorded reason).
    The second movement's classes (`.movement-manifest`,
    `.ring-manifest`) keep its old name, "The Manifest", now "The
-   Haunting" (her choice, 2026-10-28): a class is a hook, not a word
+   Haunting": a class is a hook, not a word
    anyone reads, so it was left as it is.
    ACCESSIBILITY: the SVG is `aria-hidden`; it repeats what the three
    <h2> names say. The movements stay in source order, Binding,
@@ -125,7 +123,7 @@
    three of its links at 900), and up to about 880px The Binding
    overlaps The Gathering. From 1150px up its last line ends 14px under
    the stage, inside the section's 60px foot, clear of the footer
-   (measured 2026-10-28, the words at 20px). */
+   (the words at 20px). */
 .orbit-stage {
   position: relative;
   width: min(94vw, 1080px);
@@ -147,13 +145,12 @@
   stroke-width: 1;
 }
 
-/* The rings: teal inside, bone on the two outer rings. Her words
-   (2026-10-28): "I don't like the choice of color for the pink
-   circles, here. In my opinion, magenta is a more violent pink and the
-   one we have here seems more like a pastel. Replace the pink with
-   something else on the palette, even bone color would look better to
-   me."; of the four ways uiux drew (all bone, teal and bone, all teal,
-   as built), she picked teal and bone: "R2".
+/* The rings: teal inside, bone on the two outer rings. The founder's
+   reason for leaving the old pink: "I don't like the choice of color
+   for the pink circles, here. In my opinion, magenta is a more violent
+   pink and the one we have here seems more like a pastel. Replace the
+   pink with something else on the palette, even bone color would look
+   better to me."
    CHOICE, the inner ring keeps its teal: the Binding's words end in
    "the cold static of an abyss much further out", the site's one cold
    note; the two outer rings take the bone of the words and the core
@@ -240,13 +237,13 @@
    Atlas's and the Bestiary's Latin seals. 14px above its words, the
    wheel's own spacing.
    CHOICE, IM Fell SC and not Space Mono (the site's interface voice,
-   which these names wore in bold until 2026-10-28): the whole doctrine
+   which these names once wore in bold): the whole doctrine
    then speaks in one family, the title in Fell italic, the names in
    Fell SC, the words in Fell; mono is the voice of the HUDs and the
    labels, and the doctrine is the one place without instruments. The
    names were the site's only bold; Space Mono 700 is no longer fetched.
-   INK: `--bone-label`, the labels' and seals' tone (tokens/02; ruling
-   D10: a small name over its text is a label): 6.76 / 5.57:1 at 1280,
+   INK: `--bone-label`, the labels' and seals' tone (tokens/02: a
+   small name over its text is a label): 6.76 / 5.57:1 at 1280,
    6.77 / 5.35 at 1850 (median / worst pixel of their line boxes). */
 .movement-name {
   font-family: var(--serif-sc);
@@ -260,9 +257,9 @@
   display: block;
 }
 
-/* CHOICE, the three names in one bone, not their rings' colours: she
-   chose bone text on every page and, asked about this cost, chose
-   bone here too (ruling D8). What is lost: the name-to-ring colour
+/* CHOICE, the three names in one bone, not their rings' colours: the
+   text is bone on every page, here too, even at this cost. What is
+   lost: the name-to-ring colour
    echo. What still pairs them: each name sits beside its ring. */
 
 /* The doctrine's words, her text, in IM Fell English at 20px, the

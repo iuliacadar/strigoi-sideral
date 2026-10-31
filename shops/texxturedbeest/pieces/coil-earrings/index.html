@@ -31,20 +31,18 @@
      grave-soil/, product/01-06), its markup and classes kept, so every rule
      and the script treat it the same; the demo's pages say why each block
      is there.
-     THE WORDS: the worksheet's §2, verbatim (docs/worksheets/
-     2026-10-30_texxturedbeest-sample-shop-copy.md, DECIDED 2026-10-30):
-     "Price to come" (her decision 2), the Kind, the Material and Edition
-     rows first, Edition "Unique" (3), then the maker's own rows, and no
-     Size row (8): a size made up would be a wrong fact about a real piece.
+     THE WORDS: "Price to come" (no price is invented for her real work),
+     the Kind, the Material and Edition rows first, Edition "Unique", then
+     the maker's own rows, and no Size row: a size made up would be a
+     wrong fact about a real piece.
      Placeholder copy, every word.
      THE PHOTO: hers (assets/founder-photography/, 1080 × 1008, wider than tall),
      one, so no strip (product/05) and "EVIDENCE 01/01"; the frame takes the
-     photo's own shape (`--ratio`), whole, with no crop. Not sticky: the
-     template hasn't been since her ruling of 2026-10-24 (product/02, "ONE
-     PACE"). uiux t_d21adf11, sketches/texxturedbeest/README.md §3.
+     photo's own shape (`--ratio`), whole, with no crop. Not sticky, as
+     the template (product/02, "ONE PACE").
      `shop-page` gives the shop's flat ground (shop/02); `piece-page` this
      page's padding (product/01). Built by sketches/texxturedbeest/build/
-     make_live.py (frontend t_3fe1fdd6); hand-kept from here. -->
+     make_live.py; hand-kept from here. -->
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="distressed-plate" aria-hidden="true">
   <div class="distressed-grain"></div>
@@ -68,7 +66,7 @@
 <main id="main" tabindex="-1">
 <!-- THE PIECE, named by its <h1>; `data-skin="seance"` in the markup
      (product/02). The column: the way back to the shop, the name, the
-     kind, the price (plain, never summoned, her P6) and the inert buying
+     kind, the price (plain, never summoned) and the inert buying
      slot, "Add to bag" and "Save", as on every demo piece (product/04). -->
 <article class="piece" data-skin="seance" aria-labelledby="piece-name">
   <div class="piece-text">
@@ -83,8 +81,8 @@
   </div>
 
   <!-- THE STAGE (product/02): the one photo, whole, at its own shape; the
-       <img> carries the alt (the worksheet's, written from the photo
-       only); the button summons the description. `--photo` resolves
+       <img> carries the alt (written from the photo only); the button
+       summons the description. `--photo` resolves
        against css/shop.css, hence ../assets/. -->
   <div class="piece-stage" style="--ratio: 1080 / 1008;">
     <div class="piece-frame">
@@ -121,8 +119,8 @@
   </div>
 
   <!-- THE DETAILS (product/06): Material and Edition first, then the
-       maker's own rows, in the worksheet's order; no Size row (her
-       decision 8). -->
+       maker's own rows; no Size row: a size made up would be a wrong
+       fact about a real piece. -->
   <div class="piece-details">
     <h2 class="piece-details-h">Details</h2>
     <dl class="piece-details-list">

@@ -28,15 +28,13 @@
 <link rel="stylesheet" href="../../../../css/motion.css" />
 </head>
 <body class="shop-page piece-page">
-<!-- THIS PAGE: one piece of the demo shop, its product page (product/01;
-     her ruling 2026-10-15, P1 = direction 1 of
-     sketches/product-page/product-page-spec.md: "P1. your recommended
-     option."). The shop lists its pieces as links; the Séance, hold to
+<!-- THIS PAGE: one piece of the demo shop, its product page
+     (product/01). The shop lists its pieces as links; the Séance, hold to
      summon, lives here. `pieces` in the address is a placeholder word,
      hers to choose before launch.
      THE WORDS: the demo shop's own, verbatim.
      THE PHOTOS: AI-generated stand-ins in assets/placeholder-photography/,
-     replaced before launch (her folder ruling, 2026-10-15).
+     replaced before launch.
      `shop-page` gives the shop's flat ground (shop/02); `piece-page`
      this page's padding (product/01). -->
 <a class="skip-link" href="#main">Skip to content</a>
@@ -47,15 +45,10 @@
 </div>
 
 <!-- THE NAV, as on the shop (shops/demo/index.html says why): the logo,
-     the two places, "Atlas" and "Bestiary" (A, since 2026-10-27), and
+     the two places, "Atlas" and "Bestiary", and
      the site's two words, "Lure me in" (the log-in placeholder)
      and "Bag" (no page yet: a link with nowhere to go, said so)
-     (chrome/07). It scrolls away with the top (direction A).
-     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
-     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
-     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2). The places replace the page's
-     line to the Bestiary under the Details ("Every piece, from every
-     shop: the Bestiary", 2026-10-15 to 2026-10-27). -->
+     (chrome/07). It scrolls away with the top (direction A). -->
 <nav class="nav--scrolls site-nav" aria-label="Strigoi">
   <a class="logo" href="../../../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
   <ul class="site-places" role="list">
@@ -74,7 +67,7 @@
      the markup, so with the script off the page is in Séance. -->
 <article class="piece" data-skin="seance" aria-labelledby="piece-name">
   <!-- THE COLUMN (product/03), read first, drawn on the left: plain in
-       every skin. The price is plain, never summoned (her P6); the
+       every skin. The price is plain, never summoned (reason not recorded); the
        facts are in the Details, after the stage (product/06). -->
   <div class="piece-text">
     <a class="piece-shop" href="../../index.html">Vârcolac Atelier</a>
@@ -82,11 +75,8 @@
     <p class="piece-maker">Garment</p>
     <p class="piece-price">€480</p>
     <!-- THE BUYING CONTROL (product/04): "Add to bag", shown as a real
-         piece's page shows it, and inert: the demo is invented. HER
-         WORDS, 2026-10-26, to the PM's question (the dashed placeholder
-         boxes -> the real buttons, shown but inert): "2. Yes" (docs/
-         DECISIONS.md 6f3bd59, (14)). The word is the nav's (DECISIONS
-         85200a4, (7)). `disabled`: no
+         piece's page shows it, and inert: the demo is invented. The word
+         is the nav's. `disabled`: no
          Tab stop, no click, read as "Add to bag, button, unavailable";
          no script touches it. WITH THE BACKEND: enabled, it submits to
          the bag. -->
@@ -94,8 +84,7 @@
       <button type="button" class="piece-buy-btn" disabled>Add to bag</button>
       <!-- "SAVE" (product/04, chrome/08): the saved mark, the drained bite
            from the one symbol in assets/marks/mark-save.svg, and the word.
-           HER WORDS, 2026-10-27: "OK to build it that way: the bite, no
-           nav word, the list under "My crypt"." Named "Save <piece>"
+           No nav word; the saved list lives under "My crypt". Named "Save <piece>"
            (the hidden name after the word), the state `aria-pressed`;
            `disabled` as the button before it: no Tab stop, read as
            "unavailable". WITH THE BACKEND: it saves the piece to the
@@ -160,15 +149,13 @@
   </div>
 
   <!-- THE DETAILS (product/06): a heading and a plain list, label and
-       value, no link, no Tab stop. Her answer to the PM's question 4
-       (2026-10-20, the Details list after the buying slot): "4. Yes".
+       value, no link, no Tab stop.
        After the stage in the reading order and drawn in the column under
        the buying slot (as the way out is), so a phone can read words,
        buy, photo, details. The platform's fixed rows first, each only
        when filled (Material, Edition, Size and its note, Lead time),
        then the maker's own, in her order. A <div>, not a <section>: no
-       landmark. The rows are invented for the demo (worksheet
-       demo-shop-copy, ADDENDUM 2026-10-21). -->
+       landmark. The rows are invented for the demo. -->
   <div class="piece-details">
     <h2 class="piece-details-h">Details</h2>
     <dl class="piece-details-list">
@@ -179,9 +166,8 @@
     </dl>
   </div>
 
-  <!-- THE WAY OUT that stood here, "Every piece, from every shop: the
-       Bestiary" (2026-10-15 to 2026-10-27), is the nav's "Bestiary" now
-       (A; THE NAV, above), so the piece ends with its Details. -->
+  <!-- The piece ends with its Details; the way to the Bestiary is the
+       nav's "Bestiary" (THE NAV, above). -->
 </article>
 
 <!-- THE DEMO LINE (shop/09's, product/01): the demo's own two things,
@@ -189,19 +175,15 @@
      hairline after the piece and its Details, before the
      footer: the shop's line, in the same place on this page. A real
      piece's page has neither, so a visitor's page is everything above
-     it. HER WORDS, 2026-10-24: "1. Please, move the skin switcher below
-     the main sections of the page. I want to see how the product page
-     looks for the visitors." Was: the switcher alone at the top of
-     <main>, level with the logo; its room there stays, empty
-     (product/01), so the piece doesn't move. An <aside> named "Demo
+     it. CHOICE, at the foot, not at the top of <main>: the founder's
+     reason, "I want to see how the product page looks for the
+     visitors." The switcher's room at the top of <main>, level with the
+     logo, stays, empty (product/01), so the piece doesn't move. An <aside> named "Demo
      controls", inside <main>, as on the shop.
      THE NOTE: the shop's DEMO note, its whole sentence and its markup
-     (the writer's words, worksheet ADDENDUM 2026-10-23 §F.1), so a
+     (placeholder copy), so a
      visitor who presses the buying control above and gets nothing can
-     find out why here. HER WORDS, 2026-10-26, on uiux t_6f66bda1's
-     item 4 (b489a63, sketches/page2-final-stills/round7/README.md):
-     "Yes to both questions." Was: its first clause only ("Demo — the
-     switcher tries the three skins."). A <p>, no Tab stop.
+     find out why here. A <p>, no Tab stop.
      THE SKIN SWITCHER, the demo's (shop/03, script.js §5): it dresses
      this page's stage, and the choice is carried to the shop and the
      other pieces for this tab (§5b). `role="radiogroup"` with its

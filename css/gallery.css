@@ -75,7 +75,7 @@ body.gallery-page {
   transform: translateY(calc(-100% - 4px));
   margin: 0;
   font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
   letter-spacing: var(--track-line);
   line-height: 18px;
   text-align: center;
@@ -196,7 +196,7 @@ body.gallery-page {
   top: 6px;
   left: 6px;
   font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
   color: var(--bone);
   background: rgba(16, 16, 17, 0.6);
   padding: 2px 6px;
@@ -224,13 +224,13 @@ body.gallery-page {
    1440 a square one is 770px, a 4:5 one 616 × 770.
    VISION: one of the two references she flagged for the site is a
    found VHS tape, a camcorder stamp burned into the frame's corner, a
-   couple of its characters lost to damage (docs/SHOP-TEMPLATE.md §7).
-   The spec took it for this viewer (§7.0): the photo is the only
-   artefact, the stamp damage on it, not a label beside it. Since her
-   ruling "ok to do the text visible" (which the PM reads as covering
-   the lightbox; she was told and didn't object: docs/DECISIONS.md)
-   the stamp, ×, ‹ and › sit on dark scrims (below); on a pale photo
-   the stamp's is a visible dark pill, the cost she accepted.
+   couple of its characters lost to damage. The shop template takes
+   it for this viewer: the photo is the only artefact, the stamp damage
+   on it, not a label beside it. So that
+   the text stays visible on any photo (docs/DECISIONS.md, THE SHOP'S
+   SUMMONED WORDS AND THE LIGHTBOX GLYPHS GET A DARK SCRIM), the
+   stamp, ×, ‹ and › sit on dark scrims (below); on a pale photo the
+   stamp's is a visible dark pill, an accepted cost.
    History: docs/HISTORY.md, gallery/03.
    ---------------------------------------------------------- */
 
@@ -268,19 +268,20 @@ body.gallery-page {
   scrollbar-gutter: stable;
 }
 
-/* The column: the photo's wrap, then the caption line (a column since
-   SHOP-TEMPLATE §7 took away the side panel that shared the row), at
+/* The column: the photo's wrap, then the caption line (a column: no
+   side panel shares the row any more), at
    most 1100px wide and 90vh tall (95vh at 800px and below,
    responsive/04). WHAT WOULD BREAK: without `align-items: center`
    the photo leaves the centre for the column's left edge (165px at
    1440 for a square photo, 242 for a 4:5); the wrap's `fit-content`
-   keeps the HUD on it. When the wrap was `width: 100%` it also kept
-   the HUD off the empty bar (her screenshot, docs/SHOP-TEMPLATE.md §9).
+   keeps the HUD on it. With `width: 100%` instead, the wrap would
+   take the whole column and the HUD would sit out on the empty bar
+   beside a narrow photo, off the picture.
    Its ground is `--above-black`, solid: the letterbox bars beside a
    photo narrower than the column. The same black as the backdrop, so
    bars and backdrop read as one: beside a 4:5 photo at 1440 the bar
    measures 16/255 and the backdrop 15–18. It was a warm brown, which
-   she saw as a frame round the photo (§8).
+   she saw as a frame round the photo.
    `--lb-column-h` is the column's height cap, a property so the
    captioned photo's cap (below) can subtract from the same figure
    responsive/04 raises. `overflow: hidden` clips whatever would pass
@@ -321,7 +322,7 @@ body.gallery-page {
 
 /* The photo, whole (`object-fit: contain`), never wider than the
    column nor taller than 90vh − 40px (less with a caption, next
-   rule). `display: block` (§9.3) is idle while the wrap is flex: a
+   rule). `display: block` is idle while the wrap is flex: a
    flex item is block already. Without flex on the wrap, the baseline
    gap adds 8px under the photo: the HUD 6px from its foot, not 14. */
 .lightbox-img-wrap img {
@@ -352,7 +353,7 @@ body.gallery-page {
    #0000/1615", in Space Mono 11.5px and `--bone-label`, the labels'
    tone (tokens/02), one line at every size measured. Placed against
    the photo's corner, not the screen's: it has to read as burned into
-   the frame (SHOP-TEMPLATE §7.2). `aria-hidden` in the markup: the
+   the frame. `aria-hidden` in the markup: the
    dialog's name already says which photograph. The dark text-shadow
    stays for the look; the plateau below does the reading.
    `isolation: isolate` makes it a stacking context, so the plateau's
@@ -366,7 +367,7 @@ body.gallery-page {
   max-width: calc(100% - 32px);
   text-align: right;
   font-family: var(--mono);
-  font-size: var(--type-label); /* the scale's line (tokens/02); her yes to 12, 2026-10-28 */
+  font-size: var(--type-label); /* the scale's line (tokens/02) */
   letter-spacing: var(--track-line);
   line-height: 1.4;
   color: var(--bone-label);
@@ -376,7 +377,7 @@ body.gallery-page {
     0 0px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* Her ruling "ok to do the text visible" (docs/DECISIONS.md, THE SHOP'S
+/* The stamp stays visible on any photo (docs/DECISIONS.md, THE SHOP'S
    SUMMONED WORDS AND THE LIGHTBOX GLYPHS GET A DARK SCRIM).
    Text-shadow alone (above) assumes a photo dark enough for a light
    label; on a light/high-key photo no shadow blur fixes light-on-light.
@@ -409,12 +410,12 @@ body.gallery-page {
    ink, split into magenta and teal ghosts by a 1px text-shadow either
    side (`--magenta` at .55, `--teal` at .45), the chromatic aberration
    of a worn tape. Static: a flickering glitch would be a UI effect
-   calling attention to itself (SHOP-TEMPLATE §7.6).
+   calling attention to itself.
    CHOICE: the ink is `--bone-label`, the HUD's own tone, not the
-   `--magenta-label` it was: every text on the site is bone, by her
-   rule. The glitch now reads through the shadow's colour fringe, not
-   through the ink. The fringe stays: coloured glows are light, not ink
-   (her ruling D9). */
+   `--magenta-label` it was: every text on the site is bone, by the
+   site's rule. The glitch now reads through the shadow's colour fringe,
+   not through the ink. The fringe stays: coloured glows are light, not
+   ink. */
 .lb-hud-glitch {
   display: inline-block;
   color: var(--bone-label);
@@ -434,8 +435,8 @@ body.gallery-page {
    can't push the photo around; the photo's own cap keeps those 3
    lines' room (above).
    CHOICE, demoted to a line and not deleted with the old side panel:
-   the spec's reason, "she asked for the panel gone, not the captions
-   gone" (SHOP-TEMPLATE §7.1). */
+   the shop template's reason, "she asked for the panel gone, not the
+   captions gone". */
 .lb-caption-line {
   margin: 14px 4px 0;
   font-family: var(--interface);
@@ -456,7 +457,8 @@ body.gallery-page {
 }
 
 /* No caption, no line: script.js sets the text to empty, and the
-   line takes no room. No "No caption." placeholder (§7.1). */
+   line takes no room. No "No caption." placeholder: no empty state
+   waiting for words under the photo. */
 .lb-caption-line:empty {
   display: none;
 }
@@ -585,9 +587,9 @@ body.gallery-page {
 
 /* ----------------------------------------------------------
    gallery/04 — ROOM ZERO'S FOOTER (was GROUP 11b)
-   chrome/06's footer ("[the footer] must have one!!", her words,
-   docs/worksheets/ROOM-ZERO.md). Here only the seep's colours: the grey ground's
-   field and ink (background/05); no red in Room Zero (her ruling D4).
+   chrome/06's footer (the founder's reason: "[the footer] must have
+   one!!"). Here only the seep's colours: the grey ground's
+   field and ink (background/05); no red in Room Zero.
    History: docs/HISTORY.md, chrome/06.
    ---------------------------------------------------------- */
 .room-zero-footer {

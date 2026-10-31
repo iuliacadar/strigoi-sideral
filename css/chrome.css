@@ -1,6 +1,6 @@
 /* ==== chrome.css: what more than one page wears ====
    OWNS:      content lifted above the painted layers (chrome/01); the nav, on twenty-two pages (02); the hero's type, the homepage's and the demo shop's (03); the section eyebrow, seven on six pages (04); the sepulchre and the gallery's threshold (05); the footer, every page (06); the text page: its column, the scrolling nav, the site's account-and-bag slot in it, the footer's row of links (07); the saved mark, its one drawing and its two states, on the wall, the Bestiary and the piece pages (08); the plates, the homepage roster's and the Atlas index's one plate (09).
-   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   LOADED BY: every page (not the redirect stub shops/texxturedbeest/pieces/roped-knit/, which loads no sheet).
    POSITION:  third on every page: after tokens.css and background.css, before the page's own sheet (if it has one), responsive.css and motion.css.
    ============================================================ */
 
@@ -185,9 +185,8 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    Keyboard focus: no rule here. The logo takes the site's ring as
    tokens/03 draws it, 2px of solid teal, 4px out.
    ACCESSIBILITY: on the homepage it reads 4.28 to 4.31:1 median, 3.70
-   lowest (1440 and 390). The 1px ring at half strength it once had
-   read 2.10 median, 1.96 lowest, under the 3:1 a focus indicator
-   needs (docs/HISTORY.md, chrome/02). */
+   lowest (1440 and 390), over the 3:1 a focus indicator needs
+   (docs/HISTORY.md, chrome/02). */
 .logo:hover {
   color: var(--bone);
   text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
@@ -269,14 +268,13 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    background is a box behind it, and that is the "button aspect" the
    founder refused. Instead: a quieter bone and a dark text-shadow halo.
    INK: `--bone-label` at opacity 1, the labels' tone of the bone ramp
-   (tokens/02; her ruling D10). It replaced bone at opacity 0.8 (5.59 /
-   5.22:1, median / worst pixel); the tone measures 6.9 / 6.3 at 1440
-   on the homepage's first screen without the halo, 7.3 / 6.6 with it.
+   (tokens/02). The tone measures 6.9 / 6.3:1 (median / worst pixel)
+   at 1440 on the homepage's first screen without the halo, 7.3 / 6.6
+   with it.
    Opacity only hides and shows a label (0 or 1), never dims it.
    TYPE: the scale's label size and tracking (tokens/02: 12px, 0.12em);
-   the face and weight stay the nav's own, Spectral 500, approved with
-   the nav (2026-10-27), so only the size and the tracking follow the
-   scale.
+   the face and weight stay the nav's own, Spectral 500, so only the
+   size and the tracking follow the scale.
    Numbers: docs/HISTORY.md, chrome/02. */
 .nav-star-label {
   font-family: var(--interface);
@@ -287,8 +285,8 @@ nav.nav--words-hidden:focus-within .nav-star-label {
   white-space: nowrap;
   color: var(--bone-label);
   /* the labels' halo (tokens/02, `--halo-label`): this rule's value,
-     made a token on 2026-10-31 when the sky's names and the specimens'
-     word took it too (hover labels A); unchanged here. */
+     a token because the sky's names and the specimens' word wear it
+     too; unchanged here. */
   text-shadow: var(--halo-label);
 }
 
@@ -298,8 +296,7 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    `.nav-star--reveal`. */
 
 /* .nav-star--reveal: the two discoveries, Summoning and Sepulchre (no
-   articles in the nav since 2026-10-27: "The Summoning" became
-   "Summoning"; docs/DECISIONS.md 19e5318, (2)).
+   articles in the nav: "Summoning", not "The Summoning").
    The name is hidden at rest and appears on hover or keyboard focus.
    ACCESSIBILITY: hidden with opacity, never `display: none`, so the
    name stays in the accessibility tree: a screen reader reads it, and
@@ -323,9 +320,9 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    them runs off the screen on narrow widths. `row-reverse` puts the
    label left of the dot, so it grows back towards the centre.
    (`order` would not help: it swaps the items, but the row still
-   overflows to the right.) The skymap's clusters 1 and 3 did the same
-   until 2026-10-31; their names now sit outside the button's row, placed
-   from the star (home/04, hover labels A), so this is the nav's alone. */
+   overflows to the right.) The skymap's clusters place their names
+   outside the button's row, from the star (home/04), so this is the
+   nav's alone. */
 .nav-star--4,
 .nav-star--5 {
   flex-direction: row-reverse;
@@ -335,8 +332,7 @@ nav.nav--words-hidden:focus-within .nav-star-label {
    glow. ACCESSIBILITY: 4.12 to 4.26:1
    median, 3.43 or more at p10 (the five stars, 1440 and 390). Under
    3:1 only where it crosses a label's letters, up to 5% of its
-   pixels. The 1px ring at 0.6 it replaced read 2.37 to 2.42 median,
-   none of it at 3:1 (docs/HISTORY.md, chrome/02). */
+   pixels (docs/HISTORY.md, chrome/02). */
 .nav-star:focus-visible {
   outline-offset: 6px;
   border-radius: 50%;
@@ -399,7 +395,7 @@ header.hero {
    seals' spacing; the homepage's, a Latin designation, is set in IM
    Fell SC (home/01).
    ACCESSIBILITY: `--bone-label` at opacity 1, the labels' tone (tokens/
-   02; her ruling D10): 7.74 / 6.84:1 (median / worst pixel) on the shop
+   02): 7.74 / 6.84:1 (median / worst pixel) on the shop
    at 1440, 7.74 / 6.90 at 390 (docs/HISTORY.md, chrome/03). */
 .hero-tag {
   font-family: var(--interface);
@@ -420,8 +416,7 @@ header.hero {
    `font-weight: 400`: IM Fell English comes in one weight, 400, so that
    is what draws. A lighter value asks for a face that does not exist
    and the browser draws the 400 anyway (docs/HISTORY.md, chrome/03).
-   INK: `--bone-bright`, the ramp's brightest tone (tokens/02; her
-   ruling D10).
+   INK: `--bone-bright`, the ramp's brightest tone (tokens/02).
    READ MORE: https://developer.mozilla.org/docs/Web/CSS/clamp */
 h1.title {
   font-family: var(--serif-i);
@@ -441,15 +436,14 @@ h1.title .macro {
 
 /* .hero-sub: the paragraph under the title, in Spectral (from `body`).
    On the homepage it is the founder's own text, set exactly as written;
-   the demo shop's hero has none since M2 (shop/09: the maker's bio, in
+   the demo shop's hero has none (shop/09: the maker's bio, in
    its own rule). Full --bone: body text under 24px, so the bar is
    4.5:1, cleared (numbers: docs/HISTORY.md, chrome/03).
    VISION: she asked for "purely literary, poetical texts", and BRAND's
    standing rule follows: the copy "is part of the artwork, not a
    description of it" (docs/BRAND.md, "Voice and copy register").
    TYPE: the scale's body, 16px (tokens/02): it is reading text, and
-   one reading size is the scale's point (her yes to 19.2 → 16,
-   2026-10-28: "3. Yes."). */
+   one reading size is the scale's point. */
 .hero-sub {
   max-width: 52ch;
   font-size: var(--type-body);
@@ -469,9 +463,9 @@ h1.title .macro {
    title's letters (chrome/07, summoning/01). The homepage's two have no
    title under them: they name a whole room (the roster, the
    specimens), so they keep their 24px margin to the room (the roster's,
-   an `<h2>` since the plates of 2026-10-31, 32px: home/05).
-   INK: `--bone-label` (tokens/02; D10): worst glyph pixel 5.43–6.38:1 at
-   1440; at 390 a skymap star sits on the roster's (3.41; task 4a's #13).
+   an `<h2>`, 32px: home/05).
+   INK: `--bone-label` (tokens/02): worst glyph pixel 5.43–6.38:1 at
+   1440; at 390 a skymap star sits on the roster's (3.41).
    History: docs/HISTORY.md, chrome/04.
    ---------------------------------------------------------- */
 .section-eyebrow {
@@ -490,12 +484,12 @@ h1.title .macro {
    (`.sepulchre`, home/07 holds its frame) and the gallery's header
    (`.threshold`, a <header>). Every rule here styles both: a mono
    kicker with a REC dot, the italic inscription (the link through the
-   door), a Latin seal. No grain: both pages lost it together on
-   2026-10-12 (below, at the overlay). The two columns render alike;
+   door), a Latin seal. No grain: both pages lost it together
+   (below, at the overlay). The two columns render alike;
    the italic words, the seal line's alpha and the ground differ.
    VISION, her words: "the threshold inner must look the same as
    sepulchre-inner of homepage (only the text in italics to be
-   different)" (docs/DECISIONS.md, rulings D1–D11). The register is
+   different)" (docs/DECISIONS.md). The register is
    hers too: "sepulchre section must look different, more like the
    glitching tape" (docs/BRAND.md, "The Sepulchre section").
    No rule here paints a ground: the homepage's crimson is the page
@@ -506,9 +500,9 @@ h1.title .macro {
 /* The section / header box. `z-index: 2` comes from chrome/01.
    `overflow: hidden` was there to clip the grain, 40% larger than the
    box, which widened the document by 20% of the screen unclipped
-   (1728px at 1440). The grain is gone (2026-10-12, below), so the
-   clip guards nothing measured today; it stays because the ruling
-   changed only the grain, and it costs nothing.
+   (1728px at 1440). The grain is gone (below), so the clip guards
+   nothing today; it stays because only the grain was removed, and it
+   costs nothing.
    WHAT WOULD BREAK: an opaque `--below` instead of `transparent`
    paints over the leak stains on the homepage and turns the gallery's
    grey header crimson (about 70 to 90 of 255). */
@@ -549,16 +543,14 @@ h1.title .macro {
    signal bleeding into the section, not a video panel with a hard
    edge. The same technique as the shop's Transmission skin (shop.css).
    NOTHING RENDERS IN IT NOW, on either page. Its one live layer was
-   the grain, and the grain is gone from both (2026-10-12): the
-   founder saw Room Zero "coverd in fog, it's faded", with "a line
-   somewhere below the "See the full bestiary" link". Both were the
-   grain (QA t_2fe64579): its top edge, cut by the box where this mask
-   is still about 44% open, was the line (2.04 of 255 at 1920x1080,
-   0.17 without it); below it the grain lifted the ground by up to 5
-   of 255 and flattened its texture by 12-17%, the fog. Gone from both
-   pages together so the threshold still looks like the sepulchre
-   (D1). docs/DECISIONS.md, NO GRAIN IN ROOM ZERO OR ON THE GALLERY
-   THRESHOLD; numbers: docs/HISTORY.md, chrome/05.
+   the grain, and the grain is gone from both: the founder saw Room
+   Zero "coverd in fog, it's faded", with "a line somewhere below the
+   "See the full bestiary" link". Both were the grain: its top edge,
+   cut by the box where this mask is still about 44% open, was the
+   line; below it the grain lifted the ground and flattened its
+   texture, the fog. Gone from both pages together so the threshold
+   still looks like the sepulchre. docs/DECISIONS.md, NO GRAIN IN ROOM
+   ZERO OR ON THE GALLERY THRESHOLD; numbers: docs/HISTORY.md, chrome/05.
    CHOICE, the empty box kept, not deleted with its rule: the
    scanlines below are commented out inside it and need its mask and
    opacity to come back as they were; empty, it paints nothing
@@ -577,7 +569,7 @@ h1.title .macro {
 /* The scanlines: NO PAGE RENDERS THIS RULE. Both divs are commented
    out in the markup: a steady downward crawl (20px a second) reads as
    an apparatus running, for her "In the soil the movment is almost
-   like deaf" (docs/worksheets/, the deaf-soil verdict).
+   like deaf".
    Kept so either page can switch it back on; the keyframes are also
    the shop's Transmission scanlines'. */
 .sepulchre-scanlines,
@@ -596,7 +588,7 @@ h1.title .macro {
 
 /* The grain's rule (`.sepulchre-grain, .threshold-grain`, 0.14 of
    `--grain-noise` in `screen`, 40% larger than the box, jittering)
-   is deleted with its two divs, 2026-10-12: the overlay's comment
+   is deleted with its two divs: the overlay's comment
    above says why; its last declarations are in docs/HISTORY.md,
    chrome/05.
    The keyframes stay here, where they were: only the shop's
@@ -643,9 +635,9 @@ h1.title .macro {
    CHOICE, the 4px glow at 0.5, not the old 7px at 0.75: a glow wider
    than the split's 1.5px offset swallows it, and the old dot was the
    loudest thing in the section.
-   THE LOZENGE, her decision: in tears A and B the dot is a short
-   streak, about 108ms of each 4.3s (2.5%), round the rest. Do not
-   make it round again without a new ruling from her.
+   THE LOZENGE: in tears A and B the dot is a short streak, about
+   108ms of each 4.3s (2.5%), round the rest. The founder chose it
+   (reason not recorded); do not make it round again without asking her.
    `--dot-rest` is one source for this rule and the keyframes' rest
    frames. Reduced motion: the still, full-alpha split in motion/01. */
 .sepulchre-rec-dot,
@@ -716,7 +708,7 @@ h1.title .macro {
    with the width (33.6px from ~930px wide, 24px on phones).
    THE DYING SIGNAL, the text's half: a red/cyan split that is always
    there (the damage at rest), torn wider three times a cycle. The
-   split is light, not ink, and stays (ruling D9).
+   split is light, not ink, and stays.
    WHY MAGENTA LEADS TEAL AT EVERY STOP: on the crimson, magenta is
    near the ground's own hue and barely separates, teal separates
    easily; balanced alphas measured a one-sided teal fringe. Do not
@@ -787,8 +779,8 @@ h1.title .macro {
    shadow snaps, like a dropped frame; an eased one slides and reads
    as breathing, not breaking.
    CHOICE, 4.3s, not a round 4s: 4s would have lined up with the
-   grain's 0.4s cycle every tenth cycle (the grain is gone since
-   2026-10-12; 4.3s stays, the dot's timeline is built on it), and a
+   grain's 0.4s cycle every tenth cycle (the grain is gone; 4.3s
+   stays, the dot's timeline is built on it), and a
    rhythm the eye can learn stops reading as a malfunction. Two
    events, not one: a tear at 34%, then
    at 72–75% a tear, one rest frame, a second tear (the stutter). Torn
@@ -899,9 +891,8 @@ h1.title .macro {
    hairline over it, 18px above the words: BRAND.md gives "crimson for
    rooted-register hairlines and seals"; its alpha is a token,
    `--seal-hairline-a`, .25 here (.12 on the gallery, below).
-   CHOICE, Fell SC and not Space Mono (its face until 2026-10-28): it
-   is Latin, and every other Latin name on the site is engraved; her
-   pick of the small-name rule moved it.
+   CHOICE, Fell SC and not Space Mono: it is Latin, and every other
+   Latin name on the site is engraved; the small-name rule moved it.
    NO BOTTOM MARGIN: on the homepage the old 40px made the centred
    column bottom-heavy; on the gallery it would push the photographs
    about 38px down. The threshold's bottom padding is the gap now. */
@@ -949,15 +940,14 @@ h1.title .macro {
    whose line is short.
    VISION, her words: "I want all the links in all the footers
    covered (at least for the time being, it's closer to my vision)"
-   (docs/DECISIONS.md, 2026-09-30). So the whole footer lies under the
+   (docs/DECISIONS.md). So the whole footer lies under the
    stains, the links with the stylistic line; on the gallery and the
    shop, which have no stains, a seep covers. Only the shop's notice
    and the link a keyboard user is on come above, and, for a mouse,
    every link and the stylistic line while the pointer is over the
    footer (THE FOOTER UNDER THE STAINS, below). Her earlier rule,
    "important links in the footer to be visible and not covered by
-   stains" (rulings D1–D11),
-   the two layers, is kept there as a switch, off.
+   stains", the two layers, is kept there as a switch, off.
    SMALL SCREEN: the same rules at every width; nothing below 1440 was
    designed or measured for the covered footer.
    History: docs/HISTORY.md, chrome/06.
@@ -976,8 +966,8 @@ h1.title .macro {
    gallery).
    No top border: the one it had drew a line across the soil, what
    she refuses: "I don't want to suddenly hit a visual wall/line
-   where the colors look completely different" (docs/worksheets/SPEC-round23-
-   the-veil-changes-sign.md). Type: Space Mono 12px, the scale's line
+   where the colors look completely different". Type: Space Mono
+   12px, the scale's line
    (tokens/02, THE TYPE SCALE: its size and its tracking), `--bone`. */
 footer {
   position: relative;
@@ -1008,8 +998,7 @@ footer {
    later). The logo has the same glow.
    Covered, the glow is drawn under the stain with the words. With
    the pointer in the footer the link is lifted, so the glow is drawn
-   above the stain (691 to 811 px change around one link, against 2 to
-   13 covered; the homepage, terms, the shop, 1440).
+   above the stain.
    Under reduced motion the glow comes on at once (motion.css).
    No bottom padding: the words sit centred in the 44px box. */
 footer a {
@@ -1024,8 +1013,8 @@ footer a:hover {
   text-shadow: 0 0 8px rgba(214, 81, 137, 0.55);
 }
 
-/* THE FOOTER UNDER THE STAINS: every link covered (LIVE, by her
-   choice, 2026-09-30), or in two layers (A SWITCH, OFF, below).
+/* THE FOOTER UNDER THE STAINS: every link covered (LIVE), or in two
+   layers (A SWITCH, OFF, below).
    VISION, her words: "I want all the links in all the footers
    covered (at least for the time being, it's closer to my vision)"
    (docs/DECISIONS.md). So the policy row, "Back to Strigoi" and
@@ -1036,7 +1025,7 @@ footer a:hover {
    Covered, the links read 1.3 to 1.5:1 (as drawn, median of the
    links; 1.0 to 1.2 at the worst pixel), under WCAG AA's 4.5:1.
    The shop's notice ("Demo shop · placeholder products · not for
-   sale") is information, not a link, and stays above (her ruling D3):
+   sale") is information, not a link, and stays above:
    it stops a visitor trying to buy a piece that doesn't exist.
    ACCESSIBILITY: the one link that has keyboard focus comes above the
    stain while it has it, words and ring, and goes back under when
@@ -1048,8 +1037,8 @@ footer a:hover {
    under reduced motion, motion.css) and go back under at once when
    the pointer leaves. Revealed, the links read 6.4 to 7.1:1 (as
    drawn, median of a page's links), 5.9 the lowest link, and the line
-   6.1 to 6.8:1 (as drawn), 5.3 the worst pixel, on the fifteen pages
-   the site had then (2026-10-01), at 1440 and 1920. The glow comes up
+   6.1 to 6.8:1 (as drawn), 5.3 the worst pixel, at 1440 and 1920.
+   The glow comes up
    with the link. Her words for
    it are in docs/DECISIONS.md ("THE COVERED FOOTER LINKS COME UP
    WHILE THE MOUSE IS OVER THE FOOTER", and for the line "THE FOOTER'S
@@ -1149,10 +1138,10 @@ footer:hover a:not(:focus-visible) {
    page sets `--seep-field` and `--seep-ink` (gallery.css, shop.css).
    The covered line reads about 1.3:1 (median) on both pages at 1440
    and 390; without the seep, 6.5 to 6.9:1.
-   CHOICE, a seep and not the leak layers: her ruling D4 (her reasons
-   are not recorded). The spec's (§2.3): the leaks are the red soil.
-   Room Zero's ground is "neutral, b&w" by her choice (docs/HISTORY.md,
-   background/05), and on the shop the leaks would change its ground. */
+   CHOICE, a seep and not the leak layers (the founder's reasons are
+   not recorded): the leaks are the red soil; Room Zero's ground is
+   "neutral, b&w" by her choice (docs/HISTORY.md, background/05), and
+   on the shop the leaks would change its ground. */
 .footer--seep::before,
 .footer--seep::after {
   content: '';
@@ -1200,17 +1189,22 @@ footer:hover a:not(:focus-visible) {
    <footer class="text-footer">. The ten text pages carry all three:
    contact, echolocation, terms, privacy, legal, shipping, returns,
    sizing, the 404 and the log-in placeholder (account/login/). The
-   summoning page, the demo shop and its seven
-   piece pages carry `.nav--scrolls`; the Atlas and the Bestiary
-   `.nav--scrolls` and
-   `.text-footer`. `.text-footer` has no rule: every footer is
+   summoning page carries `.nav--scrolls` alone; the two shops and
+   their pieces carry `.nav--scrolls`; the Atlas and the Bestiary
+   `.nav--scrolls` and `.text-footer`. THE INTERNAL PAGES' NAV
+   (`.site-nav`: the logo, "Atlas", "Bestiary", "Lure me in", "Bag";
+   its rules below) is on every page but the homepage, the summoning
+   page and the gallery (a retired address's redirect stub has no nav):
+   the ten text pages, the two shops and their pieces, the Atlas and
+   the Bestiary; `grep -l 'nav--scrolls site-nav'` lists them.
+   `.text-footer` has no rule: every footer is
    chrome/06's, and the class only names it in the markup. The row of
-   links (`.footer-links`, below) is on every page's footer (her
-   ruling D5), twenty-three pages.
+   links (`.footer-links`, below) is on every page's footer.
 
-   WHAT: a reading column for long plain text. One left-aligned box, as
-   wide as a comfortable line, with the site's own type: Spectral for
-   the text, IM Fell italic for the one <h1>. It adds a scrolling
+   WHAT: a reading column for long plain text. One box centred on the
+   page, as wide as a comfortable line, its header centred and its
+   text left-aligned, with the site's own type: Spectral for the text,
+   IM Fell italic for the one <h1>. It adds a scrolling
    variant of the nav, the type for headings, lists, a definition list,
    a table and in-text links, and a row of links for the footer.
    Every rule starts with one of this group's own classes, so a page
@@ -1228,9 +1222,11 @@ footer:hover a:not(:focus-visible) {
    these pages have none: text in the site's type, on the shared
    ground, with the shared footer. A separate sheet would be one more
    request on the ten text pages, and it would save no page anything:
-   every page uses part of this group (`.footer-links` all twenty-three,
-   `.nav--scrolls` twenty-one). Its rules are 848 bytes, minified and
-   gzipped. tokens.css holds the reset and the base document, and a
+   every page uses part of this group (`.footer-links` every page with
+   a footer, `.nav--scrolls` every page with a nav but the homepage).
+   Its rules are about 1.2 kB (this group's rules only, minified with
+   css-tree and gzipped at level 9: 1,191 bytes). tokens.css holds the
+   reset and the base document, and a
    reading column is a component, not the base. chrome.css already
    holds what several page types share (the nav, 02; the eyebrow, 04;
    the footer, 06), and this group builds on all three.
@@ -1238,10 +1234,12 @@ footer:hover a:not(:focus-visible) {
    matter against chrome/06 (`.footer-links` and the footer's rules set
    different properties); responsive.css and motion.css load after this
    sheet, so they still win.
-   CHOICE, left-aligned and not centred like the summoning page's hero:
-   a centred column gives every line a ragged left edge, and the eye
-   has to find where each line starts. Chanted text can afford that;
-   text that is scanned can't.
+   CHOICE, the header centred and the reading left-aligned (THE
+   HEADER CENTRED, below): the header is centred as on every other page
+   but the piece pages; the text is not, because a centred column
+   gives every line a ragged left edge, and the eye has to find where
+   each line starts. Chanted text can afford that; text that is
+   scanned can't.
 
    SMALL SCREEN: no viewport query. `min(90%, 32rem)` gives way on its
    own: at 390 the 90% governs (351px), 44 characters to a full line
@@ -1249,17 +1247,16 @@ footer:hover a:not(:focus-visible) {
    too wide; at 390 it fits.
    ---------------------------------------------------------- */
 
-/* The logo scrolls away with the top of the page.
+/* The nav scrolls away with the top of the page.
    CHOICE, of the three ways to position it: `fixed` (chrome/02's, the
    homepage's) keeps it over the reading column, where it covers a line
-   of text most of the way down a phone (42 of 48 scroll positions on
-   privacy at 390, in the sketch); `static` puts it in the flow above
+   of text most of the way down a phone; `static` puts it in the flow above
    <main>, moving the column down by the nav's height on every page;
-   `absolute` leaves it where the fixed logo sits on first load and lets
+   `absolute` leaves it where the fixed nav sits on first load and lets
    it leave with the top of the page. The footer carries the way home
    from the bottom.
-   ACCESSIBILITY: the logo stays in the Tab order at every scroll
-   position; focusing it scrolls it back into view. */
+   ACCESSIBILITY: the nav's words stay in the Tab order at every scroll
+   position; focusing one scrolls it back into view. */
 .nav--scrolls {
   position: absolute; /* overrides chrome/02's `fixed`; top, left,
                          right, z-index and padding stay as chrome/02
@@ -1267,36 +1264,30 @@ footer:hover a:not(:focus-visible) {
 }
 
 /* THE SITE'S TWO CONTROLS: the way in to an account and the bag, at
-   the right of the logo's nav (`.site-nav`), on the demo shop and its
-   seven piece pages, and since 2026-10-27 on the Atlas and the
-   Bestiary too (THE TWO PLACES, below). chrome/02's `nav` is already flex, space-between,
+   the right of the internal pages' nav (`.site-nav`), on every page
+   that carries it (the list: this group's header). chrome/02's `nav` is already flex, space-between,
    top-aligned, 22px 5% in: the logo sits left, this lands right.
    They are the site's, not a shop's: one account in every shop, one
    bag for pieces from several makers (docs/ARCHITECTURE.md B.5, its
    cart).
-   Plain words, not stars (her ruling, docs/DECISIONS.md PAGE 2: "no
+   Plain words, not stars (docs/DECISIONS.md PAGE 2: "no
    stars on shop, plain menu"; GRIMOIRE §XIV: the sky's devices don't
    come down to where things are sold).
    THE TWO WORDS, as visitors will see them: "Lure me in" and "Bag".
-   HER WORDS, 2026-10-26: "1. Nav word: Bag , for no. Can the word be
-   replaced later (after the backend is started), in case something
-   else crosses my mind?" ("for now"; docs/DECISIONS.md 85200a4, (7)
-   and (9); the word was "Cart", 491b6d7 to here.)
-   THE WORD IS FOR NOW, SO IT IS ONE TEXT PER PAGE: the last
-   `.site-control`'s text in the nav of the 10 pages (8 until the Atlas
-   and the Bestiary took the nav, 2026-10-27), and nowhere else.
+   THE WORD IS FOR NOW (the founder may replace "Bag" once the backend
+   is started), SO IT IS ONE TEXT PER PAGE: the last
+   `.site-control`'s text in the nav of every page that carries
+   `.site-nav`, and nowhere else.
    No rule, script or width depends on it (the <a> is matched by class
    and `[aria-disabled]`; its box is the word plus 12px a side), so a
-   new word is that one text on the 10 pages. With the backend it moves
-   into the one shared string DECISIONS (9) asks for.
-   HER WORDS, 2026-10-24: "2. Yes to the real "Lure me in" / "Cart""
-   (docs/DECISIONS.md f08f48b; the form: sketches/shop-nav/nav.css, as
-   drawn in sketches/shop-real/shop-real.css §3 and
-   sketches/piece-scroll/ps.css §0, verbatim values). A <ul> of two in
-   the logo's <nav>, `role="list"` (Safari drops a bare list's count).
+   new word is that one text on each of those pages
+   (`grep -l 'aria-disabled="true">Bag'` lists them). With the backend it moves
+   into one shared string (docs/DECISIONS.md).
+   A <ul> of two in
+   the same <nav>, `role="list"` (Safari drops a bare list's count).
    Spectral 16px (the body size, tokens/02), `--bone`, each a 44px target, 8px apart, the
    logo's pink glow on hover: one quiet line, level with the logo (22 to
-   66px), where the placeholder box hung to 92px.
+   66px).
    - "Lure me in" is a link to the placeholder log-in page that exists
      (account/login/, the homepage's fifth star goes there too).
    - "Bag" has no page yet, so it is a link with nowhere to go, said
@@ -1340,12 +1331,9 @@ footer:hover a:not(:focus-visible) {
   cursor: default;
 }
 
-/* THE TWO PLACES: "Atlas" and "Bestiary", right after the logo, on the
-   demo shop, its seven piece pages, the Atlas and the Bestiary (A).
-   HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
-   "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
-   the spec: uiux t_55fba969, b859b52, sketches/way-lines/README.md §2
-   and wl.css, verbatim values). They replace the long way lines at the
+/* THE TWO PLACES: "Atlas" and "Bestiary", right after the logo, on
+   every page that carries `.site-nav`.
+   They replace the long way lines at the
    foot of the shop and the piece pages: a first-time visitor sees both
    places on the first screen of every page, in the same spot.
    A second `<ul role="list">` in the same <nav> (no new landmark),
@@ -1369,17 +1357,18 @@ footer:hover a:not(:focus-visible) {
 }
 
 /* The place you are on (the Atlas's word on the Atlas, the Bestiary's
-   on the Bestiary): `aria-current="page"`. It stays a link and a Tab
+   on the Bestiary, "Lure me in" on the log-in page):
+   `aria-current="page"`. It stays a link and a Tab
    stop (to the page's top); a screen reader says "Atlas, current page,
-   link". NO UNDERLINE, by her ruling of 2026-10-29 (page 5, mark A):
+   link". NO UNDERLINE, the founder's reason:
    "While the header displays a huge h1 title of the page the users are
    on, I don't think they need an underlined link name in the nav or in
    the footer to tell them which page they are visiting, even if they
    are color blind." The page's h1 names the page in words, so the nav
    is not the only carrier and WCAG 1.4.1 (no information by colour
    alone) is met. The word keeps `--bone-bright` (1.24:1 against the
-   other words' bone: not a visible mark, and not meant as one;
-   sketches/page5/README.md §1); no glow on hover and the default
+   other words' bone: not a visible mark, and not meant as one);
+   no glow on hover and the default
    cursor, as there is nowhere new to go. The teal focus ring is the
    one every `.site-control` wears, unchanged. */
 .site-nav .site-control[aria-current="page"] {
@@ -1390,10 +1379,10 @@ footer:hover a:not(:focus-visible) {
   text-shadow: none;
 }
 
-/* THE PLACEHOLDER SLOT the two words replaced (her N4, 2026-10-15): a
+/* THE PLACEHOLDER SLOT the two words replaced: a
    dashed box, a "PLACEHOLDER" tag (`.ph-tag`, below) and one sentence,
-   230px wide. No live page carries it since the real words came
-   (2026-10-24); the rule stays for the sketches that show the pages as
+   230px wide. No live page carries it since the real words came;
+   the rule stays for the sketches that show the pages as
    they were (sketches/piece-scroll `built-*`, `top-*-ph104`, and older
    ones that load this sheet). Delete it with them. */
 .site-controls--ph {
@@ -1415,7 +1404,7 @@ footer:hover a:not(:focus-visible) {
    by the nav's slot (above) and a piece's size and buying slots
    (product/04), hence here and not in product.css: the shop loads no
    product.css. No live page carries it since the piece pages' buying
-   slot became the real, inert button (2026-10-26, product/04); it stays
+   slot became the real, inert button (product/04); it stays
    for the sketches that show the pages as they were. Delete it with
    them. */
 .ph-tag {
@@ -1427,9 +1416,9 @@ footer:hover a:not(:focus-visible) {
   color: var(--bone-label);
 }
 
-/* N2: DIRECTION A (LIVE, provisional) or B (A SWITCH, OFF, below). Her
-   words, 2026-10-15: "A, but I want to see it myself before taking the
-   final decison" (docs/DECISIONS.md, PAGE 2, CONTINUED).
+/* DIRECTION A (LIVE, provisional) or B (A SWITCH, OFF, below). A is
+   provisional: the founder wants to see it built before the final
+   decision (docs/DECISIONS.md, PAGE 2, CONTINUED).
    A, as built: the controls scroll away with the logo (`.nav--scrolls`,
    above), so nothing ever sits over a photo, a stage or summoned words
    (this group's reason for the scrolling nav). The cost: low on a long
@@ -1440,12 +1429,9 @@ footer:hover a:not(:focus-visible) {
    never sit bare on a photo. `fixed` inside the absolute nav works
    because nothing between them sets a transform. The cost: on a long
    page (the Bestiary, and now the demo shop) or a narrow screen, photos,
-   captions and summoned words scroll under the plate. uiux measured 0
-   overlaps at 1440 and 1920 when the shop held 3 pieces
-   (sketches/shop-nav/shop-nav-spec.md §3); that no longer holds. With
-   its 7 pieces, at 1440 scrolled 1400px, the plate covers the end of
-   the Grave Soil caption ("Grave Soi", "· PERFUME"; uiux sign-off
-   t_7fde06c3, sketches/product-page/built-stills/2_shop_B_1440.png).
+   captions and summoned words scroll under the plate. With the
+   shop's 7 pieces, at 1440 scrolled 1400px, the plate covers the end
+   of the Grave Soil caption ("Grave Soi", "· PERFUME").
    To switch to B, delete the two lines below that hold only a comment
    marker, and nothing else. */
 /*
@@ -1476,7 +1462,9 @@ footer:hover a:not(:focus-visible) {
                          a bare grey band shows underneath. */
   padding: clamp(112px, 18svh, 160px) 0 96px; /* 160px is the summoning
                          hero's top padding; 112px still clears the
-                         logo on a short phone. */
+                         nav's one row in a short window. At 700px and
+                         below, where the nav takes a second row,
+                         responsive/06b raises the floor to 152px. */
   font-family: var(--interface);
   font-size: var(--type-body); /* every line of the reading: the scale's
                          body (tokens/02); each label, heading and
@@ -1492,14 +1480,14 @@ footer:hover a:not(:focus-visible) {
 }
 
 /* THE PAGE'S HEADER: the template the Summoning's header shares
-   (summoning/01), the same on all ten text pages. The title's letters
+   (summoning/01), the same on all ten text pages, centred on the
+   page's axis (THE HEADER CENTRED, below). The title's letters
    stand on ONE line, 165px from the top of the page (the column's
    160px padding, then the h1's own leading), whether or not a small
    name hangs over it, and the first line under the title is 20px under
    its box (`--title-under`, below).
-   VISION, her question (2026-10-28): "The summoning page is going to be
-   a template for the 7 pages linked to the footer's links, isn't it?";
-   her answer to the template: yes.
+   VISION: the Summoning page is the template for the pages the
+   footer's links lead to.
    The small name (`.section-eyebrow`, chrome/04) is on four of the ten,
    Contact, Echolocation, the 404 and Log in: only where the title does
    not say plainly what the page is ("Write to the gathering" needs
@@ -1512,8 +1500,8 @@ footer:hover a:not(:focus-visible) {
    nav ends 66px from the top, the name starts at 129px.
    SMALL SCREEN: in a window under about 890px tall the column's top
    padding is 18% of the height, never under 112px (the clamp above), and the name
-   hangs 31px above the title inside it; not measured on phones (narrow
-   widths are responsive.css's). */
+   hangs 31px above the title inside it. At 700px and below the floor is
+   152px (responsive/06b), so the name stays under the nav's second row. */
 .text-page > .section-eyebrow {
   margin-bottom: 0;
 }
@@ -1540,19 +1528,18 @@ footer:hover a:not(:focus-visible) {
   font-size: var(--type-title); /* every page's title (tokens/02). */
   line-height: var(--leading-title);
   color: var(--bone-bright); /* the titles' tone of the bone ramp
-                                (tokens/02; ruling D10). */
+                                (tokens/02). */
 }
 
 /* The draft notice under the h1: what the page is not yet. Mono, like
    the site's other small labels, so it reads as a note about the page
    and not as part of its text. On nine pages; the 404 has none.
-   VISION, her words: "@writer should write it and, when I'll have the
-   time, I'll polish it" (docs/DECISIONS.md, STATIC PAGES BUILT WITH
+   VISION: the text is a placeholder the founder will polish when she
+   has the time (docs/DECISIONS.md, STATIC PAGES BUILT WITH
    PLACEHOLDER TEXT). The notice says so until she has.
-   INK: `--bone-quiet`, the small-print tone of the bone ramp (tokens/02;
-   ruling D10): a note about the page sits under its text. It measures
-   6.15:1 median, 5.58 at the worst pixel, on terms at 1440 (spec
-   threshold-footers-bone §3b).
+   INK: `--bone-quiet`, the small-print tone of the bone ramp
+   (tokens/02): a note about the page sits under its text. It measures
+   6.15:1 median, 5.58 at the worst pixel, on terms at 1440.
    TYPE: the scale's line (tokens/02): Space Mono 12px as typed,
    tracked 0.08em. */
 .text-page__notice {
@@ -1569,12 +1556,71 @@ footer:hover a:not(:focus-visible) {
                           below it. */
 }
 
+/* THE HEADER CENTRED: the small name, the title and the draft notice.
+   WHAT: `text-align: center` on the three header children of the
+   column. The column itself is already centred on the page (`margin:
+   0 auto`, above), so its axis is the page's axis, and the title's ink
+   centres on it; nothing moves up or down.
+   ROLE HERE: the header reads as the page's name, the way every other
+   page names itself; the reading below starts at a straight left edge.
+   CHOICE, the header only and not the whole column: the text is
+   scanned for a heading and read line by line, and a straight left
+   edge is where the eye finds each line's start (this group's header,
+   CHOICE); left-aligned, as these pages had it, the header was the
+   only one off the page's axis outside the piece pages. CHOICE, the
+   child combinator `>` (the column's own children only): an h1 or a
+   notice deeper in the text, if one ever comes, stays with the reading.
+   VISION: the Summoning page is the template for these pages, and its
+   header is centred.
+   ACCESSIBILITY: alignment changes no reading order and no name; at
+   200% zoom or on a narrow screen a wrapping title wraps around the
+   same axis.
+   `text-wrap: balance`: a centred block that wraps on its own breaks
+   into lines of near equal length instead of a full line and a short
+   tail, ragged on both sides. Today that is only the log-in page's
+   notice: two lines of 509 and 119px at 1280 without it. The other
+   notices break where their <br>s say, every line shorter than the
+   column, so balancing has nothing to move; a one-line title neither.
+   A browser without `text-wrap` breaks the lines as before. */
+.text-page > .section-eyebrow,
+.text-page > h1,
+.text-page > .text-page__notice {
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* A PAGE WITH NO READING BELOW ITS HEADER (the 404: one line and one
+   action): `.text-page--centred` on the <main> centres all of it.
+   WHAT: `text-align: center` on the column, inherited by every child;
+   `text-wrap: balance` asks the browser to break a short block into
+   lines of near equal length.
+   ROLE HERE: the line under the title and the way home sit on the
+   title's axis, so the page is one centred block.
+   CHOICE, a modifier class on the page and not a structural selector
+   (`:has(.text-page__action-row)`, or the column's last two
+   children): the page says what it is, and a later page with text to
+   read below its header can't be caught by it. Not on the other text
+   pages: their reading stays left (THE HEADER CENTRED, above).
+   CHOICE, `balance` on the line (as on the header, above): centred,
+   "There is no page at this address. It may have moved, or it may
+   never have existed." breaks with "have existed." alone on its second
+   line (483 and 92px), ragged on both sides; balanced, the two lines
+   are 279 and 296px (the Atlas's and the Bestiary's centred ledes do
+   the same). A browser without `text-wrap` breaks the line as before. */
+.text-page--centred {
+  text-align: center;
+}
+
+.text-page--centred > p {
+  text-wrap: balance;
+}
+
 /* Section headings: signposts to scan for.
    CHOICE, Spectral and not IM Fell: IM Fell starts to blur below about
    19px (tokens.css, the TYPE rule), and a heading here is 20px, a label
    to find, not a voice.
-   INK: `--bone-head`, the headings' tone of the bone ramp (tokens/02;
-   ruling D10): a step above the body text it heads. */
+   INK: `--bone-head`, the headings' tone of the bone ramp (tokens/02):
+   a step above the body text it heads. */
 .text-page > h2 {
   font-family: var(--interface);
   font-weight: 500;
@@ -1611,8 +1657,8 @@ footer:hover a:not(:focus-visible) {
 
 /* The legal notice's list of facts: the name of each fact as a small
    mono label, its value below it. The scale's label (tokens/02): 12px
-   capitals tracked 0.12em, in the labels' tone, `--bone-label` (ruling
-   D10: a label takes the label's tone, whatever its tag). */
+   capitals tracked 0.12em, in the labels' tone, `--bone-label` (a
+   label takes the label's tone, whatever its tag). */
 .text-page dt {
   font-family: var(--mono);
   font-size: var(--type-label);
@@ -1633,7 +1679,7 @@ footer:hover a:not(:focus-visible) {
    ("I dont want borders and underlines when hover over links or
    logos", docs/BRAND.md), and hover here is the site's glow, not an
    underline. Links in the footer row stay bare, the current page's
-   too since her ruling of 2026-10-29 (below), and so does the 404's
+   too (below), and so does the 404's
    action, alone on its line
    (`.text-page__action`, below). */
 .text-page a {
@@ -1658,8 +1704,7 @@ footer:hover a:not(:focus-visible) {
 /* The 404's one action: the way home, as a label and not a sentence.
    No underline: it stands alone on its own line, in mono capitals, so
    it is bare like the homepage doors and the Atlas's and Bestiary's
-   ways links (founder 2026-10-09, option A "Clean" of uiux's sketch
-   fc246aa). It is the one link here out of `.text-page a`'s underline
+   ways links. It is the one link here out of `.text-page a`'s underline
    above, which every link inside a sentence keeps (WCAG 1.4.1); the
    glow on hover and the ring on focus are that rule's, unchanged.
    CHOICE, `.text-page a.text-page__action`: one class more than
@@ -1730,11 +1775,11 @@ footer:hover a:not(:focus-visible) {
   font-weight: 500;
 }
 
-/* The footer's row of policy links, on every page's footer (her ruling
-   D5): the same markup, the same seven links and the same label
+/* The footer's row of policy links, on every page's footer: the
+   same markup, the same seven links and the same label
    everywhere. chrome/06 does the rest: the wrapping row, the 44px
-   targets, the ring, and the covering (her choice, THE FOOTER UNDER
-   THE STAINS).
+   targets, the ring, and the covering (THE FOOTER UNDER THE
+   STAINS).
    The markup is a <div role="navigation">, not a <nav>.
    WHAT WOULD BREAK: chrome/02 styles the bare `nav` element as the
    fixed site header (`position: fixed; top: 0`), so a <nav> here would
@@ -1755,8 +1800,8 @@ footer:hover a:not(:focus-visible) {
 }
 
 /* Where you are: `aria-current="page"` says it to a screen reader. No
-   underline and no colour of its own, so no rule here: by her ruling
-   of 2026-10-29 (page 5, mark A; the nav's rule above quotes it), the
+   underline and no colour of its own, so no rule here: as the
+   founder's reason quoted at the nav's rule above says, the
    page's h1 names the page in words, so the footer need not, and WCAG
    1.4.1 (no information by colour alone) is met. The link keeps the
    footer's bone, its 44px target, its Tab stop and the ring. */
@@ -1768,17 +1813,12 @@ footer:hover a:not(:focus-visible) {
    Bestiary's pieces (bestiary/06), and "Save" beside the buying button
    on the 7 piece pages (product/04). This group is what they share:
    the button, the plate, the mark, its two states, hover and focus.
-   HER WORDS, 2026-10-27 (uiux t_27a381eb, 9013ea1): "1. I like the
-   drained bite mark. We keep it for now. Can it be changed later into
-   a heart icon if I change my mind?", then, on the PM's recommendation
-   (no nav word, the list under "My crypt", `/account/saved/`,
-   docs/ARCHITECTURE.md B.2.2): "OK to build it that way: the bite, no
-   nav word, the list under "My crypt"." Earlier the same day: "that
+   CHOICE, the drained bite, kept for now: the founder may change it
+   into a heart later (THE DRAWING, ONE, below, is built for that). The
+   saved state in bone, never magenta, the founder's reason: "that
    pink heart for a saved product kind of breaks Strigoi's doom and
-   gloom mood": magenta dropped, the saved state in bone. The spec:
-   sketches/favourites/ (uiux t_24c957ad b5dcbad + t_27a381eb 9013ea1),
-   README §1-§2 and fav.css, `?mark=bite&fill=bone&nav=none`; its values
-   verbatim here.
+   gloom mood". The list lives under "My crypt", `/account/saved/`
+   (docs/ARCHITECTURE.md B.2.2).
    THE DRAWING, ONE: assets/marks/mark-save.svg, `<symbol
    id="mark-save">`. Every mark is `<svg class="save-ico"><use
    href=".../assets/marks/mark-save.svg#mark-save"/></svg>`, so the
@@ -1788,14 +1828,13 @@ footer:hover a:not(:focus-visible) {
    THE STATES, by shape and not colour (WCAG 1.4.1): not saved = the
    outline, a 1.5px line; saved (`aria-pressed="true"`) = the same shape
    filled. Both in the button's colour, `--bone` ("drained"), never
-   magenta. uiux measured the filled bite 7.05-9.49:1 against the plate,
-   8.52-8.60 against the page, 6.30-9.09 against its own empty state
-   (sketches/favourites/measure2.txt).
+   magenta. The filled bite reads 7.05-9.49:1 against the plate,
+   8.52-8.60 against the page, 6.30-9.09 against its own empty state.
    THE ELEMENT: `<button type="button" aria-pressed="false" disabled>`,
    named "Save <piece>" (the name stays; the state is `aria-pressed`, so
-   a screen reader says "Save Grave Soil, toggle button, not pressed",
-   README §1 "Name"). INERT IN THE DEMO, the same native inert as
-   "Add to bag" (product/04, 75c34c4): `disabled`, so no Tab stop, no
+   a screen reader says "Save Grave Soil, toggle button, not
+   pressed"). INERT IN THE DEMO, the same native inert as
+   "Add to bag" (product/04): `disabled`, so no Tab stop, no
    focus on a click, no activation, nothing stored, and assistive tech
    hears "unavailable" ("dimmed" in VoiceOver): no one meets a control
    that silently does nothing. Not `aria-disabled`: it would leave a
@@ -1805,16 +1844,15 @@ footer:hover a:not(:focus-visible) {
    the buying button's, carried the same way (the demo line, the footer).
    WITH THE BACKEND: drop `disabled`; the button toggles `aria-pressed`
    and the list (`saved_pieces`, ARCHITECTURE B.2.2); it becomes its own
-   Tab stop after its piece's link (README §1, "Tab stop"), and takes the
+   Tab stop after its piece's link, and takes the
    pink glow on hover and the teal ring (below, already written for
    `:not(:disabled)`). A word after saving ("Kept in your crypt",
    draft) comes with it, undesigned.
    FORCED COLOURS: a disabled button's colour becomes GrayText, so the
    mark (`currentColor`) is drawn in it, as "Add to bag" is; the plate
-   takes the Canvas colour at its own .84. The state is still the shape
-   (measured, tests/e2e/frontend_t_1edafaee/out/forced.txt).
-   NO NAV WORD: the saved list has no word in the nav (her answer
-   above); it lives under "My crypt" with the accounts.
+   takes the Canvas colour at its own .84. The state is still the shape.
+   NO NAV WORD: the saved list has no word in the nav (reason not
+   recorded); it lives under "My crypt" with the accounts.
    ---------------------------------------------------------- */
 .save {
   -webkit-appearance: none;
@@ -1889,14 +1927,12 @@ footer:hover a:not(:focus-visible) {
    bestiary/06's `(hover: hover) and (pointer: fine)`: touch, pens, no
    pointer), the disabled 44px target sat over the photo's link and
    swallowed the tap: on the Bestiary at 390, 28-55% of each photo (44-
-   110px wide), 1-2% on the shop (uiux t_5d7ae5e9 REVISE item 2,
-   sketches/page2-final-stills/round9, e924a99). So the tap passes
+   110px wide), 1-2% on the shop. So the tap passes
    through to the piece's own link. The mark is still drawn; a mouse
    still meets the inert button (a click changes nothing, as "Add to
-   bag"). Her words stand (2026-10-27): "OK to build it that way: the
-   bite, no nav word, the list under "My crypt"."
+   bag").
    GOES WITH `disabled`: once the backend drops it this matches nothing
-   and the mark takes its taps (saving), as the README §1 asks. */
+   and the mark takes its taps (saving). */
 @media not ((hover: hover) and (pointer: fine)) {
   .save--photo:disabled { pointer-events: none; }
 }
@@ -1912,19 +1948,13 @@ footer:hover a:not(:focus-visible) {
    (index.html, `#roster`; its section is home/05) and the Atlas's index
    (atlas.html, `.atlas-index`; atlas/04). Each page keeps its own
    heading rule (home/05, atlas/04); this group is the row and the plate.
-   HER PICKS, 2026-10-31 19:50 (uiux t_9d6109aa, e5eccca, the spec:
-   sketches/roster-atlas-magazine/plates/README.md, "For the frontend
-   card", and plates.css, its values verbatim here): "The roster looks
-   great with the new design." and "1. I like the Candidate 1 mark. 2.
-   OK, keep the numbers on both pages." Her choice of the direction, in
-   the exploration before it (t_16f1f2f8): "I think I'll chose B".
    ROLE HERE: nobody's plate is bigger or first (GRIMOIRE §VII, a
    gathering, not a brand): one width for everyone; the number is a
    place, not a rank (the homepage turns the order each day, script.js
    §1c; the Atlas goes A to Z); a light mark is set back so it never
    becomes the loudest. Paper plates and oval mounts, no star, no line,
    no dot (§XIV, the roster is not the sky); opaque, so the homepage
-   sky's lines no longer run through the names (audit #13, from 1280px).
+   sky's lines no longer run through the names (from 1280px).
    CHOICE, here in chrome.css and not in home.css and atlas.css: the two
    pages wear the same rules, and a page's own sheet loads only on that
    page; one group here, rather than two copies that drift apart, is
@@ -1933,12 +1963,12 @@ footer:hover a:not(:focus-visible) {
    for chrome.css gzipped: 28.3 to 32.1 KB), and twenty-one of them never
    use it. A sheet of its own for the two pages would cost a request.
    CHOICE, flex with wrap, not a grid: a row that isn't full centres
-   itself (`justify-content: center`), her ruling for the shops' walls
-   (2026-10-31: the short last row centred); a grid would need one rule
+   itself (`justify-content: center`), as on the shops' walls (the
+   short last row centred); a grid would need one rule
    per count. At most five to a row: 5 × 200 + 4 × 32 = 1128px, the
    `max-width`.
    SMALL SCREEN: under 1280px the row simply wraps (the plates keep
-   their 200px); task 4a designs it.
+   their 200px); its own small-screen design is not done yet.
    ---------------------------------------------------------- */
 
 /* The row: plates 200px wide, 32px apart across, 40px between rows,
@@ -1963,8 +1993,8 @@ footer:hover a:not(:focus-visible) {
    site's fine grain at 5% (`::after`, `screen`, so it only lightens).
    `position: relative`: the box the grain and the link's target
    (`a.plate-name::after`, below) are placed in. A column, centred: the
-   number, the mount, the name, the craft, the status. Measured in the
-   sketch: 346px tall with a status line, 318 without; the row stretches
+   number, the mount, the name, the craft, the status. 346px tall
+   with a status line, 318 without; the row stretches
    each to the tallest. */
 .plate {
   position: relative;
@@ -2036,8 +2066,8 @@ footer:hover a:not(:focus-visible) {
   object-fit: cover;
 }
 
-/* A LIGHT MARK, `plate--light` on the `<li>`. Her ruling (a), 2026-10-31:
-   any mark, light or dark, the plate adapts. The mark is never toned,
+/* A LIGHT MARK, `plate--light` on the `<li>`. The rule: any mark,
+   light or dark, the plate adapts. The mark is never toned,
    filtered or re-coloured. The plate sets it back instead, as a cameo: a
    14px band of the mount's dark ground all round (the mark in an inner
    oval 108 × 140, 66% of the mount's area), a 1px bone ring at 35% where
@@ -2045,12 +2075,10 @@ footer:hover a:not(:focus-visible) {
    one the old roster laid over every mark's edge), so its light ends in
    a soft edge, not a hard bright rim. The centre is untouched.
    WHO GETS IT: read from the mark's own pixels, the mean luminance of
-   the oval's outer fifth at 168 × 168: 0.2 or more is light (README,
-   "The light-mark rule"; today's four 0.000-0.001, her Coil Earrings
-   crop 0.604). Today the class is written by hand; with the backend it
-   is computed when the mark is uploaded. Measured in the sketch: a light
-   mark's frame gives off about half the light (0.535 to 0.282 mean
-   luminance). */
+   the oval's outer fifth at 168 × 168: 0.2 or more is light. Today
+   the class is written by hand; with the backend it is computed when
+   the mark is uploaded. A light mark's frame gives off about half the
+   light (0.535 to 0.282 mean luminance). */
 .plate--light .plate-mount {
   padding: 14px;
 }
@@ -2207,8 +2235,7 @@ a.plate-name::after {
 /* THE ATLAS: its constellation hovered in the sky (`.is-lit` on the
    plate, script.js initAtlas): the name underlined, 1px, 0.25em under: a
    mark of shape, not only colour, on an element the pointer is not on
-   (the rule moved here from atlas/04; the plate's own hover is the glow
-   alone, above). */
+   (the plate's own hover is the glow alone, above). */
 .plate.is-lit .plate-name {
   text-decoration: underline;
   text-decoration-thickness: 1px;

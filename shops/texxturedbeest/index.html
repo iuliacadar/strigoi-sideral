@@ -28,32 +28,22 @@
      template (shops/demo/index.html, whose comments say why each block is
      there; this page keeps its markup and its classes, so every rule and
      the script treat it the same) with seven pieces that are real: the
-     founder's own work, photographed by her, under placeholder names (five
-     from 2026-10-30, two of them one piece since 2026-10-31, and three
-     more she sent on 2026-10-31: "I'm sharing here some screenshots of
-     other pieces I created. You can add them to the shop and bestiary.").
-     HER WORDS, 2026-10-30: "My 5 Bestiary pieces are used as samples to see
-     how real images would look on the page. Yo can create product pages
-     for them, and even a shop. But it will not be my real shop. Their names
-     are not the real ones, they are names you gave to the pieces." and
-     "Let's go with a second sample shop. You can use TexxturedBeest as the
-     placeholder name for the shop." So the page never names her, and the
-     bio speaks of the work, in the third person.
-     THE WORDS: the writer's, verbatim (docs/worksheets/
-     2026-10-30_texxturedbeest-sample-shop-copy.md §1-§2, DECIDED with her
-     8 answers of 2026-10-30, §0; the merge and the three new pieces, §5,
-     writer t_0a113a3a): "Jewelry and knitwear"; "Price to come"
+     founder's own work, photographed by her, under placeholder names.
+     It is a sample, not her shop; the founder's reason: "My 5 Bestiary
+     pieces are used as samples to see how real images would look on the
+     page. [...] But it will not be my real shop. Their names are not the
+     real ones". TexxturedBeest is a placeholder name too. So the page
+     never names her, and the bio speaks of the work, in the third person.
+     THE WORDS: "Jewelry and knitwear"; "Price to come"
      in every price slot (no price is invented for her real work); "Unique"
      for all seven; "Demo" in the demo shop's four places (the <title>, the
      meta description, the DEMO note, the footer's notice) and nowhere else;
      no hero tag. Everything in them is placeholder copy.
-     THE DESIGN: uiux's (t_d21adf11, sketches/texxturedbeest/README.md §2):
-     five cards on the template's wall, ikebana B (shop/10), and the last
-     row centred (shop/10's rule, her "3. Centered", 2026-10-31); seven
-     since 2026-10-31, on the same wall (uiux t_9d97a4aa's B, her "4. OK":
-     the wall as built).
-     Built by sketches/texxturedbeest/build/make_live.py (frontend
-     t_3fe1fdd6), once; hand-kept from here, like the demo's pages. -->
+     THE DESIGN: the seven cards on the template's wall, ikebana B
+     (shop/10), unchanged for real photos, and the last row centred
+     (shop/10's rule).
+     Built by sketches/texxturedbeest/build/make_live.py, once; hand-kept
+     from here, like the demo's pages. -->
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="distressed-plate" aria-hidden="true">
   <div class="distressed-grain"></div>
@@ -77,8 +67,8 @@
 
 <main id="main" tabindex="-1">
 <!-- THE HERO (shop/02, shop/09): the shop's name, the page's one <h1>,
-     and the bio, the worksheet's §1.1, verbatim (324 characters, under
-     the 500 cap). No hero tag (her 2026-10-24 ruling, the demo's).
+     and the bio (324 characters, under the 500 cap). No hero tag, as on
+     the demo shop (reason not recorded).
      At 700px and below this copy is hidden and the second one, after
      the pieces, is read (responsive/06). -->
 <header class="hero">
@@ -93,49 +83,43 @@
        is in Séance; the switcher at the foot sets it (shop/03). -->
   <section class="shop-products" data-skin="seance" aria-label="Demo products">
 
-    <!-- THE SEVEN: each one link to its own page, pieces/<slug>/ (the
-         worksheet's slugs), with the summon before it and the saved mark after
+    <!-- THE SEVEN: each one link to its own page, pieces/<slug>/,
+         with the summon before it and the saved mark after
          it, exactly as the demo's cards (shop/07, shop/08, shop/11; the
          template's comment says why each is there and what it costs).
-         THE ORDER (the worksheet's §5.6, case B, the writer's suggestion,
-         2026-10-31): Roped Mohair Cardigan, Coil Earrings, Cord Cowl Sweater /
+         THE ORDER: Roped Mohair Cardigan, Coil Earrings, Cord Cowl Sweater /
          Cobweb Dress, Red Quartz Cuff, Oat Mohair Sweater / Lace Sleeves.
-         Places 1-2 stay as built (uiux's README §2): the Cardigan opens the
+         Places 1-2: the Cardigan opens the
          wall, highest (shin); the white earrings hang lowest, in the middle
          lane (hikae), so the brightest frame is held low and in the centre,
          not at an edge. Each jewelry piece keeps its row's middle lane, so no
          two touch and both full rows open and close on a knit. Seven make two
          full rows and a lone piece, which shop/10 centres in the middle lane
-         and hangs as its hikae, 2u (2bab4fd; her "3. Centered").
-         THE MERGE, 2026-10-31: the first card was the Mohair Cardigan and the
-         third the Roped Mohair Knit; one piece now (her words: "Yes, merge the
-         Mohair Cardigan and the Roped Mohair Knit pages"), the Roped Mohair
-         Cardigan, its card the cardigan's photo (§5.1), and pieces/roped-knit/
-         a pointer to its page.
-         THE PHOTOS: hers, assets/founder-photography/. The four of
-         2026-10-08 are the files the Bestiary already shows (not re-encoded).
+         and hangs as its hikae, 2u.
+         ONE PIECE, TWO OLD ADDRESSES: the Roped Mohair Cardigan's card shows
+         the cardigan's photo, and pieces/roped-knit/ is only a pointer to its
+         page (the Mohair Cardigan and the Roped Mohair Knit were one piece).
+         THE PHOTOS: hers, assets/founder-photography/. The four 2026-10-08_
+         files are the ones the Bestiary already shows (not re-encoded).
          On the 4:5 frame the knits lose nothing, the squares 10% at each side
          (nothing that matters), and the earrings (1080 x 1008) keep 75% of
          their width: centred, the frame cut the front earring's caged stone,
          the piece's subject, so this card alone sets a focal point,
-         `--photo-pos: 80% 50%` (shop/01's photo layer reads it; uiux's README
-         §2, still 09). The three of 2026-10-31 are her Instagram screenshots
-         (716 x 729, 675 x 842, 712 x 730; tests/e2e/frontend_t_f74eb58c/
-         make_assets.sh): the two near-squares lose about 9% at each side
+         `--photo-pos: 80% 50%` (shop/01's photo layer reads it). The three
+         2026-10-31_ files are screenshots of her Instagram, the edits hers
+         (716 x 729, 675 x 842, 712 x 730): the two near-squares lose about
+         9% at each side
          (the dress and the sweater stand in the middle), the oat sweater
          nothing. All but the earrings are drawn as every card is. WHAT WOULD
          BREAK: a `url()` in a custom property resolves against css/shop.css,
          hence ../assets/ (as the demo's).
-         THE WHITE GROUND (the earrings): allowed by her ruling of 2026-10-09
-         (WHITE AND BRIGHT GROUNDS) and kept by her words of 2026-10-31 ("Keep
-         the white photo for the Coil Earrings"; "We can't and we won't force
-         the makers to post only dark photos."), as are the pale walls behind
-         the Cobweb Dress and the Oat Mohair Sweater; every word over them
-         sits on its skin's own plate (uiux measured 74 words in 3 skins:
-         lowest 4.38-4.49:1 at the crawl band's faded top edge, above the
-         letters; 5.40 glyph by glyph).
+         THE WHITE GROUND (the earrings): light photos are welcome, the
+         founder's reason: "We can't and we won't force the makers to post
+         only dark photos." So are the pale walls behind the Cobweb Dress and
+         the Oat Mohair Sweater; every word over them sits on its skin's own
+         plate.
          "PRICE TO COME" fits one line in the summon plate, the Dossier stamp
-         and the crawl at 1280 and 1850 (uiux's stills 06, 03). -->
+         and the crawl at 1280 and 1850. -->
     <div class="product-card">
       <button type="button" class="summon" aria-pressed="false" aria-label="Hold to summon the facts: Roped Mohair Cardigan" hidden>
         <span class="summon-hint"><span class="summon-pill">hold to summon</span></span>
@@ -360,8 +344,8 @@
     <p>Jewelry and knitwear, worked by hand. The wire is woven round itself until it holds a curve, and closed over stone: a slab of red quartz, pale stones caged at the end of a line. The mohair is knitted open, so the dark shows through it, then belted, roped and knotted, or edged in yarn left to curl. Each piece was made once.</p>
   </div>
 
-  <!-- THE MAKER'S WAYS (shop/09): the demo's words, inert (worksheet §1:
-       "same words, inert, as on Vârcolac"): no link, no Tab stop. -->
+  <!-- THE MAKER'S WAYS (shop/09): the demo's words, inert, as on
+       Vârcolac: no link, no Tab stop. -->
   <div class="shop-maker-ways">
     <p class="shop-maker-write">Write to the maker</p>
     <p class="shop-maker-elsewhere" id="shop-maker-elsewhere">Elsewhere, off Strigoi:</p>
@@ -373,7 +357,7 @@
   </div>
 
   <!-- THE DEMO LINE (shop/09): the DEMO note and the skin switcher, the
-       demo's, word for word (worksheet §1: "same"). The skin chosen here
+       demo's, word for word. The skin chosen here
        is carried to this shop's pieces and to the other demo's for the
        tab (script.js §5b: one key for the demos). -->
   <aside class="demo-bar" aria-label="Demo controls">
@@ -389,7 +373,7 @@
 
 <!-- THE FOOTER, the shop's (shops/demo/index.html says why each part is
      there): the seep, the policy row, and the notice, "Demo shop ·
-     placeholder products · not for sale", the same words (worksheet §1). -->
+     placeholder products · not for sale", the same words. -->
 <footer class="shop-footer footer--seep">
   <div class="footer-links" role="navigation" aria-label="Policies and contact">
     <ul role="list">

@@ -39,15 +39,16 @@
 <a class="skip-link" href="#main">Skip to content</a>
 <!-- THE SUMMONING: the doctrine wheel's own page, reached from the
   homepage by the first nav star ("Summoning"). It was the
-  homepage's doctrine section until she ruled it off the homepage and
-  onto a page of its own: "I'm fully agreeing with... cutting the
-  concentric doctrine from the homepage. But we can move it on a
-  doctrine page of itself, linked to the homepage through the summoning
-  star in the navbar, so we will not sacrifice an implementation we
-  already spent time and money to make it work." And why a page rather
-  than nothing: "The summoning is still a part of the strigoi's
-  doctrine, the glue that brings specific creators together. Comme des
-  Garcons and Rick Owens are individual designers." (docs/DECISIONS.md,
+  homepage's doctrine section until it moved off the homepage onto a
+  page of its own, the founder's reason: "I'm fully agreeing with...
+  cutting the concentric doctrine from the homepage. But we can move it
+  on a doctrine page of itself, linked to the homepage through the
+  summoning star in the navbar, so we will not sacrifice an
+  implementation we already spent time and money to make it work." And
+  why a page rather than nothing: "The summoning is still a part of the
+  strigoi's doctrine, the glue that brings specific creators together.
+  Comme des Garcons and Rick Owens are individual designers."
+  (docs/DECISIONS.md,
   "DENSITY CORRECTION"). The wheel's rules: summoning/02. History:
   docs/HISTORY.md, summoning/02.
   First of the background layers: the distressed surface
@@ -100,11 +101,9 @@
      every text page shares (chrome/07), centred here round the wheel.
      The small name reads "Summoning", the nav star's word, with no
      article, so the star and the page it opens agree; the tab's <title>
-     says the same. Her words (2026-10-28): "Yes, replace "The Summoning"
-     with "Summoning", please." Nothing stands between the title and the
-     wheel: the introduction an agent had written here was cut at her
-     request, its text kept in the docs:
-     "Yes, we can  cut the agent-written intro, but save the text somewhere" -->
+     says the same. Nothing stands between the title and the wheel: the
+     introduction that stood here was cut, its text and why it went
+     kept in docs/BRAND.md, "Retired copy: the Summoning's intro". -->
 <header class="summoning-hero">
   <p class="section-eyebrow summoning-eyebrow">Summoning</p>
   <h1 class="summoning-h1">What binds the circle</h1>
@@ -115,13 +114,12 @@
      movements, an <h2> and a <div> each, in reading order whatever
      their painted place. `#orbitStage` is what script.js §7 watches to
      draw the rings.
-     The doctrine is hers, verbatim, with the two changes she asked for
-     (2026-10-28): her straight quotation marks round each movement
-     removed ("Remove the quoting marks on the paragraphs, we are not
-     qouting anyone here.") and her two tight em dashes spaced, as every
-     other dash on the site ("the doctrine's two dashes should become
-     spaced"). The second movement's name is hers too: "The name: The
-     Haunting" (it was "The Manifest"); "The articles: keep them."
+     The doctrine is hers, verbatim, with two changes: no straight
+     quotation marks round each movement (the founder's reason: "we are
+     not qouting anyone here.") and the two tight em dashes spaced, as
+     every other dash on the site. The second movement's name, "The
+     Haunting", is hers too (it was "The Manifest"), and so are the
+     articles kept in the three names.
      CHOICE, <h2> for each name: the three movements are the page's only
      sections under its <h1>, and a screen reader's list of headings
      that jumps from h1 to h3 reads as if a level were missing. The
@@ -134,8 +132,7 @@
      paragraph: noise in a screen reader's landmark list).
      The class names `movement-manifest` and `ring-manifest` keep the old
      name on purpose: they are styling hooks (summoning/02), not words
-     anyone reads; renaming them would change nothing on screen.
-     Her words above are quoted from the PM's ledger of her answers. -->
+     anyone reads; renaming them would change nothing on screen. -->
 <section class="vision">
   <div class="orbit-stage" id="orbitStage">
     <svg class="orbit-svg" viewBox="0 0 600 400" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
@@ -145,13 +142,11 @@
         6 units (`#doctrineFeather`), make each ring fade out behind the
         words and come back past them.
         WHY: the movements are placed over the stage the rings fill, so
-        the rings cross the words. With the mask removed, at 1280: 576
-        glyph pixels of the three movements sit on a stroke, 295 of them
-        under 4.5:1 (worst 2.70; 1850: 279, worst 2.52); with it, none at
-        any width from 781 to 2560, the lowest glyph pixel 4.90:1
-        (summoning/02).
-        CHOICE, mask the rings, not move the words: the build found no
-        place for the words inside the diagram that the rings don't cross;
+        the rings cross the words, and a stroke under a glyph pulls the
+        words below 4.5:1. With the mask, no stroke sits under a glyph
+        at any width from 781 to 2560 (summoning/02).
+        CHOICE, mask the rings, not move the words: there is no place
+        for the words inside the diagram that the rings don't cross;
         nor hide the wheel, which is the page's reason to exist (the page
         comment above). The recorded reasons.
         CHOICE, two sets of rects, not one union: the words are placed in
@@ -161,18 +156,12 @@
         1150 up; the narrow set round them at 781px, where they stand
         tallest, and holds every width up to 1149. One union would also
         mask the outer ring's left arc at the wide layout, where no word
-        is (the build's reason). responsive/01–02 pick the set. With no
+        is (the recorded reason). responsive/01–02 pick the set. With no
         CSS both paint: more mask than needed, never a stroke on a glyph.
         IF THE LAYOUT CHANGES, RE-MEASURE: the movements' places, their
-        `min()` widths and the face's metrics all feed these numbers
-        (tests/e2e/frontend_t_98eb5a65_maskfit.js, the geometry;
-        tests/e2e/uiux_t_0c0b3861_verify.py, the contrast). Last
-        re-measured for the words at 20px, the names in IM Fell SC and
-        the two spaced dashes (2026-10-28): three rects grew to keep each
-        movement's words inside its own (the Gathering's top at 781px,
-        the Haunting's foot), none moved
-        (tests/e2e/frontend_t_d56c54e2/maskfit.js, the geometry;
-        strokecheck.js there, the strokes and the contrast). History:
+        `min()` widths and the face's metrics all feed these numbers.
+        The rects fit the words at 20px, the names in IM Fell SC and the
+        two spaced dashes. History, with the measurements:
         docs/HISTORY.md, summoning/02. -->
       <defs>
         <filter id="doctrineFeather" x="-25%" y="-25%" width="150%" height="150%">
@@ -236,11 +225,12 @@
 </main>
 
 <!-- THE FOOTER, under the stains (css/chrome.css, chrome/06): the links
-     and the "© Strigoi — …" line are all covered by the soil, by her
-     choice, as on the homepage; the link a keyboard user is on comes
-     above while it has focus, and with a mouse pointer over the footer
-     the links and the line come up together. The policy row is every
-     footer's (same markup, seven links, same label; her ruling D5).
+     and the "© Strigoi — …" line are all covered by the soil (the
+     founder's reason: "it's closer to my vision"), as on the homepage;
+     the link a keyboard user is on comes above while it has focus, and
+     with a mouse pointer over the footer the links and the line come
+     up together. The policy row is every
+     footer's (same markup, seven links, same label).
      CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
      bare `nav` as the fixed site header, so a <nav> here would be pulled
      to the top of the screen. The role gives screen readers the same

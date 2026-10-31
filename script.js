@@ -27,13 +27,10 @@
 // shop page loads. On a fast connection the page leaves before it is
 // seen; on a slow one it is the only sign the click registered. Enter
 // fires it too. It appears and clears without a transition.
-// Since the plates (2026-10-31) the link is the name (`a.plate-name`) and
-// its `::after` covers the plate, so a click anywhere on the plate is the
-// link's; the tint goes on the `<li class="plate">`, the box the visitor
-// pressed (uiux t_9d6109aa's spec: the same tint, the same 450ms, the
-// selector `.plate a.plate-name`). It was on the roster's line
-// (`a.roster-card`), the homepage only; the plate is one object on both
-// pages, so the Atlas's plates flash too.
+// The link is the shop's name (`a.plate-name`) and its `::after` covers
+// the plate, so a click anywhere on the plate is the link's; the tint
+// goes on the `<li class="plate">`, the box the visitor pressed. The
+// plate is one object on both pages, so the Atlas's plates flash too.
 // CHOICE, only the links: the plates of makers without a shop are not
 // links, with a default cursor and no hover or focus; a flash there
 // would say something happened when nothing did (docs/HISTORY.md,
@@ -71,12 +68,10 @@ const initPlateFlash = () => {
 // every visitor on that day, shows at most five, and keeps the empty
 // plate of the voice being scouted last. Past five makers it says so in
 // one line under the row.
-// HER WORDS, 2026-10-31 19:50, to uiux's question whether to keep the
-// plates' numbers on the homepage, where the order turns: "2. OK, keep
-// the numbers on both pages." So "Planche I" is the day's first plate,
-// a place and not a rank: on 31 October Ileana C., on 1 November
-// Vârcolac Atelier, on 2 November TexxturedBeest (uiux t_9d6109aa, the
-// README's "What the numbers say to a visitor").
+// CHOICE, the plates keep their numbers here too, where the order
+// turns, as on the Atlas: "Planche I" is the day's first plate, a place
+// and not a rank: on 31 October Ileana C., on 1 November Vârcolac
+// Atelier, on 2 November TexxturedBeest.
 // HOW: the plates are in the markup A to Z (index.html), the page with
 // the script off. The named plates (not `.plate--empty`) are put in
 // `shuffleForDay` (§7b) order, salt "roster:", and the first five are
@@ -85,7 +80,7 @@ const initPlateFlash = () => {
 // numbers follow by themselves: a CSS counter numbers the plates as
 // they stand (chrome/09). Moving an element keeps its listeners, so
 // §1's flash does not care which runs first.
-// THE LINE PAST FIVE, uiux's words (hers to change): "Five of the ten
+// THE LINE PAST FIVE: "Five of the ten
 // shops, turned each day. Every one is on the Atlas." (GRIMOIRE §XV: the
 // homepage is a rotating few, the Atlas everyone). The count is written
 // in words to twenty, in digits past it.
@@ -102,7 +97,7 @@ const initRosterDay = () => {
   const named = Array.from(list.querySelectorAll(":scope > .plate:not(.plate--empty)"));
   if (!named.length) return;
   const empty = list.querySelector(":scope > .plate--empty");
-  const MAX = 5; // the homepage's glance (§XV); a row of the plates holds five
+  const MAX = 5; // the homepage's glance (GRIMOIRE §XV); a row of the plates holds five
   const day = shuffleForDay(named, "roster:");
   day.slice(MAX).forEach((plate) => plate.remove());
   day.slice(0, MAX).forEach((plate) => list.insertBefore(plate, empty)); // null: at the end
@@ -125,19 +120,15 @@ const initRosterDay = () => {
 // to left; the lit piece leaves behind the box's left inner wall and
 // the next comes in past the right one, the way a slide passes a magic
 // lantern's gate. Pause and Sound sit beside the box, not drawn at rest
-// (the stain once laid over them went, 2026-10-31: css/home.css).
-// Her picks, 2026-10-30 and 31 (PM ledger t_717bfd87; uiux's spec,
-// sketches/home-specimens-lantern/README.md, "For the frontend card
-// (her picks)", t_6a358a7d): wall (c), "the red wall as the lantern's
-// screen"; movement (i), "the operator"; "alone in the light"; one
-// box that stays in the light (her words: "an entire shelf box, not
-// just the bottom plank"); 4 pieces; sound (c), the glass slide in a
-// brass gate, off at load; Pause and Sound as icons under the stains
-// (her words: "could the icons for Play and Sound be covered by stains
-// and become visible at hover/action on them (like the links in the
-// footer)?"); the caption row fully visible; and, for reduced motion,
-// her "(a)": the sliver of the next slide waiting at the box's gate.
-// No counter (her ruling of 2026-10-12).
+// (home/06, css/home.css).
+// THE DESIGN: the red wall as the lantern's screen; the movement, "the
+// operator"; each piece "alone in the light"; one whole shelf box that
+// stays in the light, not just its bottom plank; 4 pieces; the sound of
+// a glass slide in a brass gate, off at load; Pause and Sound as icons
+// that come up on hover or keyboard focus (like the links in the
+// footer); the caption row fully visible; and, for reduced motion, the
+// sliver of the next slide waiting at the box's gate. No counter
+// (reason not recorded).
 // HOW: the four `.specimen`s stay in the markup (index.html) and are
 // read here: photo, alt, figure label, name, maker, availability. The
 // list is hidden by `.js-lantern` (home/06), and this builds beside it
@@ -155,15 +146,16 @@ const initRosterDay = () => {
 // IT HOLDS (does not push) while a pointer is on the box or the
 // caption; while the keyboard is in the section (the piece or the
 // door) but not on Pause or Sound, so a mouse press on Play plays at
-// once (uiux 1b's fix, the W3C carousel pattern); while less than half
-// of the stage is on screen; while the tab is hidden; and after a
+// once (the carousel pattern of the W3C's ARIA Authoring Practices);
+// while less than half of the stage is on screen; while the tab is
+// hidden; and after a
 // visitor's own step, until Play. Nothing runs off screen, and a
 // visitor arrives at a piece at rest (WCAG 2.2.2 with Pause).
-// KEPT: the day's first piece (her words, 2026-10-12: "Yes, the daily
-// rotation is perfect. In this way, the visitors that are failing to
-// find the second and the third specimen photo, still have the chance
-// to see some new pieces."): §7b's `dayKey()`, the UTC day count mod
-// n, opens the box; the order is the markup's, wrapping (fair to the
+// THE DAY'S FIRST PIECE: §7b's `dayKey()`, the UTC day count mod n,
+// opens the box (the founder's reason for turning it daily: "the
+// visitors that are failing to find the second and the third specimen
+// photo, still have the chance to see some new pieces."); the order is
+// the markup's, wrapping (fair to the
 // makers: no piece always first). "Next specimen" on the lit piece: a
 // click, a tap, Enter or Space brings the next piece in; ArrowRight
 // and ArrowLeft while the focus is on it. The live region says
@@ -172,9 +164,9 @@ const initRosterDay = () => {
 // photo's description lives OUTSIDE the button (a button's children
 // are presentational): `#lantern-desc`, the lit piece's alt, named by
 // the button's `aria-describedby`; the slides are `aria-hidden`.
-// REDUCED MOTION, and BELOW 1280px (task 4a's band, uiux's rule until
-// phones are designed): a still box. Nothing moves by itself, a step is
-// a cut, and the sliver (her "(a)") shows: 16px of the next photo's
+// REDUCED MOTION, and BELOW 1280px (until phones and tablets are
+// designed): a still box. Nothing moves by itself, a step is
+// a cut, and the sliver shows: 16px of the next photo's
 // leading edge just past the box's right outer wall, under a .35 black
 // veil; a click on it brings that piece in (it is `aria-hidden` and
 // not focusable: the keyboard has the arrows and Enter on "Next
@@ -182,7 +174,7 @@ const initRosterDay = () => {
 // 1280px no Pause and no Sound either. Crossing 1280px or
 // changing the motion setting rebuilds on the same piece, at rest,
 // with no push and no sound.
-// THE SOUND (c): OFF when the page opens, always. Nothing audio exists
+// THE SOUND: OFF when the page opens, always. Nothing audio exists
 // before the visitor's first press on Sound: lantern-sound.js isn't
 // fetched and no AudioContext is made; the context is made inside the
 // press (Safari requires it). It plays only on a push or a visitor's
@@ -194,8 +186,8 @@ const initRosterDay = () => {
 // CHOICE, the script reads `prefers-reduced-motion` (as §4b's strip
 // does): the operator is a timer, and only the script can keep it from
 // starting. motion.css still stops every transition.
-// No `?day=` override (the Bestiary has none either): QA fixes the date
-// with Playwright's clock (`page.clock.setFixedTime`).
+// No `?day=` override (the Bestiary has none either): a test fixes the
+// date with Playwright's clock (`page.clock.setFixedTime`).
 const LANTERN_SOUND_SRC = new URL("lantern-sound.js", (document.currentScript && document.currentScript.src) || location.href).href;
 
 const initSpecimensLantern = () => {
@@ -215,11 +207,10 @@ const initSpecimensLantern = () => {
   }
   const n = pieces.length;
 
-  // The timings and the box, uiux's spec at her picks (README, "The
-  // exact values"). The box: the Bestiary's cabinet D (bestiary/04),
-  // the photo 14px from the niche's sides and top on a 40px floor,
-  // 10px walls; at 560×315 that is 608×389. GAP: calm 2's dark wall
-  // between two slides ("alone in the light").
+  // The timings and the box. The box: a box of the Bestiary's cabinet
+  // (bestiary/04), the photo 14px from the niche's sides and top on a
+  // 40px floor, 10px walls; at 560×315 that is 608×389. GAP: the dark
+  // wall between two slides ("alone in the light").
   const HOLD = 7000, TRAVEL = 1600, EASE = "cubic-bezier(.45,.05,.25,1)";
   const CAPTION_AT = 0.75, SEAT = 0.72, SLEEP = 1500;
   const SIDE = 14, TOP = 14, FLOOR = 40, WALL = 10, GAP = 120, AR = 16 / 9;
@@ -374,7 +365,7 @@ const initSpecimensLantern = () => {
     play.innerHTML = (playing ? ICON_PAUSE : ICON_PLAY) + `<span class="lantern-word">${playing ? "Pause" : "Play"}</span>`;
     play.setAttribute("aria-label", playing ? "Pause the specimens" : "Play the specimens");
     // paused (by Pause, or by the visitor's own step) is a state they
-    // chose: Play stays drawn until pressed (condition 3)
+    // chose: Play stays drawn until pressed (home/06's condition 3)
     play.classList.toggle("is-set", !playing);
   };
   play.addEventListener("click", () => { playing = !playing; label(); schedule(false); });
@@ -417,7 +408,7 @@ const initSpecimensLantern = () => {
   let soundOn = false, actx = null, sleepTimer = 0;
   const sndLabel = () => {
     snd.setAttribute("aria-pressed", String(soundOn));
-    snd.classList.toggle("is-set", soundOn); // sound on: its switch stays drawn (condition 3)
+    snd.classList.toggle("is-set", soundOn); // sound on: its switch stays drawn (home/06's condition 3)
     // a speaker struck through (off) or with two waves (on); the word
     // "Sound" names the toggle, its state is `aria-pressed`
     snd.innerHTML = (soundOn
@@ -689,14 +680,14 @@ const closeLightbox = () => {
 };
 
 // The HUD's damage: two characters of the time stamp swapped for block
-// glyphs (▓ ▒), as scanline damage on a worn tape (docs/SHOP-TEMPLATE.md
-// §7.6). Only letters and digits are damaged, never spaces or `·/:#`.
+// glyphs (▓ ▒), as scanline damage on a worn tape. Only letters and
+// digits are damaged, never spaces or `·/:#`.
 const GLITCH_CHARS = ["▓", "▒"]; // U+2593, U+2592
 const isGlitchable = (c) => /[A-Za-z0-9]/.test(c);
 
 // Picks the positions from `seed`, the photo's `order_index`, so a photo
-// is damaged the same way each time it is shown: "a real damaged tape
-// doesn't re-damage itself differently each playback" (§7.6). The
+// is damaged the same way each time it is shown: a real damaged tape
+// doesn't re-damage itself differently at each playback. The
 // picks index the stamp's own letters and digits; the stamp reads the
 // same for every visitor (updateLightbox), so the damage does too.
 // When the two picks land on the same character only one is damaged
@@ -729,8 +720,8 @@ const buildHud = (clean, seed) => {
 // the name and the caption line (the dialog's description) say it.
 // THE STAMP: "12:29 AM · JUL 09 2023 · #0000/1615", the post's time,
 // its place in the order and the total, after the camcorder stamp on
-// the found tape she chose as a reference ("AM 3:40 / OCT 12 1980",
-// docs/SHOP-TEMPLATE.md §7). Read in Bucharest time, where the
+// the found tape chosen as the reference ("AM 3:40 / OCT 12 1980").
+// Read in Bucharest time, where the
 // archive's owner posted (summer and winter time as there), with the
 // month in US English upper-case, whatever the visitor's zone and
 // language: a camcorder burns its stamp in once, in its owner's clock
@@ -829,15 +820,16 @@ const initLightboxControls = () => {
 // mousedown, or after a touch held still for 500ms, and removed on
 // release (or when the mouse leaves the stage). `.revealed` is the
 // toggle, mirrored in `aria-pressed`, so a screen reader hears the
-// state that lasts (§11.6.2). Releasing a press removes `.holding`
-// only; the toggle comes from the separate click, tap and key paths.
+// state that lasts. Releasing a press
+// removes `.holding` only; the toggle comes from the separate click,
+// tap and key paths.
 // A touch is timed: released within 350ms and moved under 10px, it is
 // a tap and toggles; still down at 500ms, it holds, like a mouse
-// press. The spec's reason for the tap path: a touch browser's own
-// long-press menu can take a pure hold away (§11.6.1). A mouse press
+// press. The reason for the tap path: a touch browser's own
+// long-press menu can take a pure hold away. A mouse press
 // is timed too: released still within 500ms (HOLD_MIN_MS), it is a
 // click and toggles; held longer, it was a hold and ends unsummoned
-// (§11.3: a hold alone leaves nothing).
+// (a hold alone leaves nothing).
 // The stage ships `disabled`, without `aria-pressed` or
 // `aria-describedby`; this sets both and enables it, last (below):
 // a toggle that tells you to hold exists only once the script does.
@@ -845,7 +837,7 @@ const initLightboxControls = () => {
 // page, its one stage (shops/demo/pieces/<slug>/). On a page without
 // one it returns at once. `button.stage` and not `.stage`: the shop's
 // cards keep the stage's frame as a <div class="stage"> inside a link
-// (shop/07, her P1 = direction 1, 2026-10-15), and a link is not to be
+// (shop/07), and a link is not to be
 // wired to summon; selecting the element keeps them out with no new
 // class.
 const TAP_MAX_MS = 350;
@@ -885,8 +877,8 @@ const initSeanceStages = () => {
     // Mouse: a press adds `.holding`; on release, a press that didn't
     // move and was let go within HOLD_MIN_MS also toggles (a click);
     // one that moved, or was held longer, doesn't. Leaving the stage
-    // releases. The click is the spec's motor-accessibility path
-    // (§11.6.1). The cost: a click held 500ms or more, as a slow or
+    // releases. The click is the path for a hand that finds holding
+    // hard. The cost: a click held 500ms or more, as a slow or
     // unsteady hand may, shows the words only while held; Enter and
     // Space toggle at any speed. 500ms is a touch's hold threshold, so
     // a mouse and a finger call a press a hold at the same point. A
@@ -924,7 +916,7 @@ const initSeanceStages = () => {
     // once, and a released long press stays summoned. They are
     // ignored, not cancelled with `preventDefault()`, so the browser's
     // own mousedown still focuses the stage (a focus call from script
-    // would also draw the focus ring after a tap; measured, none now).
+    // would also draw the focus ring after a tap).
     // A touch the handler doesn't act on (held 350–500ms) isn't
     // stamped, so the mouse handlers toggle it once (420ms: summoned).
     let touchStartX = 0;
@@ -983,8 +975,8 @@ const initSeanceStages = () => {
     // Keyboard: Enter or Space on the native <button> fires a `click`
     // with `detail` 0 (no mouseup comes with it), so this listener
     // toggles on those alone; a mouse click (`detail` 1 or more) was
-    // already handled by mouseup. The end state is the tap's
-    // (§11.6.2).
+    // already handled by mouseup. The end state is the tap's: one
+    // summoned look, whichever key, finger or mouse made it.
     stage.addEventListener("click", (e) => {
       if (e.detail !== 0) return;
       toggleRevealed();
@@ -1005,18 +997,17 @@ const initSeanceStages = () => {
 
 // --- 4a. THE SÉANCE'S SUMMON, ON THE SHOP (shop/08) ---
 // WHAT IT DOES: wires the shop's `button.summon`, one per piece, the
-// hint at the top of each photo (her option, 2026-10-16). A click, a
+// hint at the top of each photo. A click, a
 // tap, Enter or Space toggles `aria-pressed`, and shop/08 paints the
 // piece's name, quote and facts at the photo's foot; a longer press
 // shows them only while it lasts, as on a piece's page (§4), so "hold
 // to summon" stays true. Four things the piece page's stage doesn't
-// do, because on the shop the hint is the only way in (spec
-// sketches/shop-seance-summon/seance-summon-spec.md §9):
+// do, because on the shop the hint is the only way in:
 //   - Escape, on the focused button, sends the words back;
 //   - summoning one piece sends any other back (one at a time);
-//   - a dismiss brings the hint back (no `.spent`; her S3);
+//   - a dismiss brings the hint back (no `.spent`);
 //   - summoned, a press on the photo sends the words back instead of
-//     opening the page (her ruling, 2026-10-17; WHILE SUMMONED below).
+//     opening the page (WHILE SUMMONED below).
 // HOW: §4's timing, the same constants: a mouse press released within
 // HOLD_MIN_MS and moved under DRAG_TOLERANCE_PX is a click; held
 // longer, it is a hold and ends unsummoned. A touch released within
@@ -1032,13 +1023,10 @@ const initSeanceStages = () => {
 // click or tap anywhere on that piece's link (its photo) dismisses the
 // summon instead of opening the page (`preventDefault` on that click
 // only), and the hint returns; with nothing summoned there, the next
-// click opens the page. Her ruling, 2026-10-17, on the PM's offer:
-// "while the facts are summoned, a click anywhere on that photo sends
-// them back; the piece page opens only when nothing is summoned there"
-// — "1. I agree with you." (docs/DECISIONS.md, the Séance-summon entry,
-// item 6). Why (QA t_e50f1bed's note): summoned, the
-// hint hides, so a second click where it was landed on the link and
-// opened the page; someone toggling left the shop by accident.
+// click opens the page (docs/DECISIONS.md, the Séance-summon entry).
+// Why: summoned, the hint hides, so a second click where it was would
+// land on the link and open the page; someone toggling would leave the
+// shop by accident.
 // Pointer only: the click must follow a `pointerdown` on this link and
 // carry `detail` 1+. Enter on the link (`detail` 0) and a screen
 // reader's activation (no pointerdown) always open the page, as
@@ -1050,8 +1038,7 @@ const initSeanceStages = () => {
 // released off the button clicks neither. A tap on the hint ends with
 // a compatibility click that Chromium sends to the link (the hint's
 // target has gone by then): the link skips it with the button's guard
-// (COMPAT_MOUSE_MS), so a tap summons and stays on the shop (at
-// 7c78830 it summoned and opened the page).
+// (COMPAT_MOUSE_MS), so a tap summons and stays on the shop.
 // The button ships `hidden`; this unhides it, last, once its
 // listeners are on: with the script off the shop is its links alone,
 // each described by its facts (shop/07, shop/08).
@@ -1178,7 +1165,7 @@ const initShopSummons = () => {
 
     // The photo (the link, the button's next sibling): summoned, a
     // pointer click sends the words back instead of opening the page
-    // (her ruling, 2026-10-17; see WHILE SUMMONED above).
+    // (see WHILE SUMMONED above).
     const link = button.parentElement.querySelector("a.product-card-link");
     if (link) {
       let pointerDown = false;
@@ -1214,25 +1201,20 @@ const initShopSummons = () => {
 };
 
 // --- 4b. THE STRIP OF PHOTOS (a piece's page, product/05) ---
-// The spec: sketches/product-strip/README.md §1-§2 (uiux t_6c2f42a9,
-// fcfe3c0); her words, 2026-10-20: "left-right arrows for the keyboard
-// users, lateral scroll for the mouse users if that's possible, and
-// swipe left and right for the touchscreen users", then "OK to the
-// strip for Strigoi." The sketch's strip.js was the working reference.
+// The founder's brief, the reason for its three ways in: "left-right
+// arrows for the keyboard users, lateral scroll for the mouse users if
+// that's possible, and swipe left and right for the touchscreen users".
 // WHAT IT DOES: on a piece with two or more photos (up to 8, then up to
 // 2 videos), showing a thumbnail puts its photo in the stage, whole:
 // the <img> under the stage takes its file, its alt, its width and
 // height; the stage's two colour-split copies take it as `--photo`;
 // `aria-pressed` moves to that thumbnail; the Dossier's "EVIDENCE
 // 0k/0n" and the Transmission's "FRAME 00k" count it (videos too). A
-// summoned description stays summoned (§11.7 item 2): nothing here
-// touches `.revealed`.
-// The frame takes the shape of the photo shown (product/02). HER WORDS,
-// 2026-10-31, on the Cord Cowl Sweater's 4:5 photos letterboxed in its
-// first, near-square one's frame: "can the photo's container (?) in the
-// product page be adapted to the size of the photo? The empty space
-// around the image looks bad in my opinion (e.g. in the screenshot is
-// visible the lateral empty space)" (frontend t_960cca6a). So showing a
+// summoned description stays summoned, one description per piece
+// whichever photo shows: nothing here touches `.revealed`.
+// The frame takes the shape of the photo shown (product/02), so no photo
+// sits between empty bands; the founder's reason: "The empty space
+// around the image looks bad in my opinion". So showing a
 // photo writes its `data-w / data-h` as `--shown` on `.piece-stage`;
 // the frame keeps its height and its left edge and takes that width,
 // eased 180ms by product/02 while `.is-reshaping` is set (none with
@@ -1240,9 +1222,7 @@ const initShopSummons = () => {
 // the stage's left edge to main's right padding, so a wide photo beside
 // a tall first one runs on to the right and, past that, gets shorter at
 // its own shape (product/02). The stage's width (the first photo's), so
-// the Details column, never moves. (Was: the frame kept the first
-// photo's shape and another shape got `.is-letterboxed`, shown whole on
-// the frame's ground; product/05.)
+// the Details column, never moves.
 // HOW: each thumbnail is a link to its photo's file (`href`), with
 // `data-alt`, `data-w`, `data-h` (the markup's, as the backend's
 // product_media will give them); with the script off it is just that,
@@ -1259,7 +1239,7 @@ const initShopSummons = () => {
 // custom property resolves against the sheet that reads it
 // (css/shop.css), not this page, and an absolute address resolves the
 // same from anywhere.
-// A VIDEO (none in the demo yet; the spec's §1.7): its link has
+// A VIDEO (none in the demo yet): its link has
 // `data-video` and `data-poster`, `href` is the video's file. Showing
 // it puts its poster in the stage, never the video: nothing here plays
 // anything. Playing will be a separate, plain "Play" control outside
@@ -1279,7 +1259,7 @@ const initShopSummons = () => {
 // and the row's own `scrollTo`, not `scrollIntoView`, which can move
 // the page too.
 // THE WHEEL: a vertical wheel over the row turns the row, but only
-// while all four hold (the spec's §1.4, a PM decision within her OK):
+// while all four hold:
 //   1. the pointer is over the row and the row overflows;
 //   2. the wheel is mostly vertical (|deltaY| > |deltaX|), so a
 //      trackpad's sideways move stays native and isn't doubled;
@@ -1296,7 +1276,7 @@ const initShopSummons = () => {
 // TOUCH, TRACKPAD, SHIFT+WHEEL: native (the row is a scroll container,
 // product/05). A swipe turns the row, never the shown photo or the
 // page; a tap that ends a swipe is no click (the browser's).
-// NO MOUSE DRAG (the spec's §1.5, a PM decision within her OK): the
+// NO MOUSE DRAG: the
 // scrollbar is the mouse's handle. `dragstart` is cancelled in the row,
 // so a link or an image is never dragged out of it.
 // THE FADE: `data-more` on the row ("start", "end", "both") says which
@@ -1324,7 +1304,7 @@ const initPieceStrip = () => {
   // How wide the frame may go (product/02's `--room`): from the stage's
   // left edge to main's right padding. product/02 never lets it under
   // the stage's own width (the first photo's; on phones, where the pair
-  // runs past the window, task 4a's, a wider photo then gets the first
+  // runs past the window, a wider photo then gets the first
   // one's width and is shorter). Again whenever main or the stage
   // changes size (the window; §4c's growth), after layout and before
   // paint. Writing it changes only the frame and the strip, never the
@@ -1405,7 +1385,7 @@ const initPieceStrip = () => {
   // anything near one onto it. So the row goes to a snap position: going
   // left, the last one at or before "30px clear on the left"; going
   // right, the first one at or after "30px clear on the right" (rounded
-  // up, never back into the fade; sign-off t_4a887e97 item 1), or the
+  // up, never back into the fade), or the
   // row's end. The thumbnail then has 30 to 96px on its right, and the
   // next one shows past it.
   const CLEAR = 30;
@@ -1481,8 +1461,8 @@ const initPieceStrip = () => {
       // has already scrolled the page for this notch, and sends its event
       // here uncancelable. It is the page's: neither the row nor scrollBy
       // may move anything (scrollBy would scroll the page a second time),
-      // and the clock runs on so the gesture's next notches stay the page's
-      // (QA t_dabe310b items 1-2). A gesture that starts on the row is
+      // and the clock runs on so the gesture's next notches stay the page's.
+      // A gesture that starts on the row is
       // cancelable from its first notch, so the row still turns.
       if (!e.cancelable) {
         pageWheelAt = performance.now();
@@ -1495,12 +1475,11 @@ const initPieceStrip = () => {
       if ((dy < 0 && strip.scrollLeft <= 0) || (dy > 0 && strip.scrollLeft >= max - 1)) {
         // 3: an end, the page's notch (and 4's, at an end). Scrolled here,
         // not left to the browser: when the row's width isn't a whole
-        // number (362.25px at 1440 × 900), a scroll to its end reads 168
-        // and Chromium's own end is a fraction short of it; an uncancelled
-        // notch then goes to the row, 168 -> 167, and the page doesn't
-        // move (sign-off t_4a887e97 item 2). "instant": the page's
-        // `scroll-behavior: smooth` would ease it, and eased scrollBy
-        // calls in a row fall short (5 × 100 went 290). TRADE-OFF: where
+        // number, a scroll to its end reads a whole number and Chromium's
+        // own end is a fraction short of it; an uncancelled notch then goes
+        // to the row, one pixel, and the page doesn't move. "instant": the
+        // page's `scroll-behavior: smooth` would ease it, and eased scrollBy
+        // calls in a row fall short. TRADE-OFF: where
         // the browser eases a wheel, these notches jump, as the row's own
         // turns do. An engine without "instant" throws; the notch is then
         // left to the browser, as before. So is a notch the page can't
@@ -1549,23 +1528,17 @@ const initPieceStrip = () => {
 //    foot is level with the list's. Never closer than FOOT_GAP (24px)
 //    to the first screen's foot (the window's), so the photo, or its
 //    strip, always ends on its own visible edge; and the frame never
-//    over 1280px. (Was "never past the first screen's foot", e9d272f:
-//    a one-photo piece could end exactly on the window's edge and read
-//    as cut off. uiux t_49f38ef3's recommendation, round5/README.md
-//    item 2; HER WORDS, 2026-10-26: "2. Yes.") HER WORDS, on the
-//    Draped Mantle: "where the details list is longer with few lines
-//    than the photo, it looks a little weird", then "Yes to all three
-//    questions!" (uiux
-//    t_cada38f7, sketches/page2-final-stills/round4/grow.js, the model,
-//    7bc03e8). A wider photo can narrow the column beside it and so
-//    lengthen the list: up to three passes, until the feet meet.
-// 2. NF. When the list still runs more than 240px past the (grown)
-//    stage's foot, moves the rows that start below the foot (or cross
-//    it) into a second list, `.piece-details-more`, right after
-//    `.piece-details`; product/06 draws it under both columns. The rows
-//    that fit beside the photo stay; at least one always does. HER
-//    WORDS, 2026-10-24: "1. NF" (uiux t_cb98eeb9,
-//    sketches/piece-scroll/ps.js NF, the model, 8c9bc12).
+//    over 1280px. (The gap, and not the window's foot itself: a photo
+//    ending exactly on the window's edge reads as cut off.) The
+//    founder's reason for the growth: "where the details list is longer
+//    with few lines than the photo, it looks a little weird". A wider
+//    photo can narrow the column beside it and so lengthen the list:
+//    up to three passes, until the feet meet.
+// 2. THE LIST CONTINUES. When the list still runs more than 240px past
+//    the (grown) stage's foot, moves the rows that start below the
+//    foot (or cross it) into a second list, `.piece-details-more`, right
+//    after `.piece-details`; product/06 draws it under both columns. The
+//    rows that fit beside the photo stay; at least one always does.
 // WHY A SCRIPT: where the photo's foot falls depends on the window's
 // height (product/02's frame), and where the list ends on its rows'
 // wrapping, so no row count, and no selector, can say how far the photo
@@ -1579,7 +1552,7 @@ const initPieceStrip = () => {
 // copied: the DOM order, so the reading order, is as before, and nothing
 // in a row is a Tab stop.
 // WITHOUT IT (script off, an error, <=700px): the frame at product/02's
-// size and one list in the column: the sketch's N. Without subgrid the
+// size and one list in the column. Without subgrid the
 // photo still grows, and nothing splits.
 const initDetailsSplit = () => {
   const piece = document.querySelector(".piece");
@@ -1593,11 +1566,9 @@ const initDetailsSplit = () => {
   const TAIL = 240; // a tail up to about three rows long stays (product/06)
   const FRAME_MAX = 1280; // product/02's cap on the frame's height
   // The growth stops this far above the window's foot: the photo always
-  // ends on its own visible edge. HER WORDS, 2026-10-26, on uiux
-  // t_49f38ef3's "stop the growth 24px above the window's foot": "2. Yes."
-  // (docs/DECISIONS.md 8d3c57f, (11)).
+  // ends on its own visible edge.
   // It caps growth only: a stage whose foot already sits closer (none at
-  // 701px+ today: 46 / 62px) is not shrunk.
+  // 701px+ today) is not shrunk.
   const FOOT_GAP = 24;
   const twoColumns = window.matchMedia("(min-width: 701px)");
   const top = (el) => el.getBoundingClientRect().top + window.scrollY;
@@ -1633,7 +1604,8 @@ const initDetailsSplit = () => {
     }
   };
 
-  // 2. NF: a list still running more than TAIL past the stage's foot.
+  // 2. The list continues: a list still running more than TAIL past the
+  //    stage's foot.
   const split = (rows) => {
     const photoFoot = foot(stage);
     if (foot(rows[rows.length - 1]) - photoFoot <= TAIL) return;
@@ -1711,8 +1683,8 @@ const initDetailsSplit = () => {
 // buttons.
 // SCOPE: the demo's pages only. A real shop's skin is one value set by
 // the admin, written into its markup, with no switcher
-// (docs/ARCHITECTURE.md §B.2.3); on a page without the buttons it
-// returns at once.
+// (docs/ARCHITECTURE.md, "The founder-assigned skin field"); on a page
+// without the buttons it returns at once.
 const initSkinSwitcher = () => {
   const skinned = document.querySelector("[data-skin]");
   const buttons = [...document.querySelectorAll("[data-skin-btn]")];
@@ -1764,8 +1736,8 @@ const initSkinSwitcher = () => {
 // --- 5b. THE DEMO'S SKIN, CARRIED ACROSS ITS PAGES (demo only) ---
 // WHAT IT DOES: a skin chosen on the demo shop or on one of its pieces
 // stays chosen on the others, for this tab: the shop in Dossier opens
-// each piece in Dossier, and Back returns to Dossier (product-page spec
-// §3.1). Which skin a page opens on, first match wins:
+// each piece in Dossier, and Back returns to Dossier. Which skin a page
+// opens on, first match wins:
 //   1. `?skin=seance|dossier|transmission` in the address (QA, or a link
 //      she sends someone). It is also kept, so the pieces opened from
 //      that page follow it. The pages' own links never carry it, so
@@ -1803,11 +1775,9 @@ const keepDemoSkin = (skin) => {
 };
 
 // --- 5c. (REMOVED) THE WALL'S CAP FROM `?wall=` ---
-// The demo shop's temporary switch between a 1400 and a 1600 wall
-// (672bf5d) went after her pick, 2026-10-26: "Yes to all three
-// questions!" (1600; docs/DECISIONS.md 2dc046d). The cap is shop/02's
-// one `max-width`; `?wall=` in an address now does nothing
-// (docs/HISTORY.md, shop/02).
+// The demo shop's temporary switch between a 1400 and a 1600 wall is
+// gone: the cap is shop/02's one `max-width` (1600); `?wall=` in an
+// address now does nothing (docs/HISTORY.md, shop/02).
 
 // --- 6. (REMOVED) THE NAV TOGGLE ---
 // The menu it opened and closed (`.nav-toggle`, `.nav-links`) is gone
@@ -1843,9 +1813,7 @@ const keepDemoSkin = (skin) => {
 // `.nav--scrolls`, the logo only, which scrolls away with the top:
 // there the fade would show nothing and only hide the logo from
 // keyboard and screen reader users (`visibility: hidden`), so it
-// returns too. Her "same as homepage, for now" was given while that
-// nav was fixed; pm scoped it out (docs/DECISIONS.md, "NAVBAR
-// RULINGS", 3).
+// returns too (docs/DECISIONS.md, "NAVBAR RULINGS").
 //
 // CHOICE: the obvious fix for text colliding under a fixed nav is to
 // hide the whole nav. That takes every link out of the keyboard's tab
@@ -2001,7 +1969,7 @@ const initOrbitDraw = () => {
 // new order on every load loses the item a returning visitor was
 // looking at, and two people can't say "top left". The day is the
 // smallest unit that is fair and still stable (docs/DECISIONS.md, "THE
-// ATLAS TAKES B", D3).
+// ATLAS TAKES B").
 // CHOICE, a seeded generator and not `Math.random()`: `Math.random` can't
 // be seeded, so it could not give everyone the same order.
 // CHOICE, in the browser: the site is static today. With the backend
@@ -2080,16 +2048,14 @@ const shuffleForDay = (items, salt) => {
 // the homepage (home/04): the homepage places three clusters; the Atlas
 // takes every shop, and a new shop must find a place without anyone
 // editing a stylesheet.
-// CHOICE, a minimum distance and not a grid: her ruling B, the open sky
-// (docs/DECISIONS.md, "THE ATLAS TAKES B"); Direction A, the chart, is kept in
-// sketches/atlas/.
+// CHOICE, a minimum distance and not a grid: the Atlas is an open sky,
+// not a chart (docs/DECISIONS.md, "THE ATLAS TAKES B").
 // ACCESSIBILITY: the DOM order follows the sky from top to bottom (step
 // 3), so focus moves down the sky and never back up. It does swing from
 // side to side: in a scatter each next box down can sit anywhere across
 // the field. With 12 shops at 1440 the field is 1,296px, so one step can
-// move focus as far as 1,106px (the field less a 190px box); the largest
-// step on each of 30 days measured was 761 to 1,054px. Rows
-// would cost the open sky her ruling B asks for. The names shown on
+// move focus as far as 1,106px (the field less a 190px box). Rows
+// would cost the open sky. The names shown on
 // hover are the links' own text, read by a screen reader whether shown
 // or not.
 // SMALL SCREEN: not designed yet: the field keeps the desktop box sizes
@@ -2172,11 +2138,9 @@ const initAtlas = () => {
 // curiosities: their order, the size each stands at, the frame shape
 // each photo takes, the shelves, each piece's niche and its place in
 // it. The same wall for every visitor that day, a new one the next.
-// HER WORDS, 2026-10-29 (page 5): "I need it to look like a bestiary or
+// VISION, the founder's words: "I need it to look like a bestiary or
 // a cabinet de curiosités, it's not necessay  to have an ikebana
-// setup."; 2026-10-30, "3. (d)": wall D of uiux's sketch (t_65af9177,
-// abd79fd; sketches/page5 page5.js `justify` + `hangD` + `drawCabinet`,
-// whose rules and values are built here verbatim), untorn (t_5e609701).
+// setup."
 //
 // HOW (the CSS is css/bestiary.css, bestiary/04):
 //   1. ORDER. The pieces are in the markup, in the order bestiary.html
@@ -2201,8 +2165,8 @@ const initAtlas = () => {
 //      it in its niche. A shelf breaks where its height comes nearest the
 //      target, 26% of the width held to 240–360px, and never falls under
 //      240px nor leaves a niche under 112px wide when it can break one
-//      piece earlier: no caption then starts above its photo (QA's O4,
-//      ~700–900px). The last shelf is not stretched past the target.
+//      piece earlier: no caption then starts above its photo (at about
+//      700–900px). The last shelf is not stretched past the target.
 //   5. NICHES. A niche is as wide as its piece plus 14px each side, as
 //      tall as its shelf: 14px of air above the tallest piece and 40px
 //      of floor in front (the hanging bite needs 38px, bestiary/06, so
@@ -2223,18 +2187,14 @@ const initAtlas = () => {
 //      niche: decoration only, behind the list, which stays a list of
 //      links. Shelves and niches are re-hung when the list's width
 //      changes (a resize, zoom); the order, sizes and frames are not.
-//   7. TEAR: retired 2026-10-30. The photos are untorn inside the
-//      cabinet (uiux t_5e609701's pick, her "OK"; bestiary/05), so the
-//      day deals no tear and the markup carries none.
+//   7. TEAR: retired. The photos are untorn inside the cabinet
+//      (bestiary/05), so the day deals no tear and the markup carries
+//      none.
 //   8. THE MARK'S PLACE (bestiary/06). Per piece, at the width the page
 //      is at: does its caption come up within 8px of the saved mark's
 //      plate in the corner? Then, and only for that piece, the <li> gets
 //      `.save-hangs` and its mark hangs under the photo's foot, on the
-//      niche's floor. HER WORDS, 2026-10-27, on the PM's question (build
-//      uiux t_07096feb's rule, sketches/bestiary-bite-corner/, 7ac3d41:
-//      the bite in the card's top-right corner unless that card's own
-//      caption comes within 8px, only then under the foot): "OK to both
-//      questions." The caption is laid out at opacity 0 too, so its
+//      niche's floor. The caption is laid out at opacity 0 too, so its
 //      words' top is known at rest: the top of a Range's line boxes over
 //      it. The corner plate's foot: the <li>'s top + 3% of its height
 //      (bestiary/06's `top: 3%`) + 6px (the 44px target's inset round
@@ -2245,7 +2205,7 @@ const initAtlas = () => {
 //      text size, a name that wraps, a font landing), through one
 //      ResizeObserver, at most once a frame (the throttle), after a
 //      re-hang if the width changed. At 700px and below it does
-//      nothing: task 4a's widths.
+//      nothing: the phone and tablet widths are designed apart.
 //
 // SCOPE: runs only on a page with `.bestiary-plane`; anywhere else it
 // returns at once. Without JS the pieces stand in the markup's order,
@@ -2262,8 +2222,7 @@ const initAtlas = () => {
 // masonry pushes photos up into the gaps, out of order, so the eye, the
 // Tab key and a screen reader would each read a different order. Here
 // the DOM order is the shelf order, so the three agree; the cabinet
-// fills the space masonry would, with furniture instead of reordering
-// (uiux README §4, "why is reading order more important").
+// fills the space masonry would, with furniture instead of reordering.
 // CHOICE, the niches drawn by script as empty spans and not as the
 // <li>s' own backgrounds: a niche is wider and taller than its photo,
 // and an <li> as big as its niche would move every hit area, focus ring
@@ -2276,10 +2235,9 @@ const initAtlas = () => {
 // holds it; a shop's top for a piece no shop holds) and the caption; per
 // day, the date (UTC).
 // ACCESSIBILITY: one Tab stop per piece, in the wall's order, which is
-// the order the eye reads the shelves. Every piece is a link (since
-// 2026-10-31 each to its own page: the founder's five went to the demo
-// shop's top until TexxturedBeest held them, bestiary.html), so none is
-// skipped. The cabinet is `aria-hidden` and takes no pointer events.
+// the order the eye reads the shelves. Every piece is a link, each to
+// its own page (bestiary.html), so none is skipped. The cabinet is
+// `aria-hidden` and takes no pointer events.
 // VISION: "Nobody is elder, everybody is sometimes visible"
 // (docs/DECISIONS.md, "CONSTELLATIONS/GALAXY PAGE"), the Atlas's rule
 // carried to the pieces, and now to their sizes.
@@ -2418,7 +2376,7 @@ const initBestiary = () => {
   const PLATE = 32;
   const wide = window.matchMedia("(min-width: 701px)");
   const placeMarks = () => {
-    if (!wide.matches) return; // 700px and below: task 4a's
+    if (!wide.matches) return; // 700px and below: the phone and tablet widths
     pieces.forEach((li) => {
       const cap = li.querySelector(".bestiary-caption");
       if (!cap) return;
@@ -2461,10 +2419,14 @@ const initBestiary = () => {
 // absent.
 // SCOPE: all twenty-three pages load this file. The homepage uses 4 of
 // the fourteen, a demo piece's page 4 (3 for Grave Soil, one photo), the
-// shop 3 (§4a's summon, 2026-10-16), the gallery and the Atlas 2 each,
+// shop 3 (§4a's summon), the gallery and the Atlas 2 each,
 // the Summoning and the Bestiary 1 each, the ten text pages none.
-// CHOICE: one guarded file, not one per page: docs/CSS-JS-SPLIT.md
-// §4 (when to split: §4.4).
+// CHOICE: one guarded file, not one per page: the code is small, and a
+// split would mean several `<script>` tags to keep in order. Split it
+// when the real code passes ~800 lines and a page uses less than half
+// of it, or when the first logged-in page ships: code that handles
+// sessions and money should not share a file with a hover animation
+// (docs/CSS-JS-SPLIT.md, "script.js — split or leave?").
 document.addEventListener("DOMContentLoaded", () => {
   initPlateFlash();
   initRosterDay();

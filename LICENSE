@@ -1,0 +1,57 @@
+This repository has two parts with different terms:
+
+  Part 1. The source code: MIT License.
+  Part 2. The photographs, images, marks and names: all rights reserved.
+
+========================================================================
+Part 1. The source code
+========================================================================
+
+This covers the source code of the site: the HTML, CSS and JavaScript
+files, including their comments.
+
+MIT License
+
+Copyright (c) 2026 Iulia Cadar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+Part 2. Not covered by the MIT License: all rights reserved
+========================================================================
+
+Copyright (c) 2026 Iulia Cadar. All rights reserved.
+
+The MIT License above does not apply to the following. You may not copy,
+reuse, modify or redistribute them without written permission:
+
+  - The founder's photographs (assets/founder-photography/).
+  - The placeholder images (assets/placeholder-photography/).
+  - The maker marks (assets/marks/ and the roster marks).
+  - Every other image asset in this repository (for example
+    assets/bestiary-tears/, assets/leak-wall/ and the favicons).
+  - The names and brand "Strigoi" and "Strigoi Sideral", and the shop
+    and maker names used on the site.
+
+The placeholder images were generated with AI tools and are stand-ins
+until real makers' photographs replace them. No rights are claimed in
+them beyond what the law gives.
+
+The fonts are loaded from Google Fonts and are not part of this
+repository. They keep their own licences.

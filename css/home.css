@@ -48,12 +48,8 @@
 }
 
 /* .wingmark: the wing drawn under the paragraph, an inline SVG.
-   THE WIDTH, 300px (was 220px): her question, 2026-10-31, "do you
-   consider that the winkmrk would look better if it wold be a little
-   bigger than it is now?", and her pick from uiux's stills, "300".
-   uiux's reason (t_1c74b6dc, sketches/wingmark-size/): about 3/4 of the
-   paragraph's measure, so the wing closes the text instead of trailing
-   under it. At 220 it was about half the paragraph and its lines nearly
+   THE WIDTH, 300px (was 220px): about 3/4 of the paragraph's measure,
+   so the wing closes the text instead of trailing under it. At 220 it was about half the paragraph and its lines nearly
    vanished on the grain.
    STROKES scale with it (1px in the viewBox -> 1.15px on screen), still
    hairlines. CHOICE, no `vector-effect: non-scaling-stroke`: it would
@@ -74,7 +70,7 @@
    the page at rest is the same to the pixel as before the link
    (docs/HISTORY.md, home/01).
    CHOICE, no visible label and no `title` tooltip: the red tail dot is
-   the cue, by her ruling; a tooltip would be a label only mouse users
+   the cue; a tooltip would be a label only mouse users
    get, after a delay. The link's name, "The Atlas", is its
    `aria-label`. */
 .wingmark-door {
@@ -160,9 +156,9 @@
 
 /* .sky-seal-star: a 4px star, bigger and brighter than any dot in the
    background starfield (1.5px at most, background/02), so it reads as
-   a chosen star. It was drawn to punctuate the seal above ("on the
-   right beside a star", her placement), and still shows although the
-   seal is hidden (fix card open on whether it stays).
+   a chosen star. It was drawn to punctuate the seal above, on its
+   right, and still shows although the seal is hidden. OPEN: whether
+   it stays.
    HOW: a `radial-gradient()` dot with a glow, placed by `top`/`right`
    percentages of `.hero-inner`, the seal's own box; a star placed in
    the fixed background layer drifted away from the seal as the screen
@@ -190,7 +186,7 @@
 }
 
 /* .header-constellation: a small inline SVG figure, six stars and five
-   lines, pinned in the sky left of the texts. Her ask: "take a
+   lines, pinned in the sky left of the texts. VISION, her words: "take a
    constellation like the one in the print and 'pin it' somewhere
    around the header texts" (docs/DECISIONS.md, "NAV DISSOLVED INTO THE
    SKY"). `aria-hidden` in the markup: it names no one.
@@ -292,21 +288,18 @@ a.beacon {
 }
 
 /* .beacon-label: the words, always visible, never only on hover and
-   never only in `aria-label`. The founder agreed with the critique
-   that "a pulsing unlabelled red dot is a horror signifier and an
-   accessibility failure" (docs/DECISIONS.md, "DENSITY CORRECTION",
-   6). "For makers." leads: her choice among three options. The reason
-   recorded with it: plain words first, so a designer knows in a second
-   that it is for them, then the inscription (docs/DECISIONS.md,
-   "HOMEPAGE FINISHING", 1).
+   never only in `aria-label`: "a pulsing unlabelled red dot is a
+   horror signifier and an accessibility failure" (docs/DECISIONS.md,
+   "DENSITY CORRECTION", 6). "For makers." leads: plain words first,
+   so a designer knows in a second that it is for them, then the
+   inscription (docs/DECISIONS.md, "HOMEPAGE FINISHING", 1).
    Spectral, the machinery face (tokens/02), small and quiet beside the
    h1. The dark `text-shadow` is a halo that lifts it off the sky.
    `max-width: 108px` wraps it into the narrow column above.
    ACCESSIBILITY: at rest it is `--bone-label` at opacity 1, the labels'
-   tone of the bone ramp (tokens/02; her ruling D10): 6.69 / 5.96:1
-   (median / worst pixel) at 1440, 6.36 / 5.80 at 390, measured
-   without its halo, which only helps. Bone at 0.72, before the ramp,
-   measured 4.71 / 4.35 (docs/HISTORY.md, home/03).
+   tone of the bone ramp (tokens/02): 6.69 / 5.96:1 (median / worst
+   pixel) at 1440, 6.36 / 5.80 at 390, without its halo, which only
+   helps (numbers: docs/HISTORY.md, home/03).
    On hover or focus it steps up to `--bone`, a lift in value, not hue.
    TYPE: small print, Spectral 400 at 13px, untracked (tokens/02, THE
    TYPE SCALE): three lines in its 108px box ("For makers. A / signal
@@ -314,9 +307,7 @@ a.beacon {
    1280.
    CHOICE, small print and not the scale's mono line: in Space Mono 12
    it broke into four ragged lines, and a 140px box to hold it touched
-   the wordmark's S (both drawn, both dropped:
-   sketches/type-scale/scale.css). Its place belongs to the 4a audit
-   (#1, #11).
+   the wordmark's S. Its place belongs to the 4a audit (#1, #11).
    The link's `aria-label` starts with these words and adds one
    sentence, where it goes, so a screen reader hears more than the
    screen shows. */
@@ -341,8 +332,8 @@ a.beacon {
 
 /* .beacon-dot and .beacon-ring: the signal. The dot blinks, the ring
    grows from it and fades, a point sending out a wave. Both are
-   `--beacon-red`, kept out of the magenta palette until the founder
-   decides (tokens/02). `beaconBlink` is the beacon's own rhythm, 2.2s;
+   `--beacon-red`, kept out of the magenta palette; whether it joins
+   it is an open question (tokens/02). `beaconBlink` is the beacon's own rhythm, 2.2s;
    the nav's stars reuse it at 2.6s, so the two drift in and out of
    step, never locked together (chrome/02).
    ACCESSIBILITY: under reduced motion both stop; the dot holds full
@@ -411,7 +402,7 @@ a.beacon {
    home/04 — THE SKYMAP: THE DESIGNERS' CONSTELLATIONS
    (was GROUP 3c)
    Three constellations, one per named designer on the roster (but
-   TexxturedBeest, on the roster since 2026-10-31, drawn on the
+   TexxturedBeest, drawn on the
    Atlas only; index.html's sky comment), spread
    down the sky from the hero to the specimens. Each has one star that
    is a button; hover or focus shows the designer's name. Textrina
@@ -420,8 +411,8 @@ a.beacon {
    time, but still looking like a map of stars, galaxies and
    constelations. Some of them must be hoverable over as the
    constelation of the designers." (docs/DECISIONS.md, "SKYMAP")
-   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) lists
-   #7, #8, #10, #11 and #13 here; they wait on the founder.
+   OPEN: the phone audit lists #7, #8, #10, #11 and #13 here; they
+   are still open.
    ---------------------------------------------------------- */
 
 /* .skymap-field: the layer the constellations are placed in.
@@ -466,8 +457,7 @@ a.beacon {
    SMALL SCREEN: under the hero at 500px and below (responsive/08).
    ACCESSIBILITY: its ink is `--bone-quiet` (home/04's `--seal` rule
    below), 5.87 / 5.22:1 (median / worst pixel) at 1440 and 5.61 / 4.99
-   at 390; at bone 0.45 it measured 2.73 / 2.60 and 2.66 / 2.54
-   (numbers: docs/HISTORY.md, home/04). Its size and place are still
+   at 390 (numbers: docs/HISTORY.md, home/04). Its size and place are still
    the 4a audit's (#11). */
 .skymap-heading--float {
   position: absolute;
@@ -492,15 +482,14 @@ a.beacon {
 
 /* .skymap-heading--seal: the inscription look, IM Fell English SC,
    tracked wide, in `--bone-quiet`: the last of the hero's Latin
-   designations (home/01, home/02), set horizontal. Her words: "We
-   keep textrina siderum" (docs/DECISIONS.md, "DENSITY CORRECTION",
-   3). The name means the loom of the stars (docs/GRIMOIRE.md, §IX).
-   INK: the small-print tone of the bone ramp, at opacity 1 (tokens/02;
-   her ruling D7). It was bone at 0.45, faint on purpose, and
-   measured 2.6:1 at its worst pixel, under the 4.5:1 a real <h2> of this
-   size needs; the quietest tone that passes is the one she chose.
+   designations (home/01, home/02), set horizontal; kept when the other
+   two were retired (docs/DECISIONS.md, "DENSITY CORRECTION", 3).
+   The name means the loom of the stars (docs/GRIMOIRE.md, §IX).
+   INK: the small-print tone of the bone ramp, at opacity 1 (tokens/02).
+   Bone at 0.45, faint on purpose, falls under the 4.5:1 a real <h2>
+   of this size needs; the quietest tone that passes is the one used.
    TYPE: the scale's seal (tokens/02), IM Fell SC 12px, 0.24em, an
-   18px line; it keeps its own quieter tone (her ruling D7): it floats
+   18px line; it keeps its own quieter tone: it floats
    alone in the sky, over no title. Its place is the 4a audit's (#11). */
 .skymap-heading--seal {
   font-family: var(--serif-sc);
@@ -540,10 +529,9 @@ a.beacon {
    star covers the bestiary link's end on phones and tablets (audit #10). */
 .skymap-cluster--3 { left: 62%; top: 96.2%; width: 130px; }
 
-/* FROM 1280px, THE RHYTHM (home/05, 2026-10-31) makes <main> about 370px
+/* FROM 1280px, THE RHYTHM (home/05) makes <main> about 370px
    shorter (at 903 high; 384 at 925), and the shares above would move
-   every cluster. uiux re-anchored each to what it belongs to (t_035ae8af,
-   rhythm/rhythm.css, verbatim):
+   every cluster, so each is anchored to what it belongs to:
    1 Vârcolac: exactly where it was (10% of the old <main> = 30svh less
    12.8px).
    2 Ileana C.: its old place, just under the first screen, now holds the
@@ -551,9 +539,8 @@ a.beacon {
    the roster and the specimens, centred in it, at the left, counted from
    <main>'s foot: half a region gap + the specimens' content 580.6px, less
    half the cluster 112px = 468.6 (re-measure if the lantern's shelf or
-   caption changes). Measured in the sketch: inside the band at both of
-   her windows (1410-1634px in 1400-1643 at 903), 0 overlaps. The one
-   visible change of the rhythm, uiux's README says, for her to look at.
+   caption changes). It sits inside the band at 1280×903 and 1850×925
+   and overlaps nothing. The one visible change of the rhythm.
    3 Studio Moroi: beside the bestiary door, as before, counted from
    <main>'s foot. */
 @media (min-width: 1280px) {
@@ -575,16 +562,13 @@ a.beacon {
    same pattern as `.nav-star` (chrome/02). The dot is centred in the
    button, so the target and the round focus ring are centred on the
    star itself.
-   THE 19.5px: until 2026-10-31 the name sat in the button's row and the
+   THE 19.5px: the name once sat in the button's row and the
    dot at one EDGE of the button (left, or right in clusters 1 and 3's
    `row-reverse`), so the target and the ring were centred 19.5px beside
    the star. The name has left the row (`.skymap-star-label`, below), the
    dot is centred, and the button is shifted 19.5px the other way, so the
-   dot is drawn on the same pixel as before (uiux t_bc3cf697 checked the
-   dot centres equal, built and sketched, at both windows): the star
-   does not move; only its target and ring come onto it.
-   Her words, 2026-10-31: "1. Hover labels: A" (the spec's item 3,
-   sketches/hover-labels/README.md, "For the frontend card (A)").
+   dot is drawn on the same pixel as before: the star does not move;
+   only its target and ring come onto it.
    CHOICE, the name as the button's text, not an `aria-label`: Tab
    reaches it, and a screen reader reads the name whether or not it
    is shown (docs/DECISIONS.md, "SKYMAP", 4). Why a `<button>` and not
@@ -639,36 +623,33 @@ a.beacon {
 /* .skymap-star-label: the designer's name and craft, LETTERED on the
    sky: no plate, no border, held legible by the labels' halo alone
    (`--halo-label`, tokens/02, the nav's star names' own).
-   HER WORDS, 2026-10-31: "1. Hover labels: A", A "lettered" of uiux's
-   three (t_bc3cf697, sketches/hover-labels/README.md + base.css, the
-   values verbatim), after the PM's note that she disliked the dark box
-   with the thin border, which read as a stock tooltip.
-   TYPE, the pair the old roster and Atlas index used (until the plates,
-   2026-10-31, which set the name in IM Fell italic 20, chrome/09): the
+   CHOICE, lettered and not on a plate: a dark box with a thin border
+   read as a stock tooltip.
+   TYPE, the pair the old roster and Atlas index used (before the
+   plates, which set the name in IM Fell italic 20, chrome/09): the
    name in Spectral italic 16 in `--bone-head`; the craft under it in
    Space Mono 12, `--bone-label`, one step down. The sky's names keep
-   that pair (hover labels A).
+   that pair.
    PLACE: outside the button's row, placed from the star's centre (the
    button's, since the dot is centred in it): the name's near corner
    26px out and 22px up, 34px from the star, so the round focus ring
    (30–32px out) never crosses a letter. Clusters 2 and 3 open up and to
    the right; cluster 1 (the rule after the craft's) down and to the
-   left. Studio Moroi (cluster 3) opened LEFT, onto "See the full
-   bestiary", until 2026-10-31: it now opens right, away from it
-   (0 overlaps with any text box at 1280×903, 1850×925 and 1717×768 in
-   the sketch; re-measured on the build, docs/HISTORY.md, home/04).
+   left. Studio Moroi (cluster 3) opens right, away from "See the full
+   bestiary", which a name opening left would cover (no text box
+   overlapped at 1280×903, 1850×925 and 1717×768; docs/HISTORY.md,
+   home/04).
    At rest it is hidden by opacity, not `display: none`, so it stays the
    button's accessible name, and 4px back toward the star; it slides out
    as it appears on hover or keyboard focus. `pointer-events: none` at
    rest, so the hidden name never catches the pointer.
-   LEGIBILITY (the sketch's measure, A, per glyph pixel, 1280×903 and
+   LEGIBILITY (per glyph pixel, 1280×903 and
    1850×925): names 6.94–8.26:1, the craft 5.33–6.32:1; slid over every
    clear place on the screens, the worst ground still gives 6.76 / 5.19.
    TOUCH: nothing limits the reveal to devices that hover
    (`hover: hover`). On a phone a tap most likely leaves the star in
    `:hover`, so the name shows over whatever lies under it (audit #8,
-   #10; under 1280px is task 4a's, the sketch's notes for it in its
-   README, "Below 1280"). */
+   #10; under 1280px is task 4a's). */
 .skymap-star-label {
   position: absolute;
   left: calc(50% + 26px);
@@ -730,16 +711,11 @@ a.beacon {
    (the rule above), and the name appears. Focus also draws the site's
    ring (tokens/03), 8px out to clear the grown dot and its glow, round
    like the nav stars' (chrome/02).
-   ACCESSIBILITY: 3.66 to 4.78:1 median, 3.27 or more at p10 (the
-   three stars, 1440 and 390); under 3:1 only where it crosses text
-   behind it or the edge of its own label's plate, up to 8% of its
-   pixels (star 1 at 390). Since 2026-10-31 the ring is centred on the
-   dot and no plate is drawn (hover labels A): the sketch measured p10
-   4.17–4.49, median 4.48–4.78, along the ring's own circle at 1280×903
-   and 1850×925; its lightest single pixel (a star or the dot's glow)
-   1.72–2.12.
-   The 1px ring at 0.6 it replaced read 2.23 to 2.54 median, none of
-   it at the 3:1 WCAG 2.2 asks of a focus indicator (docs/HISTORY.md,
+   ACCESSIBILITY: the ring is centred on the dot and no plate is
+   drawn: p10 4.17–4.49, median 4.48–4.78:1, along the ring's own
+   circle at 1280×903 and 1850×925, over the 3:1 WCAG 2.2 asks of a
+   focus indicator; its lightest single pixel (a star or the dot's
+   glow) 1.72–2.12 (numbers, and the older rings': docs/HISTORY.md,
    home/04).
    Reduced motion: the transitions stop, the states stay (motion/01). */
 .skymap-star:focus-visible {
@@ -752,26 +728,19 @@ a.beacon {
    The invited designers as a row of fashion plates, at most five,
    under the heading "When the Stars are Right"; the plate itself is
    chrome/09, the Atlas index's too. Here: the section, its heading, the
-   line past five and the door. HER PICKS, 2026-10-31 19:50 (uiux
-   t_9d6109aa, sketches/roster-atlas-magazine/plates/README.md): "The
-   roster looks great with the new design." and "1. I like the Candidate
-   1 mark. 2. OK, keep the numbers on both pages."; and her corrections
-   the same evening, (a) "the svg icon under the 'When the stars are
-   right' title should be removed", (b) "the spaces between the plates
-   and the 'See the full atlas' link and the space specimen photo+row and
-   the 'See the full bestiary' are different in size. I think that this
-   ddifference affects the unity of the homepage overall.", (c) "the
-   distances between the 4 regions of the homepage became a little too
-   big after the latest redesigns" (uiux t_035ae8af, the README's
-   "Rhythm, 31 Oct": THE RHYTHM, at the end of this group).
-   WHAT IT REPLACED (2026-10-31): the plain list, one line per maker
+   line past five and the door. Three rules hold here: (a) no fleuron
+   under the heading; (b) the two doors sit the same distance from
+   what they close, as a difference "affects the unity of the homepage
+   overall" (her words); (c) the gaps between the homepage's four
+   regions stay small and equal (THE RHYTHM, at the end of this group).
+   WHAT IT REPLACED: the plain list, one line per maker
    (a 44px mark, a status word, the name as an `<h3>`, the craft, a
    hairline; "View shop" on hover), in one 560px column, and its 640px
    stacking (responsive/06). History: docs/HISTORY.md, home/05.
    VISION, her words: "roster and specimens are on the plane of
    immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
    "ROSTER/SPECIMENS DIRECTION 001 REJECTED"; docs/GRIMOIRE.md §XIV).
-   OPEN: the phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) #12-#14
+   OPEN: the phone audit's #12-#14
    close from 1280px up (a real `<h2>`, a real list, each link named by
    the maker's name only, the sky off the words); under 1280px they are
    task 4a's.
@@ -781,7 +750,7 @@ a.beacon {
   /* .roster-wrap: `#roster`, at least a screen, its content centred,
      with `--frame-void` (tokens/03) as the floor of empty space above and
      below. Her words for the feel: "there's no place for crowding in
-     the immensity of the space!!!" (docs/worksheets/4b-card-body.md).
+     the immensity of the space!!!"
      CHOICE, a floor plus centring, not centring alone: alone, the void
      was whatever the list left, and it varied too much between screens
      (docs/DECISIONS.md, "Screen-independent frame doctrine").
@@ -807,17 +776,15 @@ a.beacon {
    the plates under it, the specimens' heading, the two doors and the
    sepulchre's kicker; 32px over the plates, the distance the specimens'
    label keeps to its box (the eyebrow's 24px + the stage's 8px, home/06),
-   so the homepage's two labelled regions open the same way (uiux
-   t_035ae8af). It was 24px (chrome/04).
-   VISION: centred since her B1, "all centred", of uiux's sketch fc246aa
-   (sketches/link-symbols/, 2026-10-09), then from 1280px only; the
-   plates' row is centred at every width, so its heading is too (the
-   plates' sketch, plates.css).
+   so the homepage's two labelled regions open the same way. It was
+   24px (chrome/04).
+   VISION: "all centred", her words; the plates' row is centred at
+   every width, so its heading is too.
    CHOICE, `font-weight: 400`: an `<h2>` is bold by the browser's own
    sheet, and Space Mono is loaded at 400 only, so the browser would
-   draw a fake bold; 400 keeps the label as it was built (the spec: "as
-   built, now an `<h2>`"). The Atlas's `<h2>` sets the same (atlas/04).
-   No fleuron under it: her (a) (the group's header). */
+   draw a fake bold; 400 keeps the label as it was built. The Atlas's
+   `<h2>` sets the same (atlas/04).
+   No fleuron under it: (a) in the group's header. */
 .roster-wrap > .plates-heading {
   margin: 0 0 32px;
   font-weight: 400;
@@ -826,8 +793,8 @@ a.beacon {
 
 /* More than five makers: the homepage still shows five plates, the day's
    five (script.js §1c), and says so in one line under the row, "Five of
-   the ten shops, turned each day. Every one is on the Atlas." (uiux's
-   words, hers to change; §XV: the homepage is a rotating few, the Atlas
+   the ten shops, turned each day. Every one is on the Atlas."
+   (docs/GRIMOIRE.md §XV: the homepage is a rotating few, the Atlas
    everyone). Spectral italic 13 (a caption), `--bone-label`, 28px under
    the row. Written by the script only past five, so none today. */
 .plates-note {
@@ -866,23 +833,20 @@ a.beacon {
   white-space: nowrap;
 }
 
-/* THE RHYTHM, from 1280px (her (b) and (c) above; uiux t_035ae8af, the
-   README's "Rhythm, 31 Oct", "For the frontend card (rhythm)", and
-   rhythm/rhythm.css, its values verbatim). The homepage's four regions,
+/* THE RHYTHM, from 1280px ((b) and (c) above). The homepage's four regions,
    as she sees them: the hero, the roster, the specimens, the Sepulchre
    (with the footer). ONE region gap between each two, measured ink to
    ink (the last thing of one, a door or the wing, to the first of the
    next); ONE door gap for both doors.
-   Measured on the sketch: 443 / 319 / 243px became 244 / 244 / 243 at
-   1280×903 (465 / 334 / 254 to 255 / 255 / 254 at 1850×925); the doors
-   36 and 108px became 40 and 40. The page gets about 11% shorter
-   (3,497 to 3,127px at 903).
+   At 1280×903 the three gaps are 244 / 244 / 243px (255 / 255 / 254
+   at 1850×925) and both doors 40px; the page is about 11% shorter
+   than with a whole screen per region.
    WHY the gaps had grown: the plates are shorter than the old list, and
    each region was still centred in a whole screen of its own, so a
    shorter region left more empty space round it, counted twice between
    two regions. Content-tall regions with one gap between them fix it.
    CHOICE, the gap the Sepulchre already had above it (its own screen,
-   her ruling, unchanged), given to the other two seams: half a screen
+   unchanged), given to the other two seams: half a screen
    less 208px, so it grows with the screen as the hero's void does and
    the rhythm looks the same on every monitor. Never smaller than what
    keeps each region alone on the screen when the snap lands on it (the
@@ -901,9 +865,12 @@ a.beacon {
        so the door reads as the region's, not the caption's. */
     --door-gap: 40px;
     /* --hero-lip: the roster's padding above its heading. The hero stays
-       a whole, centred first screen; its own void under the wing (50svh
-       less 245.7px) + this = --region-gap. 38px also keeps the heading
-       38px under the first screen's fold, so nothing new enters it. */
+       a whole, centred first screen; its own void under the wing + this
+       was set to equal --region-gap. Since the wing grew to 300px it
+       sits about 14px lower, so this first seam is now about 14px short
+       of --region-gap. Open question: whether the lip should change.
+       38px also keeps the heading 38px under the first screen's fold,
+       so nothing new enters it. */
     --hero-lip: 38px;
   }
 
@@ -939,8 +906,8 @@ a.beacon {
    its heading must still clear the nav's 128px: (screen - region) / 2 >=
    `--frame-void`. The roster (459px of ink, about 505 past five shops
    with the note line) needs a screen at least 790px high; under that it
-   keeps the START landing above (measured in the sketch at 1717×768:
-   the next region still 7px under the fold). The specimens' is home/06.
+   keeps the START landing above (at 1717×768 the next region stays
+   7px under the fold). The specimens' is home/06.
    Proximity, as before; off under reduced motion (motion/01). */
 @media (min-width: 1280px) and (min-height: 790px) {
   .roster-wrap {
@@ -954,59 +921,52 @@ a.beacon {
    ONE box of the Bestiary's cabinet that stands still in a magic
    lantern's light on the red wall; the operator pushes each piece
    through it as a slide through the lantern's gate. Pause and Sound
-   sit beside the box, not drawn at rest (the stain once laid over
-   them went, 2026-10-31, below); the caption row (figure label,
+   sit beside the box, not drawn at rest (below); the caption row (figure label,
    name over maker, availability) stays fully visible under the box; "See
    the full bestiary" at the foot.
-   HER PICKS, 2026-10-30 and 31 (PM ledger t_717bfd87; uiux's spec,
-   sketches/home-specimens-lantern/README.md, "For the frontend card
-   (her picks)", t_6a358a7d, and the prototype it names): wall (c),
-   the red wall as the lantern's screen, whole; movement (i), the
-   operator, 7 s held, a 1.6 s push; "alone in the light" (nothing lit
-   outside the box); one box that stays in the light, "an entire shelf
-   box, not just the bottom plank" (her words, with her screenshot of
-   the Bestiary's cabinet); 4 pieces; sound (c), off at load (script.js
-   §1b, lantern-sound.js); "could the icons for Play and Sound be
-   covered by stains and become visible at hover/action on them (like
-   the links in the footer)?" (her words), with uiux's 4 conditions;
-   the caption row fully visible (uiux: the row is the content; covered
-   it would read 1.09-1.16:1); for reduced motion her "(a)", the
-   sliver of the next slide at the box's gate; no counter (her ruling
-   of 2026-10-12).
-   WHAT IT REPLACED: the torn red wall (her sketch E of 2026-10-08: each
-   photo an older wallpaper seen through a tear) and its sliver B (the
-   next piece's paper in the tear's corner, 2026-10-12), with their 20
+   THE DESIGN: the red wall as the lantern's screen, whole; the
+   operator's movement, 7 s held, a 1.6 s push; "alone in the light"
+   (nothing lit outside the box); one box that stays in the light, "an
+   entire shelf box, not just the bottom plank" (her words, of the
+   Bestiary's cabinet); 4 pieces; sound off at load (script.js §1b,
+   lantern-sound.js); Pause and Sound shown only on hover or action,
+   like the links in the footer, on 4 conditions (NOT DRAWN AT REST,
+   below); the caption row fully visible (the row is the content;
+   covered it would read 1.09-1.16:1); for reduced motion, the sliver
+   of the next slide at the box's gate; no counter.
+   WHAT IT REPLACED: the torn red wall (each
+   photo an older wallpaper seen through a tear) and its sliver (the
+   next piece's paper in the tear's corner), with their 20
    images in assets/specimen-tears/ and the per-photo
    `data-sliver-pos`; the step as a cut for motion visitors from 1280px
    (a step now travels); one "Next specimen" button per piece (now one
    over the lit photo). The photo now stands untorn in the niche, as
    in the Bestiary, so nothing on the homepage is torn any more
    (docs/HISTORY.md, home/06).
-   KEPT: one at a time (her "I Think 003 — One at a time."); no arrows,
-   the photo is the "Next specimen" button (her ruling of 2026-10-12, "I
-   like (c). I am aware that arrows are the convention everyone knows,
-   but I'm also willing to reinforce the idea that strigoi is not
-   exactly a conventional marketplace."; docs/DECISIONS.md, THE
-   SPECIMENS: NO ARROWS); no dots; the day's first piece (script.js
-   §1b); no hover look on the photo, in its own colours (her 2026-10-08
-   ruling: hover only holds the movement and brings up the controls).
+   KEPT: one at a time; no arrows, the photo is the "Next specimen"
+   button (her reason: "I am aware that arrows are the convention
+   everyone knows, but I'm also willing to reinforce the idea that
+   strigoi is not exactly a conventional marketplace."; docs/DECISIONS.md,
+   THE SPECIMENS: NO ARROWS); no dots; the day's first piece (script.js
+   §1b); no hover look on the photo, in its own colours (hover only
+   holds the movement and brings up the controls).
    VISION, her words: "roster and specimens are on the plane of
    immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
    "ROSTER/SPECIMENS DIRECTION 001 REJECTED"); the homepage is "the
    entry/portal not an index of all platform" (docs/GRIMOIRE.md §XV).
    THE REFERENCE: the phantasmagoria's magic lantern (docs/GRIMOIRE.md
    §III).
-   NO SCRIPT: the four pieces stacked, each in the same still box
-   (uiux's call), its caption row under it: the Bestiary's cabinet read
+   NO SCRIPT: the four pieces stacked, each in the same still box,
+   its caption row under it: the Bestiary's cabinet read
    top to bottom. script.js §1b adds `.js-lantern` once everything is
    wired, hides that list and builds the lantern beside it; the rules
    from "WITH JS" on apply only then.
-   BELOW 1280px (task 4a's band, not designed yet): uiux's rule until
+   BELOW 1280px (task 4a's band, not designed yet): until
    then, a plain still box at today's column (the photo at
    min(560px, 72vw)), steps as cuts, the sliver; no movement, Pause,
    Sound or stain (`.lantern-still`, `[hidden]` controls).
-   OPEN: phone audit (tests/e2e/uiux_4a_audit/4a-audit.md) #16, #17;
-   the 5-person test before launch, with uiux's new questions (do they
+   OPEN: the phone audit's #16, #17;
+   the 5-person test before launch, with these questions (do they
    notice it moves, do they find Pause, do reduced-motion visitors read
    the sliver as "more"); not seen in Firefox, Safari, on a touch
    laptop or with a screen reader.
@@ -1019,7 +979,7 @@ a.beacon {
      --specimens-foot: the bestiary link is positioned from the frame's
      foot (below), so this 128px decides where it lands. It was named
      as the room for the dots and the link; the dots are gone
-     (2026-10-12) and it stays 128px: they sat out of the flow, so
+     and it stays 128px: they sat out of the flow, so
      their going moves nothing, and task 4a's phone audit (#16) is
      measured against this value.
      Where the min-height sets the height (screens about 830px high and
@@ -1028,10 +988,9 @@ a.beacon {
      height on 768 and 800px-high screens (77 to 109px up), at 320×568
      (2px up), and at 1280×600 and 844×390, where the link lands below
      the screen (844×390 is audit #16). A full `100svh` would put it 8px
-     from the edge (numbers: docs/HISTORY.md, home/06; measured with the
-     torn wall, before the box: at 1280×903 the box makes the frame 13px
-     taller, 775 to 788, and moves everything under it down 13px; at
-     1850×925 nothing changes).
+     from the edge (numbers: docs/HISTORY.md, home/06; they predate the
+     box, which at 1280×903 makes the frame 13px taller and moves
+     everything under it down 13px; at 1850×925 nothing changes).
      CHOICE, its own value, not `--nav-h`: that was subtracted against
      a landing push that is gone, and `--nav-h` may change; this foot
      must not move with it (docs/HISTORY.md, home/05).
@@ -1048,14 +1007,14 @@ a.beacon {
   padding: var(--frame-void) 5%;
   scroll-snap-align: start;
   /* the box the link is placed in. Out of the flow, it leaves the
-     centring to the eyebrow and the pieces (T5, tests/e2e). */
+     centring to the eyebrow and the pieces. */
   position: relative;
 }
 
 /* .specimens-stage: the list as written in index.html, the no-script
    page. With JS it is hidden (WITH JS, below) and the lantern is built
    beside it. Its flex centring is kept from the arrows, which stood
-   either side (gone 2026-10-12): it centres the column. */
+   either side (gone): it centres the column. */
 .specimens-stage {
   position: relative;
   width: 100%;
@@ -1066,7 +1025,7 @@ a.beacon {
 
 /* .specimens: the column, min(560px, 72vw), centred; 2.2em between
    pieces when all four show. The old roster list's width (home/05,
-   until the plates, 2026-10-31). */
+   before the plates). */
 .specimens {
   display: flex;
   flex-direction: column;
@@ -1095,9 +1054,9 @@ a.beacon {
    (index.html). Untorn, in its own colours, with the Bestiary's soft
    shadow (bestiary/03), above its niche (`position: relative`).
    CHOICE, landscape, not the sketch's 3:4: a 3:4 photo is taller than
-   the frame's room, and the build's first pass in 3:4 overflowed it
-   (sketches/specimens-with-photos/FINDINGS.md §1; docs/SUBMISSION-SPEC.md
-   §1 asks designers for 4:3 or wider, or square). The lantern (script.js
+   the frame's room, and the build's first pass in 3:4 overflowed it;
+   designers are asked for 4:3 or wider, or square
+   (docs/SUBMISSION-SPEC.md). The lantern (script.js
    §1b) keeps 16:9 too.
    SMALL SCREEN: 315px high in the full column; at 844×390 heading
    and piece don't fit the screen together (audit #16). */
@@ -1110,8 +1069,8 @@ a.beacon {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55);
 }
 
-/* THE BOX, with the script off (uiux's no-script call): each piece in
-   the Bestiary's niche, cabinet D's values verbatim (css/bestiary.css
+/* THE BOX, with the script off: each piece in
+   the Bestiary's niche, its values verbatim (css/bestiary.css
    bestiary/04), the same box the lantern shows one piece in.
    .specimen-photo-vignette: the box. The photo keeps the column's
    width and the box reaches 24px past it each side (negative margins,
@@ -1148,7 +1107,7 @@ a.beacon {
    and maker, availability right, on one baseline, spread by
    `space-between`. Stacked at 640px and below (responsive/06). The
    lantern's caption is the same row (script.js §1b), never under a
-   stain (her pick). */
+   stain. */
 .specimen-row {
   display: flex;
   align-items: baseline;
@@ -1176,7 +1135,7 @@ a.beacon {
 
 .specimen-namewrap h4 {
   /* The piece's name, an `<h4>`: Spectral 500 in `--bone-head`, the
-     headings' tone (tokens/02, D10). Spectral, not IM Fell: the name
+     headings' tone (tokens/02). Spectral, not IM Fell: the name
      is catalogue text beside the mono availability, the MACHINERY
      register (tokens/02 TYPE; docs/DECISIONS.md, "TYPOGRAPHY: System
      C+"). Why 500 is not recorded; the font URL loads it. */
@@ -1197,8 +1156,8 @@ a.beacon {
   color: var(--bone);
 }
 
-/* .specimen-avail: "Edition of 3" (was "1 of 3", reworded by her
-   ruling of 2026-10-17, index.html), "Unique", "Pre-order" at the
+/* .specimen-avail: "Edition of 3" (was "1 of 3",
+   index.html), "Unique", "Pre-order" at the
    row's right, on one line; bone, over 7:1 at its brightest pixels. */
 .specimen-avail {
   font-family: var(--mono);
@@ -1218,10 +1177,8 @@ a.beacon {
    niche (the photo + 28px), `--lantern-bw` the box (the niche + its
    two 10px walls), `--lantern-shelf` the box's height (the photo +
    14px above it, its 40px floor and the two walls: 389 at 315). The
-   values are uiux's prototype's at her picks (sketches/
-   home-specimens-lantern/lantern.css, wall=c move=i n=4 sound=c
-   calm=2 ctl=icon under=ctl box=one cap=row); the build was checked
-   against it pixel for pixel (docs/HISTORY.md, home/06). */
+   values are the lantern's prototype's; the build matches it pixel
+   for pixel (docs/HISTORY.md, home/06). */
 /* the list stays in the page for a crawler, out of sight and out of
    the accessibility tree: the lantern names the lit piece */
 .specimens-wrap.js-lantern .specimens-stage {
@@ -1245,7 +1202,7 @@ a.beacon {
   isolation: isolate;
   height: var(--lantern-shelf, 389px);
 }
-/* THE LANTERN'S LIGHT, wall (c): a pool of bone light on the red wall,
+/* THE LANTERN'S LIGHT: a pool of bone light on the red wall,
    behind the box, centred on the photo, its radius the photo's height
    × 1.45 (457px at 315). No darkness is laid on the wall outside it
    and nothing is lit outside the box ("alone in the light"). It
@@ -1253,9 +1210,8 @@ a.beacon {
    not on the box) and no further sideways than the case: at 1280px and
    wider the case is 1048px and the pool 914px across, so nothing is
    cut; below, its faint rim (alpha under .02) is. CHOICE, no sideways
-   overflow: uiux's prototype laid it 200px wider each side, which made
-   the page scroll sideways at 1280 (scrollWidth 1364, her README);
-   seen pixels are the same. */
+   overflow: a light 200px wider each side made the page scroll
+   sideways at 1280; the pixels seen are the same. */
 .lantern-case::before {
   content: "";
   position: absolute;
@@ -1266,7 +1222,7 @@ a.beacon {
     rgba(214, 196, 180, 0.09) 0%, rgba(214, 196, 180, 0.045) 45%, rgba(214, 196, 180, 0) 100%);
 }
 /* .lantern-box: THE BOX, still, centred in the case, the Bestiary's
-   cabinet D verbatim (bestiary/04): the body and its deep shadow; its
+   cabinet verbatim (bestiary/04): the body and its deep shadow; its
    niche is the `::before` it shares with the no-script box (above). It
    never moves. */
 .lantern-box {
@@ -1328,8 +1284,8 @@ a.beacon {
 }
 /* .lantern-lit: "Next specimen", one `<button>` over the lit photo,
    its box the photo's (560×315 from 1280px: WCAG 2.5.8 by far). No box
-   of its own; the hand cursor is the one hover cue (no hover look, her
-   2026-10-08 ruling). FOCUS: the site's ring (tokens/03), 2px teal, 4px
+   of its own; the hand cursor is the one hover cue (no hover look,
+   home/06's header). FOCUS: the site's ring (tokens/03), 2px teal, 4px
    out, round the photo; a mouse click draws none (`:focus-visible`). */
 .lantern-lit {
   position: absolute;
@@ -1346,25 +1302,21 @@ a.beacon {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* THE SLIVER, her "(a)" (2026-10-31: "a thin sliver of the next slide
-   waiting at the box's gate, for reduced-motion visitors only", the
-   PM's suggestion; uiux's drawing, still 27). With motion the push says
+/* THE SLIVER: a thin sliver of the next slide waiting at the box's
+   gate, for reduced-motion visitors only. With motion the push says
    "there are more"; still, nothing is ever pushed, so the next slide
    waits in view. WHERE: just past the box's right outer wall, the side
    the next slide comes in from; the photo's own top and height (it is
    the next slide, level with this one), tucked 8px behind the wall, so
    it reads as going on behind the box, not as a strip on the wall. HOW
    WIDE: 16px seen, the next photo's leading edge, unscaled. HOW DIM: a
-   black veil at .70 (a veil, never a colour or a tone: her 2026-10-08
-   "own colours"), above the light (z 1), under the box (z 1, later in
-   the tree). It was .35 until 2026-10-31, when her rule against bright
-   photos on the homepage was lifted (docs/DECISIONS.md, LIGHT PHOTOS
-   WELCOME EVERYWHERE; her "Drop the limit. My photos are still dark
-   even if they have white backgrounds."): under .35 a light photo's
-   16px read as a lit strip on the wall, 3.10-3.61:1 lighter than the
-   wall beside it, where a dark one read 1.31-1.43:1 darker. At .70,
-   uiux's one condition (t_2c08a0c7, sketches/home-specimens-lantern/
-   light/sliver.css), both sit close to the wall: a light photo
+   black veil at .70 (a veil, never a colour or a tone: the photos keep
+   their "own colours"), above the light (z 1), under the box (z 1, later
+   in the tree). CHOICE, .70: light photos are welcome on the homepage
+   too (docs/DECISIONS.md, LIGHT PHOTOS WELCOME EVERYWHERE), and under
+   .35 a light photo's 16px read as a lit strip on the wall, 3.10-3.61:1
+   lighter than the wall beside it, where a dark one read 1.31-1.43:1
+   darker. At .70 both sit close to the wall: a light photo
    1.34-1.46:1 lighter, a dark one 1.37-1.42:1 darker. A
    cue, not a control: `aria-hidden`, not focusable; a click on it
    brings that piece in (script.js). With motion it is never shown. */
@@ -1474,16 +1426,12 @@ a.beacon {
 }
 /* the word: clipped at rest (still read as the name), shown above the
    icon on hover or keyboard focus, 8px clear of the focus ring; Esc
-   hides it (`.tip-off`, script.js: WCAG 1.4.13). LETTERED on the wall
-   since 2026-10-31: the near-black chip (rgba(10, 8, 9, 0.92), 3px 8px)
-   went with the sky's plates, and the word is held by the labels' halo
-   alone (`--halo-label`, tokens/02); her "1. Hover labels: A" (uiux
-   t_bc3cf697, sketches/hover-labels/README.md, item 5). Place, size,
-   `--bone` and Esc unchanged; the 3px under the word stays, so its
-   baseline sits where the chip's text sat; it now ends at the button's
-   right edge (the chip's 8px side padding gone). Measured in the
-   sketch, per glyph pixel: 6.73–7.41:1 (6.62 over the worst ground it
-   can land on).
+   hides it (`.tip-off`, script.js: WCAG 1.4.13). LETTERED on the wall,
+   as the sky's names are (home/04): no chip, the word held by the
+   labels' halo alone (`--halo-label`, tokens/02). The 3px under the
+   word keeps its baseline where an older chip's text sat; it ends at
+   the button's right edge. Per glyph pixel: 6.73–7.41:1 (6.62 over
+   the worst ground it can land on).
    Sound's state word keeps "off"'s room, so the word doesn't jump. */
 .lantern-word {
   position: absolute;
@@ -1516,18 +1464,13 @@ a.beacon {
   overflow: hidden;
 }
 
-/* NOT DRAWN AT REST (her ask, uiux's 4 conditions; uiux t_99878537's
-   pick, "A"). At rest Pause and Sound are not drawn (`opacity: 0`) and
-   the wall around them is the wall. Until 2026-10-31 a stain was laid
-   on the spot to cover them (a damp patch of the wall's red masked by
-   the leaks' stain-a file, and near-black strands over it). That day
-   she wrote: "Was this brownish stain added on the original background?
-   It looks awful!! Other than that, the section looks good imo." and
-   "Either A or B. But remove that recently added stain." It was not
-   the wall's (uiux had added it in round 3), so it went, and nothing
-   else in the section changed. A over B (the wall's own strands laid
-   deeper there): at this spot the wall falls between two strands,
-   which hide nothing (2.4-3.0:1) unless thickened back into a patch.
+/* NOT DRAWN AT REST, on 4 conditions. At rest Pause and Sound are not
+   drawn (`opacity: 0`) and the wall around them is the wall: nothing
+   is laid on the spot to hide them. CHOICE, nothing, not a stain: a
+   patch laid there read as a stain added to the wall, and the wall's
+   own strands, laid deeper, would not do either: at this spot the
+   wall falls between two strands, which hide nothing (2.4-3.0:1)
+   unless thickened back into a patch.
    Not drawn, the buttons keep their place, size, name and Tab stop: a
    click where hidden Pause sits pauses (`opacity: 0` keeps
    hit-testing), and a screen reader reads them as before. At rest
@@ -1542,7 +1485,7 @@ a.beacon {
    it is set back; 4. a touch screen, a touch laptop with a trackpad
    included: always drawn. Revealed, the icons measure 5.2-5.4:1
    against the lightest wall pixel under them, the ring 3.3-3.6:1
-   (1.4.11 asks 3:1; frontend t_ace7912f, tests/e2e/frontend_t_ace7912f). */
+   (1.4.11 asks 3:1). */
 .lantern-ctls button {
   opacity: 0;
 }
@@ -1578,9 +1521,8 @@ a.beacon {
    here (docs/DECISIONS.md, "THE HOMEPAGE DOORS"). One family, so the
    doors read as one pattern in two places: Space Mono in bone, over
    7:1 at its brightest pixels, with no arrow and no line.
-   VISION, her words (2026-10-09): "I prefer the pages that are clean
-   of unnecessary symbols"; she chose option A, "Clean", of uiux's
-   sketch fc246aa (sketches/link-symbols/). Until then the doors wore
+   VISION, her words: "I prefer the pages that are clean
+   of unnecessary symbols". Before, the doors wore
    an `aria-hidden` "→" and a hairline (bone at 0.25) that brightened
    on hover.
    ACCESSIBILITY, why a link with no line is still found: each door
@@ -1619,7 +1561,7 @@ a.beacon {
    nothing at rest moves. Under 1280px the specimens' door sits 0.8em
    above its frame's foot, where the sepulchre's frame begins, so a
    click just under it does not reach it: its target is about 45px high
-   (measured at 1280, 2026-10-28, before THE RHYTHM). From 1280px, in
+   (at 1280, before THE RHYTHM). From 1280px, in
    the flow (below), its 47px are whole. */
 .door-link::after {
   content: "";
@@ -1642,11 +1584,11 @@ a.beacon {
   transform: translateX(-50%);
 }
 
-/* THE RHYTHM, from 1280px (home/05 has the why, the tokens and her
-   words; uiux t_035ae8af's values verbatim). The specimens: content-tall,
+/* THE RHYTHM, from 1280px (home/05 has the why and the tokens).
+   The specimens: content-tall,
    half a region gap above; below, the door in the flow, `--door-gap`
    (40px) under the caption row, as the roster's door is under the plates
-   (her (b): the two doors had sat 36 and 108px from what they close),
+   ((b), home/05: the two doors had sat 36 and 108px from what they close),
    and the 0.8em (9.6px) the frame kept under the door, so the gap into
    the Sepulchre stays the one it had (the Sepulchre is untouched).
    scroll-margin, as the roster's: the snap box even round the content,
@@ -1654,8 +1596,8 @@ a.beacon {
    (`.door-link::after`) is whole now: nothing sits over its foot.
    WHERE THE SNAP LANDS: by the centre where the specimens (571px) fit
    with the nav cleared, screens at least 852px high; under that their
-   START. Measured in the sketch: centred at 1717×768 the label landed at
-   99px, under the nav; hence the height query. */
+   START. Centred at 1717×768 the label would land at 99px, under the
+   nav; hence the height query. */
 @media (min-width: 1280px) {
   .specimens-wrap {
     min-height: 0;
@@ -1684,7 +1626,7 @@ a.beacon {
    inscription, seal) is chrome/05, shared with the gallery's
    threshold; here are the frame, its veil and the centring. The
    crimson is the page's own ground (background/01–03).
-   VISION, her words (docs/worksheets/4th-frame-fix-card.md): "the
+   VISION, her words: "the
    sepulchre section (+ the footer), it definitely needs its own
    screen space. Imagine it that the only crypt/tomb on an entire
    planet." History: docs/HISTORY.md, home/07.
@@ -1693,7 +1635,7 @@ a.beacon {
 /* .sepulchre-frame: at least a screen (`100svh`), a flex column: the
    section takes the height the footer leaves, the footer keeps its own
    at the foot ("footer must remain as it is, at the bottom edge of the
-   screen", her words, docs/worksheets/4b-card-body.md, §2). The frame
+   screen", her words). The frame
    is the document's last box, so where it is one screen tall the snap
    lands at the page's end with the whole frame in view.
    `position: relative`: the veil's (`::after`) box; static, it would
@@ -1723,7 +1665,7 @@ a.beacon {
    not `multiply`: over the leak layers' stacking contexts a multiply
    painted opaque white.
    WHY 53%: it darkens only where the red under it is above 70, which
-   uiux measured ends at ~87.6% of the document; the box ends at
+   ends at ~87.6% of the document; the box ends at
    87.8–88.6%. WHAT WOULD BREAK: re-tune the body gradient and 53% is
    stale; above ~.24 alpha its foot paints a line; the inscription
    must stay above the cut, or its contrast can fall. */

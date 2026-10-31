@@ -12,9 +12,9 @@
      that wrong address, so the page arrives unstyled and every link is
      broken. So every path to the site's own files starts at the site
      root, `/`. That works because the site is served from the root of
-     its own domain (docs/DECISIONS.md, "HOSTING"; docs/CSS-JS-SPLIT.md
-     §1.4). `#main` (a fragment of this same page) and the font URLs
-     (https://, Google's servers) are not paths into the site.
+     its own domain (docs/DECISIONS.md, "HOSTING"). `#main` (a fragment
+     of this same page) and the font URLs (https://, Google's servers)
+     are not paths into the site.
      Otherwise the same page as the nine other text pages (contact,
      terms, and the rest). -->
 <!-- Favicon: the wingmark's square cut, as on every page, from the
@@ -52,7 +52,7 @@
      THE HORIZON BACKGROUND"). -->
 <body data-bg="horizon">
 <!-- SKIP LINK: the first Tab stop, invisible until focused
-     (css/tokens.css). Enter moves focus past the logo onto <main>; the
+     (css/tokens.css). Enter moves focus past the nav onto <main>; the
      next Tab goes to the first stop in the text, or to the footer's
      first link where the text has none. -->
 <a class="skip-link" href="#main">Skip to content</a>
@@ -78,14 +78,38 @@
   <div class="leak-stain--below"></div>
 </div>
 
-<!-- THE NAV: a <nav> landmark with one link, the logo, home.
-     `.nav--scrolls` lets it scroll away with the top of the page
-     instead of staying fixed over the text (why, and the other pages
-     that use it: chrome/07). Its logo's focus ring is the site's 2px of
-     solid teal (tokens/03). The footer carries the way home from the
-     bottom. -->
-<nav class="nav--scrolls">
+<!-- THE NAV: the internal pages' nav, the same markup as on the
+     shops, their pieces, the Atlas and the Bestiary: a <nav> landmark
+     named "Strigoi", the logo (home), the two places, "Atlas" and
+     "Bestiary", then "Lure me in" and "Bag". chrome/07 styles all of
+     it; this page adds no rule. Every path starts at the site root, as
+     every path on this page does (WHAT WOULD BREAK, at the top).
+     ROLE HERE: a visitor who is lost sees four ways back into the site
+     at the top of the first screen, and the one way home in the text
+     below the title.
+     CHOICE, the whole nav and not the logo alone: the nav is the one
+     every page but the homepage carries, so the 404 looks like part of
+     the site and offers its places, and the text below can keep its
+     single action instead of a list of links. CHOICE, not fixed:
+     `.nav--scrolls` lets it scroll away with the top of the page, as
+     on the other text pages (chrome/07).
+     ACCESSIBILITY: Tab goes Skip, the logo, Atlas, Bestiary, Lure me
+     in, then "Return to the homepage". "Bag" has no page yet, so it is
+     no Tab stop and a screen reader says "unavailable" (chrome/07).
+     Every word wears the site's 2px teal focus ring (tokens/03). No
+     word carries `aria-current`: none of the four is this page.
+     VISION: plain words, not the homepage's stars: the stars belong to
+     the homepage's sky. -->
+<nav class="nav--scrolls site-nav" aria-label="Strigoi">
   <a class="logo" href="/strigoi-sideral/" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
+  <ul class="site-places" role="list">
+    <li><a class="site-control" href="/strigoi-sideral/atlas.html">Atlas</a></li>
+    <li><a class="site-control" href="/strigoi-sideral/bestiary.html">Bestiary</a></li>
+  </ul>
+  <ul class="site-controls" role="list">
+    <li><a class="site-control" href="/strigoi-sideral/account/login/index.html">Lure me in</a></li>
+    <li><a class="site-control" role="link" aria-disabled="true">Bag</a></li>
+  </ul>
 </nav>
 
 <!-- MAIN LANDMARK: the not-found page, the skip link's target (`id="main"`;
@@ -98,35 +122,40 @@
      never has to carry it alone. The plain line under it doesn't blame
      the visitor ("you typed..."): most missing pages come from broken
      links.
-     CHOICE, one action and nothing else: the way home. No search box
-     (search needs a server) and no list of pages (the footer row is
-     one). No draft notice: the page has no notice element, so showing
-     one is a markup change, a frontend card. The words are a draft like
-     the other pages' until the founder polishes them. -->
-<main class="text-page" id="main" tabindex="-1">
+     CHOICE, one action in the text and nothing else: the way home. No
+     search box (search needs a server) and no list of pages: the nav
+     above carries the places, and on a page that says there is nothing
+     here, one clear action is better than a list. No draft notice: the
+     page has no notice element, so showing one would take a markup
+     change. The words are a draft like the other pages' until the
+     founder polishes them.
+     `.text-page--centred`: everything on it is centred, the line and
+     the action too, not only the header: there is no text to read
+     below the header (why: chrome/07). -->
+<main class="text-page text-page--centred" id="main" tabindex="-1">
   <p class="section-eyebrow">404 · Page not found</p>
   <h1>Nothing is buried here</h1>
   <p>There is no page at this address. It may have moved, or it may never have existed.</p>
   <!-- The way home: a link, not a <button>, because it goes somewhere.
-       The first stop Tab reaches after the logo. -->
+       The first stop Tab reaches after the nav. -->
   <p class="text-page__action-row"><a class="text-page__action" href="/strigoi-sideral/">Return to the homepage</a></p>
 </main>
 
 <!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), under
      the stains: the links and the "© Strigoi — …" line are all covered
-     by the soil, by her choice; the link a keyboard user is on comes
-     above while it has focus, and with a mouse pointer over the footer
-     the links and the line come up together. The policy row is on
-     every footer (ruling D5).
+     by the soil (the founder's reason: "it's closer to my vision"); the
+     link a keyboard user is on comes above while it has focus, and with
+     a mouse pointer over the footer the links and the line come up
+     together. The policy row is on every footer.
      CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
      bare `nav` as the fixed site header, so a <nav> here would be pulled
      to the top of the screen. The role gives screen readers the same
-     landmark; the label tells it apart from the logo's nav.
+     landmark; the label tells it apart from the site's nav.
      `role="list"`: Safari's VoiceOver stops announcing a list once its
      bullets are removed with CSS; the role gives back "list, 7 items".
      The link to the page you are on (if it's in the row) carries
-     `aria-current="page"`, no underline (her ruling of 2026-10-29,
-     chrome/07: the h1 names the page). It stays a link,
+     `aria-current="page"`, no underline (chrome/07: the h1 names the
+     page). It stays a link,
      so the row has the same stops on every page. -->
 <footer class="text-footer">
   <div class="footer-links" role="navigation" aria-label="Policies and contact">

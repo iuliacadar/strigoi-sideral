@@ -99,43 +99,33 @@
      the nightsky as stars." The logo is an <a>, not a <div> or a
      <button>: it goes somewhere, and a link is what browser, keyboard
      and screen reader all know how to follow.
-     Every star leads to a page, her 2c1: "link the star-labels in the
-     navbar to their respective pages. The homepage is not a very long
-     one, so a little bit of up and down scrolling shouldn't be too
-     overwhelming." Three stars show their name at the top of the page,
-     the essential routes for both audiences: Bestiary (what is sold),
-     Atlas (who sells) and the account star. Summoning and Sepulchre
-     show it only on hover or focus, "like a gem you can discover if you are
-     interested", not needed to shop or to open a shop. On touch, which
-     cannot hover, all five names show.
-     THE ACCOUNT STAR (star 5), her 2c2: "the Demo Shop star can be
-     replaced by the Lure me in (login) star for the general visitor."
-     One star in three states: "Lure me in" for a visitor (the log-in
-     page), "My crypt" for a logged-in client and for an invited maker
+     Every star leads to a page; the founder's reason: "link the
+     star-labels in the navbar to their respective pages. The homepage
+     is not a very long one, so a little bit of up and down scrolling
+     shouldn't be too overwhelming." Three stars show their name at the
+     top of the page, the essential routes for both audiences: Bestiary
+     (what is sold), Atlas (who sells) and the account star. Summoning
+     and Sepulchre show it only on hover or focus, "like a gem you can
+     discover if you are interested", not needed to shop or to open a
+     shop. On touch, which cannot hover, all five names show.
+     THE ACCOUNT STAR (star 5): one star in three states: "Lure me in"
+     for a visitor (the log-in page), "My crypt" for a logged-in client
+     and for an invited maker
      whose shop isn't open yet (her account: orders, addresses), "My
      sanctum" for a maker with an active shop (her studio, `/studio/`,
      with her own orders inside). Same dot, place and Tab stop; the
      backend swaps only the words. Until then it is "Lure me in", to a
      marked placeholder page with no form (`account/login/`; the address
-     is the architect's advice, a PM assumption). Rulings:
-     docs/DECISIONS.md, the homepage nav, 2026-10-16.
-     THE WORDS: ONE NAME PER PLACE, NO ARTICLES IN THE NAV. HER WORDS,
-     2026-10-27: "on the homepage the star label for Bestiary is
-     "Specimens" and the star label for Atlas is "The Right Stars". On
-     the rest of the pages we will add Bestiary and Atlas as links to
-     these pages. How should we ork this out? Should we replace the star
-     labels in the homepage nav as well, and only keep the "When the
-     Stars are Right" and "Specimens entering the vault" as their
-     respective section title on the homepage body?" (the PM: yes), then
-     "Can you replace "The Summoning" with "Summoning", instead?
-     Considering that the other star label is "Sepulchre" not "The
-     Sepulchre" and the fact that too many repeated words/articles on
-     the navbar ends up a little bothering. Let's clean the navbar even
-     more, if we have this chance!" (docs/DECISIONS.md 19e5318, (2)).
+     is not settled yet). Source: docs/DECISIONS.md, the homepage nav.
+     THE WORDS: ONE NAME PER PLACE, NO ARTICLES IN THE NAV. The homepage
+     stars take the same words as the internal pages' nav, and no
+     article; the founder's reason: "too many repeated words/articles on
+     the navbar ends up a little bothering" (docs/DECISIONS.md, the
+     internal pages' nav, "NO ARTICLES IN THE NAV").
      So the stars read Summoning, Sepulchre, Bestiary, Atlas, Lure me in:
      the Bestiary and the Atlas by the same word as in the internal
-     pages' nav. Were (2026-10-16 to 2026-10-27): "The Summoning",
-     "Specimens", "The Right Stars". The section titles keep theirs.
+     pages' nav. The section titles keep theirs ("When the Stars are
+     Right", "Specimens entering the vault").
 
      ACCESSIBILITY: each star is a real link, in Tab order after the
      logo, named by visible text (`.nav-star-label`), not by an
@@ -280,10 +270,11 @@
     </a>
   </div>
   <!-- .header-constellation (home/02): six stars and five lines, pinned
-       in the sky left of the texts. Her ask: "take a constellation like
-       the one in the print and 'pin it' somewhere around the header
-       texts". A child of `header.hero`, not of `.hero-inner`, so it can
-       sit near the screen's edge, where she asked for it. Hidden from
+       in the sky left of the texts. VISION, her words: "take a
+       constellation like the one in the print and 'pin it' somewhere
+       around the header texts". A child of `header.hero`, not of
+       `.hero-inner`, so it can sit near the screen's edge, the
+       founder's choice of place (reason not recorded). Hidden from
        screen readers: unlike the skymap's constellations, it names no
        one. -->
   <svg class="header-constellation" aria-hidden="true" viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg">
@@ -304,7 +295,8 @@
        below, through `aria-labelledby`, which does not need the two
        to be nested. CHOICE, here in `header.hero` and not in
        `.hero-inner`: its position is a share of the full-width hero,
-       so it can sit at the right edge, where she asked for it. -->
+       so it can sit at the right edge, the founder's choice of place
+       (reason not recorded). -->
   <h2 id="skymap-heading" class="skymap-heading skymap-heading--float skymap-heading--seal" lang="la">Textrina Siderum</h2>
 </header>
 
@@ -316,8 +308,8 @@
      VISION, her words: "I want a celestial map, partially erased by
      time, but still looking like a map of stars, galaxies and
      constelations. Some of them must be hoverable over as the
-     constelation of the designers." And later she adopted a
-     critique's words in full: "Three, large, widely
+     constelation of the designers." And a critique's words she made
+     the rule, in full: "Three, large, widely
      separated, most of the page empty between them. Better still: make
      constellations a designer-page device, not a homepage device —
      each designer's own page opens with their constellation, so it
@@ -326,9 +318,8 @@
      THE ROSTER: one cluster per named designer in #roster below;
      Studio Moroi's invitation is still out. The roster's unnamed
      "+ one more voice" has no constellation, and neither has
-     TexxturedBeest (on the roster since 2026-10-31): its drawing is on
-     the Atlas only; step 3 (the plates, 2026-10-31) did not ask for it
-     here, and the roster is not the sky (GRIMOIRE §XIV). Names from WATCHLIST.md
+     TexxturedBeest: its drawing is on the Atlas only, because the
+     roster is not the sky (GRIMOIRE §XIV). Names from WATCHLIST.md
      never appear on this page (docs/DECISIONS.md, "SKYMAP", 3).
      ACCESSIBILITY: the name is real text inside the button, so a
      screen reader reads it whether or not it is shown, and Tab
@@ -337,7 +328,7 @@
      Pressing one does nothing.
      REUSE: a designer page, when one is built, copies one cluster
      block (the SVG and the button) as its opening signature, sized
-     for that page (the density card's own instruction). -->
+     for that page. -->
 <div class="skymap-field" aria-labelledby="skymap-heading">
   <!-- Cluster 1, Vârcolac Atelier: right of the hero's paragraph. The
        only drawing with the erosion mask. It lies over the hero's text:
@@ -368,8 +359,8 @@
   </div>
 
   <!-- Cluster 2, Ileana C.: left. From 1280px, in the empty band
-       between the roster and the specimens (home/04, the rhythm of
-       2026-10-31); under 1280px at the top of the roster, where at some
+       between the roster and the specimens (home/04); under
+       1280px at the top of the roster, where at some
        widths its lines cross the roster heading (audit #13). -->
   <div class="skymap-cluster skymap-cluster--2">
     <svg class="skymap-chart" viewBox="0 0 200 160" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -427,27 +418,20 @@
 </div>
 
 
-<!-- No doctrine section here, by her ruling: "It already has it's own
-     page that can be reached through summoning star" (docs/DECISIONS.md,
-     "HERO DECROWDING"). History: docs/HISTORY.md, home/05. -->
+<!-- No doctrine section here; the founder's reason: "It already has
+     it's own page that can be reached through summoning star"
+     (docs/DECISIONS.md, "HERO DECROWDING"). History: docs/HISTORY.md,
+     home/05. -->
 
 <!-- THE ROSTER (css/chrome.css, chrome/09, the plates; css/home.css,
      home/05, the section): the invited designers as a row of FASHION
      PLATES, like the Gazette du Bon Ton's numbered plates, under the
-     heading "When the Stars are Right" (founder 2026-10-15, after
-     Lovecraft's "The Call of Cthulhu"; set in capitals by CSS).
+     heading "When the Stars are Right" (after Lovecraft's "The Call of
+     Cthulhu"; set in capitals by CSS).
      `id="roster"` is a stable address (`/#roster`); the fourth nav star,
-     "Atlas" (was "The Right Stars" to 2026-10-27), opens the Atlas, not
-     this section (2026-10-16).
-     HER PICKS, 2026-10-31 19:50, after uiux's sketch (t_9d6109aa,
-     sketches/roster-atlas-magazine/plates/README.md, "For the frontend
-     card"): "The roster looks great with the new design." and "1. I like
-     the Candidate 1 mark. 2. OK, keep the numbers on both pages." Her
-     choice of the plates, from the exploration one folder up: "I think
-     I'll chose B". Her (a), the same evening: "the svg icon under the
-     'When the stars are right' title should be removed": the hedera
-     fleuron the sketch drew under the heading is not built, here or on
-     the Atlas (uiux t_035ae8af, "Rhythm, 31 Oct").
+     "Atlas", opens the Atlas, not this section.
+     No fleuron under the heading, here or on the Atlas (reason not
+     recorded; docs/DECISIONS.md, "STEP 3: THE PLATES").
      WHAT IS HERE: one `<li class="plate">` per maker, the same plate as
      the Atlas index's (atlas.html): the mark in an oval mount, the name,
      the craft; a maker with no shop yet (`.plate--noshop`) also keeps its
@@ -464,14 +448,14 @@
      (GRIMOIRE §XV: the homepage is a rotating few, the Atlas everyone).
      So no maker is Planche I for good (GRIMOIRE §VII).
      MARKS: 256px squares, cropped to the oval. A light mark (one whose
-     rim is light: the README's rule, the mean luminance of the oval's
-     outer fifth 0.2 or more) gets `plate--light` on its `<li>` by hand,
-     and the plate sets it back as a cameo (her "any mark, light or dark,
-     the plate adapts"); none of today's four is light (0.000-0.001). A
+     rim is light: the mean luminance of the oval's outer fifth is 0.2
+     or more) gets `plate--light` on its `<li>` by hand, and the plate
+     sets it back as a cameo: any mark, light or dark, the plate adapts;
+     none of today's four is light. A
      shop with no mark yet gets its initial, lettered in the oval:
      `<span class="plate-mount plate-mount--initial" aria-hidden="true">T</span>`.
-     TexxturedBeest's mark is the coil, uiux's drawn placeholder (her
-     pick above; assets/placeholder-photography/README.md).
+     TexxturedBeest's mark is the coil, a drawn placeholder
+     (assets/placeholder-photography/README.md).
      VISION, her words: "roster and specimens are on the plane of
      immanence, the sublunar, not on the sky" (docs/DECISIONS.md,
      "ROSTER/SPECIMENS DIRECTION 001 REJECTED"): paper plates and oval
@@ -487,16 +471,16 @@
      empty: the name follows it, and a screen reader would otherwise hear
      each maker twice; the number, the initial and the "?" are silent.
      Today's Tab stops here: TexxturedBeest, Vârcolac Atelier (in the
-     day's order), then the door. This closes audit #12-#14 from 1280px
-     up (tests/e2e/uiux_4a_audit/4a-audit.md); under 1280px the row
-     simply wraps, task 4a's to design.
+     day's order), then the door. Under 1280px the row simply wraps; its
+     small-screen design is still to come (audit #12-#14,
+     tests/e2e/uiux_4a_audit/4a-audit.md).
      `loading="lazy"`: the roster is below the first screen.
      THE DOOR: "See the full atlas", her link to the Atlas at the
      roster's foot (docs/DECISIONS.md, "THE HOMEPAGE DOORS"), in its own
-     `<p>` after the list. No arrow: the words say where it goes (founder
-     2026-10-09, option A of uiux's sketch fc246aa, "clean of
-     unnecessary symbols"). From 1280px it sits 40px under the plates,
-     the specimens' door's own distance (her (b), home/05). -->
+     `<p>` after the list. No arrow: the words say where it goes, "clean
+     of unnecessary symbols" (docs/DECISIONS.md, "CLEAN LINKS"). From
+     1280px it sits 40px under the plates, the specimens' door's own
+     distance (home/05). -->
 <section class="roster-wrap" id="roster" aria-labelledby="roster-heading">
   <h2 class="section-eyebrow plates-heading" id="roster-heading">When the Stars are Right</h2>
   <ul class="plates" role="list">
@@ -512,12 +496,9 @@
       <span class="plate-craft">Deconstructed knitwear</span>
       <span class="plate-status">Invitation sent</span>
     </li>
-    <!-- TEXXTUREDBEEST (shops/texxturedbeest/), on the roster since
-         2026-10-31. A plate that links to a shop carries no status word:
-         the link says it (uiux's spec, which settles the step 2 build's
-         "NOT DECIDED" placeholder, "Confirmed"). Name and craft: the
-         worksheet's (docs/worksheets/2026-10-30_texxturedbeest-sample-shop-copy.md,
-         decision 1, "Jewelry and knitwear"). -->
+    <!-- TEXXTUREDBEEST (shops/texxturedbeest/). A plate that links to a
+         shop carries no status word: the link says it. Name and craft:
+         the sample shop's own copy, "Jewelry and knitwear". -->
     <li class="plate">
       <span class="plate-mount"><img class="plate-mark" src="assets/placeholder-photography/2026-10-31_placeholder_roster-texxturedbeest-coilmark-1x1.webp" alt="" width="256" height="256" loading="lazy" decoding="async" /></span>
       <a class="plate-name" href="shops/texxturedbeest/index.html">TexxturedBeest</a>
@@ -540,31 +521,27 @@
 <!-- THE SPECIMENS (css/home.css, home/06): four pieces under "Specimens
      entering the vault", each a photograph with a caption row (figure
      label, name as an `<h4>`, maker, availability). `id="specimens"` is
-     a stable address (`/#specimens`); the third nav star, "Bestiary"
-     (was "Specimens" to 2026-10-27), opens the Bestiary, not this
-     section (2026-10-16). Her choice, one at a time: "I Think 003
-     — One at a time." (docs/worksheets/qa-verdict-003-card.md; the
-     build: docs/DECISIONS.md, "BUILD: option 003 (one specimen at a
+     a stable address (`/#specimens`); the third nav star, "Bestiary",
+     opens the Bestiary, not this section. One piece at a time
+     (docs/DECISIONS.md, "BUILD: option 003 (one specimen at a
      time)"). VISION, her words: "roster and specimens are on the plane
      of immanence, the sublunar, not on the sky"
      (docs/DECISIONS.md, "ROSTER/SPECIMENS DIRECTION 001 REJECTED").
-     THE MAGIC-LANTERN BOX, her picks of 2026-10-30 and 31 (PM ledger
-     t_717bfd87; uiux's spec, sketches/home-specimens-lantern/README.md,
-     "For the frontend card (her picks)"): the red wall whole, as the
-     lantern's screen (wall c); one box of the Bestiary's cabinet ("an
-     entire shelf box, not just the bottom plank", her words) standing
-     still in the lantern's light, "alone in the light"; the operator
-     pushes each piece through it as a slide through a lantern's gate,
-     7 s held, a 1.6 s push; Pause and Sound beside it as icons "covered
-     by stains and become visible at hover/action on them (like the
-     links in the footer)" (her words); sound (c), the glass slide, off
-     at load; the caption row fully visible; for reduced motion, her
-     "(a)", the sliver of the next slide at the box's gate. No arrows
-     (the photo is the "Next specimen" button, her ruling of 2026-10-12:
-     "I like (c). I am aware that arrows are the convention everyone
-     knows, but I'm also willing to reinforce the idea that strigoi is
-     not exactly a conventional marketplace."; docs/DECISIONS.md, THE
-     SPECIMENS: NO ARROWS), no dots, no counter.
+     THE MAGIC-LANTERN BOX (docs/DECISIONS.md, "THE HOMEPAGE SPECIMENS
+     BECOME A MAGIC LANTERN"): the red wall whole, as the lantern's
+     screen; one box of the Bestiary's cabinet (an entire shelf box, not
+     just the bottom plank) standing still in the lantern's light,
+     "alone in the light"; the operator pushes each piece through it as
+     a slide through a lantern's gate, 7 s held, a 1.6 s push; Pause and
+     Sound beside it as icons covered by the stains, visible at hover or
+     action on them, like the links in the footer; sound: the glass
+     slide, off at load; the caption row fully visible; for reduced
+     motion, the sliver of the next slide at the box's gate. No arrows
+     (the photo is the "Next specimen" button; the founder's reason: "I
+     am aware that arrows are the convention everyone knows, but I'm
+     also willing to reinforce the idea that strigoi is not exactly a
+     conventional marketplace."; docs/DECISIONS.md, THE SPECIMENS: NO
+     ARROWS), no dots, no counter.
      THIS MARKUP is the no-script page and the script's source: the four
      pieces stacked in markup order, each photo untorn in the same still
      box (CSS only: the niche, the photo 14px in on its 40px floor), its
@@ -573,25 +550,24 @@
      four, builds the box, the light, the slides, the one "Next specimen"
      button, the controls, the caption and the sliver beside this list,
      adds `.js-lantern` (which hides the list) and opens on the day's
-     piece. The torn wall that stood here from 2026-10-08 (her sketch
-     E), its sliver B and the per-photo `data-sliver-pos` are retired.
+     piece.
      IMAGES: `<img>` with a real `alt` naming the piece, not a filename,
      and `loading="lazy"`. With the script, its slides fetch the same
      files at load, so every step shows a loaded photo; with scripts off
      no image is lazy (the HTML standard's rule). Light and dark grounds
-     are both welcome since 2026-10-31 (her words: "Drop the limit. My
-     photos are still dark even if they have white backgrounds.";
+     are both welcome (the founder's reason: "My photos are still dark
+     even if they have white backgrounds.";
      docs/DECISIONS.md, LIGHT PHOTOS WELCOME EVERYWHERE): the lantern's
      dark box holds either (home/06; the sliver's veil, .70).
      ACCESSIBILITY: the section's heading is a `<div>`, so the names'
      `<h4>`s sit under the roster's `<h2>` in the outline (the roster's
-     names were `<h3>`s until the plates, 2026-10-31; a heading level is
-     skipped now); not recorded as a choice. With the script the Tab stops are: the lit photo's
-     "Next specimen", Pause, Sound, the bestiary link; the lit photo's
-     `alt` is its button's description; the slides and the sliver are
-     `aria-hidden`.
+     names are no longer `<h3>`s, so a heading level is skipped now);
+     not recorded as a choice. With the script the Tab stops are: the
+     lit photo's "Next specimen", Pause, Sound, the bestiary link; the
+     lit photo's `alt` is its button's description; the slides and the
+     sliver are `aria-hidden`.
      OPEN: audit #16, #17 (tests/e2e/uiux_4a_audit/4a-audit.md); phones
-     (task 4a) keep a still box until they are designed. -->
+     keep a still box until they are designed. -->
 <section class="specimens-wrap" id="specimens">
   <div class="section-eyebrow">Specimens entering the vault</div>
   <div class="specimens-stage" id="specimens-stage">
@@ -601,27 +577,20 @@
         <span class="specimen-row">
           <span class="specimen-fig">FIG. 01 — WINGED CLOAK</span>
           <span class="specimen-namewrap"><h4>Nyx Mantle</h4><span class="specimen-maker">Vârcolac Atelier</span></span>
-          <!-- "Edition of 3", was "1 of 3" (her question, 2026-10-17: "Does
-               it mean that 1 of 3 pieces like that are available? Or, 1 in
-               3 photos?"; beside the one-at-a-time stepper it read as a
-               counter). Her ruling: "Let's go with (a), for now.", reword
-               it as an edition (the shop's ED. №001/003); reversible.
-               Wording: writer + uiux, no fraction and no "1". frontend
-               t_7fdf1fb2. The other three tags are unchanged. -->
+          <!-- "Edition of 3", not "1 of 3": beside the one-at-a-time
+               stepper, "1 of 3" read as a counter (1 in 3 photos?). So
+               it is worded as an edition (the shop's ED. №001/003), no
+               fraction and no "1"; for now, and reversible
+               (docs/DECISIONS.md, the homepage specimen tag). The other
+               three tags are unchanged. -->
           <span class="specimen-avail">Edition of 3</span>
         </span>
       </div>
-      <!-- THE VERTEBRA COLLAR, the necklace, back in slot 2 under its
-           shop name (her words, 2026-10-15: "I noticed you replaced the
-           bone and wire neckpiece (necklace) with a bone and wire cuff.
-           You shouldn't replace it, just add it."; the PM's reading:
-           the necklace back as the Vertebra Collar, the cuff added as
-           a fourth piece; DECISIONS, top entry; frontend t_8766b990).
-           From 02d03d6 to then, this slot showed the bone cuff under the
-           name Vertebra Cuff; before 02d03d6, this same photo under that
-           name. "FIG. 02 — VERTEBRA WIRE" and "Unique" as before. The alt
-           is the writer's (docs/worksheets/2026-10-15_demo-shop-copy.md
-           §A.1), in the specimens' pattern. -->
+      <!-- THE VERTEBRA COLLAR, the necklace, in slot 2 under its shop
+           name; the bone cuff is a fourth piece beside it, not in its
+           place (docs/DECISIONS.md, "THE NECKLACE STAYS AND THE CUFF IS
+           ADDED"). "FIG. 02 — VERTEBRA WIRE" and "Unique". The alt
+           follows the specimens' pattern. -->
       <div class="specimen">
         <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-vertebra-collar-16x9.webp" alt="The Vertebra Collar: a necklace of vertebrae bound in copper wire, leading down to a pendant of a copper spiral and a long, pointed bone, shown against a shadowed studio ground" loading="lazy" /></span>
         <span class="specimen-row">
@@ -638,13 +607,13 @@
           <span class="specimen-avail">Pre-order</span>
         </span>
       </div>
-      <!-- THE VERTEBRA CUFF, the bone cuff, added as the fourth piece
-           (same ruling and reading as the Collar's, above). Last in the
-           markup so the two jewelry pieces by one maker sit apart (2 and
-           4: stepping through, a visitor never meets them back to back;
-           the writer's order, worksheet §A.1). "FIG. 04 — BOUND BONE" (what the photo
-           shows; the writer's) and "Unique"; the alt is the one this
-           photo carried in slot 2, verbatim (worksheet §2.1). -->
+      <!-- THE VERTEBRA CUFF, the bone cuff, the fourth piece (see the
+           Collar's comment, above). Last in the markup so the two
+           jewelry pieces by one maker sit apart (2 and 4: stepping
+           through, a visitor never meets them back to back).
+           "FIG. 04 — BOUND BONE" (what the photo shows) and "Unique";
+           the alt is the one this photo carried before in slot 2,
+           verbatim. -->
       <div class="specimen">
         <span class="specimen-photo-vignette"><img class="specimen-photo" src="assets/placeholder-photography/2026-09-14_placeholder_jewelry-bone-cuff-16x9.webp" alt="The Vertebra Cuff: an open cuff of pale, porous bone segments bound in coils of dark wire, shown against a shadowed studio ground" loading="lazy" /></span>
         <span class="specimen-row">
@@ -665,12 +634,9 @@
   <!-- "See the full bestiary": her door at the specimens' foot, to
        the Bestiary, where every piece is (docs/DECISIONS.md, "THE
        HOMEPAGE DOORS"). The roster's door wears the same look (home/06,
-       `.door-link`). No arrow, as on the roster's door (founder
-       2026-10-09, option A of uiux's sketch fc246aa). From 1280px it
+       `.door-link`). No arrow, as on the roster's door. From 1280px it
        sits 40px under the caption row, as the roster's door sits under
-       the plates: her (b), 2026-10-31, "the spaces between the plates and
-       the 'See the full atlas' link and the space specimen photo+row and
-       the 'See the full bestiary' are different in size" (home/06). -->
+       the plates, so the two doors' spaces are the same size (home/06). -->
   <a class="door-link specimens-door" href="bestiary.html">See the full bestiary</a>
 </section>
 
@@ -696,10 +662,10 @@
     <div class="sepulchre-scanlines"></div>
     -->
     <!-- The grain that sat here is gone, on this page and the
-         gallery's threshold together (2026-10-12): she saw Room Zero
-         "coverd in fog, it's faded", with "a line" below the
-         specimens' door, and both were the grain (QA t_2fe64579;
-         docs/DECISIONS.md, NO GRAIN IN ROOM ZERO). This box is kept,
+         gallery's threshold together; the founder's reason: Room Zero
+         looked "coverd in fog, it's faded", with "a line" below the
+         specimens' door, and both were the grain (docs/DECISIONS.md,
+         NO GRAIN IN ROOM ZERO). This box is kept,
          empty, for the scanlines (chrome/05). -->
   </div>
   <div class="sepulchre-inner">
@@ -722,13 +688,13 @@
 </section>
 
 <!-- THE FOOTER, under the stains (css/chrome.css, chrome/06): the links
-     and the "© Strigoi — …" line are all covered by the soil, by her
-     choice; the link a keyboard user is on comes above while it has
-     focus, and with a mouse pointer over the footer the links and the
-     line come up together. They still take clicks, Tab and a screen
-     reader.
+     and the "© Strigoi — …" line are all covered by the soil (the
+     founder's reason: "it's closer to my vision"); the link a keyboard
+     user is on comes above while it has focus, and with a mouse pointer
+     over the footer the links and the line come up together. They
+     still take clicks, Tab and a screen reader.
      The policy row is every footer's (same markup, seven links, same
-     label; her ruling D5).
+     label).
      CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
      bare `nav` as the fixed site header, so a <nav> here would be pulled
      to the top of the screen. The role gives screen readers the same
@@ -736,7 +702,10 @@
      `role="list"`: Safari's VoiceOver stops announcing a list once its
      bullets are removed with CSS; the role gives back "list, 7 items".
      "Back to the top" is the homepage's form of every other footer's
-     "Back to Strigoi", by her choice; it is covered with the others.
+     "Back to Strigoi": every footer ends in one way on, and on a phone,
+     where the nav's stars stop taking taps once scrolled, it is the
+     way back up (docs/DECISIONS.md, "P2 CLOSED"); it is covered with
+     the others.
      CHOICE, `#main` and not `#`: `<main>` has `tabindex="-1"` (the skip
      link's target), so focus moves up with the scroll and the next Tab
      lands on the beacon. With `#` focus would stay down here and the

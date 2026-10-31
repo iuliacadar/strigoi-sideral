@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="../../favicon/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Fonts (her System C+: IM Fell the voice, Spectral the machinery;
+<!-- Fonts (System C+: IM Fell the voice, Spectral the machinery;
      docs/DECISIONS.md "TYPOGRAPHY: 'System C+' confirmed"): IM Fell
      English italic for the <h1>; Spectral 500 for the line above it and
      the pieces' names (on the Séance summon's plate, shop/08), 400 for
@@ -55,8 +55,8 @@
 </div>
 
 <!-- THIS PAGE: a demo shop, not a designer's storefront: the Séance
-     (docs/SHOP-TEMPLATE.md §11) and, through the switcher, the two other
-     skins a shop can be given (sketches/lightbox-concepts/), on seven
+     (a press summons a piece's words) and, through the switcher,
+     the two other skins a shop can be given, on seven
      invented pieces, words and prices made up ("not for sale", says the
      footer). Each piece opens its own page, shops/demo/pieces/<slug>/. Their photographs were generated for it, for an earlier
      palette (docs/DECISIONS.md, "PALETTE OVERHAUL": left to the founder);
@@ -70,41 +70,30 @@
      account and one bag across every shop (docs/ARCHITECTURE.md B.5),
      so the same place on the shop, its pieces, the Atlas and the
      Bestiary. Plain words, not the homepage's stars: stars are the sky,
-     a shop is where earthly pieces are sold (GRIMOIRE §XIV; her ruling,
-     docs/DECISIONS.md PAGE 2: "no stars on shop, plain menu").
-     THE TWO WORDS, as visitors will see them (her words, 2026-10-24:
-     "2. Yes to the real "Lure me in" / "Cart""; sketches/shop-nav/
-     shop-nav-spec.md §3; chrome/07); the second word is "Bag", for now
-     (her words, 2026-10-26: "1. Nav word: Bag , for no." [now]; it was
-     "Cart"; docs/DECISIONS.md 85200a4, (7)). "Lure me in", her word for the
-     visitor's link (2026-10-15: "Yes to the "Lure me in" label + the
-     fix you suggested"), opens the log-in placeholder page, which says
+     a shop is where earthly pieces are sold (GRIMOIRE §XIV).
+     THE TWO WORDS, as visitors will see them (chrome/07); the second
+     word is "Bag", for now (it was "Cart"). "Lure me in", the
+     visitor's link, opens the log-in placeholder page, which says
      that logging in comes with the backend. "Bag" has no page yet: a
      link with nowhere to go, and said so (no `href`, `role="link"`,
      `aria-disabled="true"`): no Tab stop, read as "Bag, link,
-     unavailable". With the backend it takes its `href`. Was (her N4,
-     2026-10-15 to 2026-10-24): a dashed PLACEHOLDER box with a
-     sentence.
+     unavailable". With the backend it takes its `href`.
      THE SCROLL: `.nav--scrolls` lets the whole nav scroll away with the
      top of the page instead of staying fixed over the products (why:
-     chrome/07): her N2, A, provisional ("A, but I want to see it myself
-     before taking the final decison"). B, the two controls staying in
+     chrome/07): direction A, provisional: the founder will see it
+     herself before the final decision. B, the two controls staying in
      view, is one commented block in chrome/07, off.
      script.js initNavFade returns on a `.nav--scrolls` nav, so this logo
      never fades. The footer carries the way home from the bottom.
-     THE TWO PLACES, "Atlas" and "Bestiary", right after the logo (A).
-     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
-     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
-     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2): plain words, no article, in the nav's one style
+     THE TWO PLACES, "Atlas" and "Bestiary", right after the logo:
+     plain words, no article, in the nav's one style
      (`.site-control`), a list of their own (`.site-places`, chrome/07);
      the places on the left with the logo, the visitor's own things on
      the right. The same nav on the shop, its pieces, the Atlas and the
-     Bestiary, where the page you are on is marked (`aria-current`). They
-     replace the shop's long line to the Atlas at the foot ("Every shop
-     on Strigoi, each its own constellation: the Atlas", her N9, here
-     2026-10-15 to 2026-10-27): a first-time visitor sees both places on
-     the first screen, not one of them in the last. TAB: Skip, the logo,
-     Atlas, Bestiary, Lure me in, then the pieces. -->
+     Bestiary, where the page you are on is marked (`aria-current`).
+     CHOICE, in the nav, not as a line at the foot: a first-time visitor
+     sees both places on the first screen, not one of them in the last.
+     TAB: Skip, the logo, Atlas, Bestiary, Lure me in, then the pieces. -->
 <nav class="nav--scrolls site-nav" aria-label="Strigoi">
   <a class="logo" href="../../index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
   <ul class="site-places" role="list">
@@ -130,42 +119,31 @@
      the <h1> at the summoning page's size, 51px at 1440, where chrome/03
      gives 102, and at every width only as tall as its words, not
      chrome/03's one screen with the words in its middle, which left an
-     empty dark band under the bio (her "2. Yes to the preview's layoyt
-     for the demo shop.", 2026-10-24; uiux 7eb7cc1, sketches/shop-real/
-     README §2): the first photo stands 64px under the bio.
-     THE MAKER'S INSCRIPTION (shop/09). HER WORDS, 2026-10-19: "I'm
-     still not satisfied with how the about the maker section is
-     looking. We have the hero-sub paragraf above the photos section and
-     then the maker's story under that section. It looks redundant,
-     especially with the name of the shop written twice on the page.";
-     shown uiux's two merges (sketches/shop-maker-story/merge/, 45bb4dc),
-     2026-10-20: "1. M2". So the hero says who made the pieces:
+     empty dark band under the bio: the first photo stands 64px under
+     the bio.
+     THE MAKER'S INSCRIPTION (shop/09). CHOICE, the maker introduced
+     once, not in a paragraph above the photos and again in a story
+     under them; the founder's reason: "It looks redundant, especially
+     with the name of the shop written twice on the page." So the hero
+     says who made the pieces:
      the shop's name (the page's one <h1>, the name only) and the
      maker's bio; nothing about her is said again at the foot, where
      only her ways are (below; on a phone the bio goes there too: ON A
-     PHONE, below). Her old section after the pieces (B, the
-     epitaph, 155b070) and the hero's demo paragraph are gone; what that
-     paragraph explained is the DEMO note, in the demo line at the foot.
-     THE WORDS: the writer's, verbatim (docs/worksheets/
-     2026-10-15_demo-shop-copy.md, ADDENDUM 2026-10-20 §D, ae107e7).
+     PHONE, below). That this is a demo is not said in the hero: the
+     DEMO note says it, in the demo line at the foot.
+     THE WORDS: placeholder copy.
      NO TAG: the demo's tag ("Placeholder — An invented maker") is gone,
-     as a real shop has none (no tagline field); her "2. Yes to the
-     preview's layoyt for the demo shop." (2026-10-24, uiux 7eb7cc1).
+     as a real shop has none (no tagline field).
      That this is a demo is said by the DEMO note at the foot and by the
      footer's notice.
      THE BIO: with the backend, `designers.bio`, capped at 500
-     characters with a counter in the maker's studio (her 2026-10-20:
-     "2. OK to the 500-character bio cap for the real maker"); a long bio
+     characters with a counter in the maker's studio; a long bio
      grows the hero past the screen, nothing is cut or hidden. A <div>,
      so a bio of more than one paragraph keeps its <p>s.
      ON A PHONE (700px and below, responsive/06) this copy is
      `display: none` and the hero is only the name, as tall as it is:
      the bio is read after the pieces, in its second copy
-     above the ways (`.shop-bio-foot`, below). HER WORDS, 2026-10-20,
-     asked "Do you think that maker's bio should go under the photos in
-     this format with only the name of the shop and that hero tag on the
-     top of the page?"; shown uiux's (b) (sketches/shop-layout-2/,
-     9722596: bio after the pieces + a short hero), "3. Yes". -->
+     above the ways (`.shop-bio-foot`, below). -->
 <header class="hero">
   <h1 class="title">Vârcolac Atelier</h1>
   <div class="shop-bio">
@@ -183,27 +161,23 @@
        label makes it a region. -->
   <section class="shop-products" data-skin="seance" aria-label="Demo products">
 
-    <!-- EACH PIECE IS ONE LINK to its page (shop/07), her ruling of
-         2026-10-15, P1 = direction 1 (sketches/product-page/
-         product-page-spec.md §4.1): "P1. your recommended option." The
+    <!-- EACH PIECE IS ONE LINK to its page (shop/07). The
          photo is the link, as a piece on the Bestiary.
-         NOTHING UNDER THE PHOTO, in any skin: her C1 = (ii), 2026-10-16,
-         "I prefer (ii) calmness." (docs/DECISIONS.md; shop/02). The name
+         NOTHING UNDER THE PHOTO, in any skin; the founder's reason:
+         calmness (shop/02). The name
          stays the link's name as `.sr-only` text inside it ("link, Nyx
          Mantle"), and its facts its description (`aria-describedby` to
-         the `hidden` span after the </a>, kept from 625f239; the visible
-         facts line of 625f239 is gone, her (a) superseded). Known costs,
-         hers to carry: no name shows under a photo, and in Séance at
+         the `hidden` span after the </a>). Known costs,
+         accepted: no name shows under a photo, and in Séance at
          rest none shows at all. Dossier's frame tag and Transmission's
-         crawl carry it (her question, 14:25: "Can't the piece name be
-         added in Dossier and Transmission, too?"; shop/04–05).
+         crawl carry it (shop/04–05).
          THE SUMMON, Séance only (shop/08; script.js §4a): the <button
          class="summon"> before each link is the hint at the photo's
          top, "hold to summon"; a press summons the name, the quote and
          the facts at the photo's foot (the plate is `aria-hidden`: the
          link already says it). A sibling of the link, never inside it.
          It ships `hidden`; the script unhides it. Every other pixel of
-         the photo is the link (her option, 2026-10-16).
+         the photo is the link.
          The photo is the stage's frame (`.stage`, a <div>: script.js §4
          wires only `button.stage`) with one photo layer, decorative; the
          Dossier stamps and the Transmission feed stay as each skin's
@@ -218,24 +192,19 @@
          "Relative-path rules").
          THE PHOTOS: AI-generated stand-ins, replaced before launch. They
          sit in assets/placeholder-photography/ with the site's other
-         placeholder photos, at her word: "for now, I think that all the
-         product and shop logo photos must sit in the
-         assets/placeholder-photography/. We will reorganise the photo
-         folders later, when we will have real photos." (2026-10-15).
-         THE SEVEN: the shop's three, then the four her photo plan adds
-         (2026-10-15: "I agree with your poposed use of the images"): the
+         placeholder photos, for now: the photo folders are reorganised
+         when there are real photos.
+         THE SEVEN: the shop's three, then four more: the
          Molt Sweater, on the homepage and the Bestiary already, and three
-         new demo pieces. Their words: the writer's draft
-         (docs/worksheets/2026-10-15_demo-shop-copy.md §1); the materials,
+         new demo pieces. Their words: placeholder copy; the materials,
          editions and prices invented, like every piece here. Each card
          shows its piece's first photo; the others are on its page.
          THE SAVED MARK (chrome/08, shop/11): the <button class="save
          save--photo"> after each link, a sibling, never inside it: the
          drained bite at the photo's top right, in the pill's row, drawn
          from the one symbol in assets/marks/mark-save.svg (swap that
-         drawing to change every mark). HER WORDS, 2026-10-27: "OK to
-         build it that way: the bite, no nav word, the list under "My
-         crypt"." Named "Save <piece>"; the state is `aria-pressed`.
+         drawing to change every mark). No nav word; the saved list
+         lives under "My crypt". Named "Save <piece>"; the state is `aria-pressed`.
          `disabled` in the demo, as the piece pages' "Add to bag": no
          Tab stop, nothing stored, "unavailable" to a screen reader.
          With the backend `disabled` goes and it saves to the visitor's
@@ -395,9 +364,8 @@
       <span id="facts-vertebra-collar" hidden>COPPER/BONE — UNIQUE — €290</span>
     </div>
 
-    <!-- THE DRAPED MANTLE is made to order (her ruling, 2026-10-15, "Yes
-         to the made-to-order state."; the piece a PM assumption; spec
-         sketches/product-page/mto/mto-spec.md §3). Wherever the price is
+    <!-- THE DRAPED MANTLE is made to order (a demo placeholder, as
+         every price here). Wherever the price is
          printed (the Séance summon's plate, the Dossier's BR stamp, the
          crawl, and the link's description) it says FROM, so nothing on
          the shop shows a bare number for a piece with no fixed price. -->
@@ -472,8 +440,7 @@
        other out of both, and out of find-in-page): a screen reader
        hears the bio once, where it is seen. On a phone that is here,
        after the pieces, as the foot's introduction to the maker, right
-       above her ways (uiux 9722596, README (b); her "3. Yes",
-       2026-10-20).
+       above her ways.
        CHOICE, two copies, not one moved: CSS `order` would draw the bio
        here while the DOM keeps it in the hero, so a phone's screen
        reader would hear it before the pieces and see it after (the
@@ -487,21 +454,20 @@
   </div>
 
   <!-- THE MAKER'S WAYS (shop/09): after the pieces, the last thing of
-       the shop's own (the way to the Atlas that stood after them is in
-       the nav since 2026-10-27, A, above). M2 (her 2026-10-20,
-       "1. M2"; the hero, above): the ways alone, no name and no tag, as
+       the shop's own (the way to the Atlas is in the nav, above). The
+       ways alone, no name and no tag, as
        the hero has said who she is (at 700px and below the bio's
        second copy sits right above them, `.shop-bio-foot`). After the pieces, not in the hero,
        for the keyboard: with the backend they become 4 links, reached
-       after the pieces, not before them (uiux README, 45bb4dc). A
+       after the pieces, not before them. A
        sibling of `.shop-products`, never inside it, so no skin rule
        reaches it: the same in Séance, Dossier and Transmission, with the
-       script on and off. Her standing rulings, 2026-10-18: invented,
+       script on and off. Invented,
        bare, up to 3 of the maker's own sites (docs/DECISIONS.md, THE
        DEMO SHOP GETS THE MAKER'S STORY SECTION).
        Two rows: the maker's own channel first (it keeps the talk on
        Strigoi), then the label that says the rest leave the site, in
-       words, not an arrow (CLEAN LINKS; spec §2.3), naming the list,
+       words, not an arrow (CLEAN LINKS), naming the list,
        with the sites beside it. `role="list"`: Safari's VoiceOver drops
        a list once CSS removes its bullets; the role gives back "list, 3
        items".
@@ -515,8 +481,8 @@
        WITH THE BACKEND: "Write to the maker" and the sites become links
        in the same boxes (`designer_links`, allowlisted hosts,
        rel="noopener nofollow ugc", same tab, the maker's order, at most
-       3; each site's name then ends ", leaves Strigoi" in .sr-only text,
-       worksheet §B.3). -->
+       3; each site's name then ends ", leaves Strigoi" in .sr-only
+       text). -->
   <div class="shop-maker-ways">
     <p class="shop-maker-write">Write to the maker</p>
     <p class="shop-maker-elsewhere" id="shop-maker-elsewhere">Elsewhere, off Strigoi:</p>
@@ -527,9 +493,8 @@
     </ul>
   </div>
 
-  <!-- THE WAY TO THE ATLAS that stood here (her N9; 2026-10-15 to
-       2026-10-27) is the nav's "Atlas" now (A; THE NAV, above), so the
-       body ends with the maker's ways, then the demo line. -->
+  <!-- The body ends with the maker's ways, then the demo line; the way
+       to the Atlas is the nav's "Atlas" (THE NAV, above). -->
 
   <!-- THE DEMO LINE (shop/09): the demo's two controls of its own, the
        DEMO note and the skin switcher, as one quiet line under the wall,
@@ -537,14 +502,11 @@
        hairline: the mark every placeholder on the site wears (the nav's
        slot, the piece page's buying slot), so it reads as "not the
        shop". A real shop has neither, so a real shop is everything above
-       this line. HER WORDS, 2026-10-24: "2. Yes to the preview's layoyt
-       for the demo shop." (uiux t_7b977138, sketches/shop-real/, 7eb7cc1:
-       this line, its place and its values, as shown). An <aside> named
+       this line. An <aside> named
        "Demo controls", inside <main>.
-       THE NOTE: what the hero's old paragraph explained, and what the old
-       foot note said can't be clicked. "Demo —" in the switcher label's
-       dress. HER WORDS, 2026-10-23: "1. OK to a shorten demo note." The
-       writer's words (worksheet ADDENDUM 2026-10-23 §F.1), verbatim. With
+       THE NOTE: that this is a demo, and that the buying controls and
+       the maker's ways can't be used yet. "Demo —" in the switcher
+       label's dress; placeholder copy. With
        the script off the switcher is hidden (shop/06), so its clause goes
        too (`.demo-note-sw`, shop/09) and the note stays true: "Demo — you
        can't buy or write to the maker yet." The semicolon and the space
@@ -555,7 +517,7 @@
        row on each piece's page, and the choice is carried between them
        for the tab (§5b; a `?skin=` in the address wins). A real shop has
        one skin, set by the admin, never by its designer, and no switcher
-       (docs/ARCHITECTURE.md §B.2.3; docs/DECISIONS.md, "Séance chosen as
+       (docs/DECISIONS.md, "Séance chosen as
        the canonical shop skin, with founder-assigned per-shop skins").
        CHOICE, radios, not a <select>: all three names stay in view
        (shop/03). ACCESSIBILITY: `role="radiogroup"` with its label, each
@@ -565,7 +527,7 @@
        things to learn and fail); the page stays in Séance, the skin
        checked here.
        TAB: the last piece, the checked skin (one stop), then the
-       footer. COST, accepted with the preview: after choosing a
+       footer. COST, accepted: after choosing a
        skin here the visitor scrolls up to see the whole wall in it (the
        last photos are in view above the line). -->
   <aside class="demo-bar" aria-label="Demo controls">
@@ -580,15 +542,15 @@
 </main>
 
 <!-- THE FOOTER, under the seep (css/chrome.css, chrome/06): the links
-     and the "© Strigoi — …" line are covered, by her choice; the notice
+     and the "© Strigoi — …" line are covered (reason not recorded); the notice
      reads above, and so does the link a keyboard user is on while it
      has focus; with a mouse pointer over the footer the links and the
      line come up together.
      The shop has no leak layers, so the covering is a seep in the
      shop's own black (`footer--seep`, chrome/06; its colours on
-     `.shop-footer`, shop.css; her ruling D4).
+     `.shop-footer`, shop.css).
      The policy row is every footer's (same markup, seven links, same
-     label; her ruling D5).
+     label).
      CHOICE, <div role="navigation"> and not <nav>: chrome/02 styles every
      bare `nav` as the fixed site header, so a <nav> here would be pulled
      to the top of the screen. The role gives screen readers the same
@@ -596,7 +558,7 @@
      `role="list"`: Safari's VoiceOver stops announcing a list once its
      bullets are removed with CSS; the role gives back "list, 7 items".
      The line that was "© Strigoi — demo shop, placeholder products, not
-     for sale" is split in two (her ruling D3): the copyright is the
+     for sale" is split in two: the copyright is the
      site-wide stylistic line, covered (up with the links on mouse-over);
      the notice is information (it
      stops a visitor trying to buy a piece that doesn't exist), so it

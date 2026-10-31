@@ -1,6 +1,6 @@
 /* ==== responsive.css: the site at other widths ====
-   OWNS:      every viewport query on the site, twelve (but the homepage's own from 1280px, home/04–06, the rhythm): the hero wider from 1440px and the doctrine knockout's two halves at 1150px (responsive/01–02); 900px and below, the homepage's nav, sky marks, skymap and beacon, and the sepulchre's and threshold's padding (03); the lightbox at 800px (04); the wheel at 780px (05); the demo shop at 700px, then the specimens' caption rows at 640px (06); the gallery at 600px (07); 500px and below (08). The text pages, the Atlas and the Bestiary have no block of their own, but two rules reach them: responsive/05's `.stars--yields-to-prose` hides the starfield on the ten text pages and the Summoning at 780px and below, and responsive/08's `nav` and `.logo` narrow the nav's padding and the logo on every page with a nav, twenty-two, at 500px and below.
-   LOADED BY: every page, twenty-three (sixteen, and the demo shop's seven piece pages).
+   OWNS:      every viewport query on the site, twelve (but the homepage's own from 1280px, home/04–06, the rhythm): the hero wider from 1440px and the doctrine knockout's two halves at 1150px (responsive/01–02); 900px and below, the homepage's nav, sky marks, skymap and beacon, and the sepulchre's and threshold's padding (03); the lightbox at 800px (04); the wheel at 780px (05); the demo shop at 700px, then the specimens' caption rows at 640px (06); the gallery at 600px (07); 500px and below (08). The Atlas and the Bestiary have no block of their own, and the text pages have one rule, in 06b (at 700px and below their column starts under the nav's second row); two more rules reach them: responsive/05's `.stars--yields-to-prose` hides the starfield on the text pages, the Summoning and the Atlas at 780px and below, and responsive/08's `nav` and `.logo` narrow the nav's padding and the logo on every page with a nav at 500px and below.
+   LOADED BY: every page (not the redirect stub shops/texxturedbeest/pieces/roped-knit/, which loads no sheet).
    POSITION:  second-to-last on every page: after every other sheet, before motion.css.
    ORDER: the two min-width queries first, then max-width from widest to narrowest. A narrower query comes later so that, at the same specificity, it wins where both match (`@media` adds none). The sepulchre's padding (03's last block) also asks for a short screen, `max-height: 948px`.
    ============================================================ */
@@ -68,8 +68,8 @@
 
   /* .nav-star-label: 9.92px (0.62rem), 0.08em, from chrome/02's 11.2px
      and 0.16em; still Spectral 500, `--bone-label`, opacity 1.
-     WHAT WOULD BREAK: chrome/02's size here: at 768 the labels before
-     2026-10-16 met ("Sepulchre", when shown, and "The Right Ones Let
+     WHAT WOULD BREAK: chrome/02's size here: at 768 the older, longer
+     labels met ("Sepulchre", when shown, and "The Right Ones Let
      In"; "Specimens" and "Demo Shop"). Today's shorter labels clear at
      768 even at that size (measured); the smaller size stays for the
      band below.
@@ -77,9 +77,9 @@
      ("Specimens" and "Lure me in" 659–501; "Sepulchre", when shown, and
      "The Right Stars" 611–501): the crowding audit #2 records on
      phones, at widths it didn't measure. Numbers: docs/HISTORY.md,
-     chrome/02, 2026-10-16. [2026-10-27: the labels are now
-     "Bestiary", "Atlas" and "Summoning" (no articles in the nav,
-     docs/DECISIONS.md 19e5318, (2)), each shorter than the one it
+     chrome/02. [The labels are now
+     "Bestiary", "Atlas" and "Summoning" (no articles in the nav),
+     each shorter than the one it
      replaced; the figures above are the old labels', not re-measured
      below 1280 (task 4a's band).] */
   .nav-star-label {
@@ -104,9 +104,8 @@
   .skymap-cluster--2 { left: 4%; }
   .skymap-cluster--3 { left: 46%; }
 
-  /* The skymap's field clips sideways at 900px and below (frontend
-     t_3fe1fdd6, 2026-10-31). WHY: since the hover labels A (home/04) the
-     sky names are placed from the star, and Studio Moroi's (cluster 3)
+  /* The skymap's field clips sideways at 900px and below. WHY: the
+     sky names are placed from the star (home/04), and Studio Moroi's (cluster 3)
      opens to the right; at 390 its hidden name (opacity 0, still laid
      out) reached 497px and gave the whole homepage a sideways scroll at
      rest (none before). `overflow-x: clip` cuts what lies past the
@@ -114,8 +113,8 @@
      anyway: no scroll container, no stacking context, the vertical
      untouched, so the names still open above and below their stars.
      COST, task 4a's to settle: shown at 390 (tap or keyboard), Moroi's
-     name is cut at the window's edge (uiux's note, sketches/hover-labels/
-     README.md, "Below 1280": pick each name's side per width band).
+     name is cut at the window's edge (the fix to weigh: pick each
+     name's side per width band).
      Measured: docs/HISTORY.md, home/04. */
   .skymap-field {
     overflow-x: clip;
@@ -154,7 +153,7 @@
      header keeps its strokes about 15–22px from the screen's edge. At
      `top: 4%` it sits in the nav's band, and its strokes share 1–3
      pixels of ink with the logo's letters at some widths from 501 to
-     900px (fix card open; docs/HISTORY.md, home/02). */
+     900px (not fixed yet; docs/HISTORY.md, home/02). */
   .header-constellation {
     width: clamp(64px, 16vw, 90px);
     left: 1.5%;
@@ -266,11 +265,10 @@
    its 16:11 shape and stacks the three movements 36px apart, each as
    wide as the column (351px at 390), in source order. The SVG (rings,
    leaders, the mask) isn't drawn. The wheel's one collapse.
-   CHOICE, drop the diagram, not shrink it: the answer of the sketch
-   she chose (sketches/doctrine-wheel/003-rings/), in the sketch's
-   words: no room "for three nested circles plus readable paragraph
-   text", and "the words are the entire point". 780px is the sketch's
-   value; reason not recorded.
+   CHOICE, drop the diagram, not shrink it: at this width there is no
+   room "for three nested circles plus readable paragraph text", and
+   "the words are the entire point". The 780px value: reason not
+   recorded.
    History: docs/HISTORY.md, responsive/01–02, 05.
    ---------------------------------------------------------- */
 @media (max-width: 780px) {
@@ -294,11 +292,10 @@
   /* THE STARS YIELD TO PROSE: hides the starfield (background/02,
      `.stars`) on pages that opt in with this class: summoning and
      chrome/07's ten text pages. At this width their text runs from
-     top to bottom, and the dots would paint through the words (390,
-     rule undone, worst of ten scroll positions: The Binding 1.13, the
-     intro 1.21, The Manifest 2.26; as built, none under 4.5).
+     top to bottom, and the dots would paint through the words (at
+     390, far under 4.5:1; as built, none under 4.5).
      CHOICE, hide, not mask: `.stars` is fixed to the screen and the
-     words scroll, so no mask can follow them. Same ruling as the stars'
+     words scroll, so no mask can follow them. Same rule as the stars'
      `@supports` gate: where the decoration can't be lawful, it doesn't
      ship (docs/HISTORY.md, background/02). */
   .stars--yields-to-prose {
@@ -315,9 +312,8 @@
    CHOICE, one column, not two: two would squeeze the 4:5 stages (the
    recorded reason); at 390 each would be 155 × 194. The 700px
    breakpoint and the left-aligned row: reason not recorded.
-   The maker's inscription, her ways and the demo note (shop/09, M2;
-   the merge sketch's own values, sketches/shop-maker-story/merge/
-   merge.css, 45bb4dc): the hero's room for the nav 120px; the tag
+   The maker's inscription, her ways and the demo note (shop/09; the
+   design's own values): the hero's room for the nav 120px; the tag
    smaller and less tracked, so its four words stay on one line in
    350px; the bio 20px in from each edge; the ways 88px under the grid
    (+20 of its padding: 108 from the last photo), in one column, the
@@ -327,9 +323,8 @@
    lines, past where Chromium balances, and below 375px its last line
    was one word ("yet.") at 28 widths of 320-373; `pretty` leaves none
    from 320 to 700 and the same line counts (6 at 390). The one change
-   to the sketch's values.
-   THE PHONE'S BIO AND SHORT HERO (her "3. Yes", 2026-10-20, to uiux's
-   (b), sketches/shop-layout-2/ README and layout2.css, 9722596): the
+   to the design's values.
+   THE PHONE'S BIO AND SHORT HERO: the
    hero's bio copy is hidden and the second copy after the pieces is
    shown (shop/09), centred, 88px under the grid (+20 of its padding:
    108 from the last photo), the ways 56px under it (were 88 under the
@@ -337,10 +332,10 @@
    100svh`) and is only as tall as the tag and the name: the 120px
    room for the nav above, 32px below. Without the short hero, moving
    the bio changed nothing: the tag and the name alone in the middle of
-   a black screen, the first photo as low as before (README (b)). With
+   a black screen, the first photo as low as before. With
    it, at 390 the demo's first photo starts at y 450 (a real shop's, no
    note and no switcher, at 245: whole in the first screen).
-   THE SHORT HERO DOESN'T SNAP (uiux t_6eecabe8, REVISE 1):
+   THE SHORT HERO DOESN'T SNAP:
    `scroll-snap-align: none` on the shop's hero here, not chrome/03's
    `start`. WHY: the short hero is no longer a frame, and it was the
    shop's only snap point (`html` is `y proximity`, tokens/03), so a
@@ -386,11 +381,8 @@
    INTERIM, TASK 4A DECIDES (the phone nav is task 4a's: this row, or a
    menu). Only so that no page scrolls sideways: at 390 the nav's five
    words (the logo, "Atlas", "Bestiary", "Lure me in", "Bag"; chrome/07)
-   overran the screen by 14px and "Lure me in" broke in two. The fix is
-   the one the sketch drew as its note for 4a (uiux t_55fba969,
-   sketches/way-lines/README.md §2.7 and wl.css, verbatim values; HER
-   WORDS, 2026-10-27: "Yes, I lean towards A as well.", docs/DECISIONS.md
-   19e5318, (1), which leaves phones to 4a): the places take a second row
+   overran the screen by 14px and "Lure me in" broke in two. The fix:
+   the places take a second row
    under the logo (y 64-108 at 390), -12px so "Atlas"'s word, not its
    box, lines up with the logo's S; what stood under the nav moves down
    by that row, 44px: the piece's frame 104 -> 148 (product/01's
@@ -398,6 +390,20 @@
    (responsive/06's 120, above). Without the push the row's box overlaps
    the piece photo's top by 4px at 390. The Atlas's and the Bestiary's
    heads already start below the row (measured), so they don't move.
+   The text pages carry the row too, so their column starts under it.
+   chrome/07 gives the column a top padding of 18% of the window's
+   height, never under 112px: enough under a one-row nav, but in a
+   short phone window (120px at 390x667, 102 floored to 112 at
+   320x568) the small name on contact, echolocation, the 404 and the
+   log-in page landed on the row's words. Here the floor is 152px, what
+   a 390x844 window already gets, so the letters of the name (or of the
+   title, on the pages without one) start under the nav's with room to
+   spare: at least 23px where the window is 500px wide or less
+   (320x568 to 414x736 measured) and 21px above that, where the nav's
+   top padding is 2px deeper (700x600, and a phone on its side,
+   667x375). Windows 845px and taller don't change. This only undoes
+   what the row did to these pages; how the phone nav should look is
+   still task 4a's.
    700: the site's own step (product/01, responsive/06), not a new one.
    Taking this block out restores the nav as it was on phones, with the
    overflow. */
@@ -410,13 +416,17 @@
   }
   .piece { margin-top: 104px; }
   .shop-page header.hero { padding-top: 164px; }
+  .text-page { padding-top: clamp(152px, 18svh, 160px); } /* chrome/07's
+                         clamp with its floor raised from 112px to the
+                         152px a 390x844 window already gets: in a short
+                         window the column starts under the second row,
+                         not inside it. */
 }
 
 /* home/06 at 640px and below: each caption row stacks, figure label,
    name and maker, availability one above the other, left-aligned,
-   instead of wrapping mid-line. (The roster's lines stacked the same
-   way above this until the plates, 2026-10-31: the plates simply wrap,
-   task 4a's to design.) */
+   instead of wrapping mid-line. (The roster's plates simply wrap
+   here; their phone layout is task 4a's to design.) */
 @media (max-width: 640px) {
   .specimen-row {
     flex-direction: column;
@@ -467,7 +477,7 @@
      right edge from 410px down (347–391 at 390); from 330px
      down stars 3 and 4's hit areas overlap, and at 320 "The Summoning"
      (when shown) meets "Lure me in". The labels' crowding is audit #2.
-     [2026-10-27: "The Summoning" is "Summoning", "Specimens" is
+     ["The Summoning" is now "Summoning", "Specimens" is
      "Bestiary", "The Right Stars" is "Atlas"; the 320 meeting was
      measured on the old words, not re-measured.] */
   nav {
@@ -539,8 +549,8 @@
      negative `top` from the column's top edge. That edge moves with
      the screen's height, so on short phones the star rides into the
      nav: it sits on the "Lure me in" label at 360–375 by 667 and on
-     "Specimens" at 360 by 740, and above the screen at 320 by 568 (fix
-     card open; docs/HISTORY.md, home/02). */
+     "Specimens" at 360 by 740, and above the screen at 320 by 568 (not
+     fixed yet; docs/HISTORY.md, home/02). */
   .sky-seal-star {
     top: -57px;
     right: 12%;
@@ -550,7 +560,7 @@
      nav's band, over the logo's box; its strokes pass between the
      letters. `left: 3%` keeps them off the screen's edge. With `top:
      -8px` its top two stars are drawn above the screen's top edge at
-     500px wide and below (fix card open; docs/HISTORY.md, home/02). */
+     500px wide and below (not fixed yet; docs/HISTORY.md, home/02). */
   .header-constellation {
     width: 56px;
     left: 3%;

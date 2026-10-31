@@ -1,6 +1,6 @@
 /* ==== product.css: a piece's page ====
    OWNS:      the page and its two columns (product/01); the stage at the photo's own shape (02); the column of plain words (03); the buying control, shown and inert, and "Save" beside it (04); the strip of photos (05); the Details list (06).
-   LOADED BY: the demo shops' piece pages, shops/<shop>/pieces/<slug>/index.html: Vârcolac Atelier's seven (shops/demo/) and TexxturedBeest's seven (shops/texxturedbeest/, since 2026-10-31; pieces/roped-knit/ is a pointer to mohair-cardigan/ and loads no sheet).
+   LOADED BY: the demo shops' piece pages, shops/<shop>/pieces/<slug>/index.html: Vârcolac Atelier's seven (shops/demo/) and TexxturedBeest's seven (shops/texxturedbeest/; pieces/roped-knit/ is a pointer to mohair-cardigan/ and loads no sheet).
    POSITION:  fifth of seven, after chrome.css and shop.css (which still draws the stage and its three skins), before responsive.css and motion.css.
    ============================================================ */
 
@@ -15,14 +15,14 @@
    The pair is centred in the window and top-aligned. The page wears
    the shop's flat ground (`body.shop-page`, shop/02) and has no hero:
    the piece's name is the page's one <h1>.
-   ROLE HERE: the demos' twelve pieces, each opened from its card on the
-   shop or from the Bestiary. Her ruling, 2026-10-15, P1 = direction 1
-   of sketches/product-page/product-page-spec.md: "P1. your recommended
-   option." The shop lists, the piece's page summons.
-   VISION: the spec's §11.0 says a product page "is not a spec sheet":
-   the photo is the argument and the description is conjured. The
-   price and the facts stay plain beside it, because a price a buyer
-   has to summon is a hidden cost (her P6, docs/DECISIONS.md, PAGE 2).
+   ROLE HERE: every piece of the two demo shops, each opened from its
+   card on the shop or from the Bestiary. The shop lists, the piece's
+   page summons.
+   VISION: the shop template says a product page "is not a
+   spec sheet": the photo is the argument and the description is
+   conjured. The price and the facts stay plain beside it, because a
+   price a buyer has to summon is a hidden cost (docs/DECISIONS.md,
+   PAGE 2).
    History: docs/HISTORY.md, product/.
    ---------------------------------------------------------- */
 
@@ -30,15 +30,12 @@
    footer's seep (chrome/06, 40px over the footer).
    THE 44px: the room the skin switcher's row held (8px of padding over
    its 36px row, level with the logo's), kept empty since the switcher
-   moved to the demo line at the foot (below). HER WORDS, 2026-10-24:
-   "1. Please, move the skin switcher below the main sections of the
-   page. I want to see how the product page looks for the visitors."
+   moved to the demo line at the foot (below).
    The row's height stays as space, under `.piece`'s margin (below),
    which sets where the frame's top falls: 144px above 700px, 104 on
    phones (task 4a's).
    WHAT WOULD BREAK: let the 36px go too and the column and the frame
-   start 36px higher (at 108; 68 on phones; measured with the placeholder slot,
-   tests/e2e/frontend_t_868111ec/out/probe.txt). */
+   start 36px higher (at 108; 68 on phones). */
 .piece-page main {
   padding: 44px 24px 96px;
 }
@@ -49,30 +46,24 @@
    (`.piece-details`, product/06), then the way out (`.piece-ways`); the
    photo spans all three, and the last row (1fr) takes what the photo
    is taller by, so the list and the way out sit right under the
-   column. [2026-10-27: the way out left the page for the nav's
-   "Bestiary" (A, chrome/07; docs/DECISIONS.md 19e5318, (1)); row 3 is
-   empty and still takes what the photo is taller by, so nothing above
-   it moves.] The DOM order is the reading and Tab order: column, stage,
-   strip, details, then (after the <article>) the demo line's
-   switcher. At 1440 × 900 the pair is 846px wide (360
-   + 64 + 422).
+   column. (The way out has left the page for the nav's "Bestiary",
+   chrome/07; row 3 is empty and still takes what the photo is taller
+   by, so nothing above it moves.) The DOM order is the reading and
+   Tab order: column, stage, strip, details, then (after the
+   <article>) the demo line's switcher. At 1440 × 900 the pair is
+   846px wide (360 + 64 + 422).
    THE TOP: above 700px `margin-top: 100px` puts the frame's top 144px
    down (with main's 44px), 78px under the nav's two words (their foot
-   at 66px; chrome/07). HER WORDS, 2026-10-26: "Yes to all three
-   questions!" (the second: the larger gap. uiux t_cada38f7's reason: at
-   104 the photo's top sits 38px under the nav's two words, so the piece
-   looks pressed up against the nav; at 144 it gets 78px and starts on
-   its own. Sketched by uiux t_cb98eeb9, 8c9bc12; docs/DECISIONS.md
-   2dc046d.) The column starts at the same 144 (product/03), and the
-   frame is 40px shorter (product/02 and 05), so the photo and its strip
-   still end where they did in the first screen. Was 60px, the frame at
-   104 (38px under the words), and is still on phones (task 4a's).
-   Before the nav's words, the static demo's placeholder slot (its foot
-   at 92px) covered the frame's top-right corner at 24px (the first
-   sketch's; tests/e2e/frontend_t_e75d6266_overlap.js).
-   A long Details list may add two rows under the pair (product/06's NF
-   split, with script.js §4c): its rest, then the way out (gone since
-   2026-10-27; row 5 stays empty).
+   at 66px; chrome/07). CHOICE, the larger gap: at 104 the photo's top
+   sits 38px under the nav's two words, so the piece looks pressed up
+   against the nav; at 144 it gets 78px and starts on its own. The
+   column starts at the same 144 (product/03), and the frame is 40px
+   shorter (product/02 and 05), so the photo and its strip still end
+   where they did in the first screen. On phones (task 4a's) it stays
+   60px: the frame at 104, 38px under the words.
+   A long Details list may add two rows under the pair (product/06's
+   split, with script.js §4c): its rest, then the way out (no longer on
+   a live page; row 5 stays empty).
    NOT DESIGNED: phones (task 4a). Under about 600px the two columns
    no longer fit side by side. */
 .piece {
@@ -92,25 +83,21 @@
 
 /* THE DEMO LINE (shop/09's `.demo-bar`, the shop's rule and values, as
    they are): the demo's note and its skin switcher, one quiet line
-   under a dashed hairline after the piece and its Details (and the way
-   out, until 2026-10-27), before the footer. A real piece's page has neither, so a visitor's
-   page is everything above the line. HER WORDS, 2026-10-24: "1. Please,
-   move the skin switcher below the main sections of the page. I want to
-   see how the product page looks for the visitors." The switcher's
-   radiogroup, keyboard and carried choice are as before (shop/03;
-   script.js §5, §5b): only its place changed.
+   under a dashed hairline after the piece and its Details, before the
+   footer. A real piece's page has neither, so a visitor's page is
+   everything above the line. CHOICE, the switcher here and not at the
+   top: the founder's reason: "I want to see how the product page looks
+   for the visitors." The switcher's radiogroup, keyboard and carried
+   choice are the shop's (shop/03; script.js §5, §5b): only its place
+   differs.
    THE NOTE is the shop's whole sentence, in the shop's markup: "Demo —
    the switcher tries the three skins; you can't buy or write to the
-   maker yet." HER WORDS, 2026-10-26, on uiux t_6f66bda1's item 4
-   (b489a63, sketches/page2-final-stills/round7/README.md): "Yes to
-   both questions." A visitor who presses the inert buying control
+   maker yet." A visitor who presses the inert buying control
    (product/04) can find out here why nothing happened.
    With the script off the switcher can't work and shop/06 hides it;
    shop/09 hides its clause (`.demo-note-sw`), so the line keeps the
    rest of the note, as on the shop: "Demo — you can't buy or write to
-   the maker yet." Was (2026-10-24): the note was the first clause
-   alone, and with the script off the whole line went, as the note would
-   have said something untrue. With the script on or off the page above
+   the maker yet." With the script on or off the page above
    the line is the same height. */
 
 /* ----------------------------------------------------------
@@ -123,8 +110,7 @@
    CHOICE, an <img> under the button and not the shop's background
    layer: the photo's `alt` is read once, before the stage, from an
    <img> outside the button. Inside a button an image's alt is lost to
-   the button's name (the homepage specimens' finding, uiux
-   t_779b2550). The button keeps the two colour-split copies (they read
+   the button's name (the homepage specimens' finding). The button keeps the two colour-split copies (they read
    `--photo`), the ripple, the hint, the words and the skins' dress.
    ---------------------------------------------------------- */
 
@@ -135,15 +121,12 @@
 }
 
 /* ONE PACE: THE PHOTO IS NOT STICKY. The stage scrolls with the words,
-   from the first pixel to the last. HER WORDS, 2026-10-24: "the
+   from the first pixel to the last. CHOICE, not `position: sticky`: on
+   the demo's lists a sticky photo held for only part of the scroll and
+   then let go, two paces, then one; the founder's reason: "the
    scrolling feels very messy [...] each side seems to "move" at a
-   different pace", then "1. NF" (uiux t_cb98eeb9,
-   sketches/piece-scroll/README.md, 8c9bc12; docs/DECISIONS.md f08f48b).
-   Was (e50ff87, her 2c of 2026-10-23): `position: sticky; top: 104px`
-   above 700px. On the demo's lists the photo held for only the first
-   80-280px of a 470-750px scroll and then let go: two paces, then one
-   (the sketch's diagnose.txt). A long list no longer runs on alone
-   beside the photo's empty foot: product/06's NF split. */
+   different pace". A long list no longer runs on alone beside the
+   photo's empty foot: product/06's split. */
 
 /* The frame: the shape of the photo it shows, as tall as the window
    less 150px (750px at 900, 930 at 1080), never over 1280: with its
@@ -151,31 +134,21 @@
    window's edge. Above 700px, less 190px, the top being at 144: the
    foot stays where it was. Its `--above-black` shows until the photo
    loads.
-   THE PHOTO GROWS TO MEET THE LIST (above 700px). HER WORDS,
-   2026-10-26, on the Draped Mantle: "where the details list is longer
-   with few lines than the photo, it looks a little weird", then "Yes to
-   all three questions!" (the third: uiux t_cada38f7,
-   sketches/page2-final-stills/round4/README.md and grow.js, 7bc03e8;
-   docs/DECISIONS.md 2dc046d). When the Details list ends below the
+   THE PHOTO GROWS TO MEET THE LIST (above 700px). The founder's
+   reason: "where the details list is longer with few lines than the
+   photo, it looks a little weird". When the Details list ends below the
    stage's foot (the strip's, or the photo's on a piece of one photo),
    script.js §4c writes `--grow` on `.piece-stage`: the frame gets that
    much taller, and wider by its own shape (`--ratio` and `--shown`,
    below; no crop, no letterbox), until the stage's foot is level with
    the list's. Never closer than 24px to the first screen's foot (the
    window's; script.js §4c FOOT_GAP), so the photo always ends on its
-   own visible edge. HER
-   WORDS, 2026-10-26, on uiux t_49f38ef3's "stop the growth 24px above
-   the window's foot" (round5/README.md item 2): "2. Yes." (Was "never
-   past the first screen's foot", e9d272f: Grave Soil ended exactly on
-   the window's edge and read as cut off.) The frame never over 1280.
-   Then NF's split (product/06) measures from the grown foot. With the
+   own visible edge (a photo grown to the window's very edge reads as
+   cut off). The frame never over 1280.
+   Then the split (product/06) measures from the grown foot. With the
    script off, or on phones, no `--grow`: the frame as above.
-   THE FRAME TAKES THE SHAPE OF THE PHOTO SHOWN. HER WORDS, 2026-10-31,
-   on the Cord Cowl Sweater (its 2nd photo, 4:5, letterboxed in the
-   first's near-square frame): "can the photo's container (?) in the
-   product page be adapted to the size of the photo? The empty space
-   around the image looks bad in my opinion (e.g. in the screenshot is
-   visible the lateral empty space)" (frontend t_960cca6a). Three
+   THE FRAME TAKES THE SHAPE OF THE PHOTO SHOWN. The founder's reason:
+   "The empty space around the image looks bad in my opinion". Three
    values on the wrapper:
    - `--ratio`, the markup's: the FIRST photo's width / height. It sets
      the wrapper's width, so the photo's column, so where the Details
@@ -196,12 +169,7 @@
      as its margin under it (product/05), so the stage keeps its height
      and nothing under or beside it moves.
    With the script off neither `--shown` nor `--room` is written: the
-   frame is the first photo's shape, `--frame-h` tall, as before.
-   (Was, to 2026-10-31: `aspect-ratio: var(--ratio)` on the frame, the
-   first photo's shape for every photo, and a photo of another shape
-   letterboxed in it on the frame's `--plane` ground with a 1px hairline,
-   `.is-letterboxed`, frontend t_a2cbe509 / uiux t_7fde06c3. No photo is
-   letterboxed now, so the ground and the hairline are gone with it.)
+   frame is the first photo's shape, `--frame-h` tall.
    THE CHANGE OF SHAPE eases, 180ms (product/05's thumbnails' 200ms,
    a little shorter: the frame moves more), only while §4b's
    `.is-reshaping` is set for a swap, never for `--grow` (§4c measures
@@ -306,26 +274,21 @@
    the voice), the kind and the credited maker, the price, the buying
    slot (product/04), and under them the Details list (product/06),
    after the stage in the DOM (the way out to the Bestiary under it left
-   for the nav's "Bestiary" on 2026-10-27, A, chrome/07). The
-   facts line (`.piece-facts`) is gone: the Details list replaced it
-   (her 2026-10-20 "4. Yes", frontend t_5be537b9). Controls and facts
+   for the nav's "Bestiary", chrome/07). The Details list replaced the
+   facts line (`.piece-facts`). Controls and facts
    stay plain in every skin (BRAND); only the stage changes.
-   TYPE: T1, FEWER VOICES. HER WORDS, 2026-10-26: "In the product page
+   TYPE: FEWER VOICES. The founder's reason: "In the product page
    details list there are so many fonts and text sizes, is that a
-   high-end product page design?", then, of uiux's sketches, "T1 looks
-   fine to me.", and to the PM's two questions (T1 with the shop link
-   and the kind in its 12px label style; the buying slot's real
-   buttons, shown but inert) "1.  Yes 2. Yes". The spec: uiux
-   t_348da448, sketches/piece-type/README.md and pt.css T1 (e5dfdf5;
-   docs/DECISIONS.md 6f3bd59, (13)).
+   high-end product page design?" The shop link and the kind take the
+   12px label style.
    Four kinds of words, one style each: the name (Fell italic 48), the
    price (Spectral 500, 20), sentences (Spectral: the values 15.2, the
    size note 13 in `--bone-quiet`) and labels (THE LABEL, below: the
    shop link, the kind, the Details heading, the row labels). The two
-   controls, the buying button (product/04) and the way out (until
-   2026-10-27), share one more: the shop's link type (Space Mono, 0.1em) at 12px. Nothing in the
-   column is under 12px (was 8.96: 11 styles in 9 sizes, the README's
-   audit).
+   controls, the buying button (product/04) and the way out (no longer
+   on a live page), share one more: the shop's link type (Space Mono,
+   0.1em) at 12px. Nothing in the column is under 12px (was 8.96: 11
+   styles in 9 sizes).
    ACCESSIBILITY: every ink is a bone tone on `--above-black`; the
    lowest measured is `--bone-quiet`'s, the size note and the buying
    button (5.94:1 and 6.04:1 rendered; docs/HISTORY.md, product/,
@@ -344,23 +307,20 @@
   align-items: flex-start;
 }
 
-/* ONE TOP LINE: THE WORDS START LEVEL WITH THE PHOTO'S TOP. Her words,
-   2026-10-24: "the  product details text starts at a lower level than
-   the photo, and this what's making the photo  to look as if it's
-   hanged." (uiux t_5d219335, sketches/piece-balance/README.md §1.4,
-   direction D, 99ba992; docs/DECISIONS.md 4ab98a5.) With no 18vh the
-   shop link's box starts at the frame's top, 144px above 700px since
-   2026-10-26 (product/01; 104 when this was built); its
+/* ONE TOP LINE: THE WORDS START LEVEL WITH THE PHOTO'S TOP. The
+   founder's reason: "the  product details text starts at a lower level
+   than the photo, and this what's making the photo  to look as if it's
+   hanged." With no 18vh the shop link's box starts at the frame's top,
+   144px above 700px (product/01); its
    letters sit 16px lower, centred in the link's 44px target, the
-   name's 52px. At 1440 × 900 the Details then ended near the photo's
-   foot (Grave Soil 22px past it, was 184; Nyx Mantle 45px short of
-   it, was 117 past); at 1920 × 1200 every demo piece's words end above
-   it, so there the photo is the longer side. (Since NF, product/02 and
-   06: nothing sticks anywhere, and a list running far past the photo's
-   foot continues under both columns. Since 2026-10-26 a list ending
-   past the stage's foot is met by the photo, which grows: product/02.)
+   name's 52px. At 1440 × 900 the Details then end near the photo's
+   foot; at 1920 × 1200 every demo piece's words end above
+   it, so there the photo is the longer side. (Nothing sticks anywhere,
+   product/02, and a list running far past the photo's foot continues
+   under both columns, product/06; a list ending past the stage's foot
+   is met by the photo, which grows: product/02.)
    The cost, accepted: the name sits at the photo's top, not its upper
-   third (part of her P1 sketch undone).
+   third.
    The 18vh held nothing else up: the nav is above `.piece` (main's
    padding, product/01's margin-top).
    Two columns only (`min-width: 701px`, product/02's query): a phone's
@@ -373,8 +333,7 @@
 
 /* THE LABEL (TYPE, above): one style for every label in the column, the
    shop link, the kind, the Details heading and the row labels: Space
-   Mono caps, 12px, 0.12em, `--bone-label` (pt.css T1, and uiux's
-   follow-on for the shop link and the kind). Was four sizes and four
+   Mono caps, 12px, 0.12em, `--bone-label`. Was four sizes and four
    trackings: the shop link 11.2px / 0.18em, the kind 9.92 / 0.14em in
    `--bone`, the heading 9.92 / 0.18em, the row labels 9.6 / 0.1em.
    Each rule below keeps only its own box. */
@@ -407,7 +366,7 @@
 }
 
 /* The name: IM Fell English italic, 3rem, `--bone-bright` (the <h1>
-   is the voice, her System C+). */
+   is the voice, docs/BRAND.md's System C+). */
 .piece-name {
   margin: 4px 0 0;
   font-family: var(--serif-i);
@@ -426,7 +385,7 @@
 }
 
 /* The price: Spectral 500, 1.25rem, `--bone-head`. Plain, never
-   summoned (her P6). */
+   summoned (product/01's VISION). */
 .piece-price {
   margin: 36px 0 0;
   font-family: var(--interface);
@@ -445,11 +404,9 @@
    piece, from every shop: the Bestiary", the Atlas's own words. Its
    type and hover are the shop's foot line's (`.shop-ways`, shop/07),
    at 12px here: nothing in the column is under 12px (TYPE, above; the
-   shop's line stays 11.52px until the shop's own type pass, uiux
-   t_348da448 README §4.2).
-   NO LIVE PAGE CARRIES IT since 2026-10-27: the line left the 7 piece
-   pages for the nav's "Bestiary" (A; HER WORDS, 2026-10-27: "Yes, I
-   lean towards A as well.", docs/DECISIONS.md 19e5318, (1); chrome/07).
+   shop's line stays 11.52px until the shop's own type pass).
+   NO LIVE PAGE CARRIES IT: the line left the 7 piece pages for the
+   nav's "Bestiary" (chrome/07).
    The rule (and its split row below) stays for the sketches that show
    the pages as they were (sketches/way-lines `built-*`, piece-type,
    piece-scroll and older ones that load this sheet). Delete it with
@@ -472,13 +429,9 @@
    a piece made to order (the Draped Mantle, its price "From €560").
    It can't be pressed: the demo is invented (the demo rule: its "Write
    to the maker" and its links are inert, no href, not focusable).
-   HER WORDS, 2026-10-26, to the PM's two questions (T1; the dashed
-   placeholder boxes -> the real buttons, shown but inert): "1.  Yes
-   2. Yes" (docs/DECISIONS.md 6f3bd59, (14), (15)). The word is the
-   nav's, "Bag" (DECISIONS 85200a4,
-   (7)); made to order: DECISIONS 2026-10-15, item 3 ("From €X" and a
-   plain "Write to the maker"; the enquiry, the quote, the messaging and
-   the payment come with the backend, on Strigoi).
+   The word is the nav's, "Bag". Made to order: "From €X" and a plain
+   "Write to the maker"; the enquiry, the quote, the messaging and the
+   payment come with the backend, on Strigoi.
    THE ELEMENT: a <button type="button" disabled>. `disabled` is the
    native inert: no Tab stop, no focus on a click, no activation, and
    assistive tech hears "Add to bag, button, unavailable" ("dimmed" in
@@ -494,15 +447,15 @@
    against the ground), 2px corners, no fill, 24px in at each side,
    the default cursor, no hover. Quieter than the price (20px, 500,
    `--bone-head`), which a buyer still scans for first.
-   COST, stated in the old placeholder's spec (§1.3): a real-looking
-   button that does nothing teaches a visitor to try it. Her call: the
-   page shows what a real piece's page shows; the demo says it is one
+   COST: a real-looking button that does nothing teaches a visitor to
+   try it. CHOICE, all the same: the page shows what a real piece's
+   page shows; the demo says it is one
    in the demo line at the foot and the footer ("not for sale").
    Forced colours: the browser draws a disabled button's words and
    edge in GrayText.
    WITH THE BACKEND: "Add to bag" is enabled and submits to the bag
-   (the word, its count and "Add to ..." in one shared string,
-   DECISIONS 85200a4 (9)); "Write to the maker" opens a Strigoi
+   (the word, its count and "Add to ..." in one shared string);
+   "Write to the maker" opens a Strigoi
    enquiry (the Draped Mantle's markup comment says how). The look
    then takes the site's hover glow and teal ring, as `.shop-ways a`.
    WAS: a marked placeholder box (dashed hairline, a "PLACEHOLDER" tag,
@@ -533,9 +486,6 @@
 /* "SAVE", BESIDE THE BUYING BUTTON: the saved mark (chrome/08, the
    drained bite from assets/marks/mark-save.svg) and the word "Save",
    16px after "Add to bag" / "Write to the maker", on the same line.
-   HER WORDS, 2026-10-27: "OK to build it that way: the bite, no nav
-   word, the list under "My crypt"." The spec: sketches/favourites/
-   README.md §2, P1 (uiux t_24c957ad), and fav.css, values verbatim.
    THE ELEMENT: `<button type="button" class="save save--text"
    aria-pressed="false" disabled>`, the mark, the word "Save", then
    `.sr-only` " <piece>": its name "Save Grave Soil", the visible word
@@ -570,13 +520,10 @@
   color: var(--bone);
 }
 /* WHILE INERT, AS QUIET AS THE INERT BUYING BUTTON: `--bone-quiet`,
-   "Add to bag"'s colour (product/04, approved quiet by uiux t_6f66bda1).
+   "Add to bag"'s colour (product/04).
    In `--bone` the inert "Save" (10.37:1) outshone the inert "Add to
    bag" beside it (8.22:1), the secondary louder than the primary, in
-   all 3 skins at 1280 and 1850 (uiux t_5d7ae5e9 REVISE item 1,
-   sketches/page2-final-stills/round9, e924a99). The mark and the word
-   follow (`currentColor`). Her words stand (2026-10-27): "OK to build
-   it that way: the bite, no nav word, the list under "My crypt"."
+   all 3 skins. The mark and the word follow (`currentColor`).
    GOES WITH `disabled`: with the backend it matches nothing and "Save"
    is `--bone` again. Forced colours: GrayText either way, as "Add to
    bag". Not the photos' mark (chrome/08): on its plate it stays
@@ -612,18 +559,16 @@
    product/05 — THE STRIP OF PHOTOS
    WHAT: a row of thumbnails under the stage, only on a piece with two
    or more photos (six of the seven; Grave Soil has one): up to 8
-   photos, then up to 2 videos (her cap, 2026-10-20). Each is a link to
+   photos, then up to 2 videos (the platform's cap). Each is a link to
    its photo's file, outside the stage (nothing can sit inside its
    button). With the script (script.js §4b) each becomes a toggle button
    named "Photo 1 of 8", `aria-pressed` on the one shown, marked by
    brightness, not a frame (below); the row is one Tab
    stop, Left/Right, Home and End move and show, and a vertical wheel
    over it turns it. A summoned description stays summoned.
-   The spec: sketches/product-strip/README.md §1-§2 (uiux t_6c2f42a9,
-   fcfe3c0). Her words, 2026-10-20: "left-right arrows for the keyboard
-   users, lateral scroll for the mouse users if that's possible, and
-   swipe left and right for the touchscreen users", then "OK to the
-   strip for Strigoi."
+   The founder's reason for the three ways: "left-right arrows for the
+   keyboard users, lateral scroll for the mouse users if that's
+   possible, and swipe left and right for the touchscreen users".
    CHOICE, a native scroll row (`overflow-x: auto`): a swipe, a
    trackpad's sideways move and Shift+wheel come from the browser, with
    or without the script. Snap `proximity`, not `mandatory`: mandatory
@@ -634,9 +579,8 @@
    sideways; a link opens its photo whole, and Back returns. The first,
    the photo the stage shows, is `aria-current` and at full strength.
    With the script, the frame takes the shape of the photo shown
-   (product/02, her words of 2026-10-31 there), and the row follows it:
-   as wide as the photo, right under its foot. (Was: the frame kept the
-   first photo's shape and another shape sat letterboxed in it.)
+   (product/02), and the row follows it: as wide as the photo, right
+   under its foot.
    NOT DESIGNED: phones (task 4a).
    ---------------------------------------------------------- */
 
@@ -645,7 +589,7 @@
    desktop's thin scrollbar = 101, plus product/02's 150 = 251 -> 256
    (was 240, for a row shown only with the script). The same with the
    script on or off: the row shows either way. At 1440 × 900 the frame
-   is 644px tall (was 660). Since 2026-10-24 the row draws no scrollbar
+   is 644px tall (was 660). The row draws no scrollbar
    (below): the ~11px stays, as room under the row, so the photo keeps
    its size; giving it to the photo is a design call, not taken here.
    Above 700px, 296 (the top at 144, product/01): the row's foot stays
@@ -665,15 +609,14 @@
    thumbnails never widen the photo's column). 6px of padding all
    round, so a thumbnail's focus ring (2px,
    2px out) is never clipped by the scroller.
-   NO SCROLLBAR. HER WORDS, 2026-10-24: "3. On the product page,remove
-   the lateral scroll bar under the piece-strip, it breaks the bare
-   high-end design wwhile it's there." `scrollbar-width: none`
+   NO SCROLLBAR. The founder's reason: the bar "breaks the bare
+   high-end design". `scrollbar-width: none`
    (Chromium 121+, Firefox, Safari 18.2+) and `::-webkit-scrollbar`
    (older Chromium and Safari; the next rule) hide the bar only: the row
    scrolls as before, by swipe, trackpad, Shift+wheel, a vertical wheel
    over it (§4b), Left/Right/Home/End, and a focused thumbnail is
    scrolled into view. The cue that there is more is the fade (below)
-   and the cut-off thumbnail. The cost, accepted with her words: a mouse
+   and the cut-off thumbnail. The cost, accepted: a mouse
    has no handle to drag, and with the script off (no fade, no wheel
    turning the row) a row whose thumbnails happen to fit its width
    exactly shows no sign of more; Tab still reaches every thumbnail and
@@ -685,12 +628,11 @@
    No `scroll-behavior` here: §4b scrolls smoothly or, with reduced
    motion, at once (it reads the query), and a wheel or a swipe is never
    eased by the sheet.
-   `user-select: none`: a mouse drag across the row (no drag, the spec's
-   §1.5) would otherwise select the thumbnails, painted blue in Safari
-   (QA t_dabe310b item 4); clicks are untouched. The markup's
+   `user-select: none`: a mouse drag across the row (the row has no
+   mouse drag) would otherwise select the thumbnails, painted blue in
+   Safari; clicks are untouched. The markup's
    `tabindex="-1"` keeps Firefox from making an overflowing row a Tab
-   stop of its own (the spec's §1.3 and §1.8: the thumbnails are the
-   stops, script on or off; item 3). */
+   stop of its own (the thumbnails are the stops, script on or off). */
 .piece-strip {
   position: relative;
   display: flex;
@@ -725,7 +667,7 @@
 /* A thumbnail: 56 × 72, a 1px bone hairline at .2, 2px corners; the
    photo inside is cropped to it (`cover`). 72px tall, over the 44px a
    target needs. Neither the link nor its image drags (§4b cancels
-   `dragstart`; no mouse drag of the row, the spec's §1.5). */
+   `dragstart`; the row has no mouse drag). */
 .piece-thumb {
   flex: 0 0 auto;
   position: relative;
@@ -757,17 +699,15 @@
    hairline, and the teal focus ring (tokens, 2px out) is never dimmed.
    The row is one Tab stop whose Left/Right move the shown photo too
    (§4b), so the ring sits round the full-strength thumbnail.
-   HER WORDS, 2026-10-26: "the frame on the piece-thumb of the photo
-   that's displayed doesn't look very elegant. It's too thick and it
-   forces visitor's gaze towards it somehow.", then "I lean towards (b)
-   as well." The spec: sketches/strip-mark/README.md, B (uiux
-   t_84039cdb, c11b85f).
-   ACCESSIBILITY: the dimming is a tonal cue, not a 3:1 line (measured
-   on the 19 demo thumbnails: the brightest 5% drop median 1.51:1, 1.10
-   on Nyx Mantle). The state reaches assistive tech as `aria-pressed`,
+   CHOICE, brightness and not a frame: the founder's reason: "the frame
+   on the piece-thumb of the photo that's displayed doesn't look very
+   elegant. It's too thick and it forces visitor's gaze towards it
+   somehow."
+   ACCESSIBILITY: the dimming is a tonal cue, not a 3:1 line (on the
+   demo's thumbnails well under it). The state reaches assistive tech as `aria-pressed`,
    and the shown thumbnail is the same picture as the big photo above.
-   If a stricter 1.4.11 is asked for, the sketch's B+ raises the shown
-   thumbnail's hairline to .65 (3.3:1 against its neighbours).
+   If a stricter 1.4.11 is asked for, raising the shown thumbnail's
+   hairline to .65 gives 3.3:1 against its neighbours.
    `aria-current`: with the script off, the markup marks the first
    thumbnail (§4b swaps it for `aria-pressed`), so the first is the one
    at full strength.
@@ -794,8 +734,7 @@
 }
 
 /* A video's thumbnail: its poster, and the word "Video" on a dark plate
-   at its foot (words, not a play glyph alone; 6.39:1 at worst in the
-   sketch). No demo piece has a video. The backend's link holds
+   at its foot (words, not a play glyph alone; 6.39:1 at worst). No demo piece has a video. The backend's link holds
    `<span class="piece-kind" aria-hidden="true">Video</span>` after its
    <img>; the link's own name already says "Video". */
 .piece-thumb .piece-kind {
@@ -832,17 +771,10 @@
   mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
 }
 
-/* NO LETTERBOX (product/02, her words of 2026-10-31 there): the frame
-   takes the shape of the photo it shows, so the photo and its two
-   colour-split copies fill it at `cover` with nothing cut. Was, to
-   2026-10-31: `.is-letterboxed` (script.js §4b, a shape 0.01 or more
-   off the first's) drew the photo and the copies at `contain` and the
-   frame as a box round them: the ground `--plane` and the thumbnails'
-   hairline as a 1px `box-shadow` outside it (frontend t_a2cbe509, uiux
-   t_7fde06c3 SIGNOFF item 1: a letterboxed frame on the page's own
-   ground vanished). That hairline was the light rim round the frame in
-   her screenshot. With no band left to draw there is no box: the
-   frame's edge is the photo's own, with its 4px corners. */
+/* NO LETTERBOX (product/02): the frame takes the shape of the photo it
+   shows, so the photo and its two colour-split copies fill it at
+   `cover` with nothing cut. With no band left to draw there is no box:
+   the frame's edge is the photo's own, with its 4px corners. */
 
 /* ----------------------------------------------------------
    product/06 — THE DETAILS LIST
@@ -857,21 +789,13 @@
    garments' size slot (product/04); the buying slot stays where it is,
    so the price and the way to buy never move, however many rows a
    maker writes.
-   ROLE HERE: her answer, 2026-10-20, verbatim: "1. Yes 2. I'm not
-   convinced with the option 4. In a real store we can't impose the
-   rule of multiple of 3 products.  I need some more suggesstions on
-   this one. 3. Yes 4. Yes" (the PM's question 4: the Details list
-   after the buying slot; docs/DECISIONS.md, top entry). The sketch:
-   uiux t_5d2a9e83, sketches/shop-layout-2/README.md (c) and
-   details.css (9722596); its values, its type and its 36px gap are
-   these. The demo's rows: the worksheet demo-shop-copy, ADDENDUM
-   2026-10-21 (writer t_0a3d8315). No tags on the page at launch.
+   ROLE HERE: the piece's facts, read after the buying slot. No tags
+   on the page at launch.
    CHOICE, after the stage in the DOM, drawn in column 1, row 2 (the
-   way out's pattern, product/03): in the sketch the list sat inside
-   the column, which on a phone's stack of words-then-photo would push
-   the photo down by the list's height (README (c), build note). Here
-   a phone can read words, buy, photo, details (and the way out, until
-   2026-10-27). Reading and Tab order: column, stage, strip, details;
+   way out's pattern, product/03): inside the column, the list would
+   push the photo down by the list's height on a phone's stack of
+   words-then-photo. Here a phone can read words, buy, photo, details.
+   Reading and Tab order: column, stage, strip, details;
    the list adds no Tab stop.
    ACCESSIBILITY: an <h2> to jump to, then a <dl> (each row a <div>
    holding one <dt> and one <dd>; the size note is a <span> inside the
@@ -882,9 +806,8 @@
    (measured: docs/HISTORY.md, product/). Long words wrap
    (`overflow-wrap: anywhere`), so a 20-character label or an unbroken
    value never widens the column. A value and the size note don't end
-   on a word alone (`text-wrap: pretty`; uiux t_6eecabe8, REVISE 2: 27
-   of the 72 values that wrapped did, "birch / tar", "so no two are /
-   alike"): the values are the maker's own text, so the sheet sees to
+   on a word alone (`text-wrap: pretty`; without it many wrapped values
+   did, "birch / tar", "so no two are / alike"): the values are the maker's own text, so the sheet sees to
    it, not the copy. Browsers without it ignore it and wrap as before;
    a hyphenated word can still split at its hyphen ("smoke- / grey").
    NOT DESIGNED: phones (task 4a). Until then the page keeps its two
@@ -920,8 +843,7 @@
 }
 
 /* A label: THE LABEL (product/03); 2px down so its 12px type sits on
-   the value's first baseline (uiux measured 0px off, sketches/
-   piece-type/baseline.txt). Was 9.6px / 0.1em, 3px down. */
+   the value's first baseline. Was 9.6px / 0.1em, 3px down. */
 .piece-details-list dt {
   padding-top: 2px;
   overflow-wrap: anywhere;
@@ -931,8 +853,8 @@
 .piece-details-list dd {
   margin: 0;
   font-family: var(--interface);
-  font-size: var(--type-body); /* the scale's body (tokens/02): 16, her
-                         yes to T1's values 15.2 -> 16 (2026-10-28) */
+  font-size: var(--type-body); /* the scale's body (tokens/02): 16
+                         (was 15.2) */
   line-height: 1.45;
   color: var(--bone);
   overflow-wrap: anywhere;
@@ -940,8 +862,8 @@
 }
 
 /* The size's note, under its value: the values' family, smaller and
-   quieter (Spectral 13px, `--bone-quiet`; pt.css T1). Her question was
-   this clash: a sentence in mono, under a Spectral value, at about 2/3
+   quieter (Spectral 13px, `--bone-quiet`). The clash it ends: a
+   sentence in mono, under a Spectral value, at about 2/3
    of its size (was Space Mono 9.92px, 0.02em). `pretty` as the values
    (it would inherit it from the Size <dd>; set here too, so the note
    keeps it wherever it sits). */
@@ -956,11 +878,9 @@
   text-wrap: pretty;
 }
 
-/* NF: A LONG LIST CONTINUES UNDER BOTH COLUMNS. HER WORDS, 2026-10-24:
-   "1. NF" (uiux t_cb98eeb9, sketches/piece-scroll/README.md §2-§3 and
-   ps.css NF, 8c9bc12; docs/DECISIONS.md f08f48b), after her question
-   "what happens when the details list is much longer than the photo
-   section?". With no sticky photo (product/02) a list that ran far past
+/* THE SPLIT: A LONG LIST CONTINUES UNDER BOTH COLUMNS. The founder's
+   question it answers: "what happens when the details list is much
+   longer than the photo section?". With no sticky photo (product/02) a list that ran far past
    the photo's foot would end alone beside empty dark.
    WHEN: only when the list would run MORE THAN 240px (about three rows)
    past the photo's foot. A shorter tail reads as the list ending just
@@ -977,18 +897,11 @@
    before: the list adds no Tab stop), sets `data-details-split` on the
    <article> and `--more-rows` (the moved rows, halved, rounded up) on
    the new list, and measures again on resize. The rows that fit beside
-   the photo stay in the column; at least one always does. On every
-   demo piece at every window measured nothing splits (the sketch's
-   capture.txt; again with the 144 top and the growth,
-   tests/e2e/frontend_t_73f20bae/out/piece.txt, and with the growth
-   stopping 24px above the window's foot, frontend_t_9f9b5dd8); a
-   12-row list, grown to 24px above the first screen's foot, splits
-   7 + 5 at 1920 × 1200, 4 + 8 at 1440 × 900 and in her 1280 × 903 and
-   1850 × 925, 2 + 10 at 1024 × 768 (frontend_t_9f9b5dd8/out/twelve.txt;
-   grown to the foot itself, e9d272f: 8 + 4 at 1920 × 1200, the rest
-   the same; at 104 with no growth: 7 + 5 at 1920 × 1200, 4 + 8 at
-   1440 × 900, 2 + 10 at 1717 × 768).
-   HOW, the sketch's values: the second list spans both columns, 32px
+   the photo stay in the column; at least one always does. On the demo's
+   pieces nothing splits; a 12-row list, grown to 24px above the first
+   screen's foot, splits 7 + 5 at 1920 × 1200, 4 + 8 at 1440 × 900,
+   2 + 10 at 1024 × 768.
+   HOW: the second list spans both columns, 32px
    under the photo's foot, and takes the pair's own two columns and
    64px gap (`subgrid`), so its rows line up with the column and the
    photo above them. It flows down its first column, then down the
@@ -999,8 +912,8 @@
    columns no width (an 80-character value would otherwise widen the
    photo's `auto` column through the subgrid). The way out moves under
    the second list, across both columns, still left-aligned (no live
-   page carries it since 2026-10-27; product/03).
-   The cost, stated by the sketch: the continued rows have no heading of
+   page carries it; product/03).
+   The cost: the continued rows have no heading of
    their own; a screen reader hears two lists, one after the other.
    With the script off, without subgrid (the script checks), or at
    <=700px (task 4a's): one list in the column, as before. */

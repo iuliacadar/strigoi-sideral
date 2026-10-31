@@ -20,8 +20,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <!-- Fonts: IM Fell English italic for the h1, IM Fell English SC for
      Sodalicium Textorum; Spectral 400 for the lede and 400 italic for
-     the names, the index's and, since 2026-10-31, the sky's (hover
-     labels A, atlas/03); Space Mono for the small labels and the crafts
+     the names, the index's and the sky's (atlas/03); Space Mono for the
+     small labels and the crafts
      in the sky. CHOICE: the homepage's URL, which also asks for Fell roman
      and Spectral 500, set on nothing here. The same URL means the font
      stylesheet is fetched once and cached for both pages; the browser
@@ -74,19 +74,15 @@
      "Atlas" and "Bestiary", then "Lure me in" and "Bag": the same nav on
      the shop, its pieces, the Atlas and the Bestiary. `.nav--scrolls`
      lets it scroll away with the top of the page (chrome/07).
-     HER WORDS, 2026-10-27, on uiux's way-lines sketch (A recommended):
-     "Yes, I lean towards A as well." (docs/DECISIONS.md 19e5318, (1);
-     uiux t_55fba969, b859b52, sketches/way-lines/README.md §2); the
-     full nav here, not the two places only (uiux's recommendation,
-     README §2.5, decided in DECISIONS (1)).
+     CHOICE, the full nav here and not the two places only: one nav for
+     all four (docs/DECISIONS.md, "THE INTERNAL PAGES' NAV TAKES
+     'ATLAS' · 'BESTIARY' …").
      THE PAGE YOU ARE ON: "Atlas" carries `aria-current="page"`. It
      stays a link and a Tab stop (to this page's top); a screen reader
-     says "Atlas, current page, link". No underline (her ruling of
-     2026-10-29, chrome/07): the h1 names the page.
-     Plain words, still not the homepage's stars ("would promise a sky of
-     navigation on a page that is already a sky of links"
-     (sketches/atlas/atlas-spec.md §4)): the reason for
-     the bare logo-only nav this page had until 2026-10-27. -->
+     says "Atlas, current page, link". No underline (chrome/07): the h1
+     names the page.
+     Plain words, still not the homepage's stars: those would promise a
+     sky of navigation on a page that is already a sky of links. -->
 <nav class="nav--scrolls site-nav" aria-label="Strigoi">
   <a class="logo" href="index.html" aria-label="Strigoi — return to the homepage">S T R I G O I</a>
   <ul class="site-places" role="list">
@@ -118,7 +114,7 @@
   <header class="atlas-head">
     <!-- Sodalicium Textorum: the Latin designation DECISIONS reserved for
          this page ("CONSTELLATIONS/GALAXY PAGE"), over the title as the
-         homepage sets Textrina Siderum; her D6 ("THE ATLAS TAKES B"). A <p>, not a
+         homepage sets Textrina Siderum. A <p>, not a
          heading: it names the page's company, the h1 names the page.
          `lang="la"` gives it a Latin voice in a screen reader. -->
     <p class="atlas-seal" lang="la">Sodalicium Textorum</p>
@@ -153,19 +149,17 @@
        reader reads it whether shown or not.
        KNOWN GAP, touch: nothing limits the reveal to devices that hover;
        a tap most likely leaves the name shown and follows the link at
-       once (the homepage's 4a audit #8). Phone and tablet layout is not
+       once. Phone and tablet layout is not
        designed yet: the scatter keeps its desktop box sizes. -->
   <section class="atlas-sky" aria-label="The sky">
     <ul class="atlas-sky-list" role="list">
       <!-- TEXXTUREDBEEST, the second demo shop (shops/texxturedbeest/): its
-           constellation is A, "the coil". HER WORDS, 2026-10-31: "2. A (the
-           coil)", of uiux's two (t_d21adf11, sketches/texxturedbeest/
-           README.md §1; make.py's A_body, copied verbatim). One line of stars
+           constellation is "the coil". One line of stars
            bent like the Coil Earrings: it rises, turns over and hooks back,
            and at the hook's end the pale stone caged, the brightest small
            star in a faint ring. Joined star to star, not spoked from the hub,
            so its outline is the opposite of Vârcolac's burst and the two
-           can't be mixed up at a glance (uiux's reason, recommended). Drawn
+           can't be mixed up at a glance. Drawn
            by Vârcolac's rules: the site's two greys, the sky's teal lines at
            0.7 (class `atlas-line`, so the lit state thickens them), the hub
            drawn last, the viewBox cropped to the drawing plus about 16
@@ -207,7 +201,8 @@
       <!-- VÂRCOLAC ATELIER, the first demo shop. Its drawing is the homepage's
            cluster 1 (index.html, home/04), copied: one drawing per shop,
            the same wherever it appears, so it reads as the shop's
-           signature (docs/DECISIONS.md, D5). Added here: the hub, the
+           signature (docs/DECISIONS.md, "THE ATLAS TAKES B"). Added
+           here: the hub, the
            shop's own star where the lines meet, drawn after the eroded
            group so the erosion never takes it.
            The viewBox is cropped to the drawing plus 16 units, so the drawing
@@ -260,24 +255,17 @@
        atlas/04). Written in that order here; script.js does not re-sort
        it, so "Planche I, II…" (a CSS counter) follows the alphabet here
        and a new shop moves the plates after it up one number.
-       HER PICKS, 2026-10-31 19:50, after uiux's sketch (t_9d6109aa,
-       sketches/roster-atlas-magazine/plates/README.md, "For the frontend
-       card"): "The roster looks great with the new design." and "1. I like
-       the Candidate 1 mark. 2. OK, keep the numbers on both pages." (so a
-       shop can be Planche III on the homepage, the day's turn, and
-       Planche II here; uiux recommended keeping both). The fleuron the
-       sketch drew under the heading is not built here either: her (a),
-       "the svg icon under the 'When the stars are right' title should be
-       removed", taken on both pages for one family (the PM's reading,
-       uiux agreed, t_035ae8af).
+       Both pages keep the numbers (reason not recorded), so a shop can
+       be Planche III on the homepage, the day's turn, and Planche II
+       here. No fleuron under the heading, as on the homepage, so the two
+       pages read as one family.
        ROLE HERE: the way in by name ("where is Vârcolac's shop?"), and
        for a screen-reader user the one list that reads like a list.
        CHOICE, A to Z here while the sky has no first: alphabetical is the
        order that serves finding a name, and every reader already knows
        it; the sky stays the one place with no ranking.
-       Rows of at most five plates, a short last row centred (her ruling
-       for the shops' walls, 2026-10-31), so the old centred row of 1 to 4
-       names and the newspaper columns from the 5th are retired.
+       Rows of at most five plates, a short last row centred, the rule of
+       the shops' walls.
        Hover or focus a plate's name and its constellation lights in the
        sky, its name shown; hover a constellation and its plate's name is
        underlined (script.js, initAtlas, which finds the links by
@@ -286,15 +274,12 @@
        mark's `alt` is empty (the name follows it); a shop with no mark yet
        shows its initial (`.plate-mount--initial`, aria-hidden); a light
        mark gets `plate--light` (the homepage's roster comment says when).
-       THE HEADING, "nocount" (uiux t_5e609701's recommendation and the
-       PM's idea; her "OK", 2026-10-30, after "Let's see how the page
-       looks with the 'Every shop, by name' line."): the words stay on
+       THE HEADING: the words stay on
        screen, the only thing that says "every shop, A to Z, the quick
        way in without the sky"; the count is for screen readers only
        (`.sr-only`, tokens/03), since the list shows it at a glance and
        the sentence above says it. The label is centred on the header's
-       axis, her decision ("OK, go on with centred label", 2026-10-30),
-       32px over the plates. -->
+       axis (reason not recorded), 32px over the plates. -->
   <section class="atlas-index" aria-labelledby="atlas-index-heading">
     <h2 id="atlas-index-heading">Every shop, by name <span class="atlas-index-count sr-only">· 2 shops</span></h2>
     <ul class="plates atlas-index-list" role="list">
@@ -314,7 +299,7 @@
 
 <!-- THE FOOTER: every page's footer (css/chrome.css, chrome/06), the
      text pages' markup unchanged: under the stains, the links and the
-     "© Strigoi — …" line all covered by the soil, by her choice; the
+     "© Strigoi — …" line all covered by the soil (chrome/06 says why); the
      link a keyboard user is on comes above while it has focus, and
      with a mouse pointer over the footer the links and the line come up
      together. The policy row is on every footer.
